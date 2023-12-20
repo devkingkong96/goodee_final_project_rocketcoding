@@ -40,5 +40,9 @@ public class MemberController {
 		return "test";
 	}
 	
+	@RequestMapping("/chat")
+	public String chat() {
+		return "chat/chatting";
+	}
 	
 }

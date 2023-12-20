@@ -22,7 +22,9 @@
 	<!-- Style-->  
 	<link rel="stylesheet" href="${path}/resources/css/style.css">
 	<link rel="stylesheet" href="${path}/resources/css/skin_color.css">	
-
+	
+	
+	
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 	
@@ -148,28 +150,12 @@
 			    </a>
 			</li>
 			<li class="btn-group nav-item d-xl-inline-flex d-none">
-				<a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" data-bs-toggle="modal" data-bs-target="#quick_shop_toggle">
-					<i class="icon-Cart1"><span class="path1"></span><span class="path2"></span></i>
-			    </a>
-			</li>
-			<li class="btn-group nav-item d-xl-inline-flex d-none">
 				<a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" id="live-chat">
 					<i class="icon-Chat"><span class="path1"></span><span class="path2"></span></i>
 			    </a>
 			</li>
 			
-			<li class="btn-group">
-			    <a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon dropdown-toggle" data-bs-toggle="dropdown">
-					<img class="rounded" src="${path}/resources/images/svg-icon/usa.svg" alt="">
-				</a>
-			    <div class="dropdown-menu">
-					<a class="dropdown-item my-5" href="#"><img class="w-20 rounded me-10" src="${path}/resources/images/svg-icon/usa.svg" alt=""> English</a>
-					<a class="dropdown-item my-5" href="#"><img class="w-20 rounded me-10" src="${path}/resources/images/svg-icon/spain.svg" alt=""> Spanish</a>
-					<a class="dropdown-item my-5" href="#"><img class="w-20 rounded me-10" src="${path}/resources/images/svg-icon/ger.svg" alt=""> German</a>
-					<a class="dropdown-item my-5" href="#"><img class="w-20 rounded me-10" src="${path}/resources/images/svg-icon/jap.svg" alt=""> Japanese</a>
-					<a class="dropdown-item my-5" href="#"><img class="w-20 rounded me-10" src="${path}/resources/images/svg-icon/fra.svg" alt=""> French</a>
-			    </div>
-			</li>
+			
 			
 			<li class="btn-group nav-item d-xl-inline-flex d-none">
 				<a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="Full Screen">
@@ -182,8 +168,8 @@
 				<a href="#" class="waves-effect waves-light dropdown-toggle w-auto l-h-12 bg-transparent p-0 no-shadow" title="User" data-bs-toggle="modal" data-bs-target="#quick_user_toggle">
 					<div class="d-flex pt-1">
 						<div class="text-end me-10">
-							<p class="pt-5 fs-14 mb-0 fw-700 text-primary">Johen Doe</p>
-							<small class="fs-10 mb-0 text-uppercase text-mute">Admin</small>
+							<p class="pt-5 fs-14 mb-0 fw-700 text-primary">홍길동</p>
+							<small class="fs-10 mb-0 text-uppercase text-mute">사원</small>
 						</div>
 						<img src="${path}/resources/images/avatar/avatar-1.png" class="avatar rounded-10 bg-primary-light h-40 w-40" alt="" />
 					</div>
@@ -595,4 +581,3 @@
 		</div>
     </section>
   </aside>
-  

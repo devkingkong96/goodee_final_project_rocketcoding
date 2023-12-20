@@ -45,4 +45,8 @@ public class MemberController {
 		return "chat/chatting";
 	}
 	
+	@RequestMapping("/login")
+	public void login() {}
+	
+	
 }

@@ -49,7 +49,6 @@
 							<h3 class="box-title">캘린더</h3>
 						</div>
 						<div class="box-body">
-						
 						</div>
 					</div>
 				</div>

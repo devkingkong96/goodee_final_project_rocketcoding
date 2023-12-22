@@ -14,7 +14,7 @@
     <meta name="author" content="">
     <link rel="icon" href="${path}/resources/images/favicon.svg">
 
-    <title>ERP 로그인 페이지</title>
+    <title>로켓코딩 ERP 로그인</title>
   
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="${path}/resources/css/vendors_css.css">

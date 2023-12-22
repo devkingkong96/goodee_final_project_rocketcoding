@@ -7,7 +7,6 @@
 	<jsp:param name="메인화면" value=""/>
 </jsp:include>
 <!-- Content Wrapper. Contains page content -->
-<button onclick="location.replace('${path}/list')">테스트</button>
   <div class="content-wrapper">
 	  <div class="container-full">
 		<!-- Main content -->

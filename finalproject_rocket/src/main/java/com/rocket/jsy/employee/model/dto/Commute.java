@@ -1,4 +1,4 @@
-package com.rocket.jsy.commute.model.dto;
+package com.rocket.jsy.employee.model.dto;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package com.rocket.jsy.department.model.dto;
+package com.rocket.jsy.employee.model.dto;
 
 public class Department {
 	private int depCode;

@@ -20,4 +20,8 @@ public class MemberService {
 	public List<Member> selectMemberAll(){
 		return dao.selectMemberAll(session);
 	}
+	
+	public Member selectMemberById(String userId) {
+		return dao.selectMemberById(session,userId);
+	}
 }

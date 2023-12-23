@@ -1,6 +1,10 @@
 package com.rocket.ksj.member.model.dto;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member{
 	private String userId;
 	private String password;
 	private String userName;
@@ -22,4 +26,5 @@ public class Member {
 	private String address;
 	private String hobby;
 	private Date enrollDate;
+	
 }

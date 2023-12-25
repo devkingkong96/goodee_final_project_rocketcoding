@@ -50,11 +50,7 @@
 							<h3 class="box-title">캘린더</h3>
 						</div>
 						<div class="box-body">
-<<<<<<< HEAD
-					
-					
-=======
->>>>>>> branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git
+						
 						</div>
 					</div>
 				</div>

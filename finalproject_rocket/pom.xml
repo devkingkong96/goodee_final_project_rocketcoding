@@ -98,9 +98,11 @@
 		    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
 		</dependency>
 
-
-		
-		
+		<!-- Email 적용하기-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

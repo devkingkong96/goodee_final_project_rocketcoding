@@ -10,6 +10,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.rocket.ksj.chat.model.dto.EmpChat;
+import com.rocket.pdw.aprv.model.dto.Document;
+import com.rocket.psh.board.dto.Fboard;
+import com.rocket.psh.board.dto.FboardComment;
+import com.rocket.psh.board.dto.Notice;
 import com.rocket.seoj.logistics.model.dto.Branch;
 import com.rocket.seoj.logistics.model.dto.Inventory;
 
@@ -41,7 +45,7 @@ public class Employee implements UserDetails{
 	
 	private List<Notice> noticeList; //공지사항
 	private List<Fboard> fboardList; //자유게시판
-	private List<Fboardcomment> fboardcommentList; //자유게시판 댓글
+	private List<FboardComment> fboardcommentList; //자유게시판 댓글
 	
 	private List<Document> documentList; //결재문서
 	private List<EmpChat> empchatList; //채팅참여

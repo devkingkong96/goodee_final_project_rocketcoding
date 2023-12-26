@@ -39,41 +39,41 @@
 								<p class="mb-0">서점 ERP</p>							
 							</div>
 							<div class="p-40">
-								<form action="index.html" method="post">
+								<form action="${path }/login" method="post">
 									<div class="form-group">
 										<div class="input-group mb-3">
-											<span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
-											<input type="text" class="form-control ps-15 bg-transparent" placeholder="지점코드">
+											<span class="input-group-text bg-transparent"><i class="si-organization si"></i></span>
+											<input type="text" name="branchId" class="form-control ps-15 bg-transparent" placeholder="지점코드">
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="input-group mb-3">
 											<span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
-											<input type="text" class="form-control ps-15 bg-transparent" placeholder="사원번호">
+											<input type="text" name="empNo" class="form-control ps-15 bg-transparent" placeholder="사원번호">
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="input-group mb-3">
 											<span class="input-group-text  bg-transparent"><i class="ti-lock"></i></span>
-											<input type="password" class="form-control ps-15 bg-transparent" placeholder="비밀번호">
+											<input type="password" name="empPw" class="form-control ps-15 bg-transparent" placeholder="비밀번호">
 										</div>
 									</div>
 									  <div class="row">
 										<div class="col-6">
 										  <div class="checkbox">
-											<input type="checkbox" id="basic_checkbox_1" >
-											<label for="basic_checkbox_1">아이디 저장</label>
+											<input class="form-check-input" name="saveNo" type="checkbox" id="basic_checkbox_1" >
+											<label for="basic_checkbox_1">로그인 상태 유지</label>
 										  </div>
 										</div>
 										<!-- /.col -->
 										<div class="col-6">
 										 <div class="fog-pwd text-end">
-											<a href="javascript:void(0)" class="hover-warning"><i class="ion ion-locked"></i> 비밀번호 찾기</a><br>
+											<a href="" class="hover-warning" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="ion ion-locked"></i> 비밀번호 찾기</a><br>
 										  </div>
 										</div>
 										<!-- /.col -->
-										<div class="col-12 text-center">
-										  <button type="submit" class="btn btn-danger mt-10">로그인</button>
+										<div class="d-grid gap-2 col-12 mx-auto">
+										  <button type="submit" class="btn btn-info">로그인</button>
 										</div>
 										<!-- /.col -->
 									  </div>
@@ -85,6 +85,40 @@
 			</div>
 		</div>
 	</div>
+
+  <!-- modal Area -->              
+<form  action="${path }/member/sendEmail" method="post">
+  <div class="modal fade" id="modal-default">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h4 class="modal-title"><strong>임시 비밀번호 발급</strong></h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+		  	<table class="table table-striped-columns">
+				<tr>
+					<td>사원번호</td>
+					<td><input type="text" name="empNo"/></td>
+				</tr>
+				<tr>
+					<td>복구 Email</td>
+					<td><input type="email" name="email"/></td>
+				</tr>
+			</table>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-info float-end">발송</button>
+			<button type="submit" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+		  </div>
+		</div>
+		<!-- /.modal-content -->
+	  </div>
+	  <!-- /.modal-dialog -->
+  </div>
+</form>
+  <!-- /.modal -->
+
 
 
 	<!-- Vendor JS -->

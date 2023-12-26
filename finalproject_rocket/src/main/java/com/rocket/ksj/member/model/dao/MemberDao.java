@@ -5,16 +5,16 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.rocket.ksj.member.model.dto.Member;
+import com.rocket.jsy.employee.model.dto.Employee;
 
 @Repository
 public class MemberDao {
 
-	public List<Member>selectMemberAll(SqlSession session){
-		return session.selectList("member.selectMemberAll");
+	public List<Employee>selectEmployeeAll(SqlSession session){
+		return session.selectList("employee.selectEmployeeAll");
 	}
 	
-	public Member selectMemberById(SqlSession session,String userId) {
-		return session.selectOne("member.selectMemberById",userId);
+	public Employee selectEmployeeById(SqlSession session,String empNo) {
+		return session.selectOne("employee.selectEmployeeByNo",empNo);
 	}
 }

@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
+import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.ksj.member.model.dao.MemberDao;
-import com.rocket.ksj.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,11 +17,11 @@ public class MemberService {
 	private final MemberDao dao;
 	private final SqlSession session;
 	
-	public List<Member> selectMemberAll(){
-		return dao.selectMemberAll(session);
+	public List<Employee> selectEmployeeAll(){
+		return dao.selectEmployeeAll(session);
 	}
 	
-	public Member selectMemberById(String userId) {
-		return dao.selectMemberById(session,userId);
+	public Employee selectEmployeeById(String empNo) {
+		return dao.selectEmployeeById(session,empNo);
 	}
 }

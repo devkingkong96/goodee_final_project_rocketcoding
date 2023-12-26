@@ -1,14 +1,16 @@
 package com.rocket.seoj.logistics.model.dto;
 
 
+import java.util.Date;
+import java.util.List;
+
 import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.pdw.aprv.model.dto.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor

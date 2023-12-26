@@ -1,6 +1,7 @@
 package com.rocket.ksj.chat.model.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ChatRoom {
-	private String chatRoomId;
+	private int chatRoomId;
 	private String chatRoomName;
 	private int empCount;
 	private Date createdAt;
 	private String status;
+	
+	List<EmpChat> empChat;
 }

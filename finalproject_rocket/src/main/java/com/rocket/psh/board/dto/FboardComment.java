@@ -1,4 +1,6 @@
-package com.rocket.ksj.chat.model.dto;
+package com.rocket.psh.board.dto;
+
+import java.sql.Date;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 
@@ -8,10 +10,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class EmpChat {
+public class FboardComment {
+	private int commentNo;
+	private Fboard fboardNo;
 	private Employee empNo;
-	private ChatRoom chatRoomId;
+	private String fbdComment;
+	private Date fbdCommentDate;
 }

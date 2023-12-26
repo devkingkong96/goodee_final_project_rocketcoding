@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Employee implements UserDetails{
-	private String empNo;
+	private int empNo;
 	private String empPw;
 	private String empName;
 	private String empLv;
@@ -68,7 +68,7 @@ public class Employee implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.empNo;
+		return String.valueOf(empNo);
 	}
 	@Override
 	public boolean isAccountNonExpired() {

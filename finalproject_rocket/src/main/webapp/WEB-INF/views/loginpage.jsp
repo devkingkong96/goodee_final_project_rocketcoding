@@ -43,7 +43,11 @@
 									<div class="form-group">
 										<div class="input-group mb-3">
 											<span class="input-group-text bg-transparent"><i class="si-organization si"></i></span>
-											<input type="text" name="branchId" class="form-control ps-15 bg-transparent" placeholder="지점코드">
+											<select name="branchId" class="form-control ps-15 bg-transparent">
+												<option disabled selected>지점을 선택하세요.</option>
+												<option>신도림점</option>
+												<option>광명점</option>
+											</select>
 										</div>
 									</div>
 									<div class="form-group">
@@ -125,6 +129,8 @@
 	<script src="${path}/resources/js/vendors.min.js"></script>
 	<script src="${path}/resources/js/pages/chat-popup.js"></script>
     <script src="${path}/resources/assets/icons/feather-icons/feather.min.js"></script>	
-
+	<script>
+		
+	</script>
 </body>
 </html>

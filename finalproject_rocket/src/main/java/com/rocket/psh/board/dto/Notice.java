@@ -1,6 +1,9 @@
 package com.rocket.psh.board.dto;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.rocket.jsy.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Notice {
-	private int NOTICE_CO;
-	private int EMP_NO;
-	private String NOTICE_TITLE;
-	private String NOTICE_CONTENT;
-	private int NOTICE_VIEWS;
-	private Date NOTICE_DATE;
+	private int noticeNo;
+	private Employee empNo;
+	private String noticeTitle;
+	private String noticeContent;
+	private int noticeViews;
+	private Date noticeDate;
+	
+	List<NoticeFile> files;
 }

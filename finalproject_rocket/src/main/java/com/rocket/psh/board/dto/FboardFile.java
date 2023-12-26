@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class FboardFile {
-	private int FBOARD_FILE_NO;
-	private int FBOARD_NO;
-	private String FBOARD_FILE_ORI;
-	private String FBOARD_FILE_RE;
+	private int fboardFileNo;
+	private Fboard fboardNo;
+	private String fboardFileOri;
+	private String fboardFileRe;
 }

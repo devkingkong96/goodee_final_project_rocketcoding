@@ -3,7 +3,9 @@ package com.rocket.jsy.employee.model.dto;
 import java.sql.Date;
 
 public class Commute {
+	private int comNo;
 	private Date comEnroll;
 	private Date comEnd;
-	private int empNo; //사원번호
+	
+	private Employee empNo; //사원번호
 }

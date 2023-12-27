@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import com.rocket.jsy.employee.model.dto.Employee;
-import com.rocket.seoj.logistics.model.dto.Inventory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Document {
     private long docNo;
-    private DocumentTag docTag; // 외래 키 DOC_TAG에 해당하는 Tag 타입의 참조
+    private Tag docTag; // 외래 키 DOC_TAG에 해당하는 Tag 타입의 참조
     private String docTitle;
     private String docCont;
     private int docStatcd;
@@ -27,7 +26,7 @@ public class Document {
     private Date endDate;
 
 
-    private ApprovalFile approvalFile;
+   /* private ApprovalFile approvalFile;*/
     List<Approval> approvalList;
-    private Inventory inventory;
+/*    private Inventory inventory;*/
 }

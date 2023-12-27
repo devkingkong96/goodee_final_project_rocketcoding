@@ -1,4 +1,4 @@
-package com.rocket.ksj.member.model.dao;
+package com.rocket.ksj.chat.model.dao;
 
 import java.util.List;
 

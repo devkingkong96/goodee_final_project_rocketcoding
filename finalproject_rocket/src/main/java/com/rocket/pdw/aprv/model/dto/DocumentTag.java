@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class DocumentTag {
-	private int docNo;
-	private String tagName;
-	private String tagContent;
+    private long docTag;
+    private String tagName;
+    private String tagCont;
+    private Document docNo;
 }

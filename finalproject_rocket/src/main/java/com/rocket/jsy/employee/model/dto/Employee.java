@@ -33,7 +33,8 @@ public class Employee implements UserDetails{
 	private String empLv;
 	private Date empEndate;
 	private String empStatus;
-	private String empFication; 
+	private String empFication;
+	private String empEmail;
 	
 	private List<Department> departmentList; //부서
 	private List<Commute> commuteList; //출.퇴근

@@ -1,6 +1,7 @@
 package com.rocket.ksj.chat.model.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
@@ -27,6 +28,10 @@ public class LoginService {
 	
 	public Employee selectEmployeeByEmail(String email) {
 		return dao.selectEmployeeByEmail(session,email);
+	}
+	
+	public int updateEmployeeTempPwd(Map<String, String> emp) {
+		return dao.updateEmployeeTempPwd(session,emp);
 	}
 	
 	

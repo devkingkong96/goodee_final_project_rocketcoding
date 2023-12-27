@@ -149,12 +149,14 @@
 				dataType:"text"
 				
 				}).done(function(result){
-					if(result=="true"){
+					if(result=="emp"){
 						sendEmail();
 						alert("임시비밀번호를 전송했습니다.");
 						window.location.href="${path}/login";
-					}else if(result=="false"){
-						alert("사원번호 혹은 이메일을 정확히 적어주세요.");
+					}else if(result=="EmptyNo"){
+						alert("사원번호를 정확히 적어주세요.");
+					}else if(result=="EmptyEmail"){
+						alert("이메일을 정확히 적어주세요.");
 					}
 				}).fail(function(error){
 					alert(JSON.stringify(error));
@@ -163,12 +165,14 @@
 		});
 		
 		function sendEmail(){
+			const empNo=document.querySelector('input[name="empNo"]').value;
 			const email=document.querySelector('input[name="email"]').value;
 			
 			$.ajax({
 				type:"POST",
 				url:"/member/sendPwd",
 				data:{
+					"empNo":empNo,
 					"email":email
 				},
 				error:function(error){

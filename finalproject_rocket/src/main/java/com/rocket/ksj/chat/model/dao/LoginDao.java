@@ -1,6 +1,7 @@
 package com.rocket.ksj.chat.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,9 @@ public class LoginDao {
 	
 	public Employee selectEmployeeByEmail(SqlSession session,String email) {
 		return session.selectOne("employee.selectEmployeeByEmail",email);
+	}
+	
+	public int updateEmployeeTempPwd(SqlSession session,Map<String, String> emp) {
+		return session.update("employee.updateEmployeeTempPwd",emp);
 	}
 }

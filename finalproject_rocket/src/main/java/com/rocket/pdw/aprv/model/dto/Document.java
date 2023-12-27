@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import com.rocket.jsy.employee.model.dto.Employee;
-import com.rocket.seoj.logistics.model.dto.Inventory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +26,7 @@ public class Document {
     private Date endDate;
 
 
-    private ApprovalFile approvalFile;
+   /* private ApprovalFile approvalFile;*/
     List<Approval> approvalList;
-    private Inventory inventory;
+/*    private Inventory inventory;*/
 }

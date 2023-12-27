@@ -110,7 +110,7 @@
 					<td><input type="email" name="email"/></td>
 				</tr>
 			</table>
-			<span>ㅋㅋ</span>
+			<div id="checkMsg" style="color: red"></div>
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" id="sendEmail" class="btn btn-info float-end">발송</button>
@@ -138,13 +138,16 @@
 			if(empNo===""||empNo.trim()==="") alert("회원번호를 입력해주세요.");
 			else if(email===""||email.trim()==="") alert("이메일을 입력해주세요.");
 			else if(
-			//ajax fetch로 통신
-			fetch('/member/sendEmail',{
+			//ajax대신 fetch로 통신
+			fetch('${path}/member/sendEmail',{
 				method:'GET',
-				header{
-					''
-				},
-			})
+				headers{
+					"Content-Type":"application/json"
+				},body:JSON.stringify({
+					empNo:empNo
+					email:email
+				})
+			}).then
 		)
 		});
 	</script>

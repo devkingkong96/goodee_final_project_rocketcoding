@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PrdInventory {
-    private long id;
+    private long prdIvId;
     private int prdIvQuantity;
     private Product prdId;
     private Inventory ivId;

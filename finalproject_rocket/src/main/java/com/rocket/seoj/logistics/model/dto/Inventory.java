@@ -1,7 +1,6 @@
 package com.rocket.seoj.logistics.model.dto;
 
-
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import com.rocket.jsy.employee.model.dto.Employee;
@@ -18,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Inventory {
 	
-	private long id;
+	private long ivId;
 	private String ivType;
 	private Date ivDate;
 	private String ivIsdel;
@@ -27,9 +26,11 @@ public class Inventory {
 	private String ivMemo;
 	private Branch sendBrcId;
 	private Branch recieveBrcId;
-	private Document docNo;
+
 	private Employee sendEmpId;
 	private Employee recieveEmpId;
+	private Document docNo;
+
 	private List<PrdInventory> prdInventoryList;
 	private List<InventoryAttach> inventoryAttachList;
 }

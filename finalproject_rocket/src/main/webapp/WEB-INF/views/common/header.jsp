@@ -209,11 +209,11 @@
 				<div class="info">
 					<a class="dropdown-toggle p-15 d-grid" data-bs-toggle="dropdown" href="#"></a>
 					<div class="dropdown-menu dropdown-menu-end">
-					  <a class="dropdown-item" href="extra_profile.html"><i class="ti-user"></i> Profile</a>
+					  <a class="dropdown-item" href="extra_profile.html"><i class="ti-user"></i>프로필</a>
 					  <a class="dropdown-item" href="mailbox.html"><i class="ti-email"></i> Inbox</a>
 					  <a class="dropdown-item" href="contact_app_chat.html"><i class="ti-link"></i> Conversation</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item" href="auth_login.html"><i class="ti-lock"></i> Logout</a>
+					  <a class="dropdown-item" href="${path }/logout"><i class="ti-lock"></i> 로그아웃</a>
 					</div>
 				</div>
 			</div>

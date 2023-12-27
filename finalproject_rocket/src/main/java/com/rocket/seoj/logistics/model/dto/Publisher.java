@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Publisher {
-    private long id;
+    private long pubId;
     private String pubName;
     private String pubAddr;
     private int pubPhone;

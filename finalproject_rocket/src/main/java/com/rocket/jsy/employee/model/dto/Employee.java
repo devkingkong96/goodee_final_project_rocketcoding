@@ -9,6 +9,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.rocket.ksj.chat.model.dto.EmpChat;
+import com.rocket.pdw.aprv.model.dto.Document;
+import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.FboardComment;
+import com.rocket.psh.board.model.dto.Notice;
+import com.rocket.seoj.logistics.model.dto.Branch;
+import com.rocket.seoj.logistics.model.dto.Inventory;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,14 +27,31 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Employee implements UserDetails{
-	private String empNo;
+	private int empNo;
 	private String empPw;
 	private String empName;
 	private String empLv;
 	private Date empEndate;
 	private String empStatus;
-	private String empFication; //재직/퇴직 여부
-	private int branchId;//지점고유번호
+	private String empFication;
+	private String empEmail;
+	
+	private List<Department> departmentList; //부서
+	private List<Commute> commuteList; //출.퇴근
+	private List<DwRules> dwrulesList; //일일근무규칙 설정
+	private List<EmpFile> empfileList; //사원정보 첨부파일
+	
+	private Branch branchId;//지점고유번호
+	private List<Inventory> inventoryList; //입.출고
+	
+	private List<Notice> noticeList; //공지사항
+	private List<Fboard> fboardList; //자유게시판
+	private List<FboardComment> fboardcommentList; //자유게시판 댓글
+	
+	private List<Document> documentList; //결재문서
+	private List<EmpChat> empchatList; //채팅참여
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auth=new ArrayList<>();
@@ -48,7 +73,7 @@ public class Employee implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.empNo;
+		return String.valueOf(empNo);
 	}
 	@Override
 	public boolean isAccountNonExpired() {

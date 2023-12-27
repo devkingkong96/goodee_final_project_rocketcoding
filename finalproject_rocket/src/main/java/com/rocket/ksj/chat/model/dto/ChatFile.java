@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatFile {
 	private int fileNo;
-	private int messageId;
+	private ChatMessage messageId;
 	private String originFileName;
 	private String renamedFileName;
 	private Date uploadAt;

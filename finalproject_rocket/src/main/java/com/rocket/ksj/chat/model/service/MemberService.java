@@ -1,4 +1,4 @@
-package com.rocket.ksj.member.model.service;
+package com.rocket.ksj.chat.model.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.rocket.jsy.employee.model.dto.Employee;
-import com.rocket.ksj.member.model.dao.MemberDao;
+import com.rocket.ksj.chat.model.dao.MemberDao;
 
 import lombok.RequiredArgsConstructor;
 

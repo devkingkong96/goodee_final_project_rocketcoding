@@ -1,4 +1,4 @@
-package com.rocket.ksj.controller;
+package com.rocket.ksj.chat.controller;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.rocket.ksj.member.model.service.MemberService;
+import com.rocket.ksj.chat.model.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

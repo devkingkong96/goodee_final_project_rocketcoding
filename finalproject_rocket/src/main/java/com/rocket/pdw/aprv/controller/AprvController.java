@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.rocket.pdw.aprv.model.dto.DocumentTag;
+import com.rocket.pdw.aprv.model.dto.Tag;
 import com.rocket.pdw.aprv.model.service.ApprovalService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class AprvController {
 		return "aprv/aprv";
 	}
 	@PostMapping("/aprv/insertaprv")
-	public String insertaprv(DocumentTag dt) {
+	public String insertaprv(Tag dt) {
 		System.out.println(dt);
 		service.inserttag(dt);
 		

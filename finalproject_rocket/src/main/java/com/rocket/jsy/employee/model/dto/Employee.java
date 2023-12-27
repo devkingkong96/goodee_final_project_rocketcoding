@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.rocket.pdw.aprv.model.dto.Approval;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,23 +36,37 @@ public class Employee implements UserDetails{
 	private String empStatus;
 	private String empFication;
 	private String empEmail;
-	
-	private List<Department> departmentList; //부서
-	private List<Commute> commuteList; //출.퇴근
+
+
+	private Branch branchId;//지점고유번호
+
+	private List<Commute> commuteList;
+	private List<Notice> noticeList;
+	private List<DwRules> dwrulesList;
+	private List<Fboard> fboardList;
+	private List<FboardComment> fboardCommentList;
+	private List<Document> documentList;
+	private List<Approval> approvalList;
+	private List<Inventory> inventoryList;
+	private List<EmpChat> empChatList;
+
+
+
+
+/*	private List<Commute> commuteList; //출.퇴근
 	private List<DwRules> dwrulesList; //일일근무규칙 설정
 	private List<EmpFile> empfileList; //사원정보 첨부파일
-	
-	private Branch branchId;//지점고유번호
+
+
 	private List<Inventory> inventoryList; //입.출고
-	
+
 	private List<Notice> noticeList; //공지사항
 	private List<Fboard> fboardList; //자유게시판
 	private List<FboardComment> fboardcommentList; //자유게시판 댓글
-	
+
 	private List<Document> documentList; //결재문서
-	private List<EmpChat> empchatList; //채팅참여
-	
-	
+	private List<EmpChat> empchatList; //채팅참여*/
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auth=new ArrayList<>();

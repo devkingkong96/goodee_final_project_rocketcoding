@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DocumentTag {
+public class Tag {
     private long docTag;
     private String tagName;
     private String tagCont;

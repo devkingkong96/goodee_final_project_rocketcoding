@@ -11,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.rocket.ksj.chat.model.dto.EmpChat;
 import com.rocket.pdw.aprv.model.dto.Document;
-import com.rocket.psh.board.dto.Fboard;
-import com.rocket.psh.board.dto.FboardComment;
-import com.rocket.psh.board.dto.Notice;
+import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.FboardComment;
+import com.rocket.psh.board.model.dto.Notice;
 import com.rocket.seoj.logistics.model.dto.Branch;
 import com.rocket.seoj.logistics.model.dto.Inventory;
 
@@ -33,7 +33,7 @@ public class Employee implements UserDetails{
 	private String empLv;
 	private Date empEndate;
 	private String empStatus;
-	private String empFication; 
+	private String empFication;
 	
 	private List<Department> departmentList; //부서
 	private List<Commute> commuteList; //출.퇴근

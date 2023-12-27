@@ -19,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class PrdAttach {
-    private long id;
+    private long prdFileId;
     private String prdFileNameOri;
     private String prdFileNameRe;
     private Date prdFileUploadDate;

@@ -1,13 +1,12 @@
 package com.rocket.seoj.logistics.model.dto;
 
-import java.util.List;
-
-import com.rocket.jsy.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * Brief description of functions
@@ -20,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Branch {
-    private long id;
+    private long branchId;
     private String branchName;
     private String branchType;
     private String branchIsdel;

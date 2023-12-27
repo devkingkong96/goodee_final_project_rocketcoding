@@ -19,10 +19,10 @@ import java.sql.Date;
 @AllArgsConstructor
 @Builder
 public class InventoryAttach {
-    private long id;
+    private long ivFileId;
     private String ivFileNameOri;
     private String ivFileNameRe;
     private Date ivUploadDate;
     private String ivAttachIsdel;
-    private Inventory inventoryId;
+    private Inventory ivId;
 }

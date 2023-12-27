@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.ksj.chat.model.service.LoginService;
@@ -22,18 +24,30 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController {
 	
 	private final LoginService service;
-	private final BCryptPasswordEncoder encoder;
+	private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 	
 	//사원번호, 이메일이 있는지 확인하는 메소드
 	@GetMapping("/member/emailCheck")
-	public String checkEmail(String empNo,String email) {
+	@ResponseBody
+	public String checkEmail(@RequestParam("empNo")String empNo,@RequestParam("email")String email) {
+		log.info("check메소드 진입 성공");
 		Employee CheckempNo=service.selectEmployeeById(empNo);
-		if(CheckempNo!=null) return "EmptyNo";
+		log.info("{}",empNo);
+		log.info("{}",email);
+		if(CheckempNo==null) {
+			log.info("EmptyNo 없음");
+			return "EmptyNo";
+			}
+		Map<String, String>map=new HashMap<>();
+		map.put("empNo", empNo);
+		map.put("email", email);
+		Employee CheckempEmail=service.selectEmployeeByNoEmail(map);
+		if(CheckempEmail==null) {
+			log.info("EmptyEmail 성공");
+			return "EmptyEmail";
+			}
 		
-		Employee CheckempEmail=service.selectEmployeeByEmail(email);
-		if(CheckempEmail!=null) return "EmptyEmail";
-		
-		log.info("check메소드 성공");
+		log.info("emp");
 		return "emp";
 	}
 	
@@ -47,15 +61,17 @@ public class LoginController {
 		
 		//임시 비밀번호 생성
 		String tmpPwd=service.getTempPassword();
-		tmpPwd=encoder.encode(tmpPwd);
-		emp.put("tmpPwd",tmpPwd);
+		String BCtmpPwd=encoder.encode(tmpPwd);
+		emp.put("tmpPwd",BCtmpPwd);
 		
 		//임시 비밀번호 DB에 저장
 		service.updateEmployeeTempPwd(emp);
 		
 		//메일 생성 & 전송
+		service.sendEmail(email,empNo,tmpPwd);
 		
-		return "수정중";
+		log.info("임시 비밀번호 전송 완료");
+		return "loginpage";
 	}
 	
 	

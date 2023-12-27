@@ -103,11 +103,11 @@
 		  	<table class="table table-striped-columns">
 				<tr>
 					<td>사원번호</td>
-					<td><input type="text" name="empNo"/></td>
+					<td><input type="text" id="empNo" name="empNo"/></td>
 				</tr>
 				<tr>
 					<td>복구 Email</td>
-					<td><input type="email" name="email"/></td>
+					<td><input type="email" id="email" name="email"/></td>
 				</tr>
 			</table>
 			<div id="checkMsg" style="color: red"></div>
@@ -132,13 +132,12 @@
     <script src="${path}/resources/assets/icons/feather-icons/feather.min.js"></script>	
 	<script>
 		document.getElementById('sendEmail').addEventListener('click',function(){
-			const empNo=document.querySelector('input[name="empNo"]').value;
-			const email=document.querySelector('input[name="email"]').value;
-			
-			if(empNo===""||empNo.trim()==="") alert("회원번호를 입력해주세요.");
-			else if(email===""||email.trim()==="") alert("이메일을 입력해주세요.");
-			else if{
-			//ajax대신 fetch로 통신
+			const empNo=document.getElementById('empNo').value;
+			const email=document.getElementById('email').value;
+			if(empNo===""||empNo.trim()===""){ alert("회원번호를 입력해주세요.");}
+			else if(email===""||email.trim()===""){ alert("이메일을 입력해주세요.");}
+			else{
+				console.log("성공");
 			$.ajax({
 				type:"GET",
 				url:"${path}/member/emailCheck",
@@ -147,8 +146,8 @@
 					"email":email
 				},
 				dataType:"text"
-				
 				}).done(function(result){
+					console.log(result);
 					if(result=="emp"){
 						sendEmail();
 						alert("임시비밀번호를 전송했습니다.");
@@ -159,18 +158,18 @@
 						alert("이메일을 정확히 적어주세요.");
 					}
 				}).fail(function(error){
-					alert(JSON.stringify(error));
+					alert("실패");
 				})
 			}
 		});
 		
 		function sendEmail(){
-			const empNo=document.querySelector('input[name="empNo"]').value;
-			const email=document.querySelector('input[name="email"]').value;
-			
+			const empNo=document.getElementById('empNo').value;
+			const email=document.getElementById('email').value;
+			console.log("send 진입 성공");
 			$.ajax({
 				type:"POST",
-				url:"/member/sendPwd",
+				url:"${path}/member/sendPwd",
 				data:{
 					"empNo":empNo,
 					"email":email

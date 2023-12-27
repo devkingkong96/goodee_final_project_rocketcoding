@@ -1,4 +1,4 @@
-package com.rocket.psh.board.dto;
+package com.rocket.psh.board.model.dto;
 
 import java.sql.Date;
 import java.util.List;

@@ -65,7 +65,7 @@
 									  <div class="row">
 										<div class="col-6">
 										  <div class="checkbox">
-											<input class="form-check-input" name="saveNo" type="checkbox" id="basic_checkbox_1" >
+											<input class="form-check-input" name="rememberMe" type="checkbox" id="basic_checkbox_1" >
 											<label for="basic_checkbox_1">로그인 상태 유지</label>
 										  </div>
 										</div>
@@ -91,7 +91,7 @@
 	</div>
 
   <!-- modal Area -->              
-<form  action="${path }/member/sendEmail" method="post">
+<%-- <form  action="${path }/member/sendEmail" method="post"> --%>
   <div class="modal fade" id="modal-default">
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -110,9 +110,10 @@
 					<td><input type="email" name="email"/></td>
 				</tr>
 			</table>
+			<span>ㅋㅋ</span>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-info float-end">발송</button>
+			<button type="button" id="sendEmail" class="btn btn-info float-end">발송</button>
 			<button type="submit" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
 		  </div>
 		</div>
@@ -120,7 +121,7 @@
 	  </div>
 	  <!-- /.modal-dialog -->
   </div>
-</form>
+<!-- </form> -->
   <!-- /.modal -->
 
 
@@ -130,7 +131,22 @@
 	<script src="${path}/resources/js/pages/chat-popup.js"></script>
     <script src="${path}/resources/assets/icons/feather-icons/feather.min.js"></script>	
 	<script>
-		
+		document.getElementById('sendEmail').addEventListener('click',function(){
+			const empNo=document.querySelector('input[name="empNo"]').value;
+			const email=document.querySelector('input[name="email"]').value;
+			
+			if(empNo===""||empNo.trim()==="") alert("회원번호를 입력해주세요.");
+			else if(email===""||email.trim()==="") alert("이메일을 입력해주세요.");
+			else if(
+			//ajax fetch로 통신
+			fetch('/member/sendEmail',{
+				method:'GET',
+				header{
+					''
+				},
+			})
+		)
+		});
 	</script>
 </body>
 </html>

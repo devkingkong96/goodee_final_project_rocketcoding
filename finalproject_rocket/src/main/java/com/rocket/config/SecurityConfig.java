@@ -43,7 +43,7 @@ public class SecurityConfig {
 		})
 		.rememberMe(rememberme->{
 			rememberme.tokenValiditySeconds(60*60*3)
-			.rememberMeParameter("saveNo")
+			.rememberMeParameter("rememberMe")
 			.userDetailsService(dbprovider);
 		})
 		//.userDetailsService(dbprovider)

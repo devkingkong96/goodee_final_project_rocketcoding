@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.ksj.chat.model.service.LoginService;
 import com.rocket.ksj.chat.model.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DBConnectionProvider implements AuthenticationProvider,UserDetailsService{
 	
-	private final MemberService service;
+	private final LoginService service;
 	private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 	
 	@Override
@@ -32,7 +33,7 @@ public class DBConnectionProvider implements AuthenticationProvider,UserDetailsS
 		
 		//empNo와 일치하는 직원 정보 DB에서 가져오기
 		Employee loginEMP=service.selectEmployeeById(empNo);
-		
+		log.info("멤버정보 : {}",loginEMP);
 		//회원이 없으면 예외처리
 		if(loginEMP==null)
 			throw new UsernameNotFoundException("유효한 직원 아이디가 없습니다.");

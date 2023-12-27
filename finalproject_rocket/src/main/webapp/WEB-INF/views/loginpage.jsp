@@ -137,19 +137,45 @@
 			
 			if(empNo===""||empNo.trim()==="") alert("회원번호를 입력해주세요.");
 			else if(email===""||email.trim()==="") alert("이메일을 입력해주세요.");
-			else if(
+			else if{
 			//ajax대신 fetch로 통신
-			fetch('${path}/member/sendEmail',{
-				method:'GET',
-				headers{
-					"Content-Type":"application/json"
-				},body:JSON.stringify({
-					empNo:empNo
-					email:email
+			$.ajax({
+				type:"GET",
+				url:"${path}/member/emailCheck",
+				data:{
+					"empNo":empNo,
+					"email":email
+				},
+				dataType:"text"
+				
+				}).done(function(result){
+					if(result=="true"){
+						sendEmail();
+						alert("임시비밀번호를 전송했습니다.");
+						window.location.href="${path}/login";
+					}else if(result=="false"){
+						alert("사원번호 혹은 이메일을 정확히 적어주세요.");
+					}
+				}).fail(function(error){
+					alert(JSON.stringify(error));
 				})
-			}).then
-		)
+			}
 		});
+		
+		function sendEmail(){
+			const email=document.querySelector('input[name="email"]').value;
+			
+			$.ajax({
+				type:"POST",
+				url:"/member/sendPwd",
+				data:{
+					"email":email
+				},
+				error:function(error){
+					alert(JSON.stringify(error));
+				}
+			})
+		}
 	</script>
 </body>
 </html>

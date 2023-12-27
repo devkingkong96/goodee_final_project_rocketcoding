@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Stock {
-    private long id;
+    private long stkId;
     private int stkStock;
     private Branch branchId;
     private Product prdId;

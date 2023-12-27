@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Product {
-    private long id;
+    private long prdId;
     private String prdTitle;
     private String prdAuthor;
     private String prdGenre;
@@ -30,7 +30,7 @@ public class Product {
     private BigDecimal prdPrice;
     private BigDecimal priceInStk;
     private BigDecimal priceOutStk;
-    private Publisher publisherId;
+    private Publisher pubId;
     private List<PrdAttach> prdAttachList;
     private List<Stock> stockList;
     private List <PrdInventory> prdInventoryList;

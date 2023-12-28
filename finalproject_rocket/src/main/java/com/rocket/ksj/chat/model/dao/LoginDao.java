@@ -7,6 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.pdw.aprv.model.dto.Approval;
+import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.Notice;
 
 @Repository
 public class LoginDao {
@@ -29,5 +32,18 @@ public class LoginDao {
 	
 	public int updateEmployeeTempPwd(SqlSession session,Map<String, String> emp) {
 		return session.update("employee.updateEmployeeTempPwd",emp);
+	}
+	
+	//메인화면 메소드
+	public List<Approval> selectAprvMainPage(SqlSession session){
+		return session.selectList("approval.selectAprvMainPage");
+	}
+	
+	public List<Fboard> selectFboardMainPage(SqlSession session){
+		return session.selectList("notice.selectNoticeMainPage");
+	}
+	
+	public List<Notice> selectNoticeMainPage(SqlSession session){
+		return session.selectList("fboard.selectFboardMainPage");
 	}
 }

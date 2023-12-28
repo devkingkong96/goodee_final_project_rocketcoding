@@ -471,17 +471,14 @@
 							  </div>
 							  <div class="box-footer no-border">
 								 <div class="d-md-flex d-block justify-content-between align-items-center bg-white p-5 rounded10 b-1 overflow-hidden">
-										<input class="form-control b-0 py-10" type="text" placeholder="Say something...">
+										<input class="form-control b-0 py-10" type="text" placeholder="메시지를 작성해주세요.">
 										<div class="d-flex justify-content-between align-items-center mt-md-0 mt-30">
 											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
 												<i class="mdi mdi-link"></i>
 											</button>
-											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
+											<!-- <button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
 												<i class="mdi mdi-face"></i>
-											</button>
-											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
-												<i class="mdi mdi-microphone"></i>
-											</button>
+											</button> -->
 											<button type="button" class="waves-effect waves-circle btn btn-circle btn-primary">
 												<i class="mdi mdi-send"></i>
 											</button>

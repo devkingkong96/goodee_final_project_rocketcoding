@@ -40,10 +40,10 @@ public class LoginDao {
 	}
 	
 	public List<Fboard> selectFboardMainPage(SqlSession session){
-		return session.selectList("notice.selectNoticeMainPage");
+		return session.selectList("fboard.selectFboardMainPage");
 	}
 	
 	public List<Notice> selectNoticeMainPage(SqlSession session){
-		return session.selectList("fboard.selectFboardMainPage");
+		return session.selectList("notice.selectNoticeMainPage");
 	}
 }

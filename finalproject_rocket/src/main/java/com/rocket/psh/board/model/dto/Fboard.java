@@ -16,14 +16,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Fboard {
+	
 	private int fboardNo;
+	
 	private Employee empNo;
+	
 	private String fboardTitle;
 	private String fobardContent;
 	private int fboardViews;
 	private Date fboardDate;
 	
 	List<FboardComment> comments;
+	
 	List<FboardFile> files;
 }

@@ -16,19 +16,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Document {
-    private long docNo;
-    private Tag docTag; // 외래 키 DOC_TAG에 해당하는 Tag 타입의 참조
-    private String docTitle;
-    private String docCont;
-    private int docStatcd;
-    private Date uDate;
-    private Employee empNo; // 외래 키 EMP_NO에 해당하는 Employee 타입의 참조
-    private Date startDate;
-    private Date endDate;
-
-
-   /* private ApprovalFile approvalFile;*/
-    List<Approval> approvalList;
-/*    private Inventory inventory;*/
+	
+	private long docNo;
+	
+	private Tag docTag; // 외래 키 DOC_TAG에 해당하는 Tag 타입의 참조
+	
+	private String docTitle;
+	private String docCont;
+	private int docStatcd;
+	private Date uDate;
+	
+	private Employee empNo; // 외래 키 EMP_NO에 해당하는 Employee 타입의 참조
+	
+	private Date startDate;
+	private Date endDate;
+	
+	/* private ApprovalFile approvalFile;*/
+	
+	List<Approval> approvalList;
+	/*    private Inventory inventory;*/
 }

@@ -40,7 +40,7 @@
 							</div>
 							<div class="p-40">
 								<form action="${path }/login" method="post">
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<div class="input-group mb-3">
 											<span class="input-group-text bg-transparent"><i class="si-organization si"></i></span>
 											<select name="branchId" class="form-control ps-15 bg-transparent">
@@ -49,7 +49,7 @@
 												<option>광명점</option>
 											</select>
 										</div>
-									</div>
+									</div> -->
 									<div class="form-group">
 										<div class="input-group mb-3">
 											<span class="input-group-text bg-transparent"><i class="ti-user"></i></span>

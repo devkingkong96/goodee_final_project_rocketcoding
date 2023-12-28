@@ -15,7 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class FboardComment {
+	
 	private int commentNo;
 	private Fboard fboardNo;
 	private Employee empNo;

@@ -14,10 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class ChatFile {
+	
 	private int fileNo;
+	
 	private ChatMessage messageId;
+	
 	private String originFileName;
 	private String renamedFileName;
+	
 	private Date uploadAt;
 }

@@ -16,10 +16,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class ChatMessage {
+	
 	private int messageId;
+	
 	private ChatRoom chatRoomId;
+	
 	private Employee empNo;
+	
 	private String messageType;
 	private String message;
 	private Date sendAt;

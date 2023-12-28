@@ -20,7 +20,8 @@ public class LogisticsService {
 	
 	// 가안
 	@Transactional
-	public List<Inventory> getAllItems() {
-		return dao.getAllItems(session);
+	public List<Inventory> selectAllInventories() {
+		return dao.selectAllInventories(session);
 	}
+	
 }

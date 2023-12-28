@@ -29,7 +29,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Employee implements UserDetails{
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
+public class Employee implements UserDetails {
+	
 	private int empNo;
 	private String empPw;
 	private String empName;
@@ -41,7 +44,7 @@ public class Employee implements UserDetails{
 	
 	private Department depCode; //부서코드
 	private Branch branchId;//지점고유번호
-
+	
 	private List<Commute> commuteList; //출.퇴근
 	private List<Notice> noticeList; //공지사항
 	private List<DwRules> dwrulesList; //일일근무규칙 설정
@@ -51,67 +54,69 @@ public class Employee implements UserDetails{
 	private List<Approval> approvalList; //결재자
 	private List<Inventory> inventoryList; //입.출고
 	private List<EmpChat> empChatList; //채팅참여
-
-
-
-
-/*	private List<Commute> commuteList; //출.퇴근
-	private List<DwRules> dwrulesList; //일일근무규칙 설정
-	private List<EmpFile> empfileList; //사원정보 첨부파일
-
-
-	private List<Inventory> inventoryList; //입.출고
-
-	private List<Notice> noticeList; //공지사항
-	private List<Fboard> fboardList; //자유게시판
-	private List<FboardComment> fboardcommentList; //자유게시판 댓글
-
-	private List<Document> documentList; //결재문서
-	private List<EmpChat> empchatList; //채팅참여*/
-
+	
+	/*   private List<Commute> commuteList; //출.퇴근
+	   private List<DwRules> dwrulesList; //일일근무규칙 설정
+	   private List<EmpFile> empfileList; //사원정보 첨부파일
+	
+	
+	   private List<Inventory> inventoryList; //입.출고
+	
+	   private List<Notice> noticeList; //공지사항
+	   private List<Fboard> fboardList; //자유게시판
+	   private List<FboardComment> fboardcommentList; //자유게시판 댓글
+	
+	   private List<Document> documentList; //결재문서
+	   private List<EmpChat> empchatList; //채팅참여*/
+	
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> auth=new ArrayList<>();
+	public Collection< ? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> auth = new ArrayList<>();
 		//기본 직원 권한 등록
 		auth.add(new SimpleGrantedAuthority("USER"));
 		
 		//관리자 권한 부여(임시)
-//		if(empLv.equals("admin")) {
-//			auth.add(new SimpleGrantedAuthority("ADMIN"));
-//		}
+//	      if(empLv.equals("admin")) {
+//	         auth.add(new SimpleGrantedAuthority("ADMIN"));
+//	      }
 		
 		return auth;
 	}
+	
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return this.empPw;
 	}
+	
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return String.valueOf(empNo);
 	}
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
 	
 }

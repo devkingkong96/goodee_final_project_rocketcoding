@@ -14,7 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class DwRules {
+	
 	private int dwrulesCode;
 	private Date dwrulesStart;
 	private Date dwrulesEnd;

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.ksj.chat.model.dao.LoginDao;
+import com.rocket.pdw.aprv.model.dto.Approval;
+import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.Notice;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -72,7 +75,6 @@ public class LoginService {
 //		message.setSubject(subject);
 //		message.setText(msg);
 		
-		
 		mailsender.send(message);
 	}
 	
@@ -82,4 +84,19 @@ public class LoginService {
 		tempPw=tempPw.substring(0,10); //pw 10자리까지 자르기
 		return tempPw;
 	}
+	
+	
+	//메인화면 메소드
+	public List<Approval> selectAprvMainPage(){
+		return dao.selectAprvMainPage(session);
+	}
+	
+	public List<Fboard> selectFboardMainPage(){
+		return dao.selectFboardMainPage(session);
+	}
+	
+	public List<Notice> selectNoticeMainPage(){
+		return dao.selectNoticeMainPage(session);
+	}
+	
 }

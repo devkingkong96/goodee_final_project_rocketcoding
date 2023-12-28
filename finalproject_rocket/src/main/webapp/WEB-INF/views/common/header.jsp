@@ -258,6 +258,12 @@
 					<i class="icon-Add-user"><span class="path1"></span><span class="path2"></span></i>
 					<span>주소록</span>
 				  </a>
+				</li>
+				<li>
+				  <a href="{path }/logistics/inventory">
+					<i class="icon-Layout-4-blocks"><span class="path1"></span><span class="path2"></span></i>
+					<span>seoj</span>
+				  </a>
 				</li>				  
 				<li class="header">구성요소</li>
 				<li class="treeview">

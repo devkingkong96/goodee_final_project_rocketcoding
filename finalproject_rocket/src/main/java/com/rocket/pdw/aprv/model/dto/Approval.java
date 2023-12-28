@@ -15,12 +15,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Approval {
-    private long aprvNo;
-    private int aprvSq;
-    private int aprvLv;
-    private String aprvRe;
-    private Document docNo;
-    private Date aprvDate;
-    private Employee empNo;
+	
+	private long aprvNo;
+	private int aprvSq;
+	private int aprvLv;
+	private String aprvRe;
+	
+	private Document docNo;
+	private Date aprvDate;
+	
+	private Employee empNo;
 }

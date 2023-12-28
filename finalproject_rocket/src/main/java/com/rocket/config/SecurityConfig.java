@@ -24,6 +24,8 @@ public class SecurityConfig {
 		.csrf(csrf->csrf.disable())
 		.authorizeHttpRequests(request->{
 			request.requestMatchers("/login","/resources/**").permitAll()
+			.requestMatchers("/member/emailCheck").permitAll()
+			.requestMatchers("/member/sendPwd").permitAll()
 			.requestMatchers("/WEB-INF/views/**").permitAll()
 			.requestMatchers("/**").hasAnyAuthority("USER")
 			.anyRequest().authenticated();

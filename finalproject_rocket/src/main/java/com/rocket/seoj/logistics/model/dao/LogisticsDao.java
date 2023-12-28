@@ -1,10 +1,11 @@
 package com.rocket.seoj.logistics.model.dao;
 
-import com.rocket.seoj.logistics.model.dto.Inventory;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.rocket.seoj.logistics.model.dto.Inventory;
 
 /**
  * Brief description of functions
@@ -14,8 +15,9 @@ import java.util.List;
  */
 @Repository
 public class LogisticsDao {
-
-    public List<Inventory> getAllItems(SqlSession session) {
-        return session.selectList("inventory.getAllItems");
-    }
+	
+	public List<Inventory> selectAllInventories(SqlSession session) {
+		return session.selectList("inventory.selectAllInventories");
+	}
+	
 }

@@ -1,5 +1,7 @@
 package com.rocket.ksj.chat.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rocket.jsy.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class EmpChat {
+	
 	private Employee empNo;
+	
 	private ChatRoom chatRoomId;
 }

@@ -2,6 +2,8 @@ package com.rocket.pdw.aprv.model.dto;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rocket.jsy.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
@@ -13,12 +15,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Approval {
-    private long aprvNo;
-    private int aprvSq;
-    private int aprvLv;
-    private String aprvRe;
-    private Document docNo;
-    private Date aprvDate;
-    private Employee empNo;
+	
+	private long aprvNo;
+	private int aprvSq;
+	private int aprvLv;
+	private String aprvRe;
+	
+	private Document docNo;
+	private Date aprvDate;
+	
+	private Employee empNo;
 }

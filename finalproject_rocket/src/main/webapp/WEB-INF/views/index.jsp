@@ -21,6 +21,39 @@
 						</div>
 						<div class="box-body">
 							<span class="text-muted">최신 목록</span>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<div class="table-responsive">
+					  <table class="table table-hover mb-0">
+						  <tbody>
+							<tr>
+							  <th scope="col"></th>
+							  <th scope="col" colspan="2">제목</th>
+							  <th scope="col">작성일</th>
+							</tr>
+						  </tbody>
+						  <tbody>
+							<tr>
+							  <th scope="row">1</th>
+							  <td colspan="2"><%-- <c:out value="${notices }"/> --%></td>
+							  <td>@mdo</td>
+							</tr>
+							<tr>
+							  <th scope="row">2</th>
+							  <td colspan="2">Larry the Bird</td>
+							  <td>@fat</td>
+							</tr>
+							<tr>
+							  <th scope="row">3</th>
+							  <td colspan="2">Larry the Bird</td>
+							  <td>@twitter</td>
+							</tr>
+						  </tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /.box-body -->
+			  <!-- /.box -->
 						</div>
 					</div>
 				</div>

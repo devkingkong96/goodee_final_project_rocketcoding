@@ -37,7 +37,7 @@ public class Employee implements UserDetails{
 	private String empFication;
 	private String empEmail;
 	
-
+	private Department depCode; //부서코드
 	private Branch branchId;//지점고유번호
 
 	private List<Commute> commuteList; //출.퇴근

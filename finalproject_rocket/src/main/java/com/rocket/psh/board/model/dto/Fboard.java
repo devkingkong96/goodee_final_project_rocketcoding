@@ -3,6 +3,8 @@ package com.rocket.psh.board.model.dto;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rocket.jsy.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;

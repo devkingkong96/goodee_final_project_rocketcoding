@@ -31,8 +31,8 @@
 
 			  <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">인사카드 등록</h3>
-				  <h6 class="box-subtitle">인사카드</h6>
+				  <h3 class="box-title">사원별휴가일수조회</h3>
+				  <h6 class="box-subtitle">휴가일수조회</h6>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -40,34 +40,79 @@
 					  <table id="example" class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
 						<thead>
 							<tr>
-								<th>사원번호</th>
-								<th>성명</th>
-								<th>부서명</th>
-								<th>직위/직급</th>
-								<th>이메일</th>
-								<th>입사일자</th>
+								<th>휴가코드</th>
+								<th>휴가명</th>
+								<th>사용기간</th>
 							</tr>
 						</thead>
 						<tbody>
-						    <c:forEach var="employee" items="${employees}">
-						        <tr>
-						            <td>${employee.empNo}</td>
-						            <td>${employee.empName}</td>
-						            <td>${employee.depCode.depName}</td>
-						            <td>${employee.empLv}</td>
-						            <td>${employee.empEmail}</td>
-						            <td>${employee.empEndate}</td>
-						        </tr>
-						    </c:forEach>
-						</tbody>			  
+							<tr>
+								<th>emp_no1</th>
+								<th>emp_name1</th>
+								<th>dep_name1</th>
+							</tr>
+							<tr>
+								<th>emp_no2</th>
+								<th>emp_name2</th>
+								<th>dep_name2</th>
+							</tr>
+							<tr>
+								<th>emp_no3</th>
+								<th>emp_name3</th>
+								<th>dep_name3</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+							<tr>
+								<th>emp_no</th>
+								<th>emp_name</th>
+								<th>dep_name</th>
+							</tr>
+						</tbody>				  
 						<tfoot>
 							<tr>
-								<th>사원번호</th>
-								<th>성명</th>
-								<th>부서명</th>
-								<th>직위/직급</th>
-								<th>이메일</th>
-								<th>입사일자</th>
+								<th>휴가코드</th>
+								<th>휴가명</th>
+								<th>사용기간</th>
 							</tr>
 						</tfoot>
 					</table>
@@ -80,6 +125,9 @@
 			<!-- /.col -->
 		  </div>
 		  <!-- /.row -->
+				<div class="col-lg-3 col-12">
+					<button class="btn btn-primary w-100 mb-2">휴가항목등록</button>
+				</div>
       </section>
    </div>
 </div>

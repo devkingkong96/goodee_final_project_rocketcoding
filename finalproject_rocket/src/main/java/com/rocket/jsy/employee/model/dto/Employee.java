@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.rocket.pdw.aprv.model.dto.Approval;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rocket.ksj.chat.model.dto.EmpChat;
+import com.rocket.pdw.aprv.model.dto.Approval;
 import com.rocket.pdw.aprv.model.dto.Document;
 import com.rocket.psh.board.model.dto.Fboard;
 import com.rocket.psh.board.model.dto.FboardComment;

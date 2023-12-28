@@ -16,24 +16,24 @@
 			<div class="row">
 				<div class="col-lg-5 col-12">
 					<div class="box">
-						<div class="user-bg"> <img width="100%" alt="user" src="../../../images/avatar/375x200/2.jpg"> </div>
+						<div class="user-bg"> <img width="100%" alt="user" src="${path}/resources/images/avatar/375x200/2.jpg"> </div>
 						<div class="box-body">
 							<div class="row text-center mt-10">
 								<div class="col-md-6 border-end">
 									<strong>이름</strong>
-									<p>제갈공명</p>
+									<p>${employee.empName}</p>
 								</div>
 								<div class="col-md-6"><strong>부서</strong>
-									<p>영업부</p>
+									<p>${employee.depCode.depName}</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row text-center mt-10">
 								<div class="col-md-6 border-end"><strong>직위</strong>
-									<p>군사</p>
+									<p>${employee.empLv}</p>
 								</div>
 								<div class="col-md-6"><strong>입사일자</strong>
-									<p>2023/12/25</p>
+									<p><fmt:formatDate value="${employee.empEndate}" pattern="yyyy/MM/dd" /></p>
 								</div>
 							</div>
 							<hr>

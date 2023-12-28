@@ -2,6 +2,8 @@ package com.rocket.pdw.aprv.model.dto;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rocket.jsy.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;

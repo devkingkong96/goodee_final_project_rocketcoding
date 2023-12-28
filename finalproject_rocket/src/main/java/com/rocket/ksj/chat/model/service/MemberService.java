@@ -17,11 +17,6 @@ public class MemberService {
 	private final MemberDao dao;
 	private final SqlSession session;
 	
-	public List<Employee> selectEmployeeAll(){
-		return dao.selectEmployeeAll(session);
-	}
 	
-	public Employee selectEmployeeById(String empNo) {
-		return dao.selectEmployeeById(session,empNo);
-	}
+	
 }

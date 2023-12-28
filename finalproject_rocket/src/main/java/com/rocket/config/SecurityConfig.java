@@ -40,5 +40,6 @@ public class SecurityConfig {
 		   //.userDetailsService(dbprovider)
 		   
 		   .authenticationProvider(dbprovider).build();
+		
 	}
 }

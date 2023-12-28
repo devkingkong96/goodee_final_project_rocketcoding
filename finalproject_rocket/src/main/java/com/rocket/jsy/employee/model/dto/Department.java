@@ -22,4 +22,5 @@ public class Department {
 	private String depName;
 	
 	private List<Employee> employeeList; //사원번호
+	
 }

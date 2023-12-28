@@ -10,11 +10,5 @@ import com.rocket.jsy.employee.model.dto.Employee;
 @Repository
 public class MemberDao {
 
-	public List<Employee>selectEmployeeAll(SqlSession session){
-		return session.selectList("employee.selectEmployeeAll");
-	}
-	
-	public Employee selectEmployeeById(SqlSession session,String empNo) {
-		return session.selectOne("employee.selectEmployeeByNo",empNo);
-	}
+
 }

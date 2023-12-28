@@ -29,25 +29,7 @@ public class MemberController {
 //		return "list";
 //	}
 	
-	@RequestMapping("/")
-	public String index() {
-		return "index";
-	}
-	
-	@RequestMapping("/test")
-	public String test() {
-		return "test";
-	}
-	
-	@RequestMapping("/chat")
-	public String chat() {
-		return "chat/chatting";
-	}
-	
-	@RequestMapping("/login")
-	public String login() {
-		return "loginpage";
-	}
+
 	
 //	@RequestMapping("/member/sendEmail")
 //	public String sendEmail(String empNo,String email) {

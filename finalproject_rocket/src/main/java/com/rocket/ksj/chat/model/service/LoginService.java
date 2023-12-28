@@ -36,8 +36,12 @@ public class LoginService {
 		return dao.selectEmployeeById(session,empNo);
 	}
 	
-	public Employee selectEmployeeByNoEmail(Map<String, String>map) {
-		return dao.selectEmployeeByNoEmail(session,map);
+	public int selectEmployeeByIdTmp(String empNo) {
+		return dao.selectEmployeeByIdTmp(session,empNo);
+	}
+	
+	public int selectEmployeeByNoEmailTmp(Map<String, String>map) {
+		return dao.selectEmployeeByNoEmailTmp(session,map);
 	}
 	
 	public int updateEmployeeTempPwd(Map<String, String> emp) {
@@ -52,14 +56,14 @@ public class LoginService {
 		String msg="";
 		msg+="<div align='center' style='border:1px solid black; font-family:verdana'>";
 		msg+="<h3 style='color: blue;'><strong>"+empNo;
-		msg+="사원님</strong>의 임시 비밀번호 입니다. 해당 번호로 로그인해주세요.";
-		msg+="<p>임시 비밀번호 : <strong>"+tmpPwd+"</strong></p></dive>";
+		msg+="번 사원님</strong>의 임시 비밀번호 입니다. 해당 번호로 로그인해주세요.</h3>";
+		msg+="<p>임시 비밀번호 : <strong>"+tmpPwd+"</strong></p></div>";
 		MimeMessage message=mailsender.createMimeMessage();
 		MimeMessageHelper helper=new MimeMessageHelper(message,"UTF-8");
 		try {
 			helper.setTo(email);
 			helper.setSubject(subject);
-			helper.setText(msg);
+			helper.setText(msg,true);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}

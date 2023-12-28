@@ -31,18 +31,18 @@ public class LoginController {
 	@ResponseBody
 	public String checkEmail(@RequestParam("empNo")String empNo,@RequestParam("email")String email) {
 		log.info("check메소드 진입 성공");
-		Employee CheckempNo=service.selectEmployeeById(empNo);
+		int CheckempNo=service.selectEmployeeByIdTmp(empNo);
 		log.info("{}",empNo);
-		log.info("{}",email);
-		if(CheckempNo==null) {
+		log.info("{}",CheckempNo);
+		if(CheckempNo<1) {
 			log.info("EmptyNo 없음");
 			return "EmptyNo";
 			}
 		Map<String, String>map=new HashMap<>();
 		map.put("empNo", empNo);
 		map.put("email", email);
-		Employee CheckempEmail=service.selectEmployeeByNoEmail(map);
-		if(CheckempEmail==null) {
+		int CheckempEmail=service.selectEmployeeByNoEmailTmp(map);
+		if(CheckempEmail<1) {
 			log.info("EmptyEmail 성공");
 			return "EmptyEmail";
 			}
@@ -52,6 +52,7 @@ public class LoginController {
 	}
 	
 	//임시 비밀번호 메일로 전송
+	@ResponseBody
 	@PostMapping("/member/sendPwd")
 	public String sendPwdEmail(String empNo,String email) {
 		log.info("sendpwd 성공");
@@ -65,13 +66,15 @@ public class LoginController {
 		emp.put("tmpPwd",BCtmpPwd);
 		
 		//임시 비밀번호 DB에 저장
-		service.updateEmployeeTempPwd(emp);
+		if(service.updateEmployeeTempPwd(emp)<1) {
+			return "DBfail";
+		}
 		
 		//메일 생성 & 전송
 		service.sendEmail(email,empNo,tmpPwd);
 		
 		log.info("임시 비밀번호 전송 완료");
-		return "loginpage";
+		return "success";
 	}
 	
 	

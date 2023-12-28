@@ -19,8 +19,12 @@ public class LoginDao {
 		return session.selectOne("employee.selectEmployeeByNo",empNo);
 	}
 	
-	public Employee selectEmployeeByNoEmail(SqlSession session,Map<String, String> map) {
-		return session.selectOne("employee.selectEmployeeByNoEmail",map);
+	public int selectEmployeeByIdTmp(SqlSession session,String empNo) {
+		return session.selectOne("employee.selectEmployeeByNoTmp",empNo);
+	}
+	
+	public int selectEmployeeByNoEmailTmp(SqlSession session,Map<String, String> map) {
+		return session.selectOne("employee.selectEmployeeByNoEmailTmp",map);
 	}
 	
 	public int updateEmployeeTempPwd(SqlSession session,Map<String, String> emp) {

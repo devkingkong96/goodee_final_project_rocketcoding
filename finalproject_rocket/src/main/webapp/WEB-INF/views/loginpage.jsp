@@ -150,8 +150,6 @@
 					console.log(result);
 					if(result=="emp"){
 						sendEmail();
-						alert("임시비밀번호를 전송했습니다.");
-						window.location.href="${path}/login";
 					}else if(result=="EmptyNo"){
 						alert("사원번호를 정확히 적어주세요.");
 					}else if(result=="EmptyEmail"){
@@ -174,11 +172,22 @@
 					"empNo":empNo,
 					"email":email
 				},
-				error:function(error){
-					alert(JSON.stringify(error));
+				dataType:"text"
+			}).done(function(res){
+				
+				if(res=="success"){
+					alert("임시비밀번호를 전송했습니다.");
+					window.location.href="${path}/login";
+				}else if(res=="DBfail"){
+					alert("DB저장 실패.")
+				}else{
+					alert("시스템 오류. 인사팀에 문의해주세요.")
 				}
-			})
-		}
+				}).fail(function(error){
+					alert("메일 보내기 실패");
+				})
+			}
+			
 	</script>
 </body>
 </html>

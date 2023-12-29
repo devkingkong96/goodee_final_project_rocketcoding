@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,10 +89,12 @@ public class LoginController {
 		List<Approval> approvalList=service.selectAprvMainPage();
 		List<Fboard> fboardList=service.selectFboardMainPage();
 		List<Notice> notices=service.selectNoticeMainPage();
+		Employee loginemp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		m.addAttribute("approvalList",approvalList);
 		m.addAttribute("fboardList",fboardList);
 		m.addAttribute("notices",notices);
+		m.addAttribute("loginemp",loginemp);
 		return "index";
 	}
 	

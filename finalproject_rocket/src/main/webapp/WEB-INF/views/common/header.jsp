@@ -35,15 +35,15 @@
   <!-- 로고 만들면 추가 -->
 	 <div class="d-flex align-items-center logo-box justify-content-start d-md-none d-block">	
 		<!-- Logo -->
-		<a href="#" class="logo">
+		<a href="${path }/" class="logo">
 		  <!-- logo-->
 		  <div class="logo-mini w-30">
-			  <span class="light-logo"><img src="${path}/resources/images/logo-letter.png" alt="logo">a</span>
-			  <span class="dark-logo"><img src="${path}/resources/images/logo-letter-white.png" alt="logo">b</span>
+			  <span class="light-logo"><img src="${path}/resources/images/logo-letter.png" alt="logo"></span>
+			  <span class="dark-logo"><img src="${path}/resources/images/logo-letter-white.png" alt="logo"></span>
 		  </div>
 		  <div class="logo-lg">
-			  <span class="light-logo"><img src="${path}/resources/images/logo-dark-text.png" alt="logo">c</span>
-			  <span class="dark-logo"><img src="${path}/resources/images/logo-light-text.png" alt="logo">d</span>
+			  <span class="light-logo"><img src="${path}/resources/images/logo-dark-text.png" alt="logo"></span>
+			  <span class="dark-logo"><img src="${path}/resources/images/logo-light-text.png" alt="logo"></span>
 		  </div>
 		</a>	
 	</div>
@@ -139,7 +139,7 @@
 				  </li>
 				</ul>
 			</li>
-			<li class="btn-group nav-item">
+<!-- 			<li class="btn-group nav-item">
 				<a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" data-bs-toggle="modal" data-bs-target="#quick_actions_toggle">
 					<i class="icon-Layout-arrange"><span class="path1"></span><span class="path2"></span></i>
 			    </a>
@@ -148,9 +148,9 @@
 				<a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" data-bs-toggle="modal" data-bs-target="#quick_panel_toggle">
 					<i class="icon-Notification"><span class="path1"></span><span class="path2"></span></i>
 			    </a>
-			</li>
+			</li> -->
 			<li class="btn-group nav-item d-xl-inline-flex d-none">
-				<a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" id="live-chat">
+				<a href="${path }/chat" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" id="live-chat">
 					<i class="icon-Chat"><span class="path1"></span><span class="path2"></span></i>
 			    </a>
 			</li>
@@ -164,7 +164,7 @@
 			</li>
 			
 			<!-- User Account-->
-			<li class="dropdown user user-menu">
+			<%-- <li class="dropdown user user-menu">
 				<a href="#" class="waves-effect waves-light dropdown-toggle w-auto l-h-12 bg-transparent p-0 no-shadow" title="User" data-bs-toggle="modal" data-bs-target="#quick_user_toggle">
 					<div class="d-flex pt-1">
 						<div class="text-end me-10">
@@ -174,7 +174,7 @@
 						<img src="${path}/resources/images/avatar/avatar-1.png" class="avatar rounded-10 bg-primary-light h-40 w-40" alt="" />
 					</div>
 				</a>
-			</li>
+			</li> --%>
 			
         </ul>
       </div>
@@ -185,33 +185,33 @@
   <aside class="main-sidebar">
     <!-- sidebar-->
     <section class="sidebar position-relative">
-		<%-- <div class="d-flex align-items-center logo-box justify-content-start d-md-block d-none">	
+		 <div class="d-flex align-items-center logo-box justify-content-start d-md-block d-none">	
 			<!-- Logo -->
-			<a href="index.html" class="logo">
+			<a href="${path }/" class="logo">
 			  <!-- logo-->
 			  <div class="logo-mini">
 				  <span class="light-logo"><img src="${path}/resources/images/logo-letter.png" alt="logo"></span>
 			  </div>
 			  <div class="logo-lg">
-				  <span class="light-logo fs-36 fw-700">CRM<span class="text-primary">i</span></span>
+				  <span class="light-logo fs-36 fw-700">로고</span>
 			  </div>
 			</a>	
-		</div>  --%>
+		</div>
 		<div class="user-profile my-15 px-20 py-10 b-1 rounded10 mx-15">
 			<div class="d-flex align-items-center justify-content-between">			
 				<div class="image d-flex align-items-center">
 				    <img src="${path}/resources/images/avatar/avatar-13.png" class="rounded-0 me-10" alt="User Image">
 					<div>
-						<h4 class="mb-0 fw-600">홍길동</h4>
-						<p class="mb-0">사원</p>
+						<h4 class="mb-0 fw-600"><c:out value="${loginemp.empName }"/></h4>
+						<p class="mb-0"><c:out value="${loginemp.empLv }"/></p>
 					</div>
 				</div>
 				<div class="info">
 					<a class="dropdown-toggle p-15 d-grid" data-bs-toggle="dropdown" href="#"></a>
 					<div class="dropdown-menu dropdown-menu-end">
-					  <a class="dropdown-item" href="extra_profile.html"><i class="ti-user"></i>프로필</a>
-					  <a class="dropdown-item" href="mailbox.html"><i class="ti-email"></i> Inbox</a>
-					  <a class="dropdown-item" href="contact_app_chat.html"><i class="ti-link"></i> Conversation</a>
+					  <a class="dropdown-item" href="extra_profile.html"><i class="ti-user"></i>마이페이지</a>
+					  <!-- <a class="dropdown-item" href="mailbox.html"><i class="ti-email"></i> Inbox</a>
+					  <a class="dropdown-item" href="contact_app_chat.html"><i class="ti-link"></i> Conversation</a> -->
 					  <div class="dropdown-divider"></div>
 					  <a class="dropdown-item" href="${path }/logout"><i class="ti-lock"></i> 로그아웃</a>
 					</div>
@@ -230,20 +230,38 @@
 				  </a>
 				</li>
 				<li>
+				  <a href="contact_userlist_grid.html">
+					<i class="fa fa-group"><span class="path1"></span><span class="path2"></span></i>
+					<span>인사담당</span>
+				  </a>
+				</li>
+				<li>
+				  <a href="contact_userlist_grid.html">
+					<i class="mdi mdi-sitemap"><span class="path1"></span><span class="path2"></span></i>
+					<span>조직도</span>
+				  </a>
+				</li>
+				<li>
 				  <a href="ecommerce_products.html">
 					<i class="icon-Box3"><span class="path1"></span><span class="path2"></span></i>
 					<span>재고관리</span>
 				  </a>
 				</li>
 				<li>
+				  <a href="ecommerce_products.html">
+					<i class="fa fa-cubes"><span class="path1"></span><span class="path2"></span></i>
+					<span>재고관리</span>
+				  </a>
+				</li>
+				<li>
 				  <a href="ecommerce_products_edit.html">
-					<i class="mdi mdi-camcorder"><span class="path1"></span><span class="path2"></span></i>
-					<span>글쓰기</span>
+					<i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
+					<span>게시판</span>
 				  </a>
 				</li>
 				<li>
 				  <a href="${path }/chat">
-					<i class="icon-Chat2"></i>
+					<i class="fa fa-comments"></i>
 					<span>채팅</span>
 				  </a>
 				</li>
@@ -263,3 +281,5 @@
 		</div>
     </section>
   </aside>
+  
+  

@@ -23,5 +23,5 @@ public class Tag {
 	private String tagName;
 	private String tagCont;
 	
-	private Document docNo;
+	private long docNo;
 }

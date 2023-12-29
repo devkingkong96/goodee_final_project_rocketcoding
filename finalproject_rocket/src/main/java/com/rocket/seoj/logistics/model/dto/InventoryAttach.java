@@ -21,8 +21,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class InventoryAttach {
 	
 	private long ivFileId;
@@ -31,5 +29,5 @@ public class InventoryAttach {
 	private Date ivUploadDate;
 	private String ivAttachIsdel;
 	
-	private Inventory ivId;
+	private long ivId;
 }

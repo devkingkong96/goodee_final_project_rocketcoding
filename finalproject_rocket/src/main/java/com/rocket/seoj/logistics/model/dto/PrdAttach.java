@@ -21,8 +21,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class PrdAttach {
 	
 	private long prdFileId;
@@ -31,6 +29,6 @@ public class PrdAttach {
 	private Date prdFileUploadDate;
 	private String prdAttachIsdel;
 	
-	private Product prdId;
+	private long prdId;
 	
 }

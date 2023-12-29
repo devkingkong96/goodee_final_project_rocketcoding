@@ -14,8 +14,6 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class BranchDto {
 	
 	private long branchId;

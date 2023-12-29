@@ -87,15 +87,15 @@ public class LoginService {
 	
 	
 	//메인화면 메소드
-	public List<Approval> selectAprvMainPage(){
+	public List<Map<String, String>> selectAprvMainPage(){
 		return dao.selectAprvMainPage(session);
 	}
 	
-	public List<Fboard> selectFboardMainPage(){
+	public List<Map<String, String>> selectFboardMainPage(){
 		return dao.selectFboardMainPage(session);
 	}
 	
-	public List<Notice> selectNoticeMainPage(){
+	public List<Map<String, String>> selectNoticeMainPage(){
 		return dao.selectNoticeMainPage(session);
 	}
 	

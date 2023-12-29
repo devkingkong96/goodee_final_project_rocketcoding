@@ -21,8 +21,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Publisher {
 	
 	private long pubId;
@@ -33,5 +31,4 @@ public class Publisher {
 	private String pubRepresentative;
 	private String pubBank;
 	
-	private List<Product> productList;
 }

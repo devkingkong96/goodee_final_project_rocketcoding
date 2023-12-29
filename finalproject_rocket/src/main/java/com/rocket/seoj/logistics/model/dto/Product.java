@@ -23,8 +23,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Product {
 	
 	private long prdId;
@@ -37,11 +35,6 @@ public class Product {
 	private BigDecimal priceInStk;
 	private BigDecimal priceOutStk;
 	
-	private Publisher pubId;
+	private long pubId;
 	
-	private List<PrdAttach> prdAttachList;
-	
-	private List<Stock> stockList;
-	
-	private List<PrdInventory> prdInventoryList;
 }

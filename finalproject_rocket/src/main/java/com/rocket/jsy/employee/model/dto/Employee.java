@@ -29,8 +29,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Employee implements UserDetails {
 	
 	private int empNo;
@@ -42,32 +40,9 @@ public class Employee implements UserDetails {
 	private String empFication;
 	private String empEmail;
 	
-	private Department depCode; //부서코드
-	private Branch branchId;//지점고유번호
+	private int depCode; //부서코드
+	private long branchId;//지점고유번호
 	
-	private List<Commute> commuteList; //출.퇴근
-	private List<Notice> noticeList; //공지사항
-	private List<DwRules> dwrulesList; //일일근무규칙 설정
-	private List<Fboard> fboardList; //자유게시판
-	private List<FboardComment> fboardCommentList; //자유게시판 댓글
-	private List<Document> documentList; //결재문서
-	private List<Approval> approvalList; //결재자
-	private List<Inventory> inventoryList; //입.출고
-	private List<EmpChat> empChatList; //채팅참여
-	
-	/*   private List<Commute> commuteList; //출.퇴근
-	   private List<DwRules> dwrulesList; //일일근무규칙 설정
-	   private List<EmpFile> empfileList; //사원정보 첨부파일
-	
-	
-	   private List<Inventory> inventoryList; //입.출고
-	
-	   private List<Notice> noticeList; //공지사항
-	   private List<Fboard> fboardList; //자유게시판
-	   private List<FboardComment> fboardcommentList; //자유게시판 댓글
-	
-	   private List<Document> documentList; //결재문서
-	   private List<EmpChat> empchatList; //채팅참여*/
 	
 	@Override
 	public Collection< ? extends GrantedAuthority> getAuthorities() {

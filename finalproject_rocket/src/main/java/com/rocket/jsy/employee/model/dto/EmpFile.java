@@ -12,13 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class EmpFile {
 	
 	private int empfileNo;
 	private String empfileOri;
 	private String empfileRename;
 	
-	private Employee empNo; //사원번호
+	private int empNo; //사원번호
 }

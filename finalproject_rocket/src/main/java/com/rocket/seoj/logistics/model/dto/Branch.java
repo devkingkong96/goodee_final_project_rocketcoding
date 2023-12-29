@@ -21,8 +21,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Branch {
 	
 	private long branchId;
@@ -31,11 +29,8 @@ public class Branch {
 	private String branchIsdel;
 	private String branchAddr;
 	
-	private List<Employee> employeeList;
 	
-	private List<Inventory> inventoryList;
 	
-	private List<Stock> stockList;
 	
 	public static Branch from(BranchDto branchDto) {
 		

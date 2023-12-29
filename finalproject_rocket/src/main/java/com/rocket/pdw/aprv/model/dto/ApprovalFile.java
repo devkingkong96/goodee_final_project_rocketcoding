@@ -12,13 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class ApprovalFile {
 	
 	private long aprvFileNo;
 	private String aprvOriName;
 	private String aprvReNamed;
 	
-	private Document docNo;
+	private long docNo;
 }

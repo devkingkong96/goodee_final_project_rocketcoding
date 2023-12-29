@@ -78,9 +78,9 @@ public class LoginController {
 	
 	@RequestMapping("/")
 	public String index(Model m) {
-		List<Approval> approvalList=service.selectAprvMainPage();
-		List<Fboard> fboardList=service.selectFboardMainPage();
-		List<Notice> notices=service.selectNoticeMainPage();
+		List<Map<String, String>> approvalList=service.selectAprvMainPage();
+		List<Map<String, String>> fboardList=service.selectFboardMainPage();
+		List<Map<String, String>> notices=service.selectNoticeMainPage();
 		Employee loginemp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		m.addAttribute("approvalList",approvalList);

@@ -14,13 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Department {
 	
 	private int depCode;
 	private String depName;
 	
-	private List<Employee> employeeList; //사원번호
 	
 }

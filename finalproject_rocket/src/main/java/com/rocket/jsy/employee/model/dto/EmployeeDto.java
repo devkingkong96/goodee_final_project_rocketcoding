@@ -10,8 +10,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class EmployeeDto {
 	
 	private int empNo;

@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Inventory {
 	
 	private long ivId;
@@ -29,19 +27,16 @@ public class Inventory {
 	private String ivVatType;
 	private String ivMemo;
 	
-	private Branch sendBrcId;
+	private long sendBrcId;
 	
-	private Branch recieveBrcId;
+	private long recieveBrcId;
 	
-	private Employee sendEmpId;
+	private int sendEmpId;
 	
-	private Employee recieveEmpId;
+	private int recieveEmpId;
 	
-	private Document docNo;
+	private long docNo;
 	
-	private List<PrdInventory> prdInventoryList;
-	
-	private List<InventoryAttach> inventoryAttachList;
 	
 	public Inventory of(Inventory inv) {
 		

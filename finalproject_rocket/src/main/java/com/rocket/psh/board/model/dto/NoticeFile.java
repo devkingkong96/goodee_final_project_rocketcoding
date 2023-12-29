@@ -15,13 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class NoticeFile {
 	
 	private int noticeFileNo;
 	
-	private Notice noticeNo;
+	private int noticeNo;
 	private String noticeFileOri;
 	private String noticeFileRe;
 }

@@ -33,8 +33,8 @@
 							<c:if test="${not empty notices }">
 							  <c:forEach var="n" items="${notices }">
 							<tr>
-							  <th scope="row" colspan="3"><c:out value="${n.noticeTitle }"/></th>
-								  <td><c:out value="${n.noticeDate}"/></td>
+							  <th scope="row" colspan="3"><c:out value="${n.NOTICE_TITLE }"/></th>
+								  <td><c:out value="${n.NOTICE_DATE}"/></td>
 							</tr>
 								</c:forEach>
 							  </c:if>
@@ -64,8 +64,8 @@
 									<c:if test="${not empty fboardList }">
 									  <c:forEach var="f" items="${fboardList }">
 									<tr>
-									  <th scope="row" colspan="3"><c:out value="${f.fboardTitle }"/></th>
-										  <td><c:out value="${f.fboardDate}"/></td>
+									  <th scope="row" colspan="3"><c:out value="${f.FBOARD_TITLE }"/></th>
+										  <td><c:out value="${f.FBOARD_DATE}"/></td>
 									</tr>
 										</c:forEach>
 									  </c:if>

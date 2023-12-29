@@ -16,14 +16,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "empNo")
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class FboardComment {
 	
 	private int commentNo;
-	private Fboard fboardNo;
-	private Employee empNo;
+	private int fboardNo;
+	private int empNo;
 	private String fbdComment;
 	private Date fbdCommentDate;
 }

@@ -16,18 +16,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Notice {
 	
 	private int noticeNo;
 	
-	private Employee empNo;
+	private int empNo;
 	
 	private String noticeTitle;
 	private String noticeContent;
 	private int noticeViews;
 	private Date noticeDate;
 	
-	List<NoticeFile> files;
 }

@@ -17,21 +17,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"empNo","comments"})
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Fboard {
 	
 	private int fboardNo;
 	
-	private Employee empNo;
+	private int empNo;
 	
 	private String fboardTitle;
 	private String fobardContent;
 	private int fboardViews;
 	private Date fboardDate;
 	
-	List<FboardComment> comments;
 	
-	List<FboardFile> files;
 }

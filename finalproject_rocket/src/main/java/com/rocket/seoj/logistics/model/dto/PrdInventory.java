@@ -18,14 +18,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo (
-   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class PrdInventory {
 	
 	private long prdIvId;
 	private int prdIvQuantity;
 	
-	private Product prdId;
+	private long prdId;
 	
-	private Inventory ivId;
+	private long ivId;
 }

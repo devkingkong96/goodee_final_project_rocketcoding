@@ -307,29 +307,6 @@
 										</div>
 									  </div>
 									  <div class="clearfix"></div>
-									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted">09:28</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<a class="d-flex" href="#">
-													<img alt="Profile" src="${path}/resources/images/avatar/1.jpg" class="avatar me-10">
-												</a>
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<p class="mb-0 fs-16 text-dark">Sarah Kortney</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">It looks to me like you have a lot planned before your deadline. I would suggest you push your deadline back so you have time to run a successful advertising campaign.</p>
-											</div>
-										</div>
-									  </div>							  
-									  <div class="clearfix"></div>
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-primary max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
 											<span class="text-extra-small">09:41</span>
@@ -349,121 +326,6 @@
 											</div>
 											<div class="chat-text-start ps-55">
 												<p class="mb-0 text-semi-muted">I would suggest you discuss this further with the advertising team.</p>
-											</div>
-										</div>
-									  </div>
-									  <div class="clearfix"></div>
-									  <div class="card d-inline-block mb-3 float-end me-2 bg-primary max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small">09:41</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<a class="d-flex" href="#">
-													<img alt="Profile" src="${path}/resources/images/avatar/2.jpg" class="avatar me-10">
-												</a>
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<p class="mb-0 fs-16">Mimi Carreira</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">I am very busy at the moment and on top of everything, I forgot my umbrella today.</p>
-											</div>
-										</div>
-									  </div>
-									  <div class="clearfix"></div>
-									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted">09:25</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<a class="d-flex" href="#">
-													<img alt="Profile" src="${path}/resources/images/avatar/1.jpg" class="avatar me-10">
-												</a>
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<p class="mb-0 fs-16 text-dark">Sarah Kortney</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">What do you think about our plans for this product launch?</p>
-											</div>
-										</div>
-									  </div>
-									  <div class="clearfix"></div>
-									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted">09:28</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<a class="d-flex" href="#">
-													<img alt="Profile" src="${path}/resources/images/avatar/1.jpg" class="avatar me-10">
-												</a>
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<p class="mb-0 fs-16 text-dark">Sarah Kortney</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">It looks to me like you have a lot planned before your deadline. I would suggest you push your deadline back so you have time to run a successful advertising campaign.</p>
-											</div>
-										</div>
-									  </div>
-									  <div class="clearfix"></div>
-									  <div class="card d-inline-block mb-3 float-end me-2 bg-primary max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small">09:41</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<a class="d-flex" href="#">
-													<img alt="Profile" src="${path}/resources/images/avatar/2.jpg" class="avatar me-10">
-												</a>
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<p class="mb-0 fs-16">Mimi Carreira</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">I would suggest you discuss this further with the advertising team.</p>
-											</div>
-										</div>
-									  </div>
-									  <div class="clearfix"></div>
-									  <div class="card d-inline-block mb-3 float-end me-2 bg-primary max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small">09:41</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<a class="d-flex" href="#">
-													<img alt="Profile" src="${path}/resources/images/avatar/2.jpg" class="avatar me-10">
-												</a>
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<p class="mb-0 fs-16">Mimi Carreira</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">I am very busy at the moment and on top of everything, I forgot my umbrella today.</p>
 											</div>
 										</div>
 									  </div>
@@ -473,12 +335,14 @@
 								 <div class="d-md-flex d-block justify-content-between align-items-center bg-white p-5 rounded10 b-1 overflow-hidden">
 										<input class="form-control b-0 py-10" type="text" placeholder="메시지를 작성해주세요.">
 										<div class="d-flex justify-content-between align-items-center mt-md-0 mt-30">
+											<!-- 파일 전송 버튼 -->
 											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
 												<i class="mdi mdi-link"></i>
 											</button>
 											<!-- <button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
 												<i class="mdi mdi-face"></i>
 											</button> -->
+											<!-- 채팅 전송 버튼 -->
 											<button type="button" class="waves-effect waves-circle btn btn-circle btn-primary">
 												<i class="mdi mdi-send"></i>
 											</button>

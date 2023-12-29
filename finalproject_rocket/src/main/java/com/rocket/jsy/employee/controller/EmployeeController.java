@@ -1,12 +1,14 @@
 package com.rocket.jsy.employee.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.jsy.employee.service.EmployeeService;
@@ -27,7 +29,7 @@ public class EmployeeController {
 	       // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 	        Employee employee=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //	    	String empNo = userDetails.getUsername();
-	        log.info("{}", employee);
+//	        log.info("{}", employee);
 //	        Employee employee = service.selectEmployeeByNo(empNo);
 	        model.addAttribute("employee", employee);
 //	    }
@@ -42,7 +44,14 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/employeeholidaylist")
-	public String employeeholidaylist() {
+	public String employeeholidaylist(Model model) {
+		List<Employee> employees=service.selectEmployeeHolidayAll();
+		model.addAttribute("employees",employees);
 		return "employee/employeeholidaylist";
 	}
+	 @GetMapping("/myPageCalendar")
+	 @ResponseBody
+	    public List<Map<String, Object>> myPageCalendar() {
+	        return service.selectEmployeeMyPageCalendar();
+	    }
 }

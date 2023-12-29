@@ -19,42 +19,31 @@
 						<div class="box-header">
 							<h3 class="box-title">공지사항</h3>
 						</div>
-						<div class="box-body">
-							<span class="text-muted">최신 목록</span>
 				<!-- /.box-header -->
 				<div class="box-body">
 					<div class="table-responsive">
-					  <table class="table table-hover mb-0">
+					  <table class="table mb-0">
 						  <tbody>
 							<tr>
-							  <th scope="col"></th>
-							  <th scope="col" colspan="2">제목</th>
+							  <th scope="col" colspan="3">제목</th>
 							  <th scope="col">작성일</th>
 							</tr>
 						  </tbody>
 						  <tbody>
+							<c:if test="${not empty notices }">
+							  <c:forEach var="n" items="${notices }">
 							<tr>
-							  <th scope="row">1</th>
-							  <td colspan="2"><%-- <c:out value="${notices }"/> --%></td>
-							  <td>@mdo</td>
+							  <th scope="row" colspan="3"><c:out value="${n.noticeTitle }"/></th>
+								  <td><c:out value="${n.noticeDate}"/></td>
 							</tr>
-							<tr>
-							  <th scope="row">2</th>
-							  <td colspan="2">Larry the Bird</td>
-							  <td>@fat</td>
-							</tr>
-							<tr>
-							  <th scope="row">3</th>
-							  <td colspan="2">Larry the Bird</td>
-							  <td>@twitter</td>
-							</tr>
+								</c:forEach>
+							  </c:if>
 						  </tbody>
 						</table>
 					</div>
 				</div>
 				<!-- /.box-body -->
 			  <!-- /.box -->
-						</div>
 					</div>
 				</div>
 				<div class="col-lg-6 col-12">
@@ -63,7 +52,26 @@
 							<h3 class="box-title">자유게시판</h3>
 						</div>
 						<div class="box-body">
-							<span class="text-muted">최신 목록</span>
+							<div class="table-responsive">
+							  <table class="table mb-0">
+								  <tbody>
+									<tr>
+									  <th scope="col" colspan="3">제목</th>
+									  <th scope="col">작성일</th>
+									</tr>
+								  </tbody>
+								  <tbody>
+									<c:if test="${not empty notices }">
+									  <c:forEach var="n" items="${notices }">
+									<tr>
+									  <th scope="row" colspan="3"><c:out value="${n.noticeTitle }"/></th>
+										  <td><c:out value="${n.noticeDate}"/></td>
+									</tr>
+										</c:forEach>
+									  </c:if>
+								  </tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

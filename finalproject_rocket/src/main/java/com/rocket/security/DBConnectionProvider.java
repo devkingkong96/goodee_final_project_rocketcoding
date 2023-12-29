@@ -32,7 +32,7 @@ public class DBConnectionProvider implements AuthenticationProvider,UserDetailsS
 		
 		//empNo와 일치하는 직원 정보 DB에서 가져오기
 		Employee loginEMP=service.selectEmployeeById(empNo);
-//		log.info("{}",loginEMP);
+//		log.info("{}",loginEMP.getEmpNo());
 		
 		//회원이 없으면 예외처리
 		if(loginEMP==null)

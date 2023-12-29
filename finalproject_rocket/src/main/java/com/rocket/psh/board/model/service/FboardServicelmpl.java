@@ -39,7 +39,7 @@ public class FboardServicelmpl implements FboardService {
 	@Override
 	public List<Fboard> selectBoard(Map<String, Integer> page) {
 		// TODO Auto-generated method stub
-		return dao.selectBorad(session, page);
+		return dao.selectBoard(session, page);
 	}
 
 }

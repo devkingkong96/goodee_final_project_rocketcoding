@@ -3,6 +3,8 @@ package com.rocket.seoj.logistics.model.dto;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.pdw.aprv.model.dto.Document;
 
@@ -15,6 +17,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo (
+   generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Inventory {
 	
 	private long ivId;
@@ -24,13 +28,28 @@ public class Inventory {
 	private Date ivEditDate;
 	private String ivVatType;
 	private String ivMemo;
+	
 	private Branch sendBrcId;
+	
 	private Branch recieveBrcId;
-
+	
 	private Employee sendEmpId;
+	
 	private Employee recieveEmpId;
+	
 	private Document docNo;
-
+	
 	private List<PrdInventory> prdInventoryList;
+	
 	private List<InventoryAttach> inventoryAttachList;
+	
+	public Inventory of(Inventory inv) {
+		
+		return Inventory.builder()
+		   
+		   .sendBrcId(inv.sendBrcId).recieveBrcId(inv.recieveBrcId)
+		   .sendEmpId(inv.sendEmpId).recieveEmpId(inv.recieveEmpId).build();
+		
+	}
+	
 }

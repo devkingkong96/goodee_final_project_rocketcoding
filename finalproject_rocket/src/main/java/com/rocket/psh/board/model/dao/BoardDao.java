@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.rocket.psh.board.model.dto.Fboard;
 
 public interface BoardDao {
-		List<Fboard> selectBorad(SqlSession session, Map<String,Integer>page);
+		List<Fboard> selectBoard(SqlSession session, Map<String,Integer>page);
 			
 		int selectFboardCount(SqlSession session);
 			

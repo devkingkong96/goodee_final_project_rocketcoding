@@ -1,18 +1,48 @@
 package com.rocket.jsy.employee.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.jsy.employee.service.EmployeeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Controller
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/employee/index")
 public class EmployeeController {
 	
 	private final EmployeeService service;
+	
+	@GetMapping("/mypage")
+	public String mypage(Model model, Authentication authentication) {
+//	    if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+	       // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        Employee employee=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//	    	String empNo = userDetails.getUsername();
+	        log.info("{}", employee);
+//	        Employee employee = service.selectEmployeeByNo(empNo);
+	        model.addAttribute("employee", employee);
+//	    }
+	    return "employee/mypage";
+	}
+	
+	@GetMapping("/employeelist")
+	public String employeelist(Model model) {
+	    List<Employee> employees = service.selectEmployeeAll();
+	    model.addAttribute("employees", employees);
+	    return "employee/employeelist";
+	}
+	
+	@GetMapping("/employeeholidaylist")
+	public String employeeholidaylist() {
+		return "employee/employeeholidaylist";
+	}
 }

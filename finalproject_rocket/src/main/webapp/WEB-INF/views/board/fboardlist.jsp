@@ -12,31 +12,59 @@
 		<!-- Main content -->
 		<section class="content">
 			<div headclass="box-er with-border"></div>
-			<div class="box">
-				<div class="box-body with-border">
-					<div class="table-responsive">
-						<table id="example"
-							class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
-							<body>
-							<thead>
-								<h1>공지사항</h1>
-								<hr color="black" size="7">
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>조회수</th>
-									<th>작성일</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-			</div>
-			</body>
-		</section>
-	</div>
-</div>
+<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+    <div class="col-12">
+         <div class="box">
+               <div class="box-header with-border">
+                 <h3 class="box-title">자유 게시판</h3>
+                 <hr color="black" size="7">
+               </div>
+               <!-- /.box-header -->
+               <div class="box-body">
+                   <div class="table-responsive">
+                     <table id="example1" class="table table-bordered table-striped">
+                       <thead>
+                           <tr>
+                               <th>번호</th>
+                               <th>제목</th>
+                               <th>작성자</th>
+                               <th>조회수</th>
+                               <th>작성일</th>
+                             
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr>
+                               <td>Tiger Nixon</td>
+                               <td>System Architect</td>
+                               <td>Edinburgh</td>
+                               <td>61</td>
+                               <td>2011/04/25</td>
+                          
+                           </tr>
+                       </tbody>
+                  
+                     </table>
+                   </div>
+               </div>
+             </div>
+  
+  
+	
+	<!-- Page Content overlay -->
+	
+	
+	<!-- Vendor JS -->
+	<script src="../src/js/vendors.min.js"></script>
+	<script src="../src/js/pages/chat-popup.js"></script>
+    <script src="../../../assets/icons/feather-icons/feather.min.js"></script>	
+	<script src="../../../assets/vendor_components/datatable/datatables.min.js"></script>
+	
+	<!-- CRMi App -->
+	<script src="../src/js/template.js"></script>
+	
+	<script src="../src/js/pages/data-table.js"></script>
+	
 
-
+</body>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

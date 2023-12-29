@@ -12,7 +12,7 @@ import com.rocket.psh.board.model.dto.Fboard;
 public class BoardDaolmpl implements BoardDao {
 
 	@Override
-	public List<Fboard> selectBorad(SqlSession session,Map<String,Integer>page) {
+	public List<Fboard> selectBoard(SqlSession session,Map<String,Integer>page) {
 		int cPage=page.get("cPage");
 		int numPage=page.get("numPage");
 		RowBounds rb=new RowBounds((cPage-1)*numPage,numPage);

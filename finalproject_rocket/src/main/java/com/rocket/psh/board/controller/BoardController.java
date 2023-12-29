@@ -42,21 +42,21 @@ public class BoardController {
 	@RequestMapping("/fboardWrite.do")
 	public void boardWrite() {}
 	
-	@RequestMapping("insertFboard.do")
-	public String insertFboard(Fboard b,Model model) {
-		String msg,loc;
-		int result=service.insertFboard(b);
-		
-		if(result>0) {
-			msg="등록이 완료되었습니다.";
-			loc="board/fboardlist.do";
-		}else {
-			msg="등록이 실패하셨습니다";
-			loc="board/fdoardWrite.do";
-		}
-		model.addAttribute("msg",msg);
-		model.addAttribute("loc",loc);
-		
-		return "common/msg";
-	}
+//	@RequestMapping("/insertFboard.do")
+//	public String insertFboard(Fboard b,Model model) {
+//		String msg,loc;
+//		int result=service.insertFboard(b);
+//		
+//		if(result>0) {
+//			msg="등록이 완료되었습니다.";
+//			loc="board/fboardlist.do";
+//		}else {
+//			msg="등록이 실패하셨습니다";
+//			loc="board/fdoardWrite.do";
+//		}
+//		model.addAttribute("msg",msg);
+//		model.addAttribute("loc",loc);
+//		
+//		return "common/msg";
+//	}
 }

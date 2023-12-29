@@ -1,11 +1,18 @@
 package com.rocket.psh.board.model.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+
+import com.rocket.psh.board.model.dto.Fboard;
+
 public interface BoardDao {
-	/*
-	 * public List<noticeMap> notice() throws Exception;
-	 * 
-	 * 
-	 * @Override public List<BoardVO> notice() throws Exception{ return
-	 * sqlsession.selectList("boardMappers.notice"); }
-	 */
+		List<Fboard> selectBoard(SqlSession session, Map<String,Integer>page);
+			
+		int selectFboardCount(SqlSession session);
+			
+		Fboard selectBoardByNo(SqlSession session,int boardNo);
+			
+		int insertFboard(SqlSession session,Fboard b);
 }

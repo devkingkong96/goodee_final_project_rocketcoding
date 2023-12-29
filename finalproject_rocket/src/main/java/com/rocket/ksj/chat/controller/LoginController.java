@@ -35,12 +35,8 @@ public class LoginController {
 	@GetMapping("/member/emailCheck")
 	@ResponseBody
 	public String checkEmail(@RequestParam("empNo")String empNo,@RequestParam("email")String email) {
-		log.info("check메소드 진입 성공");
 		int CheckempNo=service.selectEmployeeByIdTmp(empNo);
-		log.info("{}",empNo);
-		log.info("{}",CheckempNo);
 		if(CheckempNo<1) {
-			log.info("EmptyNo 없음");
 			return "EmptyNo";
 			}
 		Map<String, String>map=new HashMap<>();
@@ -48,11 +44,9 @@ public class LoginController {
 		map.put("email", email);
 		int CheckempEmail=service.selectEmployeeByNoEmailTmp(map);
 		if(CheckempEmail<1) {
-			log.info("EmptyEmail 성공");
 			return "EmptyEmail";
 			}
 		
-		log.info("emp");
 		return "emp";
 	}
 	
@@ -60,7 +54,6 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping("/member/sendPwd")
 	public String sendPwdEmail(String empNo,String email) {
-		log.info("sendpwd 성공");
 		//Map에 담아 파라미터로 전달
 		Map<String, String>emp=new HashMap<>();
 		emp.put("empNo",empNo);
@@ -78,7 +71,6 @@ public class LoginController {
 		//메일 생성 & 전송
 		service.sendEmail(email,empNo,tmpPwd);
 		
-		log.info("임시 비밀번호 전송 완료");
 		return "success";
 	}
 	

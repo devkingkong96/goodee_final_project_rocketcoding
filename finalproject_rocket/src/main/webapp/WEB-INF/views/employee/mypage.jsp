@@ -67,8 +67,8 @@
 					<button class="btn btn-primary w-100 mb-2">퇴근등록</button>
 				</div>
 			</div>
-		
 		<!-- /.content -->
+		<div id="mycal1"></div>
 	  </div>
   </div>
       </section>
@@ -76,3 +76,19 @@
 </div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+   <script>
+	     document.addEventListener('DOMContentLoaded', function() {
+	         var calendarEl = $('#mycal1');
+	         var calendar = new FullCalendar.Calendar(calendarEl, {
+	                initialView: 'dayGridMonth',
+	                events: {
+	                    url: '/myPageCalendar',
+	                    method: 'GET',
+	                    failure: function() {
+	                        alert('데이터를 가져오는데 실패하였습니다.');
+	                    },
+	                }
+	            });
+	         calendar.render();
+	       });
+   </script>

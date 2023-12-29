@@ -31,7 +31,7 @@
 
 			  <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">사원별휴가일수조회</h3>
+				  <h3 class="box-title">사원별휴가사용조회</h3>
 				  <h6 class="box-subtitle">휴가일수조회</h6>
 				</div>
 				<!-- /.box-header -->
@@ -40,81 +40,35 @@
 					  <table id="example" class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
 						<thead>
 							<tr>
-								<th>휴가코드</th>
-								<th>휴가명</th>
+								<th>사원번호</th>
+								<th>사원이름</th>								
+								<th>휴가종류</th>
+								<th>휴가사유</th>
 								<th>사용기간</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<th>emp_no1</th>
-								<th>emp_name1</th>
-								<th>dep_name1</th>
-							</tr>
-							<tr>
-								<th>emp_no2</th>
-								<th>emp_name2</th>
-								<th>dep_name2</th>
-							</tr>
-							<tr>
-								<th>emp_no3</th>
-								<th>emp_name3</th>
-								<th>dep_name3</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-							<tr>
-								<th>emp_no</th>
-								<th>emp_name</th>
-								<th>dep_name</th>
-							</tr>
-						</tbody>				  
-						<tfoot>
-							<tr>
-								<th>휴가코드</th>
-								<th>휴가명</th>
-								<th>사용기간</th>
-							</tr>
-						</tfoot>
+				    <c:forEach var="employee" items="${employees}">
+				        <c:forEach var="document" items="${employee.documentList}">
+				            <tr>
+				                <td>${employee.empNo}</td>
+				                <td>${employee.empName}</td>
+				                <td>${document.docNo}</td>
+				                <td>${document.docTitle}</td>
+				                <td>${document.startDate} ~ ${document.endDate}</td>
+				            </tr>
+				        </c:forEach>
+				    </c:forEach>
+					</tbody>
+				<tfoot>
+				    <tr>
+				        <th>사원번호</th>
+				        <th>사원이름</th>								
+				        <th>휴가종류</th>
+				        <th>휴가사유</th>
+				        <th>사용기간</th>
+				    </tr>
+				</tfoot>
 					</table>
 					</div>              
 				</div>

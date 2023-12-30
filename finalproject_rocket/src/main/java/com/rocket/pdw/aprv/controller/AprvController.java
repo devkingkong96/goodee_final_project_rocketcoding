@@ -59,7 +59,7 @@ public class AprvController {
 		List<Map<String,Object>> wlist=ck.stream().filter(map-> map.get("APRV_SQ").equals(BigDecimal.ONE))
 	    			.collect(Collectors.toList());
 		
-		System.out.println(wlist);
+		
 		m.addAttribute("lists", wlist);
 		return "aprv/aprvlists";
 	}

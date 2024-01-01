@@ -50,15 +50,15 @@
 							</tr>
 						</thead>
 						<tbody>
-						    <c:forEach var="employee" items="${employees}">
+						    <c:forEach var="employees" items="${employees}">
 						        <tr>
-						            <td>${employee.empNo}</td>
-						            <td>${employee.empName}</td>
-						            <td>${employee.depCode.depName}</td>
-						            <td>${employee.empLv}</td>
-						            <td>${employee.empEmail}</td>
-						            <td>${employee.empEndate}</td>
-						            <td>${employee.empFication}</td>
+						            <td>${employees.EMP_NO}</td>
+						            <td>${employees.EMP_NAME}</td>
+						          <%--   <td>${employee.depCode.depName}</td> --%>
+						            <td>${employees.EMP_LV}</td>
+						            <td>${employees.EMP_EMAIL}</td>
+						            <td>${employees.EMP_ENDATE}</td>
+						            <td>${employees.EMP_FICATION}</td>
 						        </tr>
 						    </c:forEach>
 						</tbody>			  

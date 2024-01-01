@@ -7,7 +7,7 @@ import com.rocket.jsy.employee.model.dto.Employee;
 
 public interface EmployeeService {
 	
-	List<Employee> selectEmployeeAll();
+	List<Map<String, Object>> selectEmployeeAll();
 	
 	List<Employee> selectEmployeeHolidayAll();
 	

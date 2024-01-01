@@ -12,7 +12,7 @@ import com.rocket.jsy.employee.model.dto.Employee;
 public class EmployeeDaolmpl implements EmployeeDao{
 
 	@Override
-	public List<Employee> selectEmployeeAll(SqlSession session) {
+	public List<Map<String, Object>> selectEmployeeAll(SqlSession session) {
 		return session.selectList("employee.selectEmployeeAll");
 	}
 	@Override

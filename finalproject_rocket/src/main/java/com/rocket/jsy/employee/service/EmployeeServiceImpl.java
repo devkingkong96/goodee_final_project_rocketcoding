@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	private final SqlSession session;
 	
 	@Override
-	public List<Employee> selectEmployeeAll() {
+	public List<Map<String, Object>> selectEmployeeAll() {
 		return dao.selectEmployeeAll(session);
 	}
 	

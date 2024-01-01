@@ -21,19 +21,19 @@
 							<div class="row text-center mt-10">
 								<div class="col-md-6 border-end">
 									<strong>이름</strong>
-									<p>${employee.empName}</p>
+									<p>${employee.EMP_NAME}</p>
 								</div>
 								<div class="col-md-6"><strong>부서</strong>
-									<p>${employee.depCode.depName}</p>
+									<p>${employee.DEP_NAME}</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row text-center mt-10">
 								<div class="col-md-6 border-end"><strong>직위</strong>
-									<p>${employee.empLv}</p>
+									<p>${employee.EMP_LV}</p>
 								</div>
 								<div class="col-md-6"><strong>입사일자</strong>
-									<p><fmt:formatDate value="${employee.empEndate}" pattern="yyyy/MM/dd" /></p>
+									<p><fmt:formatDate value="${employeeEMP_ENDATE}" pattern="yyyy/MM/dd" /></p>
 								</div>
 							</div>
 							<hr>

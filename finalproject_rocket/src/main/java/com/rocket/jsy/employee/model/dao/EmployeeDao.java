@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.rocket.jsy.employee.model.dto.Employee;
 
 public interface EmployeeDao {
-	List<Employee> selectEmployeeAll(SqlSession session);
+	List<Map<String, Object>> selectEmployeeAll(SqlSession session);
 	
 	List<Employee>selectEmployeeHolidayAll(SqlSession session);
 	

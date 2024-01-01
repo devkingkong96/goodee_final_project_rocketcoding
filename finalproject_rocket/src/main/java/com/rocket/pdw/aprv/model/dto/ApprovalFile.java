@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ApprovalFile {
 	
-	private long aprvFileNo;
+	private int aprvFileNo;
 	private String aprvOriName;
 	private String aprvReNamed;
 	
-	private long docNo;
+	private int docNo;
 }

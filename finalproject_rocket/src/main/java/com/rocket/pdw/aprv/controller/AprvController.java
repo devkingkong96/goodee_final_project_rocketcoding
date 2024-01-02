@@ -99,7 +99,7 @@ public class AprvController {
 	
 	//6.결재라인에 있고 결재했으면 진행
 	@GetMapping("/lists/p")
-	public String index(Model m) {
+	public String p(Model m) {
 		List<Map<String,Object>> plist = getAprvListByEmpNo().stream()
 			    .filter(map -> map.get("APRV_SQ").equals(BigDecimal.valueOf(1)) && map.get("DOC_STATCD").equals(BigDecimal.ZERO))
 			    .collect(Collectors.toList());
@@ -109,6 +109,12 @@ public class AprvController {
 	}
 	//==============================================select list ==================================================================
 	
-	
-	
+	@GetMapping("/docu")
+	public String aprvDetail() {	
+		return "aprv/aprv";
+	}
+	@GetMapping("/insertaprv")
+	public String insertAprvView() {
+		return "aprv/aprvwrite";
+	}
 }

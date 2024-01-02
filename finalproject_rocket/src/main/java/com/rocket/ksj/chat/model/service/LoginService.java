@@ -31,12 +31,9 @@ public class LoginService {
 	private final SqlSession session;
 	private final JavaMailSender mailsender;
 	
-	public List<Employee> selectEmployeeAll(){
-		return dao.selectEmployeeAll(session);
-	}
 	
-	public Employee selectEmployeeById(String empNo) {
-		return dao.selectEmployeeById(session,empNo);
+	public Employee selectEmployeeByLoginId(String empNo) {
+		return dao.selectEmployeeByLoginId(session,empNo);
 	}
 	
 	public int selectEmployeeByIdTmp(String empNo) {

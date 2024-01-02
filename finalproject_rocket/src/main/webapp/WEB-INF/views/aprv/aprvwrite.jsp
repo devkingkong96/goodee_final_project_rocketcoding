@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -9,28 +12,13 @@
     <jsp:param name="title" value="" />
 </jsp:include>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 <style>
-    /* 닫기 버튼 스타일 */
-    .close {
-        color: #aaa;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+    
    
-	table {
+ 	table {
 	    width: 100%;
 	    border-collapse: collapse;
 	}
@@ -44,12 +32,19 @@
 	
 	th {
 	    background-color: #f2f2f2;
-	}
+	} 
 	
 	
 	</style>
 
 
+<%
+	Date date = new Date();
+	SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+	String strDate = simpleDate.format(date);
+	
+
+%>
 
 
 <!-- Content Wrapper. Contains page content -->
@@ -80,20 +75,25 @@
                         <div class="box-header">
                             <h3>결재문서 작성</h3>
                             <div class="row">
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group" style="display: flex; justify-content: center; text-align: center;">
-                                        <h4>양식설정</h4>
-                                        <select class="form-control select2" id="tagSelect" onchange="tagSelect()">
-                                            <option selected="selected" value="">양식을 선택하세요</option>
-                                            <option value="option1">휴가양식</option>
-                                            <option value="option2">재고양식</option>
-                                            
-                                        </select>
-                                       
-                                        
-                                    </div>
-                                    <div> <p>기안자</p></div>
-                                    <!-- /.form-group -->
+                                <div class="col-md-12 col-12">
+                                	<table>
+	                                   	 <tr>
+	                                    	<th>
+	                                    		<p>양식설정</p>
+	                                    	</th>
+	                                    	<td>
+	                                    		<select class="form-control select2" id="tagSelect" onchange="tagSelect()">
+		                                            <option selected="selected" value="">양식을 선택하세요</option>
+		                                            <option value="option1">휴가양식</option>
+		                                            <option value="option2">재고양식</option>              
+	                                        	</select>
+	                                    	</td>
+	                                    	<th rowspan="2">
+	                                    		<p>기안자</p>
+	                                    	</th>
+	                                    	<td>홍길동</td>
+	                                    </tr>
+                                	</table>
                                 </div>
                                 <div id="contentContainer" style="display: none">
                                     <div>
@@ -137,6 +137,7 @@
 											    </table>
 											</div>
 										</div>
+										
                                         <form action="${path }/aprv/insertaprv" method="post">
                                             <div class="box-header">
                                                 <h4 class="box-title">제목<br>
@@ -148,7 +149,7 @@
                                                 <h4 class="box-title">본문</h4>
                                                 <div id="tagCont">                                                   
                                                     
-
+												
 
                                                 </div>
                                                 <br>
@@ -161,7 +162,7 @@
                             <!-- /.col-->
                         </div>
                         <!-- ./row -->
-                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none; width: 100%" >
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content" style="background-color: white;">
                                     <div class="modal-header">
@@ -169,43 +170,64 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="myBtn"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div id="flex-cotainer" style="display: flex" class="b-groove">
-                                            <div id="tree-container" class="b-groove">
-                                                <div id="jstree">
-                                                    <ul class="treeview-menu">
-                                                        <li>
-                                                            <input type="checkbox" id="root">
-                                                            <label for="root" class="node">로켓서점</label>
-                                                            <ul class="treeview-menu">
-                                                                <li>
-                                                                    <input type="checkbox" id="node1">
-                                                                    <label for="node1" class="node leaf">인사</label>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="checkbox" id="node2">
-                                                                    <label for="node2" class="node">경영</label>
-
-                                                                <li>
-                                                                    <input type="checkbox" id="node2-1">
-                                                                    <label for="node2-1" class="node leaf">회계</label>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="checkbox" id="node2-1">
-                                                                    <label for="node2-1" class="node leaf">재고</label>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-
-                                                </div>
-                                            </div>
+                                        <div id="flex-cotainer" style="display: flex" >
+                                              
+                                         
+								  <div class="multinav-scroll" style="height: 97%;">	
+									  <!-- sidebar menu-->
+									  <ul class="sidebar-menu" data-widget="tree">					  
+										<li class="treeview">
+										  <a href="#">
+											<i class="icon-Library"><span class="path1"></span><span class="path2"></span></i>
+											<span>로켓서점 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+											<span class="pull-right-container">
+											  <i class="fa fa-angle-right pull-right"></i>
+											</span>
+										  </a>
+										  <ul class="treeview-menu">											
+											<li class="treeview">
+												
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;												
+												<input name="group4" type="radio" id="radio_1" class="radio-col-danger" />
+												<label for="radio_1">일부</label>
+												
+											</li>												
+											<li class="treeview">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input name="group4" type="radio" id="radio_2" class="radio-col-danger" />
+												<label for="radio_2">인사부</label>
+											</li>										
+											<li class="treeview">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input name="group4" type="radio" id="radio_3" class="radio-col-danger" />
+												<label for="radio_3">재고부</label>
+											</li>									
+											<li class="treeview">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input name="group4" type="radio" id="radio_13" class="radio-col-danger" />
+												<label for="radio_13">부부</label>
+											</li>
+											<li class="treeview">
+												<a href="#">
+													<i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>아이부
+													<span class="pull-right-container">
+														<i class="fa fa-angle-right pull-right"></i>
+													</span>
+												</a>
+												<ul class="treeview-menu">
+													<li><a href="component_bootstrap_switch.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>장원영</a></li>
+													<li><a href="component_date_paginator.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>안유진</a></li>	
+												</ul>
+											</li>  
+										  </ul>
+										</li>                        
+                                        </div>
                                             <div id="btn-container" class="b-groove">
                                                 select emp_name from employee where 부서코드 =
                                             </div>
                                             <div id="table-container" class="b-groove">
                                                 그거 저장해야되는데 어케하지????
                                             </div>
-                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal">Close</button>
@@ -224,22 +246,6 @@
     </div>
 </div>
 <!-- /.content-wrapper -->
-<script>
-    //모달 창과 모달 창을 여는 버튼, 그리고 닫기 버튼을 변수로 가져옵니다.
-    var modal = document.getElementById("myModal");
-    var btn = document.getElementById("myBtn");
-    var span = document.getElementsByClassName("close")[0];
-
-    // 사용자가 버튼을 클릭하면 모달 창을 보여줍니다.
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // 사용자가 (x) 버튼을 클릭하면 모달 창을 닫습니다.
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-</script>
 <script>
     $(function() {
         // 6 create an instance when the DOM is ready
@@ -303,7 +309,7 @@
                 </tr>
                 <tr style="height: 500px">
                     <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
-                    년 월 일</td>
+                    <%=strDate %></td>
                 </tr>
             </tbody>
         </table>`;
@@ -328,5 +334,6 @@
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <!-- jstree CSS -->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>

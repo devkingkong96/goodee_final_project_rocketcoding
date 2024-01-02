@@ -17,8 +17,8 @@
 					<div class="box">
 						<div class="box-header">
 							<ul class="nav nav-tabs customtab nav-justified" role="tablist">
-								<li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#messages" role="tab">Chat </a> </li>
-								<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#contacts" role="tab">New</a> </li>
+								<li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#messages" role="tab">채팅방 목록</a></li>
+								<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#contacts" role="tab" onclick="loadEmployeeList()">직원목록</a></li>
 							</ul>
 						</div>
 						<div class="box-body">
@@ -186,71 +186,19 @@
 								<div class="tab-pane" id="contacts" role="tabpanel">	
 									<div class="chat-box-one-side3">
 										<div class="media-list media-list-hover">
+										
 											<div class="media py-10 px-0 align-items-center">
-											  <a class="avatar avatar-lg status-success" href="#">
+											  <p class="avatar avatar-lg status-success">
 												<img src="${path}/resources/images/avatar/1.jpg" alt="...">
-											  </a>
+											  </p>
 											  <div class="media-body">
-												<p class="fs-16">
-												  <a class="hover-primary" href="#">Sarah Kortney</a>
+												<p class="fs-20" id="chatEmpName">
+												  홍길동
 												</p>
+												<p id="chatEmpLv">인사팀</p>
 											  </div>
 											</div>
 
-											<div class="media py-10 px-0 align-items-center">
-											  <a class="avatar avatar-lg status-danger" href="#">
-												<img src="${path}/resources/images/avatar/2.jpg" alt="...">
-											  </a>
-											  <div class="media-body">
-												<p class="fs-16">
-												  <a class="hover-primary" href="#">Tommy Nash</a>
-												</p>
-											  </div>
-											</div>
-
-											<div class="media py-10 px-0 align-items-center">
-											  <a class="avatar avatar-lg status-warning" href="#">
-												<img src="${path}/resources/images/avatar/3.jpg" alt="...">
-											  </a>
-											  <div class="media-body">
-												<p class="fs-16">
-												  <a class="hover-primary" href="#">Kathryn Mengel</a>
-												</p>
-											  </div>
-											</div>
-
-											<div class="media py-10 px-0 align-items-center">
-											  <a class="avatar avatar-lg status-primary" href="#">
-												<img src="${path}/resources/images/avatar/4.jpg" alt="...">
-											  </a>
-											  <div class="media-body">
-												<p class="fs-16">
-												  <a class="hover-primary" href="#">Mayra Sibley</a>
-												</p>
-											  </div>
-											</div>			
-
-											<div class="media py-10 px-0 align-items-center">
-											  <a class="avatar avatar-lg status-success" href="#">
-												<img src="${path}/resources/images/avatar/1.jpg" alt="...">
-											  </a>
-											  <div class="media-body">
-												<p class="fs-16">
-												  <a class="hover-primary" href="#">Tommy Nash</a>
-												</p>
-											  </div>
-											</div>
-
-											<div class="media py-10 px-0 align-items-center">
-											  <a class="avatar avatar-lg status-danger" href="#">
-												<img src="${path}/resources/images/avatar/2.jpg" alt="...">
-											  </a>
-											  <div class="media-body">
-												<p class="fs-16">
-												  <a class="hover-primary" href="#">Williemae Lagasse</a>
-												</p>
-											  </div>
-											</div>
 										  </div>
 									</div>
 								</div>
@@ -1137,6 +1085,21 @@
 	
 	<!-- Page Content overlay -->
 
-
+<script>
+	function loadEmployeeList(){
+		$.ajax({
+			url:'${path}/chat/employeelist',
+			method:'GET',
+			success:function(response){
+				console.log(response);
+			},
+			error:function(error){
+				console.log(error);
+			}
+		});
+	}
+	
+	
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

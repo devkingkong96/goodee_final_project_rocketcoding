@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.ksj.chat.model.service.LoginService;
-import com.rocket.pdw.aprv.model.dto.Approval;
-import com.rocket.psh.board.model.dto.Fboard;
-import com.rocket.psh.board.model.dto.Notice;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,7 +75,7 @@ public class LoginController {
 	
 	
 	@RequestMapping("/")
-	public String index(Model m) {
+	public String index(Model m,HttpSession session) {
 		List<Map<String, String>> approvalList=service.selectAprvMainPage();
 		List<Map<String, String>> fboardList=service.selectFboardMainPage();
 		List<Map<String, String>> notices=service.selectNoticeMainPage();
@@ -86,7 +84,7 @@ public class LoginController {
 		m.addAttribute("approvalList",approvalList);
 		m.addAttribute("fboardList",fboardList);
 		m.addAttribute("notices",notices);
-		m.addAttribute("loginemp",loginemp);
+		session.setAttribute("loginemp", loginemp);
 		return "index";
 	}
 	

@@ -33,7 +33,7 @@
 									<p>${employee.EMP_LV}</p>
 								</div>
 								<div class="col-md-6"><strong>입사일자</strong>
-									<p><fmt:formatDate value="${employeeEMP_ENDATE}" pattern="yyyy/MM/dd" /></p>
+									<p><fmt:formatDate value="${employee.EMP_ENDATE}" pattern="yyyy/MM/dd" /></p>
 								</div>
 							</div>
 							<hr>

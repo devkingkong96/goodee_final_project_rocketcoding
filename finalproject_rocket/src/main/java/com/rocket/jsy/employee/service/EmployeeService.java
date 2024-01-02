@@ -9,9 +9,9 @@ public interface EmployeeService {
 	
 	List<Map<String, Object>> selectEmployeeAll();
 	
-	List<Employee> selectEmployeeHolidayAll();
+	List<Map<String, Object>> selectEmployeeHolidayAll();
 	
-	Employee selectEmployeeByNo(String EmpNo);
+	Map<String, Object> selectEmployeeByNo(int EmpNo);
 	
 	int insertEmployee(Employee e);
 	

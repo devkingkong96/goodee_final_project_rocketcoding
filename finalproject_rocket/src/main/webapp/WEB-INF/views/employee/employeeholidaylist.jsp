@@ -51,11 +51,11 @@
 				    <c:forEach var="employee" items="${employees}">
 				        <c:forEach var="document" items="${employee.documentList}">
 				            <tr>
-				                <td>${employee.empNo}</td>
-				                <td>${employee.empName}</td>
-				                <td>${document.docNo}</td>
-				                <td>${document.docTitle}</td>
-				                <td>${document.startDate} ~ ${document.endDate}</td>
+				                <td>${employee.EMP_NO}</td>
+				                <td>${employee.EMP_NAME}</td>
+				                <td>${document.DOC_NO}</td>
+				                <td>${document.DOC_TITLE}</td>
+				                <td>${document.START_DATE} ~ ${document.END_DATE}</td>
 				            </tr>
 				        </c:forEach>
 				    </c:forEach>

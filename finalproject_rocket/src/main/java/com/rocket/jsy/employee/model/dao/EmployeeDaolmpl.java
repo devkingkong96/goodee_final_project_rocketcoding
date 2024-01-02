@@ -16,12 +16,12 @@ public class EmployeeDaolmpl implements EmployeeDao{
 		return session.selectList("employee.selectEmployeeAll");
 	}
 	@Override
-	public List<Employee> selectEmployeeHolidayAll(SqlSession session) {
+	public List<Map<String, Object>> selectEmployeeHolidayAll(SqlSession session) {
 		return session.selectList("employee.selectEmployeeHolidayAll");
 	}
 
 	@Override
-	public Employee selectEmployeeByNo(SqlSession session, String empNo) {
+	public Map<String, Object> selectEmployeeByNo(SqlSession session, int empNo) {
 		return session.selectOne("employee.selectEmployeeByNo",empNo);
 	}
 

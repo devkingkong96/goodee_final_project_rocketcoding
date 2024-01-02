@@ -31,7 +31,7 @@ public class DBConnectionProvider implements AuthenticationProvider,UserDetailsS
 		String pw=(String)authentication.getCredentials();
 		
 		//empNo와 일치하는 직원 정보 DB에서 가져오기
-		Employee loginEMP=service.selectEmployeeById(empNo);
+		Employee loginEMP=service.selectEmployeeByLoginId(empNo);
 //		log.info("{}",loginEMP.getEmpNo());
 		
 		//회원이 없으면 예외처리
@@ -51,7 +51,7 @@ public class DBConnectionProvider implements AuthenticationProvider,UserDetailsS
 	 @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		Employee loginEMP=service.selectEmployeeById(username);
+		Employee loginEMP=service.selectEmployeeByLoginId(username);
 		return loginEMP;
 	}
 	

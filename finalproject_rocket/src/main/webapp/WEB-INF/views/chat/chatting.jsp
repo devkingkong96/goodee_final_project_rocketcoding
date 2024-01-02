@@ -282,11 +282,12 @@
 									</div>				  
 								</div>             
 							  </div>
+							  <!-- 메시지 박스 시작 -->
 							  <div class="box-body">
 								  <div class="chat-box-one2">
 									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted">09:25</span>
+											<span class="text-extra-small text-muted">09:25 (수신 시간)</span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
@@ -296,20 +297,20 @@
 												<div class="d-flex flex-grow-1 min-width-zero">
 													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
 														<div class="min-width-zero">
-															<p class="mb-0 fs-16 text-dark">Sarah Kortney</p>
+															<p class="mb-0 fs-16 text-dark">수신인</p>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">What do you think about our plans for this product launch?</p>
+												<p class="mb-0 text-semi-muted">수신 메시지123ㅇㅁㄴㅇ1hㅎㅕㅗㅎㄹㅇㅎfgh23</p>
 											</div>
 										</div>
 									  </div>
-									  <div class="clearfix"></div>
+									  
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-primary max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small">09:41</span>
+											<span class="text-extra-small">09:41 (발신시간)</span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
@@ -319,13 +320,13 @@
 												<div class="d-flex flex-grow-1 min-width-zero">
 													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
 														<div class="min-width-zero">
-															<p class="mb-0 fs-16">Mimi Carreira</p>
+															<p class="mb-0 fs-16">발신인</p>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="chat-text-start ps-55">
-												<p class="mb-0 text-semi-muted">I would suggest you discuss this further with the advertising team.</p>
+												<p class="mb-0 text-semi-muted">발신 메시지ㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇㅁㄴㅇ</p>
 											</div>
 										</div>
 									  </div>

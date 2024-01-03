@@ -18,8 +18,8 @@ public class LoginDao {
 		return session.selectList("employee.selectEmployeeAll");
 	}
 	
-	public Employee selectEmployeeById(SqlSession session,String empNo) {
-		return session.selectOne("employee.selectEmployeeByNo",empNo);
+	public Employee selectEmployeeByLoginId(SqlSession session,String empNo) {
+		return session.selectOne("employee.selectEmployeeByLoginId",empNo);
 	}
 	//임시 비밀번호 메일 전송 메소드 - Id로 멤버 확인
 	public int selectEmployeeByIdTmp(SqlSession session,String empNo) {

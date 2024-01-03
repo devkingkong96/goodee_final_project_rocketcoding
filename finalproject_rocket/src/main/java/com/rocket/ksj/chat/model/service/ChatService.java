@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class ChatService {
 
 	private final ChatDao dao;

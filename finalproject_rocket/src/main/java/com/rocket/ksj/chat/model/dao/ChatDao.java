@@ -7,11 +7,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 
-import lombok.RequiredArgsConstructor;
 
 @Repository
-@RequiredArgsConstructor
 public class ChatDao {
+	
 	
 	//채팅창 직원 목록 가져오기
 	public List<Map<String, Object>>selectEmployeeAll(SqlSession session){

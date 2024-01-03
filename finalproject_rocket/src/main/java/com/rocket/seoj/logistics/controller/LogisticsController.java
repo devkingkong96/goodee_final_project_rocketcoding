@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rocket.seoj.logistics.model.service.LogisticsService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Brief description of functions
@@ -32,9 +38,21 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping ("/logistics")
 @RequiredArgsConstructor
+@Slf4j
 public class LogisticsController {
 	
 	private final LogisticsService service;
+	
+	/*	@ExceptionHandler (DataAccessException.class)
+		public ResponseEntity<Object>
+		       handleDataAccessException(DataAccessException ex,
+		                                 WebRequest request) {
+			Map<String, Object> body = new LinkedHashMap<>();
+			body.put("timestamp", LocalDateTime.now());
+			body.put("message", "업데이트 실패");
+	
+			return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+		}*/
 	
 	private Map<String, String> tableIdColumnMap
 	   = new HashMap<String, String>() {
@@ -56,18 +74,23 @@ public class LogisticsController {
 		   }
 	   };
 	
-	@PostMapping ("/inventory/List/tableupdate")
-	public ResponseEntity< ? > updateTable(@RequestParam ("id") long id,
+	@PostMapping ("/inventory/list/tableupdate")
+	public ResponseEntity< ? > updateTable(SQLException ex,
+	                                       @RequestParam ("id") long id,
 	                                       @RequestParam ("columnName") String columnName,
 	                                       @RequestParam ("tableName") String tableName,
 	                                       @RequestParam ("value") String value,
 	                                       @RequestParam ("parentTableName") String parentTableName,
-	                                       @RequestParam ("parentColumnName") String parentColumnName) {
+	                                       @RequestParam ("parentColumnName") String parentColumnName) throws DataAccessException {
 		System.out.println("parentTableName : " + parentTableName);
 		
 		String parentColumnId
 		   = tableIdColumnMap.get(parentTableName.toUpperCase());
 		String columnId = tableIdColumnMap.get(tableName);
+		
+		if (parentColumnName.equals("IV_VAT_TYPE")) {
+			value = value.toUpperCase();
+		}
 		
 		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(id)
 		   + ", " + columnName + ", " + tableName + ", " + value + ", "
@@ -75,32 +98,110 @@ public class LogisticsController {
 		   + ", " + columnId);
 		
 		System.out.println("업데이트 실행합니다");
-		int result
-		   = service.updateColumn(id, columnName, tableName.toUpperCase(), value,
-		                          parentTableName.toUpperCase(), parentColumnId,
-		                          parentColumnName, columnId);
-		System.out.println("result : " + result);
+		int result = 0;
 		
-		if (result > 0) {
-			// If one or more rows were updated
-			return ResponseEntity.ok().body("업데이트 성공");
-		} else {
-			// If no rows were updated
-			return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("업데이트 실패");
+		try {
+			
+			result
+			   = service.updateColumn(id, columnName, tableName.toUpperCase(),
+			                          value, parentTableName.toUpperCase(),
+			                          parentColumnId, parentColumnName, columnId);
+			System.out.println("result : " + result);
+			
+			if (result > 0) {
+				
+				return ResponseEntity.ok().body("업데이트 성공");
+			} else {
+				
+				return ResponseEntity.badRequest().body("업데이트 실패");
+			}
 		}
+		catch (DataAccessException e) {
+			return ResponseEntity.badRequest().body("업데이트 실패");
+		}
+		
 	}
 	
-	@RequestMapping ("inventory/List")
+	@RequestMapping ("inventory/write/prdinfo")
+	public ResponseEntity< ? > getProductInfo(@RequestParam ("prdId") long id) {
+		Map<String, Object> prdInfo = service.getProductInfo(id);
+		
+		if (prdInfo.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		log.debug("prdInfo: {}", prdInfo);
+		return ResponseEntity.ok(prdInfo);
+		
+	}
+	
+	@RequestMapping ("inventory/write")
+	public String inventoryWrite(Model model) {
+		/*		List<Map> inventories = service.selectAllInventories();
+				model.addAttribute("inventories", inventories);*/
+		List<Map<String, Object>> writeInventoryItem
+		   = service.selectWriteInventory();
+		
+		Map<Object, Object> prdTitleToIdMap = new HashMap<>(); // PRD_TITLE을 키로, PRD_ID를 값으로 하는 맵
+		Set<Object> prdTitles = new HashSet<>(); // 중복 제거를 위한 Set
+		
+		for (Map<String, Object> item : writeInventoryItem) {
+			Object title = item.get("PRD_TITLE");
+			Object id = item.get("PRD_ID");
+			
+			if (title != null && prdTitles.add(title)) {
+				prdTitleToIdMap.put(title, id);
+			}
+		}
+		
+		ObjectMapper prdTitleToJson = new ObjectMapper();
+		
+		try {
+			String jsonMap = prdTitleToJson.writeValueAsString(prdTitleToIdMap);
+			System.out.println();
+			model.addAttribute("jsonMap", jsonMap);
+		}
+		catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		
+		model.addAttribute("prdTitleToIdMap", prdTitleToIdMap);
+		model.addAttribute("writeInventoryItem", writeInventoryItem);
+		return "logistics/inventoryWrite";
+	}
+	
+	@RequestMapping ("inventory/list")
 	public String getAllItems(Model model) {
 		/*		List<Map> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);*/
 		List<Map<String, Object>> inventories = service.selectAllInventories();
+		
+		// iv_id 중복 제거를 위한 코드
+		Set<Object> uniqueIvIds = new HashSet<>();
+		List<Map<String, Object>> uniqueInventoryData = new ArrayList<>();
+		
+		for (Map<String, Object> data : inventories) {
+			Object ivId = data.get("IV_ID");
+			
+			if (uniqueIvIds.add(ivId)) {
+				uniqueInventoryData.add(data);
+			}
+		}
+		
+		/*		for (Map<String, Object> inventory : inventories) {
+					Object ivDate = inventory.get("IV_DATE");
+					
+					if (ivDate != null) {
+						System.out.println("IV_DATE의 자료형: " + ivDate.getClass().getName());
+					} else {
+						System.out.println("IV_DATE 키에 해당하는 값이 없습니다.");
+					}
+				}*/
 		System.out.println();
-		model.addAttribute("inventories", inventories);
+		model.addAttribute("inventories", uniqueInventoryData);
 		return "logistics/inventoryList";
 	}
 	
-	@PostMapping ("inventory/List/delete")
+	@PostMapping ("inventory/list/delete")
 	public String
 	       deleteInventoryAndAttachments(@RequestParam ("iv_id") Long inventoryId,
 	                                     Model model) {
@@ -112,10 +213,10 @@ public class LogisticsController {
 		
 		if (deletionSuccess) {
 			msg = "삭제 성공";
-			loc = "logistics/inventory/List";
+			loc = "logistics/inventory/list";
 		} else {
 			msg = "삭제 실패";
-			loc = "logistics/inventory/List";
+			loc = "logistics/inventory/list";
 		}
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -170,14 +271,14 @@ public class LogisticsController {
 		@RequestMapping ("/logistics")
 		@RequiredArgsConstructor
 		public class LogisticsController {
-			
+	
 			private final LogisticsService service;
-			
+	
 			@GetMapping ("/List") @ResponseBody
 			public Map<String, Object> getAllItems(Model model) {
 				List<Inventory> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);
-				
+	
 				Map<String, Object> response = new HashMap<>();
 				response.put("data", inventories);
 				response.put("recordsTotal", inventories.size());
@@ -188,13 +289,13 @@ public class LogisticsController {
 	/*	@GetMapping ("/index")
 		public ResponseEntity<List<Inventory>> getAllItems() {
 			List<Inventory> items = service.selectAllInventories();
-			
+	
 			if (items.isEmpty()) {
 				return ResponseEntity.noContent().build();
 			}
-			
+	
 			return ResponseEntity.ok(items);
-		}*/
+		}
 	
 	/*	@GetMapping
 		public ResponseEntity<List<InventoryDto>> selectAllInventories() {
@@ -202,11 +303,11 @@ public class LogisticsController {
 			List<Inventory> items = service.selectAllInventories();
 			List<InventoryDto> dtos
 			   = items.stream().map(dto::of).collect(Collectors.toList());
-			
+	
 			if (items.isEmpty()) {
 				return ResponseEntity.noContent().build();
 			}
-			
+	
 			return ResponseEntity.ok(dtos);
 		}*/
 	

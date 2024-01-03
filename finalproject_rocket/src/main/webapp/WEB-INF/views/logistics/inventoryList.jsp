@@ -13,11 +13,17 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param name="title" value=""/>
 </jsp:include>
-<script type="text/javascript" src="${path }/resources/assets/vendor_components/moment/moment.js"></script>
+<script type="text/javascript"
+        src="${path }/resources/assets/vendor_components/moment/moment.js"></script>
 <%--<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">--%>
 <%--<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">--%>
-<%--<script src="${path }/resources/js/pdfmake.min.js"></script>
-<script src="${path }/resources/js/vfs_fonts.js"></script>--%>
+<%-- <script src="${path }/resources/js/pdfmake.min.js"></script>
+<script src="${path }/resources/js/vfs_fonts.js"></script> --%>
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<!-- <script
+src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script> -->
 
 <!-- extract 버튼 가져오기 -->
 <script
@@ -71,17 +77,16 @@
     }
 
     /*    .box-body > div, .box-body form > div {
-            margin: 20px; !* 각 요소의 하단에 20px 마진 추가 *!
-        }
+                margin: 20px; !* 각 요소의 하단에 20px 마진 추가 *!
+            }
 
-        .input-group.mb-3 {
-            margin: 20px; !* input-group 클래스가 적용된 요소에도 마진 추가 *!
-        }
+            .input-group.mb-3 {
+                margin: 20px; !* input-group 클래스가 적용된 요소에도 마진 추가 *!
+            }
 
-        .custom-file, .form-control {
-            margin: 20px; !* custom-file과 form-control 클래스가 적용된 요소에도 마진 추가 *!
-        }*/
-
+            .custom-file, .form-control {
+                margin: 20px; !* custom-file과 form-control 클래스가 적용된 요소에도 마진 추가 *!
+            }*/
     .col-xl-4.connectedSortable div {
         margin-bottom: 20px;
         margin-right: 20px;
@@ -96,40 +101,51 @@
 <script>
 
 
-    /*    var path = "${path}";
-    pdfMake.fonts = {
-        NanumGothic: {
-            normal: path + '/resources/assets/fonts/NanumGothic.ttf',
-            bold: path + '/resources/assets/fonts/NanumGothic.ttf',
-            italics: path + '/resources/assets/fonts/NanumGothic.ttf',
-            bolditalics: path + '/resources/assets/fonts/NanumGothic.ttf'
-        }
-    };*/
-    /*    var path = "
+    /*
+        let fs = require('fs');
+
+        // nanumgothinc.ttf 파일 경로
+        let filePath = path + '/resources/assets/fonts/malgun.ttf';
+
+        // 파일 읽기
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                console.error('파일을 읽을 수 없습니다:', err);
+                return;
+            }
+
+            // Base64로 인코딩
+            let base64Data = data.toString('base64');
+            console.log(base64Data);
+
+            pdfMake.vfs = {
+                'malgun.ttf': 'base64Data',
+            };
+
+            let fs = require('fs');
+
+            // nanumgothinc.ttf 파일 경로
+            let filePath = path + '/resources/assets/fonts/malgunbd.ttf';
+
+            // 파일 읽기
+            fs.readFile(filePath, (err, data) => {
+                if (err) {
+                    console.error('파일을 읽을 수 없습니다:', err);
+                    return;
+                }
+
+                // Base64로 인코딩
+                let base64Data = data.toString('base64');
+                console.log(base64Data);
+
+                pdfMake.vfs = {
+                    'malgunbd.ttf': 'base64Data',
+                }; */
+
+
+
+    /*     var path = "
 ${path}";
-    const fs = require('fs');
-
-    // nanumgothinc.ttf 파일 경로
-    const filePath = path + '/resources/assets/fonts/NanumGothic.ttf';
-
-    // 파일 읽기
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            console.error('파일을 읽을 수 없습니다:', err);
-            return;
-        }
-
-        // Base64로 인코딩
-        const base64Data = data.toString('base64');
-        console.log(base64Data);
-
-        pdfMake.vfs = {
-            'NanumGothic-Regular.ttf': 'base64Data',
-            'NanumGothic-Bold.ttf': '...Base64 인코딩된 데이터...',
-        };
-
-    var path = "
-        ${path}";
     pdfMake.fonts = {
         NanumGothic: {
             normal: path + '/resources/assets/fonts/NanumGothic.ttf',
@@ -137,7 +153,7 @@ ${path}";
             italics: path + '/resources/assets/fonts/NanumGothicLight.ttf',
             bolditalics: path + '/resources/assets/fonts/NanumGothicExtraBold.ttf'
         }
-    };*/
+    }; */
 
     // 각 폰트 파일의 경로를 콘솔에 출력
     // console.log("NanumGothic 폰트 경로:");
@@ -175,17 +191,28 @@ ${path}";
         return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     }
 
+    $(function () {
+        $("#min").datepicker();
+        $("#max").datepicker();
+    });
     $(document).ready(function () {
+
+        var path = "${path}";
+
+
         $('#example1').DataTable({
+
+
             // 기본 DataTables 설정
             "paging": true,
-            "lengthChange": true,
+            "lengthChange": false,
             "searching": true,
-            "ordering": false,
             "info": true,
+            ordering: true,
+            order: [[4, "asc"]],
             // "editable": true,
             "responsive": true,
-            "dateFormat": 'YYYY-MM-DD HH:mm',
+            /*    "dateFormat": 'YYYY-MM-DD HH:mm', */
             "dom": '<"dt-buttons"Bfli>rtp',
             "autoWidth": false,
             "fixedHeader": true,
@@ -208,9 +235,32 @@ ${path}";
                   { "editable": false },  // 삭제
 
               ],*/
+
             columnDefs: [
-                {targets: '_all', editable: true}
+                {targets: '_all', editable: true, orderable: true},
+                {
+                    targets: 3,
+                    /* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 */
+                    render: function (data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
+
+                            return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
+                        }
+                        /*                          if (type === 'sort') {
+                                                   // 정렬을 위해 원본 데이터 형식 사용
+                                                   return data;
+                                                 }   */
+                        return data;
+                    },
+
+                }
+
+
             ],
+
+
+            /*    "ordering": [[0, 'desc']],*/
             // 수정 불가능한 행 설정
             createdRow: function (row, data, dataIndex) {
                 if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
@@ -227,55 +277,79 @@ ${path}";
 
             }, {
 
-                extend: 'copyHtml5',
+                extend: 'copy',
 
-                exportData: {decodeEntities: true},
+                /*            exportData: {decodeEntities: true}, */
                 text: '클립보드에 복사',
                 exportOptions: {
                     columns: ':visible',
+                    rows: ':visible',
                     encoding: 'UTF-8'
 
                 }
             }, {
-                extend: 'csvHtml5',
+                extend: 'csv',
 
-                exportData: {decodeEntities: true},
-                title: '입/출고내역' + getCurrentDateTime(),
+                /*                 exportData: {decodeEntities: true}, */
+                title: '입/출고 추가 ' + getCurrentDateTime(),
                 exportOptions: {
                     columns: ':visible',
+                    rows: ':visible',
                     encoding: 'UTF-8'
                 }
             }, {
-                extend: 'excelHtml5',
-                title: '입/출고내역' + getCurrentDateTime(),
-                exportData: {decodeEntities: true},
+                extend: 'excel',
+                title: '입/출고 추가 ' + getCurrentDateTime(),
+                /*                 exportData: {decodeEntities: true}, */
                 exportOptions: {
                     columns: ':visible',
+                    rows: ':visible',
                     encoding: 'UTF-8'
 
                 }
             }, {
                 extend: 'pdfHtml5',
-                exportData: {decodeEntities: true},
+                /*          exportData: {decodeEntities: true}, */
                 text: 'PDF',
-                title: '입/출고내역' + getCurrentDateTime(),
+                title: '입/출고 추가 ' + getCurrentDateTime(),
+                font: 'hangul',
                 exportOptions: {
                     columns: ':visible',
+                    rows: ':visible',
                     encoding: 'UTF-8',
-                    /*             font: 'NanumGothic',*/
+
+                    /*font: 'hangul',*/
+                    customize: function (doc) {
+                        // 폰트 설정 추가
+                        /*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*/
+                        doc.defaultStyle.fonts = 'Roboto';
+                        doc.defaultStyle.font = 'Roboto';
+                        modifier: {
+                            page: 'current'
+                        }
+                        /*                        /!*    doc.defaultStyle.font = 'hangul'; // 폰트 패밀리 이름
+                                                doc.styles.tableHeader.font = 'hangul';
+                                                doc.styles.tableHeader.fontSize = 'hangul';
+                                                doc.defaultStyle.fontSize = 'hangul';// 테이블 헤더에 적용할 폰트*!/*/
+                    },
                     /*                    customize: function (doc) {
                                             // 폰트 설정 추가
-                                            doc.defaultStyle.font = 'NanumGothic'; // 폰트 패밀리 이름
-                                            doc.styles.tableHeader.font = 'NanumGothic'; // 테이블 헤더에 적용할 폰트
+                                       /!*     doc.defaultStyle.styles.tableBodyEven.font = 'hangul';*!/
+                                           /!* doc.defaultStyle.fonts = 'hangul';*!/
+
+                                        /!*    doc.defaultStyle.font = 'hangul'; // 폰트 패밀리 이름
+                                            doc.styles.tableHeader.font = 'hangul';
+                                            doc.styles.tableHeader.fontSize = 'hangul';
+                                            doc.defaultStyle.fontSize = 'hangul';// 테이블 헤더에 적용할 폰트*!/
                                         },*/
-                    /*                    format: {
-                                            body: function (data, row, column, node) {
-                                                // 한글 폰트 설정
-                                                var font = 'NanumGothic'; // 사용하고자 하는 폰트명으로 변경해주세요.
-                                                node.style.fontFamily = font;
-                                                return node;
-                                            }
-                                        },*/
+                    /*          format: {
+                                  body: function (data, row, column, node) {
+                                      // 한글 폰트 설정
+                                      var font = 'hangul'; // 사용하고자 하는 폰트명으로 변경해주세요.
+                                      node.style.fontFamily = font;
+                                      return node;
+                                  }
+                              },*/
                     /*                    customize: function (doc) {
                                             doc.defaultStyle.font = 'NanumGothic';
                                             doc.styles.tableHeader.font = 'NanumGothic';
@@ -284,10 +358,11 @@ ${path}";
 
             }, {
                 extend: 'print',
-                title: '입/출고내역' + getCurrentDateTime(),
-                exportData: {decodeEntities: true},
+                title: '입/출고 추가 ' + getCurrentDateTime(),
+                /*           exportData: {decodeEntities: true}, */
                 exportOptions: {
                     columns: ':visible',
+                    rows: ':visible',
                     encoding: 'UTF-8'
                 }
             }
@@ -323,6 +398,7 @@ ${path}";
 
             }
         });
+
         $('#example1').editableTableWidget().on('change', function (e, newValue) {
             // 셀의 데이터가 변경되었을 때의 처리
             var cell = $(e.target);
@@ -334,7 +410,22 @@ ${path}";
             data[columnIdx] = newValue; // 데이터 배열 업데이트
             table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트
         });
+        var table = $('#example1').DataTable();
 
+        /*        // 각 열에 대한 검색을 수행할 수 있는 셀렉트 박스 추가
+                table.columns().every(function() {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+
+                    column.data().unique().sort().each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>');
+                    });
+                });*/
         // 편집 가능한 테이블에서 행이 수정될 때 발생하는 이벤트
         /*$('#example1').on('edit', function (e, datatable, cell) {
                 // 수정된 셀의 행 인덱스 가져오기
@@ -378,8 +469,46 @@ ${path}";
         });*/
 
     });
+    /*
+        alert("test")
+        $('#example1').DataTable().order([0, 'asc']).draw();
+    */
 
+    /*     let minDate, maxDate;
 
+        // Custom filtering function which will search data in column four between two values
+        DataTable.ext.search.push(function (settings, data, dataIndex) {
+            let min = minDate.val();
+            let max = maxDate.val();
+            let date = new Date(data[3]);
+
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        // Create date inputs
+        minDate = new DateTime('#min', {
+            format: 'MMMM Do YYYY'
+        });
+        maxDate = new DateTime('#max', {
+            format: 'MMMM Do YYYY'
+        });
+
+        // DataTables initialisation
+        let table = new DataTable('#example1');
+
+        // Refilter the table
+        document.querySelectorAll('#min, #max').forEach((el) => {
+            el.addEventListener('change', () => table.draw());
+        });
+     */
 </script>
 <%--<script>
     $(document).ready(
@@ -611,14 +740,16 @@ ${path}";
             <div class="content-header">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h4 class="page-title">입고내역</h4>
+                        <h4 class="page-title">입고/출고 내역</h4>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
                                     <li class="breadcrumb-item" aria-current="page">입/출고 관리</li>
-                                    <li class="breadcrumb-item active" aria-current="page">입고내역</li>
+                                    <li class="breadcrumb-item active" aria-current="page">입/출고
+                                        내역
+                                    </li>
                                 </ol>
                             </nav>
                         </div>
@@ -650,44 +781,42 @@ ${path}";
 
                                     <input name="group1" type="radio" id="write_Option_1" checked>
 
-                                    <label for="write_Option_1">입고</label>
-
-                                    <input name="group1" type="radio" id="write_Option_2"> <label
-                                        for="write_Option_2">출고</label>
+                                    <label for="write_Option_1">입고</label> <input name="group1"
+                                                                                  type="radio" id="write_Option_2">
+                                    <label
+                                            for="write_Option_2">출고</label>
 
                                     <div>
-                                        <input class="form-control" type="datetime-local" value="<%=formattedNow%>"
-                                               id="example-datetime-local-input">
+                                        <input class="form-control" type="datetime-local"
+                                               value="<%=formattedNow%>" id="example-datetime-local-input">
                                     </div>
 
                                     <div>
-                                        <label class="form-label">담당자</label>
-                                        <select class="form-control select2" multiple="multiple"
-                                                data-placeholder="Select a State"
-                                                style="width: 100%;">
-                                            <option>부서 가져오기</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
-                                        </select>
+                                        <label class="form-label">담당자</label> <select
+                                            class="form-control select2" multiple="multiple"
+                                            data-placeholder="Select a State" style="width: 100%;">
+                                        <option>부서 가져오기</option>
+                                        <option>Alaska</option>
+                                        <option>California</option>
+                                        <option>Delaware</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option>Washington</option>
+                                    </select>
                                     </div>
 
                                     <div>
-                                        <label class="form-label">거래처</label>
-                                        <select class="form-control select2" multiple="multiple"
-                                                data-placeholder="Select a State"
-                                                style="width: 100%;">
-                                            <option>부서 가져오기</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
-                                        </select>
+                                        <label class="form-label">거래처</label> <select
+                                            class="form-control select2" multiple="multiple"
+                                            data-placeholder="Select a State" style="width: 100%;">
+                                        <option>부서 가져오기</option>
+                                        <option>Alaska</option>
+                                        <option>California</option>
+                                        <option>Delaware</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option>Washington</option>
+                                    </select>
                                     </div>
                                     <%--				<div class="dropzone" id="myDropzone">
                                                         <div class="fallback">
@@ -695,12 +824,9 @@ ${path}";
                                                         </div>
                                                     </div>--%>
                                     <div>
-                                        부가세 포함 여부
-                                        <input name="group2" type="radio" id="vat_Option_1" checked>
-
-                                        <label for="vat_Option_1">포함</label>
-
-                                        <input name="group2" type="radio" id="vat_Option_2"> <label
+                                        부가세 포함 여부 <input name="group2" type="radio" id="vat_Option_1"
+                                                         checked> <label for="vat_Option_1">포함</label> <input
+                                            name="group2" type="radio" id="vat_Option_2"> <label
                                             for="vat_Option_2">제외</label>
                                     </div>
 
@@ -717,17 +843,19 @@ ${path}";
                                                 </button>
                                             </div>
                                         </div>
-                                        <div id="basicFileForm" class="input-group mb-3" style="padding:0px;">
+                                        <div id="basicFileForm" class="input-group mb-3"
+                                             style="padding: 0px;">
 
                                             <span class="input-group-text1">첨부파일 1</span>
 
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="upFile" id="upFile1">
-                                                <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
+                                                <input type="file" class="custom-file-input" name="upFile"
+                                                       id="upFile1"> <label class="custom-file-label"
+                                                                            for="upFile1">파일을 선택하세요</label>
                                             </div>
                                         </div>
                                         <textarea class="form-control" name="iv_memo" placeholder="적요"
-                                                  required></textarea>
+                                        ></textarea>
                                         <br/>
                                         <button type="submit" class="btn btn-primary">
                                             <i class="ti-save-alt"></i> 저장
@@ -766,6 +894,7 @@ ${path}";
                                                         }
                                                     };
                                                 </script>--%>
+
 
                             <script>
                                 const adddelFunction = (function () {
@@ -818,6 +947,18 @@ ${path}";
 
                         <div class="box-body">
                             <div class="table-responsive">
+                                <!--                                 <table border="0" cellspacing="5" cellpadding="5">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td>Minimum date:</td>
+                                                                        <td><input type="text" id="min" name="min"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Maximum date:</td>
+                                                                        <td><input type="text" id="max" name="max"></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table> -->
 
                                 <table id="example1"
                                        class="table table-bordered table-separated">
@@ -847,24 +988,41 @@ ${path}";
                                             <td name="dontedit">수량</td>
                                             <td name="dontedit" data-column-name="IV_DATE"
                                                 data-table-name="INVENTORY">${iv.IV_DATE}</td>
-                                            <td name="dontedit"
-                                            ">결제여부</td>
+                                            <td name="dontedit">결제여부</td>
                                             <td name="dontedit" data-column-name="SEND_BRC_ID"
                                                 data-parent-column="BRANCH_NAME"
                                                 data-table-name="BRANCH">${iv.SEND_BRANCH_NAME}</td>
-                                            <td data-column-name="SEND_EMP_ID" data-parent-column="EMP_NAME"
+                                            <td data-column-name="SEND_EMP_ID"
+                                                data-parent-column="EMP_NAME"
                                                 data-table-name="EMPLOYEE">${iv.SEND_EMP_NAME}</td>
                                             <td name="dontedit">금액합계</td>
                                             <td data-column-name="IV_VAT_TYPE"
+                                                data-parent-column="IV_VAT_TYPE"
                                                 data-table-name="INVENTORY">${iv.IV_VAT_TYPE}</td>
                                             <td data-column-name="IV_MEMO" data-parent-column="IV_MEMO"
                                                 data-table-name="INVENTORY">${iv.IV_MEMO}</td>
                                             <td>
-    										<form action="${path}/logistics/inventory/List/delete" method="post">
-        									<input type="hidden" name="iv_id" value="${iv.IV_ID}">
-        									<button type="submit" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>
-    										</form>
-											</td>
+                                                <form id="deleteForm"
+                                                      action="${path}/logistics/inventory/List/delete"
+                                                      method="post" style="display: none;">
+                                                    <input type="hidden" name="iv_id" id="deleteId">
+                                                </form>
+                                                <script>
+                                                    function confirmDeletion(ivId) {
+                                                        if (confirm('정말로 삭제 하시겠습니까?')) {
+                                                            document.getElementById('deleteId').value = ivId; // ivId는 삭제할 항목의 ID
+                                                            document.getElementById('deleteForm').submit(); // 폼 제출
+                                                        }
+                                                    }
+                                                </script>
+                                                <button type="button"
+                                                        onclick="confirmDeletion(${iv.IV_ID})"
+                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
+                                                    삭제
+                                                </button>
+
+                                            </td>
+
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -889,6 +1047,7 @@ ${path}";
                         </div>
                     </div>
                 </div>
+
 
                 <div class="row"></div>
             </section>

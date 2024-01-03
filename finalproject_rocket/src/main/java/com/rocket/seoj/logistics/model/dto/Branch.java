@@ -45,8 +45,6 @@ public class Branch {
 		branch.setBranchIsdel(branchDto.getBranchIsdel());
 		branch.setBranchAddr(branchDto.getBranchAddr());
 		
-		// 'employeeList', 'inventoryList', 'stockList'는 여기서 처리하지 않습니다.
-		// 이러한 필드는 별도의 로직을 통해 처리해야 할 수도 있습니다.
 		
 		return branch;
 	}

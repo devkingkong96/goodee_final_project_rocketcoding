@@ -94,10 +94,6 @@ public class LoginController {
 		return "test";
 	}
 	
-	@RequestMapping("/chat")
-	public String chat() {
-		return "chat/chatting";
-	}
 	
 	@RequestMapping("/login")
 	public String login() {

@@ -150,7 +150,7 @@
 			    </a>
 			</li> -->
 			<li class="btn-group nav-item d-xl-inline-flex d-none">
-				<a href="${path }/chat" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" id="live-chat">
+				<a href="${path }/chat/list" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" id="live-chat">
 					<i class="icon-Chat"><span class="path1"></span><span class="path2"></span></i>
 			    </a>
 			</li>
@@ -260,7 +260,7 @@
 				  </a>
 				</li>
 				<li>
-				  <a href="${path }/chat">
+				  <a href="${path }/chat/list">
 					<i class="fa fa-comments"></i>
 					<span>채팅</span>
 				  </a>

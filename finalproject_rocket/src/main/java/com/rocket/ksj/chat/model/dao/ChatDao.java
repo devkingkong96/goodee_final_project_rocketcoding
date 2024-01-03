@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.rocket.ksj.chat.model.dto.EmpChat;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +17,18 @@ public class ChatDao {
 	public List<Map<String, Object>>selectEmployeeAll(SqlSession session){
 		return session.selectList("employee.selectEmployeeAll");
 	}
-	
-	
-	
-	//회원의 채팅방 가져오기
-	public List<EmpChat> selectAllRooms(int empNo,SqlSession session){
-		return session.selectList("empchat.selectAllRooms",empNo);
+	//회원의 채팅방,중간테이블 가져오기
+	public List<Map<String, Object>> selectChatAll(SqlSession session,int empNo){
+		return session.selectList("empchat.selectChatAll",empNo);
 	}
-	
+	//채팅방 생성
+	public int createChatRoom(SqlSession session,int count) {
+		return session.insert("chatroom.createChatRoom",count);
+	}
+	//채팅방 전체 출력하기
+	public List<Map<String, Object>>selectRoomAll(SqlSession session){
+		return session.selectList("chatroom.selectRoomAll");
+	}
 	
 	
 }

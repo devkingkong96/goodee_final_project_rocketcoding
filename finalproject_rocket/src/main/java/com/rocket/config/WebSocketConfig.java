@@ -17,7 +17,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		//WebSocket 또는 SockJs Client가 웹소켓 핸드셰이크 커넥션을 생성할 경로
 		// stomp 접속 주소 url -> /ws/chat
-		registry.addEndpoint("/ws/chat").setAllowedOrigins("*"); //.withSockJs(); ->연결될 엔드포인트
+		// 웹소켓 session을 Httpsession으로 인터셉터
+		registry.addEndpoint("/ws/chat").addInterceptors(null).setAllowedOrigins("*"); //.withSockJs(); ->연결될 엔드포인트
 //		registry.addEndpoint("/ws/chat").setAllowedOrigins("http://localhost:8080"); //위에 코드가 오류날 시 이 코드로
 	}
 	

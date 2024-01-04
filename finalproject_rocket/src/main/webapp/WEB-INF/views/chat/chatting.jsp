@@ -25,9 +25,9 @@
 									<div class="d-lg-flex d-block justify-content-between align-items-center w-p100">
 										<div class="media-body mb-lg-0 mb-20">
 											<p class="fs-16">
-											  <a class="hover-primary" href="#"><strong>채팅방 이름</strong></a>
+											  <a class="hover-primary" href="#"><strong><c:out value="${room.CHATROOM_NO }"/></strong></a>
 											</p>
-											  <p class="fs-12">채팅방 인원 수 : </p>
+											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.EMP_COUNT }"/></p>
 										</div>
 										<div>
 											<ul class="list-inline mb-0 fs-18">
@@ -40,69 +40,58 @@
 							  <div class="box-body">
 								  <div class="chat-box-one2">
 								  	<div class="row">
-								  	<div class="col-12">
-									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted">09:25</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<strong><p class="mb-0 fs-16 text-dark">유병승</p></strong>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-20">
-												<p class="mb-0 text-semi-muted">마, 잘하고있나.</p>
-											</div>
-										</div>
-									  </div>
-									  </div>
-									  <div class="col-12">
-									  <div class="card d-inline-block mb-3 float-end me-2 bg-info max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small">09:41</span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<strong><p class="mb-0 fs-16">김순진</p></strong>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-20">
-												<p class="mb-0 text-semi-muted">넵</p>
-											</div>
-										</div>
-									  </div>
-								  </div>
+								  <c:if test="${not empty messages }">
+								  <c:forEach var="msg" items="${messages }">
+								  <c:choose>
+								  <c:when test="${msg.MSG_EMP_NO==empinfo.empNo }">
 								  <div class="col-12">
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-info max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small">09:41</span>
+											<span class="text-extra-small"><c:out value="${msg.SEND_AT }"/></span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
 												<div class="d-flex flex-grow-1 min-width-zero">
 													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
 														<div class="min-width-zero">
-															<strong><p class="mb-0 fs-16">김순진</p></strong>
+															<strong><p class="mb-0 fs-16"><c:out value="${empinfo.empName }"/></p></strong>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="chat-text-start ps-20">
-												<p class="mb-0 text-semi-muted">넵ssssssssssssssssssssㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁ</p>
+												<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
 											</div>
 										</div>
 									  </div>
 								  </div>
+									  </c:when>
+									  <c:otherwise>
+									  	<div class="col-12">
+									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
+										<div class="position-absolute pt-1 pe-2 r-0">
+											<span class="text-extra-small text-muted"><c:out value="${msg.SEND_AT }"/></span>
+										</div>
+										<div class="card-body">
+											<div class="d-flex flex-row pb-2">
+												<div class="d-flex flex-grow-1 min-width-zero">
+													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
+														<div class="min-width-zero">
+															<strong><p class="mb-0 fs-16 text-dark"><c:out value="${msg.MSG_EMP_NO }"/></p></strong>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="chat-text-start ps-20">
+												<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
+											</div>
+										</div>
+									  </div>
+									  </div>
+									  </c:otherwise>
+								  </c:choose>
+								  </c:forEach>
+								  </c:if>
 								  </div>
 								  </div>
 							  </div>

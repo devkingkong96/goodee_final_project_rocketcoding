@@ -47,26 +47,6 @@ public class ChatController {
 		return "chat/chatlist";
 	}
 	
-	@PostMapping
-	public String chatCreateRoom(Model m,int count) {
-		int result=service.createChatRoom(count);
-		
-		String msg,loc;
-		
-		if(result>0) {
-			msg="대화방 생성 성공";
-			loc="chat/list";
-		}else {
-			msg="대화방 생성 실패";
-			loc="chat/list";
-		}
-		
-		m.addAttribute("msg",msg);
-		m.addAttribute("loc",loc);
-		
-		return "common/msg";
-	}
 	
-//	@GetMapping("roomid")
-//	public String chat
+	
 }

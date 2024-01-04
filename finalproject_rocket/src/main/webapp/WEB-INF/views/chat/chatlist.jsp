@@ -4,9 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<title>채팅 페이지</title>
+<title>채팅방 목록</title>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="채팅 페이지" value=""/>
+	<jsp:param name="채팅방 목록" value=""/>
 </jsp:include>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -38,8 +38,8 @@
 											  <p class="align-self-center me-0"><img class="avatar avatar-lg" src="${path}/resources/images/avatar/2.jpg" alt="..."></p>
 											  <div class="media-body">
 												<p>
-												  <a class="hover-primary" href="#"><strong><c:out value="${c.CHATROOM_NO }"/></strong></a>
-												  <span class="float-end fs-10"><fmt:formatDate value="${c.CREATED_AT }" /></span>
+												  <a class="hover-primary" href="${path }/chat/room/${c.CHATROOM_NO}"><strong><c:out value="${c.CHATROOM_NO }"/></strong></a>
+												  <span class="float-end fs-10"><fmt:formatDate value="${c.CREATED_AT }" pattern="yyyy.MM.dd" /></span>
 												</p>
 												<p>참여 인원 수 : <c:out value="${c.EMP_COUNT }"/></p>
 											  </div>

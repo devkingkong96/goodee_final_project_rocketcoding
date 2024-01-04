@@ -1,5 +1,6 @@
 package com.rocket.jsy.employee.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,9 @@ public interface EmployeeService {
 	
 	Map<String, Object> selectEmployeeByNo(int EmpNo);
 	
-	int insertEmployee(Employee e);
+//	int insertEmployee(Employee employee, int dwrulesCode);
 	
-	int updateEmployee(Employee e);
+	int insertEmployee(Employee employee);
 
 	List<Map<String, Object>> selectEmployeeMyPageCalendar();
 

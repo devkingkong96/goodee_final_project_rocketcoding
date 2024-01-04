@@ -14,7 +14,9 @@ public interface EmployeeDao {
 	
 	Map<String, Object> selectEmployeeByNo(SqlSession session, int empNo);
 	
-	int insertEmployee(SqlSession session, Employee e);
+//	int insertEmployee(SqlSession session, Map<String, Object> params);
+	
+	int insertEmployee(SqlSession session, Employee employee);
 	
 	int updateEmployee(SqlSession session, Employee e);
 

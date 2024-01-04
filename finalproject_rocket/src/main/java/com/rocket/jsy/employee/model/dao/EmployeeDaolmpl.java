@@ -25,10 +25,10 @@ public class EmployeeDaolmpl implements EmployeeDao{
 		return session.selectOne("employee.selectEmployeeByNo",empNo);
 	}
 
-	@Override
-	public int insertEmployee(SqlSession session, Employee e) {
-		return session.insert("employee.insertEmployee",e);
-	}
+//	@Override
+//    public int insertEmployee(SqlSession session, Map<String, Object> params) {
+//        return session.insert("employee.insertEmployee", params);
+//    }
 
 	@Override
 	public int updateEmployee(SqlSession session, Employee e) {
@@ -37,6 +37,10 @@ public class EmployeeDaolmpl implements EmployeeDao{
 	@Override
 	public List<Map<String, Object>> selectEmployeeMyPageCalendar(SqlSession session) {
 	    return session.selectList("employee.selectEmployeeMyPageCalendar");
+	}
+	@Override
+	public int insertEmployee(SqlSession session, Employee employee) {
+	    return session.insert("employee.insertEmployee", employee);
 	}
 	
 }

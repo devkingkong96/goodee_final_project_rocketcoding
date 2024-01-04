@@ -26,6 +26,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	    
 	    return result;
 	}
+
+	@Override
+	public List<Map<String, Object>> findName(SqlSession session, Integer depCode) {
+		
+		return session.selectList("approval.findName",depCode);
+	}
 	
 	
 }

@@ -188,46 +188,58 @@
 											<li class="treeview">
 												
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;												
-												<input name="group4" type="radio" id="radio_1" class="radio-col-danger" />
-												<label for="radio_1">일부</label>
+												<input name="group4" type="radio" id="1" class="radio-col-danger" />
+												<label for="1">일부</label>
 												
 											</li>												
 											<li class="treeview">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												<input name="group4" type="radio" id="radio_2" class="radio-col-danger" />
-												<label for="radio_2">인사부</label>
+												<input name="group4" type="radio" id="2" class="radio-col-danger" />
+												<label for="2">인사부</label>
 											</li>										
 											<li class="treeview">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												<input name="group4" type="radio" id="radio_3" class="radio-col-danger" />
-												<label for="radio_3">재고부</label>
+												<input name="group4" type="radio" id="3" class="radio-col-danger" />
+												<label for="3">재고부</label>
 											</li>									
 											<li class="treeview">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												<input name="group4" type="radio" id="radio_13" class="radio-col-danger" />
-												<label for="radio_13">부부</label>
+												<input name="group4" type="radio" id="4" class="radio-col-danger" />
+												<label for="4">부부</label>
 											</li>
 											<li class="treeview">
-												<a href="#">
-													<i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>아이부
-													<span class="pull-right-container">
-														<i class="fa fa-angle-right pull-right"></i>
-													</span>
-												</a>
-												<ul class="treeview-menu">
-													<li><a href="component_bootstrap_switch.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>장원영</a></li>
-													<li><a href="component_date_paginator.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>안유진</a></li>	
-												</ul>
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input name="group4" type="radio" id="5" class="radio-col-danger" />
+												<label for="5">아이부</label>
+												
 											</li>  
 										  </ul>
 										</li>                        
                                         </div>
-                                            <div id="btn-container" class="b-groove">
-                                                select emp_name from employee where 부서코드 =
+                                            <div id="btn-container" class="">
+                                                <div class="col-12">
+											<div class="">
+												<div class="box-header with-border">
+													<h4 class="box-title text-primary" id="peo-heder">People</h4>
+												</div>
+												<div class="box-body" id="dep-container">
+			
+			
+				
+														
+											</div>
+										</div>
+									  </div>
                                             </div>
-                                            <div id="table-container" class="b-groove">
-                                                그거 저장해야되는데 어케하지????
-                                            </div>
+                                  <div class="b-groove">
+                                    	결재자
+                                    <div class="b-groove">
+                                    	참조자
+                                 	</div>
+                                  </div>
+                                            
+                                            
+                                            
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal">Close</button>
@@ -246,22 +258,10 @@
     </div>
 </div>
 <!-- /.content-wrapper -->
-<script>
-    $(function() {
-        // 6 create an instance when the DOM is ready
-        $('#jstree').jstree();
-        // 7 bind to events triggered on the tree
-        $('#jstree').on("changed.jstree", function(e, data) {
-            console.log(data.selected);
-        });
-    });
-</script>
-
-
-
 
 <script>
-    function tagSelect() {
+	//태그선택하게하기
+	function tagSelect() {
         var x = document.getElementById("tagSelect").value;
 
         if (x === "option1") {
@@ -323,17 +323,55 @@
         }
     }
 </script>
+
 <script>
+	//ajax통신
+	$('input[type=radio][name=group4]').change(function() {
+	    $.ajax({
+	        url: '${path}/docu/checkDept', 
+	        type: 'GET',
+	        data: {
+	            DEP_CODE: this.id
+	        },
+	        success: function(data) {
+
+	        	 var html = '';
+	             for (var i = 0; i < data.length; i++) {
+	                 html += '<div class="d-flex align-items-center mb-30">'
+	                 html += '<div class="me-15">'
+	                 html += '<img src="../../../images/avatar/1.jpg" class="avatar avatar-lg rounded10" alt="" />' 
+	                 html += '</div>'
+	                 html += '<div class="d-flex flex-column fw-500">'
+	                 html += '<a href="#" class="text-dark hover-primary mb-1 fs-16">'+ data[i].EMP_NAME +'</a>'
+	                 html += '<span class="text-mute">'+data[i].EMP_LV+'</span>'
+	                 html += ''
+	                 html += '<input type="hidden" value="'+data[i].EMP_NO+'">'
+	                 html += '</div>'
+	                 html += '</div>'
+	            	/*  html += '<p>' + data[i].EMP_LV + ' ' + data[i].EMP_NAME + '</p>'; */
+	             }
+	             document.getElementById("dep-container").innerHTML = html;
+	              
+	        }
+	    });
+	});
+
+	
 
 
-
-
+</script>
+<script type="text/javascript">
+//라디오 라벨이랑 헤더랑 이름같게
+$(document).ready(function() {
+    $('input[type=radio][name=group4]').change(function() {
+        var selectedLabel = $("label[for='"+ $(this).attr('id') +"']").text();
+        $('#peo-heder').text(selectedLabel);
+    });
+});
 </script>
 
 
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-<!-- jstree CSS -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+

@@ -25,7 +25,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Map<String, Object>> ckLvList(List<Map<String, Object>> ckLvList) {
 		
 		return dao.ckLvList(session,ckLvList);
-	} 
+	}
+	@Override
+	public List<Map<String, Object>> findName(Integer depCode) {
+		
+		return dao.findName(session,depCode);
+	}
+	
 	
 	
 }

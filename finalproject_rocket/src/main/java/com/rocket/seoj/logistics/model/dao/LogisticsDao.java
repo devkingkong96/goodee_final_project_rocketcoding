@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,7 +29,7 @@ public class LogisticsDao {
 	                        String parentTableName,
 	                        String parentColumnId,
 	                        String parentColumnName,
-	                        String columnId) {
+	                        String columnId) throws DataAccessException {
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", id);
 		params.put("columnName", columnName);
@@ -43,16 +44,24 @@ public class LogisticsDao {
 		   + columnName + ", " + tableName + ", " + value + ", " + parentTableName
 		   + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
 		
-		if (parentTableName.equals(tableName)) {
-			return session.update("inventory.updateColumn_sameTable", params);
-		} else {
-			return session.update("inventory.updateColumn", params);
+		try {
+			
+			if (parentTableName.equals(tableName)) {
+				return session.update("inventory.updateColumn_sameTable", params);
+			} else {
+				return session.update("inventory.updateColumn", params);
+			}
 		}
+		catch (DataAccessException e) {
+			throw e;
+		}
+		
 	}
 	
 	public int deleteInventoryColumn(SqlSession session,
 	                                 Long inventoryId) {
-		return session.delete("inventory.deleteInventoryColumn", inventoryId);
+		return session.update("inventory.deleteInventoryColumn", inventoryId);
+		
 	}
 	
 	public int deleteInventoryAttach(SqlSession session,
@@ -63,6 +72,15 @@ public class LogisticsDao {
 	public int deletePrdInventory(SqlSession session,
 	                              Long inventoryId) {
 		return session.delete("inventory.deletePrdInventory", inventoryId);
+	}
+	
+	public List<Map<String, Object>> selectWriteInventory(SqlSession session) {
+		return session.selectList("inventory.selectWriteInventory");
+	}
+	
+	public Map<String, Object> getProductInfo(SqlSession session,
+	                                          long id) {
+		return session.selectOne("inventory.getProductInfo", id);
 	}
 	
 }

@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
    generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Tag {
 	
-	private int docTag;
+	private long docTag;
 	private String tagName;
 	private String tagCont;
 	
-	/* private long docNo; */
+	private long docNo;
 }

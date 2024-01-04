@@ -1,5 +1,11 @@
 package com.rocket.seoj.logistics.model.dto;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.rocket.jsy.employee.model.dto.Employee;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +29,9 @@ public class Branch {
 	private String branchIsdel;
 	private String branchAddr;
 	
+	
+	
+	
 	public static Branch from(BranchDto branchDto) {
 		
 		if (branchDto == null) {
@@ -35,6 +44,7 @@ public class Branch {
 		branch.setBranchType(branchDto.getBranchType());
 		branch.setBranchIsdel(branchDto.getBranchIsdel());
 		branch.setBranchAddr(branchDto.getBranchAddr());
+		
 		
 		return branch;
 	}

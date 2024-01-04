@@ -14,10 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatRoom {
 	
-	private int chatRoomId;
-	private String chatRoomName;
+	private int chatRoomNo;
 	private int empCount;
 	private Date createdAt;
-	private String status;
 	
 }

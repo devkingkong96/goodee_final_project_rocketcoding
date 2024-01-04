@@ -8,13 +8,15 @@ import org.apache.ibatis.session.SqlSession;
 import com.rocket.jsy.employee.model.dto.Employee;
 
 public interface EmployeeDao {
-	List<Employee> selectEmployeeAll(SqlSession session);
+	List<Map<String, Object>> selectEmployeeAll(SqlSession session);
 	
-	List<Employee>selectEmployeeHolidayAll(SqlSession session);
+	List<Map<String, Object>> selectEmployeeHolidayAll(SqlSession session);
 	
-	Employee selectEmployeeByNo(SqlSession session, String empNo);
+	Map<String, Object> selectEmployeeByNo(SqlSession session, int empNo);
 	
-	int insertEmployee(SqlSession session, Employee e);
+//	int insertEmployee(SqlSession session, Map<String, Object> params);
+	
+	int insertEmployee(SqlSession session, Employee employee);
 	
 	int updateEmployee(SqlSession session, Employee e);
 

@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EmpChat {
 	
-	private int empNo;
-	private int chatRoomId;
+	private int empChatNo; //중간테이블 pk값
+	private int emChEmpNo; //직원테이블 fk값
+	private int emChRoomNo;//채팅방 fk값
+	private String chBookMark;//북마크 Y/N
+	private String chatRoomName;//채팅방 이름
 }

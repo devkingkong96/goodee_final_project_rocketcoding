@@ -7,6 +7,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param name="title" value=""/>
 </jsp:include>
+<style>
+    .selected {
+        background-color: #f8f9fa;  // 여기에 원하는 색상을 설정하면 됩니다.
+    }
+</style>
  <!-- extract 버튼 가져오기 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -31,44 +36,29 @@
 
 			  <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">사원별휴가사용조회</h3>
-				  <h6 class="box-subtitle">휴가일수조회</h6>
+				  <h3 class="box-title">부서현황</h3>
+       				<h6 class="box-subtitle" data-toggle="modal" data-target="#myModal">부서등록</h6>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
 					<div class="table-responsive">
 					  <table id="example" class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
 						<thead>
-							<tr>
-								<th>사원번호</th>
-								<th>사원이름</th>								
-								<th>휴가종류</th>
-								<th>휴가사유</th>
-								<th>사용기간</th>
+							<tr class="editable">
+								<th>부서번호</th>
+								<th>부서명</th>
+								<th>부서별 인원수</th>
 							</tr>
 						</thead>
 						<tbody>
-				    <c:forEach var="employees" items="${employees}">
-				        <%-- <c:forEach var="document" items="${employee.documentList}"> --%>
-				            <tr>
-				                <td>${employees.EMP_NO}</td>
-				                <td>${employees.EMP_NAME}</td>
-				                <td>${employees.DOC_NO}</td>
-				                <td>${employees.DOC_TITLE}</td>
-				                <td>${employees.START_DATE} ~ ${employees.END_DATE}</td>
-				            </tr>
-				        <%-- </c:forEach> --%>
-				    </c:forEach>
-					</tbody>
-				<tfoot>
-				    <tr>
-				        <th>사원번호</th>
-				        <th>사원이름</th>								
-				        <th>휴가종류</th>
-				        <th>휴가사유</th>
-				        <th>사용기간</th>
-				    </tr>
-				</tfoot>
+						    <c:forEach var="departments" items="${departments}">
+								<tr class="editable">						          
+						            <td>${departments.DEP_CODE}</td>
+						            <td>${departments.DEP_NAME}</td>
+						        	<td>${departments.DEP_COUNT}</td>
+						        </tr>
+						    </c:forEach>
+						</tbody>			  
 					</table>
 					</div>              
 				</div>
@@ -79,12 +69,42 @@
 			<!-- /.col -->
 		  </div>
 		  <!-- /.row -->
-				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary w-100 mb-2">휴가항목등록</button>
-				</div>
       </section>
    </div>
 </div>
-	
-
+<!-- 규칙 추가 모달창 -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><strong>부서등록</strong></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+    <form id="departmentForm" action="/department/add" method="post">
+        <table class="table table-striped-columns">
+            <tr>
+                <td>부서명</td>
+                <td><input type="text" id="depName" name="depName"/></td>
+            </tr>
+        </table>
+        <div id="checkMsg" style="color: red"></div>
+    </form>
+	</div>
+	<div class="modal-footer">
+	    <button type="submit" form="departmentForm" class="btn btn-info float-end">저장</button>
+	    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+	</div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<script>
+$(document).ready(function() {
+	  $('.box-subtitle').click(function() {
+	    $('#myModal').modal('show');
+	  });
+	});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

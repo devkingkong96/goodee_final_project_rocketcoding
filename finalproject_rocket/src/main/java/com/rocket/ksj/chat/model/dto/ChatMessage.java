@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 public class ChatMessage {
 	
 	private int messageId;
-	private int chatRoomId;
-	private int empNo;
-	private String messageType;
 	private String message;
 	private Date sendAt;
 	private String readCheck;
+	private int msgEmChNo; //중간테이블 fk키
+	private int msgEmpNo; //회원테이블 fk키
+	private int msgRoomNo; //채팅방 fk키
 	
 }

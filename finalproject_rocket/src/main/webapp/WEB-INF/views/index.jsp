@@ -34,7 +34,7 @@
 							  <c:forEach var="n" items="${notices }">
 							<tr>
 							  <th scope="row" colspan="3"><c:out value="${n.NOTICE_TITLE }"/></th>
-								  <td><c:out value="${n.NOTICE_DATE}"/></td>
+								  <td><fmt:formatDate value="${n.NOTICE_DATE}" pattern="yyyy.MM.dd" /></td>
 							</tr>
 								</c:forEach>
 							  </c:if>
@@ -65,7 +65,7 @@
 									  <c:forEach var="f" items="${fboardList }">
 									<tr>
 									  <th scope="row" colspan="3"><c:out value="${f.FBOARD_TITLE }"/></th>
-										  <td><c:out value="${f.FBOARD_DATE}"/></td>
+										  <td><fmt:formatDate value="${f.FBOARD_DATE}" pattern="yyyy.MM.dd" /></td>
 									</tr>
 										</c:forEach>
 									  </c:if>

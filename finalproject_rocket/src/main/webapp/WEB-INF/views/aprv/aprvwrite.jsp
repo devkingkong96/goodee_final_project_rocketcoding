@@ -13,6 +13,8 @@
 </jsp:include>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
 
 
 <style>
@@ -220,22 +222,28 @@
                                                 <div class="col-12">
 											<div class="">
 												<div class="box-header with-border">
-													<h4 class="box-title text-primary" id="peo-heder">People</h4>
+													<h1 class="box-title text-primary" id="peo-heder">People</h1>
 												</div>
-												<div class="box-body" id="dep-container">
-			
-			
-				
-														
+												<div class="column" id="dep-container">
+												<!--인원들출력란  -->		
 											</div>
 										</div>
 									  </div>
                                             </div>
-                                  <div class="b-groove">
-                                    	결재자
-                                    <div class="b-groove">
-                                    	참조자
-                                 	</div>
+                                  <div>
+                                  <h1 style="position: static; margin-right: 40px">결재자</h1>
+                                  <div class="column" style="width: 100%;">
+                                  </div>  	
+
+
+                                    
+                                  </div>
+                                <div>
+                                  <h1 style="position: static;">참조자</h1>
+                                  <div class="column" style="width: 100%">
+								</div>
+
+                                    
                                   </div>
                                             
                                             
@@ -337,17 +345,21 @@
 
 	        	 var html = '';
 	             for (var i = 0; i < data.length; i++) {
-	                 html += '<div class="d-flex align-items-center mb-30">'
+	            	 html += '<div class="column">' 
+	                 html += '<button class="draggable" draggable="true">'
+	            	 html += '<div class="d-flex align-items-center mb-30">'
 	                 html += '<div class="me-15">'
-	                 html += '<img src="../../../images/avatar/1.jpg" class="avatar avatar-lg rounded10" alt="" />' 
+	                 html += '<img src="../../../images/avatar/1.jpg" class="avatar avatar-lg rounded10" alt="" />'  
 	                 html += '</div>'
-	                 html += '<div class="d-flex flex-column fw-500">'
-	                 html += '<a href="#" class="text-dark hover-primary mb-1 fs-16">'+ data[i].EMP_NAME +'</a>'
+	                 html += '<div class="d-flex flex-column fw-500" style="width: 100px;height:50px">'
+	                 html += '<p  class="text-dark hover-primary mb-1 fs-16">'+ data[i].EMP_NAME +'</p>'
 	                 html += '<span class="text-mute">'+data[i].EMP_LV+'</span>'
 	                 html += ''
-	                 html += '<input type="hidden" value="'+data[i].EMP_NO+'">'
+	                 html += '<input type="hidden" value="'+data[i].EMP_NO+'" class="empNo">'
 	                 html += '</div>'
 	                 html += '</div>'
+	                 html += '</button>'
+	               	 html += '</div>' 
 	            	/*  html += '<p>' + data[i].EMP_LV + ' ' + data[i].EMP_NAME + '</p>'; */
 	             }
 	             document.getElementById("dep-container").innerHTML = html;
@@ -371,7 +383,40 @@ $(document).ready(function() {
 </script>
 
 
+<script>
+//드래그앤드롭
+//sorttable
+const columns = document.querySelectorAll(".column");
+columns.forEach((column) => {
+	  new Sortable(column, {
+	    group: "shared",
+	    animation: 150,
+	    ghostClass: "blue-background-class",
+	    onStart: function (evt) {
+	      // 드래그를 시작할 때 항목의 원래 리스트와 위치를 저장합니다.
+	      evt.item.oldParent = evt.from;
+	      evt.item.oldIndex = evt.oldIndex;
+	    },
+	    onAdd: function (evt) {
+	      const item = evt.item; // 드롭한 항목
+	      const empNo = item.querySelector('input[type="hidden"]').value; // 드롭한 항목의 empNo 값
+	      const items = evt.to.children; // 드롭한 위치의 모든 항목
+	      for (let i = 0; i < items.length; i++) {
+	        if (items[i] !== item && items[i].querySelector('input[type="hidden"]').value === empNo) {
+	          alert("중복된 요소가 있습니다.");
+	          
+	          // 중복이 발견되었을 때 항목을 원래 위치로 돌려놓습니다.
+	          evt.from.insertBefore(item, evt.from.children[item.oldIndex]);
+	          break;
+	        }
+	      }
+	    },
+	  });
+	});
 
+﻿
 
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
 

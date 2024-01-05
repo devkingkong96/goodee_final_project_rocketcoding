@@ -184,6 +184,9 @@ public class AprvController {
 	}
 	@GetMapping("/insertaprv")
 	public String insertAprvView(Model m) {		
+		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		m.addAttribute("user", e);
+		
 		return "aprv/aprvwrite";
 	}
 	

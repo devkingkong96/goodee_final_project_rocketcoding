@@ -254,7 +254,7 @@
 				  </a>
 				</li>
 				<li>
-				  <a href="ecommerce_products_edit.html">
+				  <a href="${path }/board/fboardlist">
 					<i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
 					<span>게시판</span>
 				  </a>

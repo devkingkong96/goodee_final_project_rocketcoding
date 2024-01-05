@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.rocket.ksj.chat.model.dao.ChatRoomDao;
+import com.rocket.ksj.chat.model.dto.ChatRoom;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +23,7 @@ public class ChatRoomService {
 		return dao.checkEmpChatByNo(session,no);
 	}
 	
-	public List<Map<String, Object>>selectRoomById(int roomNo){
+	public ChatRoom selectRoomById(int roomNo){
 		return dao.selectRoomById(session,roomNo);
 	}
 }

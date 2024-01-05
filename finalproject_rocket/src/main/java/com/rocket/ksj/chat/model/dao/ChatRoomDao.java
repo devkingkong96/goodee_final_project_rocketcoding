@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.rocket.ksj.chat.model.dto.ChatRoom;
+
 @Repository
 public class ChatRoomDao {
 
@@ -14,8 +16,8 @@ public class ChatRoomDao {
 		return session.selectOne("empchat.checkEmpChatByNo",no);
 	}
 	//ID로 특정 채팅방 정보 가져오기
-	public List<Map<String, Object>>selectRoomById(SqlSession session,int roomNo){
-		return session.selectList("chatroom.selectRoomById",roomNo);
+	public ChatRoom selectRoomById(SqlSession session,int roomNo){
+		return session.selectOne("chatroom.selectRoomById",roomNo);
 	}
 	
 }

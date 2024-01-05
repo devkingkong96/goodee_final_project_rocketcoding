@@ -1,11 +1,16 @@
 package com.rocket.pdw.aprv.model.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface ApprovalDao {
-	List<Map<String,Object>> selectAprvList(SqlSession session, int no);
-	List<Map<String,Object>> ckLvList(SqlSession session,List<Map<String, Object>> ckLvList);
+import com.rocket.pdw.aprv.model.dto.Tag;
+
+@Repository
+public class ApprovalDao {
+	
+	@Transactional
+	public int inserttag(SqlSession session, Tag dt) {
+		return session.insert("tag.inserttag", dt);
+	}
 }

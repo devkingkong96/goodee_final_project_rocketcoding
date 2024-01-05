@@ -88,16 +88,12 @@ public class LoginController {
 		return "index";
 	}
 	
-	@RequestMapping("/test")
+	@RequestMapping("/chatting")
 	public String test() {
 		
-		return "test";
-	}
-	
-	@RequestMapping("/chat")
-	public String chat() {
 		return "chat/chatting";
 	}
+	
 	
 	@RequestMapping("/login")
 	public String login() {

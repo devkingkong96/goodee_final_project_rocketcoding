@@ -14,7 +14,10 @@ import com.rocket.psh.board.model.dto.Notice;
 @Repository
 public class LoginDao {
 	
-	//아이디로 직원 찾기
+	public List<Employee>selectEmployeeAll(SqlSession session){
+		return session.selectList("employee.selectEmployeeAll");
+	}
+	
 	public Employee selectEmployeeByLoginId(SqlSession session,String empNo) {
 		return session.selectOne("employee.selectEmployeeByLoginId",empNo);
 	}

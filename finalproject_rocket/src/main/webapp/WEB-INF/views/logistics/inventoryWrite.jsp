@@ -104,8 +104,8 @@
             }*/
     .col-xl-4.connectedSortable div {
         margin-bottom: 20px;
-        margin-right: 20px;
-        margin-left: 20px;
+        /*        margin-right: 20px;
+                margin-left: 20px;*/
     }
 
     .dataTables_wrapper .dataTable td {
@@ -117,8 +117,40 @@
         content: "+";
     }
 
+    .box-table {
+        margin-bottom: 400px;
+        /*margin-left: 50px;*/
+        /*width: 95%;*/
+        align-content: center;
+    }
+
+    .col-xl-5 connectedSortable ui-sortable {
+        margin-right: 50px;
+        margin-left: 50px;
+    }
+
     .section-margin {
-        margin-bottom: 200px;
+        margin-left: 20px;
+        /*margin: 50px;*/
+        /*margin-top: -10px;*/
+
+    }
+
+    /*    div {
+            margin: 10px;
+        }*/
+
+    textarea.form-control {
+        width: 200px;
+        height: 150px;
+        resize: none;
+    }
+
+    .input-group-text1 {
+        vertical-align: middle;
+        position: relative;
+        top: 10px;
+
     }
 </style>
 <script>
@@ -554,8 +586,8 @@ ${path}";
                     console.log("response.PRD_PRICE: " + response.PRD_PRICE);
                     var rowIndex = table.row(row).index();
 
-                    table.cell(rowIndex, 1).data(response.PRD_PRICE);
-                    table.cell(rowIndex, 4).data(response.PRD_ID);
+                    table.cell(rowIndex, 1).data(response.PRD_ID);
+                    table.cell(rowIndex, 4).data(response.PRD_PRICE);
                     table.cell(rowIndex, 5).data(response.PRICE_IN_STK);
                     /*            rowData[1] = response.PRD_PRICE;  // prd_price 업데이트
                                 rowData[4] = response.PRD_ID;     // prd_id 업데이트
@@ -614,123 +646,6 @@ ${path}";
             var currentRowIndex = currentRow.index();
             console.log("currentRowIndex: " + currentRowIndex);
             /*            var currentButtonRow = $(this).attr('id').closest('tr');*/
-
-
-            // 새 행의 데이터. 여기서는 모든 열이 빈 문자열이지만,
-            // 필요에 따라 적절한 값을 지정하면 됩니다.
-
-            /*           let newRow = table.row.add([
-                           '<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            ${entry.value}">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            ${entry.key}</option>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'
-            ]).draw().node();
-            newRow.closest('tr').index();*/
 
 
             var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
@@ -1427,9 +1342,45 @@ ${path}";
         });
 </script>--%>
 
+
+<!-- Main content -->
+
 <div class="content-wrapper">
     <div class="container-full">
         <!-- Main content -->
+
+        <div class="modal fade bs-example-modal-lg" tabindex="-1"
+             role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+             style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Overflowing text to show scroll behavior</h4>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl
+                            consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
+                            faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
+                            commodo cursus magna, vel scelerisque nisl consectetur et. Donec
+                            sed odio dui. Donec ullamcorper nulla non metus auctor
+                            fringilla.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger text-start"
+                                data-bs-dismiss="modal">Close
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
         <section class="content section-margin">
 
 
@@ -1447,42 +1398,12 @@ ${path}";
                         </div>--%>
             <!-- /.col -->
 
-            <div class="modal fade bs-example-modal-lg" tabindex="-1"
-                 role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-                 style="display: none;">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h4>Overflowing text to show scroll behavior</h4>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl
-                                consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-                                faucibus dolor auctor.</p>
-                            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
-                                commodo cursus magna, vel scelerisque nisl consectetur et. Donec
-                                sed odio dui. Donec ullamcorper nulla non metus auctor
-                                fringilla.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger text-start"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
 
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h4 class="page-title">입고/출고 등록</h4>
+                        <h4 class="page-title">입/출고 등록</h4>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
@@ -1498,364 +1419,659 @@ ${path}";
                     </div>
                 </div>
             </div>
-            <!-- Main content -->
-            <section class="content">
 
-                <div class="row">
-
-                    <div class="col-xl-4 connectedSortable">
-                        <div class="box">
-                            <div class="box-header with-border">
-                                <h4 class="box-title">입/출고 등록</h4>
-
-                                <ul class="box-controls pull-right">
-                                    <li><a class="box-btn-close" href="#"></a></li>
-                                    <li><a class="box-btn-slide" href="#"></a></li>
-                                    <li><a class="box-btn-fullscreen" href="#"></a></li>
-                                </ul>
-                            </div>
-                            <div class="box-body p-0">
-
-
-                                <form name="boardFrm" action="${path }/board/insertBoard.do"
-                                      method="post" enctype="multipart/form-data">
-
-
-                                    <input name="group1" type="radio" id="write_Option_1" checked>
-
-                                    <label for="write_Option_1">입고</label> <input name="group1"
-                                                                                  type="radio" id="write_Option_2">
-                                    <label
-                                            for="write_Option_2">출고</label>
-
-                                    <div>
-                                        <input class="form-control" type="datetime-local"
-                                               value="<%=formattedNow%>" id="example-datetime-local-input">
-                                    </div>
-
-                                    <div>
-                                        <label class="form-label">담당자</label>
-                                        <select
-                                                class="form-control select2" multiple="multiple"
-                                                data-placeholder="Select a State" style="width: 100%;">
-                                            <option>부서 가져오기</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label class="form-label">거래처</label>
-                                        <select
-                                                class="form-control select2" multiple="multiple"
-                                                data-placeholder="Select a State" style="width: 100%;">
-                                            <option>부서 가져오기</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
-                                        </select>
-                                    </div>
-                                    <%--				<div class="dropzone" id="myDropzone">
-                                                        <div class="fallback">
-                                                            <input name="file" type="file" multiple/>
-                                                        </div>
-                                                    </div>--%>
-                                    <div>
-                                        부가세 포함 여부 <input name="group2" type="radio" id="vat_Option_1"
-                                                         checked> <label for="vat_Option_1">포함</label> <input
-                                            name="group2" type="radio" id="vat_Option_2"> <label
-                                            for="vat_Option_2">제외</label>
-                                    </div>
-
-                                    <div id="board-container">
-                                        <div class="input-group mb-3" style="padding: 0px;">
-                                            <div class="input-group-prepend" style="padding: 0px;">
-                                                <button type="button"
-                                                        class="waves-effect waves-light btn btn-info-light btn-flat mb-5"
-                                                        onclick="fn_addFileForm();">첨부파일 추가
-                                                </button>
-                                                <button type="button"
-                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5"
-                                                        onclick="fn_deleteFileForm();">첨부파일 삭제
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div id="basicFileForm" class="input-group mb-3"
-                                             style="padding: 0px;">
-
-                                            <span class="input-group-text1">첨부파일 1</span>
-
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="upFile"
-                                                       id="upFile1"> <label class="custom-file-label"
-                                                                            for="upFile1">파일을 선택하세요</label>
-                                            </div>
-                                        </div>
-                                        <label>
-                                            <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"
-                                                       placeholder="적요"></textarea> -->
-                                            <textarea class="form-control" name="iv_memo"
-                                                      placeholder="적요"></textarea>
-                                        </label>
-                                        <br/>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="ti-save-alt"></i> 저장
-                                        </button>
-
-
-                                        <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <%--					<script>
-                                                    // Dropzone 설정
-                                                    Dropzone.options.myDropzone = {
-                                                        url: "${path}/board/insertBoard.do",
-                                                        autoProcessQueue: false, // 자동 처리 비활성화
-                                                        init: function () {
-                                                            var myDropzone = this;
-
-                                                            // 폼 제출 핸들러
-                                                            document.getElementsByName("boardFrm")[0].addEventListener('submit', function (e) {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-
-                                                                // 모든 파일을 처리 큐에 추가
-                                                                myDropzone.files.forEach(function (file) {
-                                                                    myDropzone.enqueueFile(file);
-                                                                });
-
-                                                                // 파일 처리 완료 후 폼 데이터 전송
-                                                                myDropzone.on("queuecomplete", function () {
-                                                                    // 폼 데이터를 AJAX를 통해 전송
-                                                                    // 폼 데이터 추가 로직...
-                                                                });
-                                                            });
-                                                        }
-                                                    };
-                                                </script>--%>
-
-
-                            <script>
-                                const adddelFunction = (function () {
-                                    let count = 2;
-                                    const addFile = () => {
-                                        if (count <= 5) {
-                                            const fileForm = $("#basicFileForm").clone(true);
-                                            fileForm.find("span.input-group-text1").text("첨부파일 " + count);
-                                            fileForm.find("label.custom-file-label").text("파일을 선택하세요")
-                                                .attr("for", "upFile" + count);
-                                            fileForm.find("input[type=file]").attr("id", "upFile" + count).val("");
-                                            $("textarea[name=iv_memo]").before(fileForm);
-                                            count++;
-                                        } else {
-                                            alert("첨부파일은 5개까지 가능합니다.");
-                                        }
-                                    };
-                                    const delFile = () => {
-                                        if (count != 2) {
-                                            $("textarea[name=iv_memo]").prev().remove();
-                                            count--;
-                                        }
-                                    };
-
-                                    return [addFile, delFile];
-                                })();
-
-                                const fn_addFileForm = adddelFunction[0];
-                                const fn_deleteFileForm = adddelFunction[1];
-
-                                $("input[name=upFile]").change(e => {
-                                    const fileName = e.target.files[0].name;
-                                    $(e.target).next(".custom-file-label").text(fileName);
-                                });
-                            </script>
-
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-
-                <div class="col-12">
+            <div class="col-xl-5 connectedSortable">
+                <form name="insertinventory" id="insertinventory"
+                <%-- method="post"--%> enctype="multipart/form-data">
                     <div class="box">
-                        <div class="box-header">
-                            <h4 class="box-title">
-                                <!-- 입/출고 --> <strong>입/출고내역</strong>
-                            </h4>
-                            <h6 class="subtitle">수정할 row를 선택하세요</h6>
+                        <div class="box-header with-border">
+                            <h4 class="box-title"><i class="ti-agenda"></i> 입/출고 등록</h4>
+
+                            <ul class="box-controls pull-right">
+                                <li><a class="box-btn-close" href="#"></a></li>
+                                <li><a class="box-btn-slide" href="#"></a></li>
+                                <li><a class="box-btn-fullscreen" href="#"></a></li>
+                            </ul>
                         </div>
 
-                        <div class="box-body">
-                            <div class="table-responsive">
-                                <!-- 	<table border="0" cellspacing="5" cellpadding="5">
-                                        <tbody>
-                                            <tr>
-                                                <td>Minimum date:</td>
-                                                <td><input type="text" id="min" name="min"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Maximum date:</td>
-                                                <td><input type="text" id="max" name="max"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table> -->
-
-                                <table id="example1"
-                                       class="table table-bordered table-separated">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            추가
-                                        </th>
-
-                                        <th>품목 코드</th>
-                                        <th>도서명</th>
-                                        <th>수량</th>
-                                        <th>단가</th>
-                                        <th>공급액</th>
-                                        <th>적요</th>
-                                        <th>삭제</th>
-                                    </thead>
-
-                                    <tbody>
-                                    <%--	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">--%>
-                                    <%--         <c:forEach var="iv" items="${inventories }">--%>
-                                    <tr>
-                                        <td name="dontedit">
-                                            <%--<form action="${path}/logistics/inventory/List/delete" method="post">--%>
-                                            <%--<input type="hidden" name="iv_id" value="${iv.IV_ID}">--%>
-                                            <button type="button" id="1plusButton"
-                                                    class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5">
-                                            </button>
-                                            <%-- </form>--%>
-                                        </td>
-
-                                        <td name="dontedit" class="prd_id"></td>
-                                        <td name="dontedit" data-column-name="SEND_BRC_ID"
-                                            data-parent-column="BRANCH_NAME"
-                                            data-table-name="BRANCH">
-                                            <label class="form-label">도서 선택</label>
-                                            <select class="chooseBook form-control select2"
-                                                    data-placeholder="도서를 선택하세요" style="width: 100%;">
-                                                <option></option>
-                                                <c:forEach var="entry" items="${prdTitleToIdMap }">
-                                                    <c:if test="${entry.key != null}">
-                                                        <option value="${entry.value}">${entry.key}</option>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </select>
-
-                                        </td>
-
-                                        <td data-column-name="SEND_EMP_ID"
-                                            data-parent-column="EMP_NAME"
-                                            data-table-name="EMPLOYEE"><%--${iv.SEND_EMP_NAME}--%>최소 1 입력
-                                        </td>
-                                        <td name="dontedit" class="prd_price"></td>
-                                        <td name="dontedit" class="price_inout" data-column-name="IV_VAT_TYPE"
-                                            data-parent-column="IV_VAT_TYPE"
-                                            data-table-name="INVENTORY"><%--${iv.IV_VAT_TYPE}--%></td>
-                                        <td data-column-name="IV_MEMO" data-parent-column="IV_MEMO"
-                                            data-table-name="INVENTORY">메모 입력<%--${iv.IV_MEMO}--%></td>
-                                        <td name="dontedit">
-                                            <script>
-
-                                                $('#example1 tbody').on('click', '#delButton', function () {
-
-                                                    var row = $(this).closest('tr');
-                                                    var table = $('#example1').DataTable();
-
-                                                    if (confirm('정말로 삭제 하시겠습니까?')) {
-
-                                                        table.row(row).remove().draw(); // 해당 행 삭제
-                                                    }
-
-                                                });
-                                                /*                             let row = table.row($(this).parents('tr'));
-                                                                             $('#example1 tbody').on('click', 'button.delbutton', function () {
-
-                                                                                 table.row($(this).parents('tr'))
-                                                                                     .remove
-                                                                                     .draw();
-                                                                             });*/
+                        <div class="box-body p-12"> <%--action="${path }/logistics/write"--%>
 
 
-                                            </script>
-                                            <button type="button"
-                                            <%--onclick="confirmDeletion()"--%> id="delButton"
-                                                    class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
-                                                삭제
-                                            </button>
-                                            <%--            {
-                                                        data: null,
-                                                        className: 'dt-center editor-edit',
-                                                        defaultContent: '<i class="fa fa-pencil"/>',
-                                                        orderable: false
-                                                        },
-                                                        {
-                                                        data: null,
-                                                        className: 'dt-center editor-delete',
-                                                        defaultContent: '<i class="fa fa-trash"/>',
-                                                        orderable: false
-                                                        }--%>
-                                        </td>
+                            <div class="col-6
+                        " style="margin-bottom: 20px;">
+                                <div class="col-12">
+                                    <label class="form-label" style="margin:5px;">
+                                        <i class="si-calendar si"></i>
+                                        요청 기한</label>
+                                </div>
+                                <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고">
+                                <label for="ivType_Option_1">입고</label>
+                                <input name="ivType" type="radio" id="ivType_Option_2" value="출고">
+                                <label for="ivType_Option_2">출고</label>
+                            </div>
 
-                                    </tr>
-                                    <%--          </c:forEach>--%>
-                                    </tbody>
+                            <div class="col-5">
+                                <label class="form-label" style="margin:5px;"><i class="si-calendar si"
+                                                                                 style="margin-right:10px;"></i>
+                                    요청 기한</label>
+                                <input class="form-control" name="ivDeadline" type="datetime-local"
+                                       id="example-datetime-local-input">
 
-                                </table>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-5" style="margin:5px; margin-top:20px;>
+                                    <label class=" form-label
+                                "><i
+                                    class="si-organization si"
+                                    style="margin-right:10px;"></i>
+                                거래처</label>
+                                <select
+                                        class="form-control select2" name="recieveBrcId" multiple="multiple"
+                                        data-placeholder="Select a State" style="width: 100%;">
+                                    <option>부서 가져오기</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                </select>
+                            </div>
+
+                            <div class="col-5" style="margin:5px; margin-top:13px;">
+                                <label class="form-label"><i
+                                        class="si-user si"
+                                ></i>
+                                    담당자</label>
+                                <select
+                                        class="form-control select2" name="sendEmpId" multiple="multiple"
+                                        data-placeholder="Select a State" style="width: 100%;">
+                                    <option>부서 가져오기</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <script>
+                        <%--				<div class="dropzone" id="myDropzone">
+                                            <div class="fallback">
+                                                <input name="file" type="file" multiple/>
+                                            </div>
+                                        </div>--%>
+                        <div class="row">
+                            <div style="margin-top: 30px;">
+                                <div class="col-12" style="margin:5px;"><i class="si-calculator si"
+                                                                           style="margin-right:10px;"></i> 부가세 포함
+                                    여부
+                                </div>
+                                <input name="ivVatType" type="radio"
+                                       id="vat_Option_1"
+                                       checked value="Y">
+                                <label for="vat_Option_1">포함</label>
+                                <input name="ivVatType" type="radio" id="vat_Option_2" value="N">
+                                <label for="vat_Option_2">제외</label>
+                            </div>
 
-                </script>
+                            <div id="board-container">
+                                <div class="input-group mb-3"
+                                     style="padding: 0px; margin-top: 10px; margin-left: -10px;">
+                                    <div class="input-group-prepend" style="padding: 0px; ">
+                                        <button type="button"
+                                                class="waves-effect waves-light btn btn-info-light btn-flat mb-3"
+                                                onclick="fn_addFileForm();" style="margin:10px;">첨부파일 추가
+                                        </button>
+                                        <button type="button"
+                                                class="waves-effect waves-light btn btn-danger-light btn-flat mb-3"
+                                                onclick="fn_deleteFileForm();" style="margin:10px;">첨부파일 삭제
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="basicFileForm" class="input-group mb-3"
+                                     style="padding: 0; margin-top:-20px;">
+                                    <div>
+                                        <div>
+                                    <span class="input-group-text1"><i
+                                            class="fa fa-fw fa-file-o"
+                                            style="margin-right:10px;"></i> 첨부파일 1</span>
+                                        </div>
+                                        <input type="file" class="custom-file-input" name="upFile"
+                                               id="upFile1" style="display: none;" onchange="changeFileFunc(event);">
+                                        <label
+                                                class="custom-file-label waves-effect waves-light btn btn-primary-light btn-flat mb-3"
+                                                for="upFile1" style="margin:10px;">파일을
+                                            선택하세요</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label>
+                                        <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"
+                                                   placeholder="적요"></textarea> -->
 
-                <div class="row"></div>
+                                        <textarea class="form-control" name="ivMemo"
+                                                  placeholder="&#128221;적요"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="col-12" style="margin-top:10px; align-items: flex-end">
+                                <%--  <input type="hidden" id="tableData" name="tableData" value="">--%>
+                                <input type="hidden" id="ivIsdel" name="ivIsdel" value="N">
+                                <input type="hidden" id="sendBrcId" name="sendBrcId" value="1">
+                                <!-- 받는 담당 직원도 넣어주면 좋은데 아직은 필요없는 느낌 -->
+                                <input type="hidden" id="docNo" name="docNo" value="1">
+                                <button type="submit" class="btn btn-primary submitinventory">
+                                    <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
+                                </button>
+                            </div>
+                            <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
+                        </div>
+                </form>
+            </div>
+
+    </div>
+
+    <script>
+        /*                 $('#insertinventory').on('submit', function (e) {
+                             e.preventDefault(); // 기본 submit 동작 방지
+
+                             // 폼 데이터 가져오기
+                             var formData = $(this).serialize();
+                             console.log("폼 데이터: ", formData);
+
+                             // 데이터 테이블 데이터 가져오기 (예시로 'getAllRowData' 함수 사용)
+                             var tableData = getAllRowData();
+                             console.log("데이터 테이블 데이터: ", tableData);
+
+                             // 가져온 데이터를 서버로 전송하거나 원하는 작업을 수행하세요.
+                             $.ajax({
+                                 method: "POST",
+                                 url: "your_server_url_here",
+                                 data: {formData: formData, tableData: JSON.stringify(tableData)},
+                                 success: function (response) {
+                                     // 성공적으로 서버에 데이터를 전송한 후 수행할 작업
+                                     console.log("데이터 전송 성공");
+                                 },
+                                 error: function (error) {
+                                     // 데이터 전송 중 오류 발생 시 수행할 작업
+                                     console.error("데이터 전송 오류: " + error);
+                                 }
+                             });
+                         });*/
+
+        const saveButton = document.querySelector('.submitinventory');
+
+        // 이벤트 리스너 추가
+        saveButton.addEventListener('click', function (event) {
+
+            event.preventDefault(); // 기본 동작 방지
+            // alert("무야호");
+            insertInventory();
+            // alert(a);
+            // console.log(a);// insertInventory 함수 호출
+        });
+
+        function getAllRowData() {
+            var table = $('#example1').DataTable();
+            var rowDataArray = [];
+
+            table.rows().every(function () {
+                var rowData = {}; // 각 행의 데이터를 담을 객체 초기화
+                var row = this.data(); // 현재 행의 데이터 가져오기
+
+                // 열 이름 배열 가져오기
+                var columnNames = table.columns().header().toArray();
+                var cellValue;
+                // 각 열 순회
+
+                for (var i = 0; i < columnNames.length; i++) {
+                    var columnName = columnNames[i].innerText; // 열 이름 가져오기
+                    if (i === 1) {
+                        cellValue = row[i];
+                        rowData["prdId"] = cellValue;
+                        console.log("rowData[prdId] : " + cellValue);
+
+                    } else if (i === 3) {
+                        cellValue = row[i];
+                        rowData["prdIvQuantity"] = cellValue;
+                        console.log("rowData[prdIvQuantity] : " + cellValue);
+
+                    } else if (i === 6) {
+                        cellValue = row[i];
+                        rowData["prdIvMemo"] = cellValue;
+                        console.log("rowData[prdIvMemo] : " + cellValue);
+                    }
+                }
 
 
-            </section>
+                /*  for (var i = 0; i < columnNames.length; i++) {
+                      var columnName = columnNames[i].innerText; // 열 이름 가져오기
+                      if (i === 2) {
+                          columneNametoHtml = columnNames[i].innerHTML;
+
+                          var Value = columneNametoHtml.find('.chooseBook').attr('id');
+                          console.log("row[i]의 도서 태그 id : : " + cellValue);
+                          cellvalue = Value;
+                          rowData[columnName] = columnName;
+                      } else {
+                          cellValue = row[i]; // 현재 열의 값을 가져오기
+                          rowData[columnName] = cellValue;
+                      }
+                      // cellValue = row[i];
+
+                      // 객체에 열 이름을 키로, 해당 열의 값을 값으로 추가
+                      // rowData[columnName] = cellValue;
+                      console.log("rowData[columnName] : " + rowData[columnName]);
+                  }*/
+
+                // 행 데이터 배열에 추가
+                rowDataArray.push(rowData);
+            });
+            console.log(rowDataArray);
+            return rowDataArray;
+        }
+
+        function insertInventory() {
+            var table = $('#example1').DataTable();
+            var tableData = getAllRowData();
+            /*            var tableData = table.rows().data().toArray();
+                        console.log("데이터 테이블 데이터: ", tableData);*/
+
+            const form = document.querySelector("#insertinventory");
+            /*                        let formData = new FormData(form);
+                                    let entries = formData.entries();
+                                    console.log(entries);
+                                    for (const pair of entries) {
+                                        console.log(pair[0] + " : " + pair[1]);
+                                    }*/
+
+            var formData = new FormData(form); // 폼 요소를 기반으로 FormData 객체 생성
+            // 'ivDeadline' 필드의 값을 가져온다
+            var ivDeadlineValue = formData.get('ivDeadline');
+
+// 콘솔에 출력한다
+            console.log('ivDeadline:', ivDeadlineValue);
+            console.log(formData);
+            formData.append('tableData', tableData);
+            // 파일을 FormData 객체에 추가
 
 
-            <!-- /.content -->
+            var files = document.querySelector('input[name=upFile]').files;
+            for (var i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+            console.log("formdata files: " + formData.get('files'));
+            /*// 첫 번째 파일 입력 필드 처리
+                                    var upFile1 = document.querySelector('input[name="upFile1"]').files;
+                                    if (upFile1.length > 0) {
+                                        formData.append('upFile1', upFile1[0]);
+                                    }*/
 
-            <!-- Page Content overlay -->
+            /*// 나머지 파일 입력 필드 처리 (최대 4개 추가)
+                                    for (var i = 2; i <= 5; i++) {
+                                        var fileInput = document.querySelector('input[name="upFile' + i + '"]');
+                                        if (fileInput && fileInput.files.length > 0) {
+                                            formData.append('upFile' + i, fileInput.files[0]);
+                                        }
+                                    }*/
+            console.log("formdata: " + formData);
+
+            // evt = new Event('click');
+            fetch("${path}/logistics/inventory/endwrite", {
+                method: "POST",
+                headers: {
+                    /*             "Content-Type": "multipart/form-data",*/
+                },
+                body: formData
+                /*                 tableData: JSON.stringify(tableData)*/
+
+            }).then(response => {
+                if (response.ok) {
+                    return response.text(); // 응답이 성공적일 때 텍스트 추출
+                } else {
+                    throw new Error('Request failed'); // 응답이 실패할 경우 에러 처리
+                }
+            })
+                .then(text => {
+                    alert(text); // "입고 등록 성공" 또는 오류 메시지를 alert 창에 표시
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error: ' + error.message); // 오류 발생 시 alert 창에 표시
+                });
 
 
-            <!-- Vendor JS -->
+            /*                .then(response => response.json())*/
+            /* .then(data => alert(data))*/
 
-            <script src="${path }/resources/js/vendors.min.js"></script>
-            <script src="${path }/resources/js/pages/chat-popup.js"></script>
-            <script
-                    src="${path }/resources/assets/icons/feather-icons/feather.min.js"></script>
-            <script
-                    src="${path }/resources/assets/vendor_components/datatable/datatables.min.js"></script>
-            <script
-                    src="${path }/resources/assets/vendor_components/tiny-editable/mindmup-editabletable.js"></script>
-            <script
-                    src="${path }/resources/assets/vendor_components/tiny-editable/numeric-input-example.js"></script>
+            /*                      .then((res) => {
+                                  if (res.ok) {
+                                      return res.text();
+                                  } else {
+                                      throw new Error("HTTP error");
+                                  }
+                              })*/
+            /*.then((text) => {
+            alert(text);
+            active.text(text).trigger(evt, text);
+        }).catch((error) => {
+            alert(error);
+            /!*active.html(originalContent);*!/
+        })*/
+        }
 
-            <!-- CRMi App -->
-            <script src="${path }/resources/js/template.js"></script>
+        /*
+                                    $('#insertinventory').on('submit', function (e) {
+                                        e.preventDefault(); // 기본 submit 동작 방지
 
-            <script src="${path }/resources/js/pages/data-table.js"></script>
-            <script src="${path }/resources/js/pages/editable-tables.js"></script>
 
-            <script>
+                                /!*        // 폼 데이터 가져오기
+                                        var formData = $(this).serialize();
+                                        console.log("폼 데이터: ", formData);*!/
 
-            </script>
-        </section>
+                                        // 데이터 테이블 데이터 가져오기 (예시로 'getAllRowData' 함수 사용)
+                                        var tableData = getAllRowData();
+                                        console.log("데이터 테이블 데이터: ", tableData);
+
+
+                                        // 가져온 데이터를 서버로 전송하거나 원하는 작업을 수행하세요.
+                                        // 예를 들어, AJAX를 사용하여 서버로 데이터를 전송할 수 있습니다.
+                                        // $.ajax({
+                                        //     method: "POST",
+                                        //     url: "your_server_url_here",
+                                        //     data: { allData: JSON.stringify(allData) },
+                                        //     success: function (response) {
+                                        //         // 성공적으로 서버에 데이터를 전송한 후 수행할 작업
+                                        //         console.log("데이터 전송 성공");
+                                        //     },
+                                        //     error: function (error) {
+                                        //         // 데이터 전송 중 오류 발생 시 수행할 작업
+                                        //         console.error("데이터 전송 오류: " + error);
+                                        //     }
+                                        // });
+
+                                        $.ajax({
+
+                                            url: "${path }/logistics/endwrite",
+                                    method: 'POST',
+                                    data: {
+                                        formData: formData,
+                                        tableData: JSON.stringify(tableData)
+                                    },
+                                    success: function (response) {
+                                        alert(response);
+                                        active.text(text).trigger(evt, text);
+
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown, error, response, body) {
+
+                                        /!*alert(jqXHR.responseText);*!/
+                                        /!*  alert((JSON.stringify(error)));*!/
+                                        alert(jqXHR.responseText);
+                                        /!*alert(xhr.responseText);*!/
+                                        /!* alert(JSON.stringify(response));*!/
+                                        active.html(originalContent);
+                                    }
+                                });
+
+
+                                // 모든 행 데이터를 배열 형태로 사용하여 원하는 작업을 수행하십시오.
+                                console.log("모든 행 데이터: ", tableData);
+                            });
+*/
+
+
+    </script>
+
+
+    <%--					<script>
+                            // Dropzone 설정
+                            Dropzone.options.myDropzone = {
+                                url: "${path}/board/insertBoard.do",
+                                autoProcessQueue: false, // 자동 처리 비활성화
+                                init: function () {
+                                    var myDropzone = this;
+
+                                    // 폼 제출 핸들러
+                                    document.getElementsByName("boardFrm")[0].addEventListener('submit', function (e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+
+                                        // 모든 파일을 처리 큐에 추가
+                                        myDropzone.files.forEach(function (file) {
+                                            myDropzone.enqueueFile(file);
+                                        });
+
+                                        // 파일 처리 완료 후 폼 데이터 전송
+                                        myDropzone.on("queuecomplete", function () {
+                                            // 폼 데이터를 AJAX를 통해 전송
+                                            // 폼 데이터 추가 로직...
+                                        });
+                                    });
+                                }
+                            };
+                        </script>--%>
+    <script>
+        const adddelFunction = (function () {
+            let count = 2;
+            const addFile = () => {
+                if (count <= 5) {
+
+                    const fileForm = $("#basicFileForm").clone(true);
+                    fileForm.find("span.input-group-text1").html('<i class="fa fa-fw fa-file-o" style="margin-right:10px;"></i> 첨부파일 ' + count);
+                    fileForm.find("label.custom-file-label").text("파일을 선택하세요")
+                        .attr("for", "upFile" + count);
+                    fileForm.find("input[type=file]").attr("id", "upFile" + count).val("").change(changeFileFunc);
+                    $("textarea[name=ivMemo]").before(fileForm);
+                    count++;
+
+                } else {
+                    alert("첨부파일은 5개까지 가능합니다.");
+                }
+            };
+            const delFile = () => {
+                if (count != 2) {
+                    $("textarea[name=ivMemo]").prev().remove();
+                    count--;
+                }
+            };
+            return [addFile, delFile];
+        })();
+
+        const fn_addFileForm = adddelFunction[0];
+        const fn_deleteFileForm = adddelFunction[1];
+
+        /*                           $("#basicFileForm").on("change", "input[type='file'][name='upFile']", function (e) {
+                                       const fileName = e.target.files[0].name;
+                                       console.log(e.target);
+                                       $(e.target).next(".custom-file-label").text(fileName);
+                                   });*/
+        //
+        // $("#fileInputContainer").on("change", "input[name=upFile]", function (e) {
+        //     const fileName = e.target.files[0].name;
+        //     $(e.target).next(".custom-file-label").text(fileName);
+        // });
+        const changeFileFunc = e => {
+            const fileName = e.target.files[0].name;
+            $(e.target).next(".custom-file-label").text(fileName);
+        };
+    </script>
+
+
+</div>
+<!-- /.box-body -->
+<div class="box box-table">
+    <div class="box-header">
+        <h4 class="box-title">
+            <!-- 입/출고 --> <strong>입/출고 상품 등록</strong>
+        </h4>
+        <h6 class="subtitle">입/출고 할 상품을 등록하세요</h6>
+    </div>
+
+    <div class="box-body">
+        <div class="table-responsive">
+            <!-- 	<table border="0" cellspacing="5" cellpadding="5">
+                    <tbody>
+                        <tr>
+                            <td>Minimum date:</td>
+                            <td><input type="text" id="min" name="min"></td>
+                        </tr>
+                        <tr>
+                            <td>Maximum date:</td>
+                            <td><input type="text" id="max" name="max"></td>
+                        </tr>
+                    </tbody>
+                </table> -->
+
+            <table id="example1"
+                   class="table table-bordered table-separated">
+                <thead>
+                <tr>
+                    <th>
+                        추가
+                    </th>
+
+                    <th>품목 코드</th>
+                    <th>도서명</th>
+                    <th>수량</th>
+                    <th>단가</th>
+                    <th>공급액</th>
+                    <th>적요</th>
+                    <th>삭제</th>
+                </thead>
+
+                <tbody>
+                <%--	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">--%>
+                <%--         <c:forEach var="iv" items="${inventories }">--%>
+                <tr>
+                    <td name="dontedit">
+                        <%--<form action="${path}/logistics/inventory/List/delete" method="post">--%>
+                        <%--<input type="hidden" name="iv_id" value="${iv.IV_ID}">--%>
+                        <button type="button" id="1plusButton"
+                                class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5">
+                        </button>
+                        <%-- </form>--%>
+                    </td>
+
+                    <td name="dontedit" class="prd_id"></td>
+                    <td name="dontedit" data-column-name="SEND_BRC_ID"
+                        data-parent-column="BRANCH_NAME"
+                        data-table-name="BRANCH">
+                        <label class="form-label">도서 선택</label>
+                        <select class="chooseBook form-control select2"
+                                data-placeholder="도서를 선택하세요" style="width: 100%;">
+                            <option></option>
+                            <c:forEach var="entry" items="${prdTitleToIdMap }">
+                                <c:if test="${entry.key != null}">
+                                    <option value="${entry.value}">${entry.key}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+
+                    </td>
+
+                    <td data-column-name="SEND_EMP_ID"
+                        data-parent-column="EMP_NAME"
+                        data-table-name="EMPLOYEE"><%--${iv.SEND_EMP_NAME}--%>최소 1 입력
+                    </td>
+                    <td name="dontedit" class="prd_price"></td>
+                    <td name="dontedit" class="price_inout" data-column-name="IV_VAT_TYPE"
+                        data-parent-column="IV_VAT_TYPE"
+                        data-table-name="INVENTORY"><%--${iv.IV_VAT_TYPE}--%></td>
+                    <td data-column-name="IV_MEMO" data-parent-column="IV_MEMO"
+                        data-table-name="INVENTORY">메모 입력<%--${iv.IV_MEMO}--%></td>
+                    <td name="dontedit">
+                        <script>
+
+                            $('#example1 tbody').on('click', '#delButton', function () {
+
+                                var row = $(this).closest('tr');
+                                var table = $('#example1').DataTable();
+
+                                if (confirm('정말로 삭제 하시겠습니까?')) {
+
+                                    table.row(row).remove().draw(); // 해당 행 삭제
+                                }
+
+                            });
+                            /*                             let row = table.row($(this).parents('tr'));
+                                                         $('#example1 tbody').on('click', 'button.delbutton', function () {
+
+                                                             table.row($(this).parents('tr'))
+                                                                 .remove
+                                                                 .draw();
+                                                         });*/
+
+
+                        </script>
+                        <button type="button"
+                        <%--onclick="confirmDeletion()"--%> id="delButton"
+                                class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
+                            삭제
+                        </button>
+                        <%--            {
+                                    data: null,
+                                    className: 'dt-center editor-edit',
+                                    defaultContent: '<i class="fa fa-pencil"/>',
+                                    orderable: false
+                                    },
+                                    {
+                                    data: null,
+                                    className: 'dt-center editor-delete',
+                                    defaultContent: '<i class="fa fa-trash"/>',
+                                    orderable: false
+                                    }--%>
+                    </td>
+
+                </tr>
+                <%--          </c:forEach>--%>
+                </tbody>
+
+            </table>
+        </div>
     </div>
 </div>
+</div>
+</div>
+
+<script>
+
+</script>
+</div>
+
+
+<%--                <div class="row">
+
+                </div>--%>
+
+
+<!-- /.content -->
+
+<!-- Page Content overlay -->
+
+
+<!-- Vendor JS -->
+
+<script src="${path }/resources/js/vendors.min.js"></script>
+<script src="${path }/resources/js/pages/chat-popup.js"></script>
+<script
+        src="${path }/resources/assets/icons/feather-icons/feather.min.js"></script>
+<script
+        src="${path }/resources/assets/vendor_components/datatable/datatables.min.js"></script>
+<script
+        src="${path }/resources/assets/vendor_components/tiny-editable/mindmup-editabletable.js"></script>
+<script
+        src="${path }/resources/assets/vendor_components/tiny-editable/numeric-input-example.js"></script>
+
+<!-- CRMi App -->
+<script src="${path }/resources/js/template.js"></script>
+
+<script src="${path }/resources/js/pages/data-table.js"></script>
+<script src="${path }/resources/js/pages/editable-tables.js"></script>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

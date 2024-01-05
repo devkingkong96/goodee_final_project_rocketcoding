@@ -759,182 +759,182 @@ ${path}";
             <!-- Main content -->
             <section class="content">
 
-                <div class="row">
+                <%--                <div class="row">
 
-                    <div class="col-xl-4 connectedSortable">
-                        <div class="box">
-                            <div class="box-header with-border">
-                                <h4 class="box-title">입/출고 추가</h4>
+                                    <div class="col-xl-4 connectedSortable">
+                                        <div class="box">
+                                            <div class="box-header with-border">
+                                                <h4 class="box-title">입/출고 추가</h4>
 
-                                <ul class="box-controls pull-right">
-                                    <li><a class="box-btn-close" href="#"></a></li>
-                                    <li><a class="box-btn-slide" href="#"></a></li>
-                                    <li><a class="box-btn-fullscreen" href="#"></a></li>
-                                </ul>
-                            </div>
-                            <div class="box-body p-0">
-
-
-                                <form name="boardFrm" action="${path }/board/insertBoard.do"
-                                      method="post" enctype="multipart/form-data">
+                                                <ul class="box-controls pull-right">
+                                                    <li><a class="box-btn-close" href="#"></a></li>
+                                                    <li><a class="box-btn-slide" href="#"></a></li>
+                                                    <li><a class="box-btn-fullscreen" href="#"></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="box-body p-0">
 
 
-                                    <input name="group1" type="radio" id="write_Option_1" checked>
+                                                <form name="boardFrm" action="${path }/board/insertBoard.do"
+                                                      method="post" enctype="multipart/form-data">
 
-                                    <label for="write_Option_1">입고</label> <input name="group1"
-                                                                                  type="radio" id="write_Option_2">
-                                    <label
-                                            for="write_Option_2">출고</label>
 
-                                    <div>
-                                        <input class="form-control" type="datetime-local"
-                                               value="<%=formattedNow%>" id="example-datetime-local-input">
-                                    </div>
+                                                    <input name="group1" type="radio" id="write_Option_1" checked>
 
-                                    <div>
-                                        <label class="form-label">담당자</label> <select
-                                            class="form-control select2" multiple="multiple"
-                                            data-placeholder="Select a State" style="width: 100%;">
-                                        <option>부서 가져오기</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
-                                    </select>
-                                    </div>
+                                                    <label for="write_Option_1">입고</label> <input name="group1"
+                                                                                                  type="radio" id="write_Option_2">
+                                                    <label
+                                                            for="write_Option_2">출고</label>
 
-                                    <div>
-                                        <label class="form-label">거래처</label> <select
-                                            class="form-control select2" multiple="multiple"
-                                            data-placeholder="Select a State" style="width: 100%;">
-                                        <option>부서 가져오기</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
-                                    </select>
-                                    </div>
-                                    <%--				<div class="dropzone" id="myDropzone">
-                                                        <div class="fallback">
-                                                            <input name="file" type="file" multiple/>
+                                                    <div>
+                                                        <input class="form-control" type="datetime-local"
+                                                               value="<%=formattedNow%>" id="example-datetime-local-input">
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="form-label">담당자</label> <select
+                                                            class="form-control select2" multiple="multiple"
+                                                            data-placeholder="Select a State" style="width: 100%;">
+                                                        <option>부서 가져오기</option>
+                                                        <option>Alaska</option>
+                                                        <option>California</option>
+                                                        <option>Delaware</option>
+                                                        <option>Tennessee</option>
+                                                        <option>Texas</option>
+                                                        <option>Washington</option>
+                                                    </select>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="form-label">거래처</label> <select
+                                                            class="form-control select2" multiple="multiple"
+                                                            data-placeholder="Select a State" style="width: 100%;">
+                                                        <option>부서 가져오기</option>
+                                                        <option>Alaska</option>
+                                                        <option>California</option>
+                                                        <option>Delaware</option>
+                                                        <option>Tennessee</option>
+                                                        <option>Texas</option>
+                                                        <option>Washington</option>
+                                                    </select>
+                                                    </div>
+                                                    &lt;%&ndash;				<div class="dropzone" id="myDropzone">
+                                                                        <div class="fallback">
+                                                                            <input name="file" type="file" multiple/>
+                                                                        </div>
+                                                                    </div>&ndash;%&gt;
+                                                    <div>
+                                                        부가세 포함 여부 <input name="group2" type="radio" id="vat_Option_1"
+                                                                         checked> <label for="vat_Option_1">포함</label> <input
+                                                            name="group2" type="radio" id="vat_Option_2"> <label
+                                                            for="vat_Option_2">제외</label>
+                                                    </div>
+
+                                                    <div id="board-container">
+                                                        <div class="input-group mb-3" style="padding: 0px;">
+                                                            <div class="input-group-prepend" style="padding: 0px;">
+                                                                <button type="button"
+                                                                        class="waves-effect waves-light btn btn-info-light btn-flat mb-5"
+                                                                        onclick="fn_addFileForm();">첨부파일 추가
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5"
+                                                                        onclick="fn_deleteFileForm();">첨부파일 삭제
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                    </div>--%>
-                                    <div>
-                                        부가세 포함 여부 <input name="group2" type="radio" id="vat_Option_1"
-                                                         checked> <label for="vat_Option_1">포함</label> <input
-                                            name="group2" type="radio" id="vat_Option_2"> <label
-                                            for="vat_Option_2">제외</label>
-                                    </div>
+                                                        <div id="basicFileForm" class="input-group mb-3"
+                                                             style="padding: 0px;">
 
-                                    <div id="board-container">
-                                        <div class="input-group mb-3" style="padding: 0px;">
-                                            <div class="input-group-prepend" style="padding: 0px;">
-                                                <button type="button"
-                                                        class="waves-effect waves-light btn btn-info-light btn-flat mb-5"
-                                                        onclick="fn_addFileForm();">첨부파일 추가
-                                                </button>
-                                                <button type="button"
-                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5"
-                                                        onclick="fn_deleteFileForm();">첨부파일 삭제
-                                                </button>
+                                                            <span class="input-group-text1">첨부파일 1</span>
+
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input" name="upFile"
+                                                                       id="upFile1"> <label class="custom-file-label"
+                                                                                            for="upFile1">파일을 선택하세요</label>
+                                                            </div>
+                                                        </div>
+                                                        <textarea class="form-control" name="iv_memo" placeholder="적요"
+                                                        ></textarea>
+                                                        <br/>
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="ti-save-alt"></i> 저장
+                                                        </button>
+
+
+                                                        &lt;%&ndash;                                        <input type="submit" class="btn btn-outline-success" value="저장">&ndash;%&gt;
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </div>
-                                        <div id="basicFileForm" class="input-group mb-3"
-                                             style="padding: 0px;">
 
-                                            <span class="input-group-text1">첨부파일 1</span>
+                                            &lt;%&ndash;					<script>
+                                                                    // Dropzone 설정
+                                                                    Dropzone.options.myDropzone = {
+                                                                        url: "${path}/board/insertBoard.do",
+                                                                        autoProcessQueue: false, // 자동 처리 비활성화
+                                                                        init: function () {
+                                                                            var myDropzone = this;
 
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="upFile"
-                                                       id="upFile1"> <label class="custom-file-label"
-                                                                            for="upFile1">파일을 선택하세요</label>
-                                            </div>
-                                        </div>
-                                        <textarea class="form-control" name="iv_memo" placeholder="적요"
-                                        ></textarea>
-                                        <br/>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="ti-save-alt"></i> 저장
-                                        </button>
+                                                                            // 폼 제출 핸들러
+                                                                            document.getElementsByName("boardFrm")[0].addEventListener('submit', function (e) {
+                                                                                e.preventDefault();
+                                                                                e.stopPropagation();
+
+                                                                                // 모든 파일을 처리 큐에 추가
+                                                                                myDropzone.files.forEach(function (file) {
+                                                                                    myDropzone.enqueueFile(file);
+                                                                                });
+
+                                                                                // 파일 처리 완료 후 폼 데이터 전송
+                                                                                myDropzone.on("queuecomplete", function () {
+                                                                                    // 폼 데이터를 AJAX를 통해 전송
+                                                                                    // 폼 데이터 추가 로직...
+                                                                                });
+                                                                            });
+                                                                        }
+                                                                    };
+                                                                </script>&ndash;%&gt;
 
 
-                                        <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <%--					<script>
-                                                    // Dropzone 설정
-                                                    Dropzone.options.myDropzone = {
-                                                        url: "${path}/board/insertBoard.do",
-                                                        autoProcessQueue: false, // 자동 처리 비활성화
-                                                        init: function () {
-                                                            var myDropzone = this;
-
-                                                            // 폼 제출 핸들러
-                                                            document.getElementsByName("boardFrm")[0].addEventListener('submit', function (e) {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-
-                                                                // 모든 파일을 처리 큐에 추가
-                                                                myDropzone.files.forEach(function (file) {
-                                                                    myDropzone.enqueueFile(file);
-                                                                });
-
-                                                                // 파일 처리 완료 후 폼 데이터 전송
-                                                                myDropzone.on("queuecomplete", function () {
-                                                                    // 폼 데이터를 AJAX를 통해 전송
-                                                                    // 폼 데이터 추가 로직...
-                                                                });
-                                                            });
+                                            <script>
+                                                const adddelFunction = (function () {
+                                                    let count = 2;
+                                                    const addFile = () => {
+                                                        if (count <= 5) {
+                                                            const fileForm = $("#basicFileForm").clone(true);
+                                                            fileForm.find("span.input-group-text1").text("첨부파일 " + count);
+                                                            fileForm.find("label.custom-file-label").text("파일을 선택하세요")
+                                                                .attr("for", "upFile" + count);
+                                                            fileForm.find("input[type=file]").attr("id", "upFile" + count).val("");
+                                                            $("textarea[name=iv_memo]").before(fileForm);
+                                                            count++;
+                                                        } else {
+                                                            alert("첨부파일은 5개까지 가능합니다.");
                                                         }
                                                     };
-                                                </script>--%>
+                                                    const delFile = () => {
+                                                        if (count != 2) {
+                                                            $("textarea[name=iv_memo]").prev().remove();
+                                                            count--;
+                                                        }
+                                                    };
 
+                                                    return [addFile, delFile];
+                                                })();
 
-                            <script>
-                                const adddelFunction = (function () {
-                                    let count = 2;
-                                    const addFile = () => {
-                                        if (count <= 5) {
-                                            const fileForm = $("#basicFileForm").clone(true);
-                                            fileForm.find("span.input-group-text1").text("첨부파일 " + count);
-                                            fileForm.find("label.custom-file-label").text("파일을 선택하세요")
-                                                .attr("for", "upFile" + count);
-                                            fileForm.find("input[type=file]").attr("id", "upFile" + count).val("");
-                                            $("textarea[name=iv_memo]").before(fileForm);
-                                            count++;
-                                        } else {
-                                            alert("첨부파일은 5개까지 가능합니다.");
-                                        }
-                                    };
-                                    const delFile = () => {
-                                        if (count != 2) {
-                                            $("textarea[name=iv_memo]").prev().remove();
-                                            count--;
-                                        }
-                                    };
+                                                const fn_addFileForm = adddelFunction[0];
+                                                const fn_deleteFileForm = adddelFunction[1];
 
-                                    return [addFile, delFile];
-                                })();
+                                                $("input[name=upFile]").change(e => {
+                                                    const fileName = e.target.files[0].name;
+                                                    $(e.target).next(".custom-file-label").text(fileName);
+                                                });
+                                            </script>
 
-                                const fn_addFileForm = adddelFunction[0];
-                                const fn_deleteFileForm = adddelFunction[1];
-
-                                $("input[name=upFile]").change(e => {
-                                    const fileName = e.target.files[0].name;
-                                    $(e.target).next(".custom-file-label").text(fileName);
-                                });
-                            </script>
-
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                </div>--%>
 
                 <div class="col-12">
                     <div class="box">

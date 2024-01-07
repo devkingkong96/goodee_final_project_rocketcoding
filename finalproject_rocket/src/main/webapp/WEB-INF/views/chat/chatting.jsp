@@ -14,7 +14,7 @@
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-6 col-12">
+				<div class="col-lg-8 col-12">
 					<div class="row">
 						<div class="col-xxxl-8 col-lg-12 col-12">
 							<div class="box">
@@ -26,7 +26,7 @@
 									<div class="d-lg-flex d-block justify-content-between align-items-center w-p100">
 										<div class="media-body mb-lg-0 mb-20">
 											<p class="fs-16">
-											  <a class="hover-primary" href="#"><strong><c:out value="${room.chatRoomNo }"/></strong></a>
+											  <a class="hover-primary" href="#"><strong><c:out value="${room.chatRoomName }"/></strong></a>
 											</p>
 											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.empCount }"/></p>
 										</div>
@@ -39,8 +39,8 @@
 								</div>             
 							  </div>
 							  <div class="box-body">
-								  <div class="chat-box-one2">
-								  	<div class="row">
+								  <div class="chat-box-one2" id="scrollStart">
+								  	<div class="row" id="startMsg">
 								  <c:if test="${not empty messages }">
 								  <c:forEach var="msg" items="${messages }">
 								  <c:choose>
@@ -48,14 +48,14 @@
 								  <div class="col-12">
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-info max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="medium" /></span>
+											<span class="text-extra-small"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="short" /></span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
 												<div class="d-flex flex-grow-1 min-width-zero">
 													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
 														<div class="min-width-zero">
-															<strong><p class="mb-0 fs-16"><c:out value="${empinfo.empName }"/></p></strong>
+															<strong><p class="mb-0 fs-16"><c:out value="${msg.MSG_EMP_NAME }"/></p></strong>
 														</div>
 													</div>
 												</div>
@@ -71,14 +71,14 @@
 									  	<div class="col-12">
 									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="medium" /></span>
+											<span class="text-extra-small text-muted"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="short" /></span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
 												<div class="d-flex flex-grow-1 min-width-zero">
 													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
 														<div class="min-width-zero">
-															<strong><p class="mb-0 fs-16 text-dark"><c:out value="${msg.MSG_EMP_NO }"/></p></strong>
+															<strong><p class="mb-0 fs-16 text-dark"><c:out value="${msg.MSG_EMP_NAME }"/></p></strong>
 														</div>
 													</div>
 												</div>
@@ -100,7 +100,7 @@
 							  </div>
 							  <div class="box-footer no-border">
 								 <div class="d-md-flex d-block justify-content-between align-items-center bg-white p-5 rounded10 b-1 overflow-hidden">
-										<input class="form-control b-0 py-10" type="text" placeholder="메시지를 작성해주세요." id="msgText">
+										<input class="form-control b-0 py-10" type="text" placeholder="메시지를 작성해주세요." id="msgText"/>
 										<div class="d-flex justify-content-between align-items-center mt-md-0 mt-30">
 											<!-- 파일 전송 버튼 -->
 											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
@@ -131,7 +131,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   	<script>
-  			var today=new Date();
+  			/* var today=new Date(); */
   			/* var time=today.toLocaleString(); */
   			/* console.log(time); */
   	
@@ -163,43 +163,124 @@
   				
   				var chat=JSON.parse(payload.body);
   				
-  				var writer=chat.msgEmpNo;
-  				var message=chat.message;
-  				var str='';
+  				console.log(chat.sendAt);
   				
+  				//작성자,메시지 내용,발신 시간 값 가져오기
+  				var writer=chat.msgEmpName;
+  				var message=chat.message;
+  				var sendAt=chat.sendAt;
+  				
+  				//화면 출력할 태그들 생성하기
+  				const $div = document.createElement("div");
+					  $div.classList.add("col-12");
+  				
+				const $card = document.createElement("div");
   				//채팅 작성자가 본인이라면
   				if(writer===username){
-  					
+					$card.classList.add("card", "d-inline-block", "mb-3", "float-end", "me-2", "bg-info", "max-w-p80");
   				}else{
-  					
+  					$card.classList.add("card", "d-inline-block", "mb-3", "float-start", "me-2", "no-shadow", "bg-lighter", "max-w-p80");
   				}
   				
+  				const $positionAbsolute=document.createElement("div");
+  				$positionAbsolute.classList.add("position-absolute", "pt-1", "pe-2", "r-0");
   				
-  				console.log(writer);
+  				const $sendAt = document.createElement("span");
+  				$sendAt.classList.add("text-extra-small");
+  				$sendAt.textContent = sendAt;
+  				
+  				$positionAbsolute.appendChild($sendAt);
+  				$card.appendChild($positionAbsolute);
+  				
+  				const $cardBody = document.createElement("div");
+  				$cardBody.classList.add("card-body");
+
+  				const $flexRow = document.createElement("div");
+  				$flexRow.classList.add("d-flex", "flex-row", "pb-2");
+
+  				const $flexGrow = document.createElement("div");
+  				$flexGrow.classList.add("d-flex", "flex-grow-1", "min-width-zero");
+
+  				const $m2 = document.createElement("div");
+  				$m2.classList.add("m-2", "ps-0", "align-self-center", "d-flex", "flex-column", "flex-lg-row", "justify-content-between");
+
+  				const $minWidthZero = document.createElement("div");
+  				$minWidthZero.classList.add("min-width-zero");
+
+  				const $strong = document.createElement("strong");
+  				const $p = document.createElement("p");
+  				$p.classList.add("mb-0", "fs-16");
+  				$p.textContent = writer;
+
+  				$strong.appendChild($p);
+  				$minWidthZero.appendChild($strong);
+  				$m2.appendChild($minWidthZero);
+  				$flexGrow.appendChild($m2);
+  				$flexRow.appendChild($flexGrow);
+  				$cardBody.appendChild($flexRow);
+
+  				const $chatTextStart = document.createElement("div");
+  				$chatTextStart.classList.add("chat-text-start", "ps-20");
+
+  				const $message = document.createElement("p");
+  				$message.classList.add("mb-0", "text-semi-muted");
+  				$message.textContent = message;
+
+  				$chatTextStart.appendChild($message);
+  				$cardBody.appendChild($chatTextStart);
+
+  				$card.appendChild($cardBody);
+  				$div.appendChild($card);
+  				
+  				const startMsg = document.getElementById("startMsg");
+  				startMsg.appendChild($div);
+  				
+  				const scroll=document.querySelector("#scrollStart");
+  				scroll.scrollTop = scroll.scrollHeight;
+  				
   			}
   			
   			//통신 실패했을 때 함수
   			function onError(){
-  				alert('에러');
+  				alert('통신 종료');
   			}
-  	
-  			/* 채팅메시지 전송 함수 */
+  			
+  			/* 버튼 클릭 시 메시지 전송 */
   			document.getElementById('sendbtn').addEventListener('click',function(e){
-  				var msg=document.getElementById('msgText');
+  				sendMsg();
+  			});
+  			
+  			/* 엔터 눌렀을 때 메시지 전송 */
+  			window.onload=()=>{
+  				document.getElementById('msgText').addEventListener("keyup",e=>{
+  					if(e.key=='Enter'){
+  						sendMsg();
+  					}
+  				});
+  			}
+  			
+  			/* 채팅메시지 전송 함수 */
+  			const sendMsg=()=>{
+				var msg=document.getElementById('msgText');
+  				
+  				if(msg.value==""||msg.value==null){
+  					alert('내용을 적어주세요.');
+  				}else{
   				
   				if(stomp && msg){
   					var chatMsg={msgRoomNo:roomId,
   							message:msg.value,
   							msgEmpName:username,
-  							msgEmpNo:userno,
-  							sendAt:today
+  							msgEmpNo:userno
   							}
   				};
   				//send(path, header,message)로 메세지 발신
   				//StompChatController의 @MessageMapping(value="/chat/message")로 메시지 발신
   				stomp.send('/pub/chat/send',{},JSON.stringify(chatMsg));
   				msg.value='';
-  			});
+  				}
+  			}
+  			
   			
   			
   	</script>

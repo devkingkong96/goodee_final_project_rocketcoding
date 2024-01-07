@@ -24,7 +24,7 @@ public class PrdInventory {
     private int prdIvQuantity;
     private String prdIvMemo;
 
-    private long prdId;
+    private Long prdId;
 
-    private long ivId;
+    private Long ivId;
 }

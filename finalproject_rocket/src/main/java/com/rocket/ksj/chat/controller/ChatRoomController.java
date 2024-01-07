@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.ksj.chat.model.dto.ChatRoom;
 import com.rocket.ksj.chat.model.service.ChatMessageService;
 import com.rocket.ksj.chat.model.service.ChatRoomService;
 import com.rocket.ksj.chat.model.service.ChatService;
@@ -57,7 +58,8 @@ public class ChatRoomController {
 		//로그인한 직원 정보 가져오기
 		Employee empinfo=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//해당 채팅방의 정보 가져오기
-		List<Map<String, Object>>room=roomService.selectRoomById(roomId);
+		ChatRoom room=roomService.selectRoomById(roomId);
+		
 //		//해당 채팅방의 채팅내역들 가져오기
 		List<Map<String, Object>>messages=msgService.selectChatMessageByNo(roomId);
 		

@@ -17,8 +17,7 @@ public class ChatMessage {
 	private String message;
 	private Date sendAt;
 	private String readCheck;
-	private int msgEmChNo; //중간테이블 fk키
 	private int msgEmpNo; //회원테이블 fk키
 	private int msgRoomNo; //채팅방 fk키
-	
+	private String msgEmpName; //회원테이블 직원이름
 }

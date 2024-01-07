@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <title>채팅 페이지</title>
@@ -25,9 +26,9 @@
 									<div class="d-lg-flex d-block justify-content-between align-items-center w-p100">
 										<div class="media-body mb-lg-0 mb-20">
 											<p class="fs-16">
-											  <a class="hover-primary" href="#"><strong><c:out value="${room.CHATROOM_NO }"/></strong></a>
+											  <a class="hover-primary" href="#"><strong><c:out value="${room.chatRoomNo }"/></strong></a>
 											</p>
-											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.EMP_COUNT }"/></p>
+											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.empCount }"/></p>
 										</div>
 										<div>
 											<ul class="list-inline mb-0 fs-18">
@@ -47,7 +48,7 @@
 								  <div class="col-12">
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-info max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small"><c:out value="${msg.SEND_AT }"/></span>
+											<span class="text-extra-small"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="medium" /></span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
@@ -70,7 +71,7 @@
 									  	<div class="col-12">
 									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted"><c:out value="${msg.SEND_AT }"/></span>
+											<span class="text-extra-small text-muted"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="medium" /></span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
@@ -92,6 +93,8 @@
 								  </c:choose>
 								  </c:forEach>
 								  </c:if>
+								  
+								  
 								  </div>
 								  </div>
 							  </div>
@@ -127,7 +130,79 @@
   <!-- /.content-wrapper -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-  
+  	<script>
+  			var today=new Date();
+  			/* var time=today.toLocaleString(); */
+  			/* console.log(time); */
+  	
+  			var roomId='${room.chatRoomNo }';
+  			var username='${empinfo.empName }';
+  			var userno='${empinfo.empNo }';
+  			
+  			var sockJS=new SockJS("/ws/chat");
+  			var stomp=Stomp.over(sockJS);
+  			
+  			//Stomp 연결 시 실행
+  			stomp.connect({},onConnected,onError);
+  			
+  			//연결 성공했을 때 실행하는 함수
+  			function onConnected(){
+  				console.log("stomp 연결 성공");
+  				
+  				//subscribe(path,callback)으로 메세지 받기 가능
+  				
+  				//sub 할 url -> /sub/chat/room/roomId로 구독 시작
+  				stomp.subscribe("/sub/chat/room/"+roomId,onMessageReceived);
+  				//StompChatController의 @MessageMapping("/chat/enter")에서 template.convertAndSend()를 통해 메시지 전달받음.
+  				
+  			}
+  			
+  			//메시지 수신
+  			function onMessageReceived(payload){
+  				console.log("수신 확인");
+  				
+  				var chat=JSON.parse(payload.body);
+  				
+  				var writer=chat.msgEmpNo;
+  				var message=chat.message;
+  				var str='';
+  				
+  				//채팅 작성자가 본인이라면
+  				if(writer===username){
+  					
+  				}else{
+  					
+  				}
+  				
+  				
+  				console.log(writer);
+  			}
+  			
+  			//통신 실패했을 때 함수
+  			function onError(){
+  				alert('에러');
+  			}
+  	
+  			/* 채팅메시지 전송 함수 */
+  			document.getElementById('sendbtn').addEventListener('click',function(e){
+  				var msg=document.getElementById('msgText');
+  				
+  				if(stomp && msg){
+  					var chatMsg={msgRoomNo:roomId,
+  							message:msg.value,
+  							msgEmpName:username,
+  							msgEmpNo:userno,
+  							sendAt:today
+  							}
+  				};
+  				//send(path, header,message)로 메세지 발신
+  				//StompChatController의 @MessageMapping(value="/chat/message")로 메시지 발신
+  				stomp.send('/pub/chat/send',{},JSON.stringify(chatMsg));
+  				msg.value='';
+  			});
+  			
+  			
+  	</script>
 
 
 

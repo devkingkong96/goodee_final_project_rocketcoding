@@ -1,6 +1,7 @@
 package com.rocket.ksj.chat.controller;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -33,13 +34,18 @@ public class StompChatController {
 	}
 	
 	//채팅 메시지 전송
-	@MessageMapping("/chat/sendMessage")
+	@MessageMapping("/chat/send")
 	public void sendMessage(ChatMessage message) {
 		log.info("채팅메시지 발송 {}",message);
 		
 		//채팅 메시지 저장
-		//msgService.insertMessage(msg);
-		template.convertAndSend("sub/chat/room/"+message.getMsgRoomNo(),message);
+		int result=msgService.insertMessage(message);
+		if(result>0) {
+			log.info("성공");
+		}else {
+			log.info("실패");
+		}
+		template.convertAndSend("/sub/chat/room/"+message.getMsgRoomNo(),message);
 	}
 	
 }

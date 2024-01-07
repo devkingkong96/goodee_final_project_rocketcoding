@@ -10,21 +10,25 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.rocket.seoj.logistics.model.dto.Inventory;
-import com.rocket.seoj.logistics.model.dto.InventoryAttach;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.seoj.logistics.model.dto.*;
+import com.rocket.seoj.logistics.model.service.InventoryService;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rocket.seoj.logistics.model.service.LogisticsService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -36,10 +40,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/logistics")
 @RequiredArgsConstructor
-@Slf4j
-public class LogisticsController {
+@Log4j2
+public class InventoryController {
 
-    private final LogisticsService service;
+    private final InventoryService service;
 	
 	/*	@ExceptionHandler (DataAccessException.class)
 		public ResponseEntity<Object>
@@ -79,7 +83,7 @@ public class LogisticsController {
                                          @RequestParam("value") String value,
                                          @RequestParam("parentTableName") String parentTableName,
                                          @RequestParam("parentColumnName") String parentColumnName) throws DataAccessException {
-        System.out.println("parentTableName : " + parentTableName);
+        log.debug("parentTableName : " + parentTableName);
 
         String parentColumnId = tableIdColumnMap.get(parentTableName.toUpperCase());
         String columnId = tableIdColumnMap.get(tableName);
@@ -88,17 +92,17 @@ public class LogisticsController {
             value = value.toUpperCase();
         }
 
-        System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
+        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
                 id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
 
-        System.out.println("업데이트 실행합니다");
+        log.debug("업데이트 실행합니다");
         int result = 0;
 
         try {
 
             result = service.updateColumn(id, columnName, tableName.toUpperCase(), value, parentTableName.toUpperCase(),
                                           parentColumnId, parentColumnName, columnId);
-            System.out.println("result : " + result);
+            log.debug("result : " + result);
 
             if (result > 0) {
 
@@ -119,8 +123,23 @@ public class LogisticsController {
 
     }
 
+    @RequestMapping("inventory/write/branchempinfo")
+    public ResponseEntity<?> branchempinfo(@RequestParam("branchId") long branchId) {
+        List<Map<String, Object>> empInfoBybrc = service.branchempinfo(branchId);
+
+        if (empInfoBybrc.isEmpty()) {
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        }
+        log.debug("brcInfo: {}", empInfoBybrc);
+        return ResponseEntity.ok(empInfoBybrc);
+
+    }
+
+
     @RequestMapping("inventory/write/prdinfo")
-    public ResponseEntity<?> getProductInfo(@RequestParam("prdId") long id) {
+    public ResponseEntity<?> prdinfo(@RequestParam("prdId") long id) {
         Map<String, Object> prdInfo = service.getProductInfo(id);
 
         if (prdInfo.isEmpty()) {
@@ -133,36 +152,66 @@ public class LogisticsController {
 
     }
 
+    public List<PrdInventory> convertJsonToPrdInventoryList(String json) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(json, new TypeReference<List<PrdInventory>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 오류 처리 또는 빈 리스트 반환
+            return Collections.emptyList();
+        }
+    }
+
     @RequestMapping("inventory/endwrite")
-    public ResponseEntity<?> endWriteInventory(@RequestParam("files") MultipartFile[] upFile,
-                                               @RequestParam("tableData") String tableData,
+    public ResponseEntity<?> endWriteInventory(@RequestParam(name = "files", required = false) MultipartFile[] upFile,
+//                                               List<PrdInventory> prdInventory,
+                                               @RequestParam("prdInventory") String prdInventory,
+//                                               @ModelAttribute PrdInventoryWrapper prdInventory,
+//                                               @RequestBody List<PrdInventory> prdInventory,
+//                                               @RequestParam("tableData") String tableData,
                                                Inventory inv,
-                                               InventoryAttach invAttach,
+                                               InventoryFileWrapper invAttach,
                                                Model model,
                                                HttpSession session,
                                                @ModelAttribute Inventory formData
 //                                               @RequestParam("formData") Object formData,
     ) {
+
+        Employee loginemp = (Employee)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        model.addAttribute("loginemp", loginemp);
+
+
+//        log.error("tableData: " + tableData[0]['prdId']);
+        log.error(prdInventory);
+        List<PrdInventory> prdInventoryList = convertJsonToPrdInventoryList(prdInventory);
+
         String path = session
                 .getServletContext()
                 .getRealPath("/resources/upload/logistics");
 /*        try {
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(formData);
-            System.out.println("JSON: " + json);
+            log.debug("JSON: " + json);
             // 이제 json 변수에 formData의 JSON 표현이 저장되어 있습니다.
         } catch (Exception e) {
             e.printStackTrace();
             // JSON 변환 중 발생한 오류 처리
         }*/
 
-//        System.out.println("ivType: " + ivType);
+//        log.debug("ivType: " + ivType);
 //        printFieldNames(formData);
-//        System.out.println("formData: " + formData.toString());
-      /*  System.out.println("formData: " + formData
+//        log.debug("formData: " + formData.toString());
+      /*  log.debug("formData: " + formData
                 .getClass()
                 .getName());
 */
+        List<InventoryAttach> fileList = new ArrayList<>();
+
         if (upFile != null) {
             for (MultipartFile mf : upFile) {
 //				if(!upFile.isEmpty()) {
@@ -177,31 +226,61 @@ public class LogisticsController {
                     try {
 //						upFile.transferTo(new File(path,rename));
                         mf.transferTo(new File(path, rename));
-                        InventoryAttach file = InventoryAttach
-                                .builder()
-                                .ivFileNameOri(oriName)
-                                .ivFileNameRe(rename)
-                                .ivAttachIsdel("N")
-                                .build();
+                        InventoryAttach file = InventoryAttach.builder()
+                                                              // TODO 사용자 id 나중에 넣어줘야함
+                                                              .ivId(1)
+                                                              .ivFileNameOri(oriName)
+                                                              .ivFileNameRe(rename)
+                                                              .ivAttachIsdel("N")
+                                                              .build();
 
-
+                        fileList.add(file);
                     } catch (IOException | DataAccessException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-        System.out.println("컨트롤러 inv : " + inv);
-        System.out.println("컨트롤러 invAttach : " + invAttach);
-        System.out.println("컨트롤러 formData : " + formData);
-//        System.out.println("formDataJson: " + (String)formData);
-        System.out.println("컨트롤러 tableData: " + tableData);
+        log.debug("컨트롤러 inv : " + inv);
+        log.debug("컨트롤러 invAttach : " + invAttach);
+        log.debug("컨트롤러 formData : " + formData);
+//        log.debug("formDataJson: " + (String)formData);
+//        log.error("컨트롤러 tableData: " + tableData);
 
-        System.out.println("깐트롤라");
+        log.debug("깐트롤라");
+        formData.setSendEmpId(loginemp.getEmpNo());
+        formData.setSendBrcId(loginemp.getBranchId());
 
-        int result = service.insertInventory(formData);
 
-        if (result > 0) {
+        long generatedId = service.insertInventory(formData);
+        log.error("generatedId: " + generatedId);
+
+        log.error("fileList" + fileList.size());
+        if (upFile != null) {
+            for (InventoryAttach attach : fileList) {
+                attach.setIvId(generatedId);
+            }
+
+
+            // TODO @transactional 되서 List<Integer>를 반환 안해도 될거같은데.. 물어보기
+            List<Integer> result2 = service.insertInventoryAttach(fileList);
+            log.debug(String.valueOf(result2));
+        }
+
+
+//        List<PrdInventory> prdInventoryList = prdInventory.getPrdInventory();
+
+        for (PrdInventory prdIv : prdInventoryList) {
+            prdIv.setIvId(generatedId);
+        }
+
+        List<Integer> result3 = service.insertPrdInventory(prdInventoryList);
+
+
+//        result2.forEach(insertInventoryAttachResult -> log.error("결과: " + insertInventoryAttachResult));
+
+
+        if (generatedId > 0) {
             return ResponseEntity.ok("입고 등록 성공");
         } else {
             return ResponseEntity
@@ -215,9 +294,9 @@ public class LogisticsController {
         Class<?> objClass = obj.getClass();
         Field[] fields = objClass.getDeclaredFields();
 
-        System.out.println("Field names of class " + objClass.getName() + ":");
+        log.debug("Field names of class " + objClass.getName() + ":");
         for (Field field : fields) {
-            System.out.println(field.getName());
+            log.debug(field.getName());
         }
     }
 
@@ -225,6 +304,16 @@ public class LogisticsController {
     public String inventoryWrite(Model model) {
 		/*		List<Map> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);*/
+
+        Employee loginemp = (Employee)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        model.addAttribute("loginemp", loginemp);
+
+
+        List<Map<String, Object>> branchList = service.selectAllBranch();
+        System.out.println(branchList.size());
         List<Map<String, Object>> writeInventoryItem = service.selectWriteInventory();
 
         Map<Object, Object> prdTitleToIdMap = new HashMap<>(); // PRD_TITLE을 키로, PRD_ID를 값으로 하는 맵
@@ -238,16 +327,17 @@ public class LogisticsController {
             }
         }
 
+
         ObjectMapper prdTitleToJson = new ObjectMapper();
 
         try {
             String jsonMap = prdTitleToJson.writeValueAsString(prdTitleToIdMap);
-            System.out.println();
+            log.debug(jsonMap);
             model.addAttribute("jsonMap", jsonMap);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
+        model.addAttribute("branchList", branchList);
         model.addAttribute("prdTitleToIdMap", prdTitleToIdMap);
         model.addAttribute("writeInventoryItem", writeInventoryItem);
         return "logistics/inventoryWrite";
@@ -275,36 +365,32 @@ public class LogisticsController {
 					Object ivDate = inventory.get("IV_DATE");
 					
 					if (ivDate != null) {
-						System.out.println("IV_DATE의 자료형: " + ivDate.getClass().getName());
+						log.debug("IV_DATE의 자료형: " + ivDate.getClass().getName());
 					} else {
-						System.out.println("IV_DATE 키에 해당하는 값이 없습니다.");
+						log.debug("IV_DATE 키에 해당하는 값이 없습니다.");
 					}
 				}*/
-        System.out.println();
+
         model.addAttribute("inventories", uniqueInventoryData);
         return "logistics/inventoryList";
     }
 
     @PostMapping("inventory/list/delete")
-    public String deleteInventoryAndAttachments(@RequestParam("iv_id") Long inventoryId, Model model) {
-        System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ딜리트ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ " + inventoryId);
-        boolean deletionSuccess = service.deleteInventoryAndAttachmentAndPrdIv(inventoryId); // 서비스 레이어에서 삭제 로직 수행
-
-        String msg, loc;
+    public ResponseEntity<?> deleteInventoryAndAttachments(@RequestParam("iv_id") Long inventoryId) {
+        log.debug("딜리트: " + inventoryId);
+        boolean deletionSuccess = service.deleteInventoryAndAttachmentAndPrdIv(inventoryId);
 
         if (deletionSuccess) {
-            msg = "삭제 성공";
-            loc = "logistics/inventory/list";
+
+            return ResponseEntity
+                    .ok()
+                    .body(Map.of("message", "삭제 성공", "status", "success"));
         } else {
-            msg = "삭제 실패";
-            loc = "logistics/inventory/list";
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "삭제 실패", "status", "error"));
         }
-        model.addAttribute("msg", msg);
-        model.addAttribute("loc", loc);
-		/*	ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("redirect:/inventory/list"); // 삭제 후 리다이렉트할 페이지
-			return modelAndView;*/
-        return "logistics/common/msg";
     }
 
     @GetMapping("/inventories")
@@ -349,9 +435,9 @@ public class LogisticsController {
 	/*	@Controller
 		@RequestMapping ("/logistics")
 		@RequiredArgsConstructor
-		public class LogisticsController {
+		public class InventoryController {
 	
-			private final LogisticsService service;
+			private final InventoryService service;
 	
 			@GetMapping ("/List") @ResponseBody
 			public Map<String, Object> getAllItems(Model model) {

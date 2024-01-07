@@ -4,23 +4,27 @@ import java.util.List;
 import java.util.Map;
 
 import com.rocket.seoj.logistics.model.dto.Inventory;
+import com.rocket.seoj.logistics.model.dto.InventoryAttach;
+import com.rocket.seoj.logistics.model.dto.PrdInventory;
+import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rocket.seoj.logistics.model.dao.LogisticsDao;
+import com.rocket.seoj.logistics.model.dao.InventoryDao;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class LogisticsService {
+@Log4j2
+public class InventoryService {
 
-    private final LogisticsDao dao;
+    private final InventoryDao dao;
     private final SqlSession session;
 
-    // 가안
+
     @Transactional
     public List<Map<String, Object>> selectAllInventories() {
         return dao.selectAllInventories(session);
@@ -47,14 +51,15 @@ public class LogisticsService {
 
     @Transactional
     public boolean deleteInventoryAndAttachmentAndPrdIv(Long inventoryId) {
-        // TODO Auto-generated method stub
 		
 		/*		int attachDeleteResult = dao.deleteInventoryAttach(session, inventoryId);
-				System.out.println("attachDeleteResult " + attachDeleteResult);
+				log.debug("attachDeleteResult " + attachDeleteResult);
 				int prdInventoryDelResult = dao.deletePrdInventory(session, inventoryId);
-				System.out.println("prdInventoryDelResult " + prdInventoryDelResult);*/
+				log.debug("prdInventoryDelResult " + prdInventoryDelResult);*/
         int inventoryDeleteResult = dao.deleteInventoryColumn(session, inventoryId);
-        System.out.println("inventoryDeleteResult " + inventoryDeleteResult);
+
+        // if문으로 감싸줘야함
+        log.debug("inventoryDeleteResult " + inventoryDeleteResult);
 
         if (inventoryDeleteResult > 0) {
             return true;
@@ -64,14 +69,14 @@ public class LogisticsService {
 		
 		/*		if (attachDeleteResult > 0 && inventoryDeleteResult > 0
 				   && prdInventoryDelResult > 0) {
-					System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 성공ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
+					log.debug("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 성공ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
 					return true;
 				} else if (inventoryDeleteResult > 0) {
-					System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 성공ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
+					log.debug("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 성공ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
 					return true;
 				} else {
 		
-					System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 실패ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
+					log.debug("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 실패ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
 					return false;
 				}*/
     }
@@ -82,11 +87,48 @@ public class LogisticsService {
 
     }
 
+    @Transactional
     public Map<String, Object> getProductInfo(long id) {
         return dao.getProductInfo(session, id);
     }
 
-    public int insertInventory(Inventory formData) {
-        return dao.insertInventory(session, formData);
+    @Transactional
+    public long insertInventory(Inventory formData) {
+        dao.insertInventory(session, formData);
+        return formData.getIvId();
+    }
+
+/*    public void insertInventoryAttachBatch(List<InventoryAttach> attachList) {
+        try (
+
+                int[] result = session
+                        .getMapper(InventoryDao.class)
+                        .insertInventoryAttachBatch(attachList)) {
+            session.commit();
+        } catch (Exception e) {
+            session.rollback();
+            throw e;
+        }
+    }*/
+
+    @Transactional
+    public List<Integer> insertInventoryAttach(List<InventoryAttach> fileList) {
+
+        return dao.insertInventoryAttach(session, fileList);
+    }
+
+    @Transactional
+    public List<Integer> insertPrdInventory(List<PrdInventory> prdInventory) {
+        return dao.insertPrdInventory(session, prdInventory);
+    }
+
+    @Transactional
+    public List<Map<String, Object>> selectAllBranch() {
+        return dao.selectAllBranch(session);
+    }
+
+    @Transactional
+    public List<Map<String, Object>> branchempinfo(long branchId) {
+        return dao.branchempinfo(session, branchId);
     }
 }

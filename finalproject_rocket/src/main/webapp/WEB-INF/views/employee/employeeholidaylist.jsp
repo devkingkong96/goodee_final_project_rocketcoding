@@ -55,8 +55,11 @@
 				                <td>${employees.EMP_NAME}</td>
 				                <td>${employees.DOC_NO}</td>
 				                <td>${employees.DOC_TITLE}</td>
-				                <td>${employees.START_DATE} ~ ${employees.END_DATE}</td>
-				            </tr>
+								<td>
+								<fmt:formatDate value="${employees.START_DATE}" pattern="yyyy-MM-dd" /> ~ 
+								<fmt:formatDate value="${employees.END_DATE}" pattern="yyyy-MM-dd" />
+								</td>				            
+								</tr>
 				        <%-- </c:forEach> --%>
 				    </c:forEach>
 					</tbody>

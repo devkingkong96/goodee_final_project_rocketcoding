@@ -1,10 +1,12 @@
 package com.rocket.jsy.employee.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,10 +42,19 @@ public class EmployeeController {
 	}
 	@GetMapping("/employeelist")
 	public String employeelist(Model model) {
-		List<Map<String, Object>> employees = service.selectEmployeeAll();
+	    List<Map<String, Object>> employees = service.selectEmployeeAll();
+	    List<Map<String,Object>> branches = service.selectBranch();
+	    List<Map<String,Object>> departments = service.selectDepartment();
+	    List<Map<String,Object>> dwrules = service.selectDwrules();
+	    
 	    model.addAttribute("employees", employees);
-	    return "employee/employeelist";
+	    model.addAttribute("branches", branches);
+	    model.addAttribute("departments", departments);
+	    model.addAttribute("dwrules", dwrules);
+	    
+	    return "employee/employeelist"; 
 	}
+	
 	@GetMapping("/employeeholidaylist")
 	public String employeeholidaylist(Model model) {
 		List<Map<String, Object>> employees=service.selectEmployeeHolidayAll();
@@ -55,8 +66,8 @@ public class EmployeeController {
 	    public List<Map<String, Object>> myPageCalendar() {
 	        return service.selectEmployeeMyPageCalendar();
 	    }
-	 @PostMapping("/employeeadd")
-	 public String addEmployee(Employee employee) {
+	 @PostMapping("/employeeinsert")
+	 public String insertEmployee(Employee employee) {
 	     service.insertEmployee(employee);
 	     return "redirect:/employee/employeelist";
 	 }

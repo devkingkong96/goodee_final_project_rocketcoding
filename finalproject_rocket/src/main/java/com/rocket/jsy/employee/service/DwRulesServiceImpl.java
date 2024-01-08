@@ -7,9 +7,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.rocket.jsy.employee.model.dao.DwRulesDao;
+import com.rocket.jsy.employee.model.dto.DwRules;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DwRulesServiceImpl implements DwRulesService{
@@ -20,5 +23,15 @@ public class DwRulesServiceImpl implements DwRulesService{
 	@Override
 	public List<Map<String,Object>>selectDwRulesAll(){
 		return dao.selectDwRulesAll(session);
+	}
+	@Override
+	public void addDwRules(DwRules dwRules) {
+	    log.info("dwrulesStart: {}, dwrulesEnd: {}, dwrulesEarly: {}", 
+        dwRules.getDwrulesStart(), dwRules.getDwrulesEnd(), dwRules.getDwrulesEarly());
+	    dao.insertDwRules(session, dwRules);
+	}
+	@Override
+	public void deleteDwRule(String comNo) {
+	    dao.deleteDwRule(session, comNo);
 	}
 }

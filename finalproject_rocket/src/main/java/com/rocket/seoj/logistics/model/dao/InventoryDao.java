@@ -8,7 +8,8 @@ import java.util.Map;
 import com.rocket.seoj.logistics.model.dto.Inventory;
 import com.rocket.seoj.logistics.model.dto.InventoryAttach;
 import com.rocket.seoj.logistics.model.dto.PrdInventory;
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Repository;
  * @version 2023-12-25
  */
 @Repository
-@Log4j2
+@Slf4j
 public class InventoryDao {
 
     public List<Map<String, Object>> selectAllInventories(SqlSession session) {
@@ -104,7 +105,7 @@ public class InventoryDao {
         List<Integer> result = new ArrayList<>();
         for (PrdInventory prdIv : prdInventory) {
             int resultOne = session.insert("prdinventory.insertPrdInventory", prdIv);
-            log.error("ㄴㄴㄴㄴㄴㄴㄴㄴresultOneㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ " + resultOne);
+            log.debug("ㄴㄴㄴㄴㄴㄴㄴㄴresultOneㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ " + resultOne);
             result.add(resultOne);
         }
         return result;

@@ -1,6 +1,7 @@
 package com.rocket.pdw.aprv.model.service;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Map<String, Object>> findName(Integer depCode) {
 		
 		return dao.findName(session,depCode);
+	}
+	@Override
+	public List<Map<String,Object>> selectEmployee(int no) {
+		 
+		return dao.selectEmployee(session,no);
 	}
 	
 	

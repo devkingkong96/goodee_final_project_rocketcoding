@@ -121,6 +121,10 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
         top: 10px;
 
     }
+
+    .error-border {
+        border: 2px solid red !important;
+    }
 </style>
 
 
@@ -199,7 +203,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
             <div class="row">
                 <div class="col-lg-12 col-12">
                     <div class=" connectedSortable">
-                        <form name="insertinventory" id="insertinventory"
+                        <form name="insertinventory" id="insertpublisher"
                         <%-- method="post"--%> enctype="multipart/form-data">
                             <div class="box">
                                 <div class="box-header with-border">
@@ -214,106 +218,67 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                                 <div class="box-body p-12"> <%--action="${path }/logistics/write"--%>
 
-
-                                    <%--                                    <div class="box-body form-element col-3">
-                                                                            <div class="col-12" style="margin-bottom: 5px;">
-                                                                                <label class="form-label" style="margin:5px;">
-                                                                                    <i class="si-note si"></i>
-                                                                                    출판사명</label>
-                                                                            </div>
-                                                                            <input name="pubName" class="form-control" type="text"
-                                                                                   placeholder="Default input">
-                                                                        </div>
-                                                                        <div class="box-body form-element col-3">
-                                                                            <div class="col-12" style="margin-bottom: 5px;">
-                                                                                <label class="form-label" style="margin:5px;">
-                                                                                    <i class="si-note si"></i>
-                                                                                    주소</label>
-                                                                            </div>
-                                                                            <input name="pubAddr" class="form-control" type="text"
-                                                                                   placeholder="Default input">
-                                                                        </div>
-                                                                        <div class="box-body form-element col-3">
-                                                                            <div class="col-12" style="margin-bottom: 5px;">
-                                                                                <label class="form-label" style="margin:5px;">
-                                                                                    <i class="si-note si"></i>
-                                                                                    연락처</label>
-                                                                            </div>
-                                                                            <div class="form-group"
-                                                                            <div class="controls">
-                                                                                <input name="pubPhone" class="form-control" type="text"
-                                                                                       placeholder="Default input" required
-                                                                                       data-validation-containsnumber-regex="(\d)+"
-                                                                                       data-validation-containsnumber-message="입력값은 숫자만 가능합니다">
-                                                                            </div>
-                                                                        </div>--%>
                                     <div class="row">
                                         <div class="col-2
                                         " style="margin-bottom: 20px;">
                                             <div class="col-12" style="margin-bottom: 5px;">
                                                 <label class="form-label" style="margin:5px;">
-                                                    <i class="si-note si"></i>
+                                                    <i class="si-note si" for="pubName"></i>
                                                     출판사명</label>
                                             </div>
-                                            <input name="pubName" class="form-control" type="text"
-                                                   placeholder="출판사명">
-                                            <%--                  <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고">
-                                                              <label for="ivType_Option_1">입고</label>
-                                                              <input name="ivType" type="radio" id="ivType_Option_2" value="출고">
-                                                              <label for="ivType_Option_2">출고</label>--%>
+                                            <input name="pubName" id="pubName" class="form-control" type="text"
+                                                   placeholder="출판사명" required>
                                         </div>
 
                                         <div class="col-2
                                         " style="margin-bottom: 20px;">
                                             <div class="col-12" style="margin-bottom: 5px;">
-                                                <label class="form-label" style="margin:5px;">
+                                                <label class="form-label" style="margin:5px;" for="pubAddr">
                                                     <i class="si-location-pin si"></i>
                                                     주소</label>
                                             </div>
-                                            <input name="pubAddr" class="form-control" type="text"
-                                                   placeholder="주소">
-                                            <%--                  <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고">
-                                                              <label for="ivType_Option_1">입고</label>
-                                                              <input name="ivType" type="radio" id="ivType_Option_2" value="출고">
-                                                              <label for="ivType_Option_2">출고</label>--%>
+                                            <input name="pubAddr" id="pubAddr" class="form-control" type="text"
+                                                   placeholder="주소" required>
+
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-2
                                         " style="margin-bottom: 20px;">
-                                            <div class="col-12" style="margin-bottom: 5px;">
-                                                <label class="form-label" style="margin:5px;">
-                                                    <i class="si-earphones-alt si"></i>
-                                                    연락처</label>
+
+                                            <div class="form-group">
+                                                <div class="col-12" style="margin-bottom: 5px;">
+                                                    <label class="form-label" style="margin:5px;" for="pubPhone">
+                                                        <i class="si-earphones-alt si"></i>
+                                                        연락처</label>
+                                                </div>
+                                                <div class="controls">
+                                                    <input name="pubPhone" id="pubPhone" class="form-control"
+                                                           type="text"
+                                                           placeholder="연락처" required
+                                                           data-validation-containsnumber-regex="(\d)+"
+                                                           data-validation-containsnumber-message="숫자만 입력 가능합니다.">
+                                                </div>
                                             </div>
-                                            <input name="pubPhone" class="form-control" type="text"
-                                                   placeholder="연락처">
-                                            <%--                  <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고">
-                                                              <label for="ivType_Option_1">입고</label>
-                                                              <input name="ivType" type="radio" id="ivType_Option_2" value="출고">
-                                                              <label for="ivType_Option_2">출고</label>--%>
                                         </div>
 
                                         <div class="col-2
                                         " style="margin-bottom: 20px;">
                                             <div class="col-12" style="margin-bottom: 5px;">
-                                                <label class="form-label" style="margin:5px;">
+                                                <label class="form-label" style="margin:5px;" for="pubRepresentative">
                                                     <i class="mdi mdi-account-location"></i>
                                                     대표자명</label>
                                             </div>
-                                            <input name="pubRepresentative" class="form-control" type="text"
-                                                   placeholder="대표자명">
-                                            <%--                  <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고">
-                                                              <label for="ivType_Option_1">입고</label>
-                                                              <input name="ivType" type="radio" id="ivType_Option_2" value="출고">
-                                                              <label for="ivType_Option_2">출고</label>--%>
+                                            <input name="pubRepresentative" id="pubRepresentative" class="form-control"
+                                                   type="text"
+                                                   placeholder="대표자명" required>
                                         </div>
                                     </div>
 
-
                                     <div class="col-lg-2 col-5">
-                                        <label class="form-label" style="margin:5px;"><i class="mdi mdi-bank"
-                                                                                         style="margin-right:10px;"></i>
+                                        <label class="form-label" style="margin:5px;" for="pubBank"><i
+                                                class="mdi mdi-bank"
+                                                style="margin-right:10px;"></i>
                                             이체 정보</label>
                                         <div class="input-group">
                                             <button type="button" class="btn btn-info btn-sm dropdown-toggle"
@@ -325,130 +290,23 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                 <a href="#" class="dropdown-item">우리</a>
                                                 <a href="#" class="dropdown-item">축협</a>
                                             </div>
-                                            <input name="pubBank" type="text" class="form-control"
-                                                   placeholder="은행 선택">
+                                            <input name="pubBank" id="pubBank" type="text" class="form-control"
+                                                   placeholder="은행 선택" required>
                                         </div>
-
-
                                     </div>
 
-                                    <%--                <select class="chooseBook form-control select2"
-                                                            data-placeholder="도서를 선택하세요" style="width: 100%;">
-                                                        <option></option>
-                                                        <c:forEach var="entry" items="${prdTitleToIdMap }">
-                                                            <c:if test="${entry.key != null}">
-                                                                <option value="${entry.value}">${entry.key}</option>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </select>--%>
-                                    <%--            <div class="row">
+                                    <div>
+                                        <div class="col-12"
+                                             style="margin-top:30px; margin-left:430px; align-items: flex-end">
+                                            <%--  <input type="hidden" id="tableData" name="tableData" value="">--%>
+                                            <input type="hidden" id="pubIsdel" name="pubIsdel" value="N">
 
-                                                    <div class="col-lg-2 col-5" style="margin:5px; margin-top:20px" ;><label
-                                                            class=" form-label">
-                                                        <i class="si-organization si" style="margin-right:10px;"></i>거래처</label>
-                                                        &lt;%&ndash;               <select
-                                                                               class="form-control select2" name="recieveBrcId" multiple="multiple"
-                                                                               data-placeholder="Select a State" style="width: 100%;">&ndash;%&gt;
-                                                        <select
-                                                                class="chooseBrc form-control select2" name="recieveBrcId"
-                                                                data-placeholder="Select a State" style="width: 100%;">
-                                                            <option></option>
-                                                            <c:forEach var="entry" items="${branchList }">
-
-                                                                <option value="${entry.BRANCH_ID}">${entry.BRANCH_NAME}</option>
-
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-lg-2 col-5" style="margin:5px; margin-top:20px;">
-                                                        <label class="form-label"><i class="si-user si"></i>
-                                                            거래처 측 담당자</label>
-                                                        &lt;%&ndash;    <select
-                                                                    class="form-control select2" name="sendEmpId" multiple="multiple"
-                                                                    data-placeholder="Select a State" style="width: 100%;">&ndash;%&gt;
-                                                        <select class="chooseRecieveEmp form-control select2" name="sendEmpId"
-                                                                data-placeholder="지점을 선택하세요" style="width: 100%;">
-
-
-                                                        </select>
-                                                    </div>
-                                                </div>--%>
-                                    <%--				<div class="dropzone" id="myDropzone">
-                                                        <div class="fallback">
-                                                            <input name="file" type="file" multiple/>
-                                                        </div>
-                                                    </div>--%>
-                                    <%--        <div class="row">
-                                                <div style="margin-top: 30px;">
-                                                    <div class="col-12" style="margin:5px;"><i class="si-calculator si"
-                                                                                               style="margin-right:10px;"></i>
-                                                        부가세
-                                                        포함
-                                                        여부
-                                                    </div>
-                                                    <input name="ivVatType" type="radio"
-                                                           id="vat_Option_1"
-                                                           checked value="Y">
-                                                    <label for="vat_Option_1">포함</label>
-                                                    <input name="ivVatType" type="radio" id="vat_Option_2" value="N">
-                                                    <label for="vat_Option_2">제외</label>
-                                                </div>
-
-                                                <div id="board-container">
-                                                    <div class="input-group mb-3"
-                                                         style="padding: 0px; margin-top: 10px; margin-left: -10px;">
-                                                        <div class="input-group-prepend" style="padding: 0px; ">
-                                                            <button type="button"
-                                                                    class="waves-effect waves-light btn btn-info-light btn-flat mb-3"
-                                                                    onclick="fn_addFileForm();" style="margin:10px;">첨부파일 추가
-                                                            </button>
-                                                            <button type="button"
-                                                                    class="waves-effect waves-light btn btn-danger-light btn-flat mb-3"
-                                                                    onclick="fn_deleteFileForm();" style="margin:10px;">첨부파일 삭제
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div id="basicFileForm" class="input-group mb-3"
-                                                         style="padding: 0; margin-top:-20px;">
-                                                        <div>
-                                                            <div>
-                                                            <span class="input-group-text1"><i
-                                                                    class="fa fa-fw fa-file-o"
-                                                                    style="margin-right:10px;"></i> 첨부파일 1</span>
-                                                            </div>
-                                                            <input type="file" class="custom-file-input" name="upFile"
-                                                                   id="upFile1" style="display: none;"
-                                                                   onchange="changeFileFunc(event);">
-                                                            <label
-                                                                    class="custom-file-label waves-effect waves-light btn btn-primary-light btn-flat mb-3"
-                                                                    for="upFile1" style="margin:10px;">파일을
-                                                                선택하세요</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2 col-5">
-                                                        <label>
-                                                            <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"
-                                                                       placeholder="적요"></textarea> -->
-
-                                                            <textarea class="col-lg-2 col-5 form-control" name="ivMemo"
-                                                                      placeholder="&#128221;적요"></textarea>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <br/>
-                                                <div class="col-12" style="margin-top:10px; align-items: flex-end">
-                                                    &lt;%&ndash;  <input type="hidden" id="tableData" name="tableData" value="">&ndash;%&gt;
-                                                    <input type="hidden" id="ivIsdel" name="ivIsdel" value="N">
-                                                    <input type="hidden" id="sendBrcId" name="sendBrcId" value="1">
-                                                    <!-- 받는 담당 직원도 넣어주면 좋은데 아직은 필요없는 느낌 -->
-                                                    <input type="hidden" id="docNo" name="docNo" value="1">
-                                                    <button type="submit" class="btn btn-primary submitinventory">
-                                                        <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
-                                                    </button>
-                                                </div>
-                                                &lt;%&ndash;                                        <input type="submit" class="btn btn-outline-success" value="저장">&ndash;%&gt;
-                                            </div>--%>
+                                            <button type="submit" class="btn btn-primary submitpublisher">
+                                                <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
+                                            </button>
+                                        </div>
+                                        <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
+                                    </div>
                                     <script>
                                         const adddelFunction = (function () {
                                             let count = 2;
@@ -479,21 +337,12 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                         const fn_addFileForm = adddelFunction[0];
                                         const fn_deleteFileForm = adddelFunction[1];
 
-                                        /*                           $("#basicFileForm").on("change", "input[type='file'][name='upFile']", function (e) {
-                                                                       const fileName = e.target.files[0].name;
-                                                                       console.log(e.target);
-                                                                       $(e.target).next(".custom-file-label").text(fileName);
-                                                                   });*/
-                                        //
-                                        // $("#fileInputContainer").on("change", "input[name=upFile]", function (e) {
-                                        //     const fileName = e.target.files[0].name;
-                                        //     $(e.target).next(".custom-file-label").text(fileName);
-                                        // });
                                         const changeFileFunc = e => {
                                             const fileName = e.target.files[0].name;
                                             $(e.target).next(".custom-file-label").text(fileName);
                                         };
                                     </script>
+
                         </form>
                     </div>
                 </div>
@@ -519,7 +368,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                         $(document).ready(function () {
 
                             var path = "${path}";
-
+                            var select2Data = {};
 
                             $('#example1').DataTable({
 
@@ -540,32 +389,28 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                 "drawCallback": function (settings) {
                                     // DataTables가 다시 그려질 때마다 실행됩니다.
                                     $('#example1').editableTableWidget();
-
                                 },
 
                                 columnDefs: [
                                     {targets: '_all', editable: true, orderable: true},
-                                    {
-                                        targets: 3,
-                                        /* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 */
-                                        render: function (data, type, row) {
-                                            if (type === 'display' || type === 'filter') {
-                                                var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
+                                    /* {
+                                         targets: 3,
+                                         /!* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 *!/
+                                         render: function (data, type, row) {
+                                             if (type === 'display' || type === 'filter') {
+                                                 var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
 
-                                                return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
-                                            }
-                                            /*                          if (type === 'sort') {
-                                                                       // 정렬을 위해 원본 데이터 형식 사용
-                                                                       return data;
-                                                                     }   */
-                                            return data;
-                                        },
+                                                 return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
+                                             }
+                                             /!*                          if (type === 'sort') {
+                                                                        // 정렬을 위해 원본 데이터 형식 사용
+                                                                        return data;
+                                                                      }   *!/
+                                             return data;
+                                         },
 
-                                    }
-
-
+                                     }*/
                                 ],
-
 
                                 /*    "ordering": [[0, 'desc']],*/
                                 // 수정 불가능한 행 설정
@@ -682,6 +527,12 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                 }
                             });
 
+                            // 드롭다운 아이템 클릭 시 이벤트 처리
+                            $('.dropdown-menu a').click(function () {
+                                var selectedBank = $(this).text(); // 선택된 드롭다운 아이템의 텍스트 값 가져오기
+                                $('input[name="pubBank"]').val(selectedBank + " "); // input 요소에 선택된 값 설정
+                            });
+
                             $('#example1').editableTableWidget().on('change', function (e, newValue) {
                                 // alert("change");
 
@@ -794,7 +645,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                         table.cell(rowIndex, 4).data(response.PRD_PRICE);
                                         table.cell(rowIndex, 5).data(response.PRICE_IN_STK);
 
-                                        table.draw(false);
+                                        table.draw();
 
                                     },
                                     error: function (xhr, status, error) {
@@ -914,54 +765,112 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             });
 
+
                         });
 
                     </script>
                     <script>
 
-                        const saveButton = document.querySelector('.submitinventory');
+                        const saveButton = document.querySelector('.submitpublisher');
 
                         // 이벤트 리스너 추가
                         saveButton.addEventListener('click', function (event) {
 
                             event.preventDefault(); // 기본 동작 방지
                             // alert("무야호");
-                            insertInventory();
+                            insertPublisher();
                             // alert(a);
                             // console.log(a);// insertInventory 함수 호출
                         });
 
 
-                        function insertInventory() {
+                        function insertPublisher() {
                             var table = $('#example1').DataTable();
 
+                            const inputElement = document.querySelector('input[name="pubPhone"]');
+                            const inputValue = inputElement.value;
+
+                            //   This   function   checks   if    the   values   in    the   form   inputs    are   valid
+
+                            //   Get    all    the   form   inputs
+                            // let inputs = document.querySelectorAll('form input');
+                            let form = document.getElementById('insertpublisher');
+                            let inputs = form.querySelectorAll('input');
+                            let ones = false;
+                            for (let input of inputs) {
+
+                                if (input.value.trim() === '') {
+                                    input.classList.add('error-border');
+                                    input.addEventListener('blur', () => {
+                                        // 입력 필드에서 포커스가 벗어났을 때 이벤트 발생
+                                        if (input.value.trim() === '') {
+                                            // 입력 값이 유효하지 않으면 빨간색 테두리 스타일 적용
+                                            input.classList.add('error-border');
+                                        } else {
+                                            // 입력 값이 유효하면 빨간색 테두리 스타일 제거
+                                            input.classList.remove('error-border');
+                                        }
+                                    });
+
+                                    let placeholder = input.placeholder;
+                                    if (ones === false) {
+                                        alert(placeholder + '을(를) 입력해주세요.');
+                                        ones = true;
+                                    }
+                                    // alert(placeholder + '을(를) 입력해주세요.');
+                                }
+                            }
+                            if (ones === true) {
+                                return;
+                            }
+
+
+                            // 유효성 검사
+                            const regex = /(\d)+/;
+                            if (!regex.test(inputValue) || inputElement.value.trim() === '') {
+                                inputElement.classList.add('error-border');
+                                inputElement.addEventListener('blur', () => {
+                                    // 입력 필드에서 포커스가 벗어났을 때 이벤트 발생
+                                    if (inputElement.value.trim() === '' || !regex.test(inputValue)) {
+                                        // 입력 값이 유효하지 않으면 빨간색 테두리 스타일 적용
+                                        inputElement.classList.add('error-border');
+                                    } else {
+                                        // 입력 값이 유효하면 빨간색 테두리 스타일 제거
+                                        inputElement.classList.remove('error-border');
+                                    }
+                                });
+
+                                alert("연락처는 숫자만 입력 가능합니다.");
+                                return;
+                                // 유효성 검사 통과 시 fetch 함수 실행
+                            }
 
                             // alert("tableData : " + tableData[0]['prdId']);
                             /*            var tableData = table.rows().data().toArray();
                                         console.log("데이터 테이블 데이터: ", tableData);*/
 
-                            const form = document.querySelector("#insertinventory");
-                            /*                        let formData = new FormData(form);
-                                                    let entries = formData.entries();
-                                                    console.log(entries);
-                                                    for (const pair of entries) {
-                                                        console.log(pair[0] + " : " + pair[1]);
-                                                    }*/
+                            var formdata1 = $("#insertpublisher").serialize();
+                            console.log(formdata1);
+                            // alert(formdata1);
 
-                            var formData = new FormData(form); // 폼 요소를 기반으로 FormData 객체 생성
-                            // 'ivDeadline' 필드의 값을 가져온다
-                            var ivDeadlineValue = formData.get('ivDeadline');
+                            // dataType:"json",
+
+                            /*                            var formData = new FormData(form); // 폼 요소를 기반으로 FormData 객체 생성*/
 
 
-                            var ivDeadline = document.getElementById('example-datetime-local-input').value;
-                            if (!ivDeadline) {
-                                alert('요청 기한을 입력해주세요.');
-                                return; // 함수 실행을 중단합니다.
-                            }
-                            if (!document.querySelector('select[name="sendEmpId"]').value) {
-                                alert('거래처와 직원을 선택해 주세요');
-                                return; // 함수 실행을 중단합니다.
-                            }
+                            /*                            // 'ivDeadline' 필드의 값을 가져온다
+                                                        var ivDeadlineValue = formData.get('ivDeadline');
+
+
+                                                        var ivDeadline = document.getElementById('example-datetime-local-input').value;
+                                                        if (!ivDeadline) {
+                                                            alert('요청 기한을 입력해주세요.');
+                                                            return; // 함수 실행을 중단합니다.
+                                                        }
+                                                        if (!document.querySelector('select[name="sendEmpId"]').value) {
+                                                            alert('거래처와 직원을 선택해 주세요');
+                                                            return; // 함수 실행을 중단합니다.
+                                                        }*/
 
 
                             function getAllRowData() {
@@ -1064,82 +973,289 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                 return rowDataArray;
                             }
 
-                            var prdInventory = getAllRowData();
+                            var parsedData;
+                            var selectKey;
+                            <%--$.post("${path}/logistics/publisher/list/insert", formdata1)--%>
+                            <%--    .then(data => {--%>
+                            <%--        console.log(data);--%>
+                            <%--    });--%>
+                            /*    var prdInventory = getAllRowData();
 
-                            /*            if (prdInventory.length === 0 ) {
-                                            alert("상품을 선택해주세요");
-                                            return;
-                                        }*/
+                                /!*            if (prdInventory.length === 0 ) {
+                                                alert("상품을 선택해주세요");
+                                                return;
+                                            }*!/
 
-                            if (prdInventory.length === 0) {
-                                // alert("상품을 선택해주세요");
-                                // alert("1");
-                                return;
-                            }
-
-                            for (var i = 0; i < prdInventory.length; i++) {
-                                if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력") && choosePrdCount2 >= 0) {
-                                    prdInventory.splice(i, 1);
-                                    alert("도서의 수량을 입력하거나 사용하지 않는 도서를 삭제 해주세요.");
-                                    // alert("3");
-
+                                if (prdInventory.length === 0) {
+                                    // alert("상품을 선택해주세요");
+                                    // alert("1");
                                     return;
-                                } else if (isNaN(prdInventory[i]["prdIvQuantity"]) && choosePrdCount2 >= 0) {
-                                    prdInventory.splice(i, 1);
-                                    alert("도서의 수량은 숫자만 입력 가능합니다.");
-                                    // alert("4");
-                                    return;
-                                } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
-                                    prdInventory.splice(i, 1);
-                                    // alert("도서/수량을 입력 해주세요");
-                                    // alert("3");
-
-                                    break;
                                 }
 
-                                if (isNaN(prdInventory[i]["prdIvQuantity"])) {
-                                    prdInventory.splice(i, 1);
-                                    // alert("도서의 수량은 숫자만 입력 가능합니다.");
-                                    // alert("4");
-                                    break;
-                                } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
-                                    prdInventory.splice(i, 1);
-                                    // alert("도서/수량을 입력 해주세요");
-                                    // alert("3");
+                                for (var i = 0; i < prdInventory.length; i++) {
+                                    if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력") && choosePrdCount2 >= 0) {
+                                        prdInventory.splice(i, 1);
+                                        alert("도서의 수량을 입력하거나 사용하지 않는 도서를 삭제 해주세요.");
+                                        // alert("3");
 
-                                    break;
-                                }
-                            }
+                                        return;
+                                    } else if (isNaN(prdInventory[i]["prdIvQuantity"]) && choosePrdCount2 >= 0) {
+                                        prdInventory.splice(i, 1);
+                                        alert("도서의 수량은 숫자만 입력 가능합니다.");
+                                        // alert("4");
+                                        return;
+                                    } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
+                                        prdInventory.splice(i, 1);
+                                        // alert("도서/수량을 입력 해주세요");
+                                        // alert("3");
 
-                            var jsonData = JSON.stringify(prdInventory);
-                            formData.append('prdInventory', jsonData);
+                                        break;
+                                    }
 
-                            console.log('ivDeadline:', ivDeadlineValue);
-                            console.log(formData);
+                                    if (isNaN(prdInventory[i]["prdIvQuantity"])) {
+                                        prdInventory.splice(i, 1);
+                                        // alert("도서의 수량은 숫자만 입력 가능합니다.");
+                                        // alert("4");
+                                        break;
+                                    } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
+                                        prdInventory.splice(i, 1);
+                                        // alert("도서/수량을 입력 해주세요");
+                                        // alert("3");
 
-                            var fileInputs = document.querySelectorAll('input[name=upFile]');
-                            fileInputs.forEach(function (input) {
-                                var files = input.files;
-                                if (files.length > 0) {
-                                    for (var i = 0; i < files.length; i++) {
-                                        table.draw();
-                                        formData.append('files', files[i]);
-                                        // alert(files[i]);
+                                        break;
                                     }
                                 }
-                            });
 
-                            console.log("formdata files: " + formData.get('files'));
+                                var jsonData = JSON.stringify(prdInventory);
+                                formData.append('prdInventory', jsonData);
+
+                                console.log('ivDeadline:', ivDeadlineValue);
+                                console.log(formData);
+
+                                var fileInputs = document.querySelectorAll('input[name=upFile]');
+                                fileInputs.forEach(function (input) {
+                                    var files = input.files;
+                                    if (files.length > 0) {
+                                        for (var i = 0; i < files.length; i++) {
+                                            table.draw();
+                                            formData.append('files', files[i]);
+                                            // alert(files[i]);
+                                        }
+                                    }
+                                });
+
+                                console.log("formdata files: " + formData.get('files'));
+
+    */
+
+                            fetch("${path}/logistics/publisher/list/insert", {
+                                method: 'POST',
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded",
+                                },
+                                body: formdata1,
+                            }).then(response => response.json())
+                                .then(data => {
+
+                                    alert(data.message);
+                                    console.log(data.status);
+                                    parsedData = Object.fromEntries(new URLSearchParams(formdata1));
+                                    // alert("data.selectKey : " + data.selectKey);
+                                    selectKey = data.selectKey;
 
 
-                            if (formData.get('files')) {
-                                fetch("${path}/logistics/inventory/endwrite", {
+                                    var currentData = table.rows().data().toArray();
+                                    currentData.splice(0, 0, [selectKey, parsedData.pubName, parsedData.pubAddr, parsedData.pubPhone, parsedData.pubRepresentative, parsedData.pubBank, '<form id="deleteForm" action="${path}/logistics/inventory/list/delete" method="post" style="display: none;"> <input type="hidden" name="pub_id" id="deleteId"> </form> <button type="button" onclick="confirmDeletion(this,' + selectKey + ')" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제 </button>']);
+                                    table.clear().rows.add(currentData).draw(true);
+
+                                    $('#example1 tbody tr').each(function () {
+                                        // 이전에 선택된 값을 저장
+                                        // var prevSelectedValue = $(this).find('.select2').val();
+
+                                        $(this).find('td').eq(0).attr({
+                                            'name': 'dontedit',
+                                            'data-column-name': 'PUB_ID',
+                                            'data-table-name': 'PUBLISHER',
+                                            'data-parent-column': 'PUB_ID'
+                                        });
+                                        $(this).find('td').eq(1).attr({
+                                            'data-column-name': 'PUB_NAME',
+                                            'data-table-name': 'PUBLISHER',
+                                            'data-parent-column': 'PUB_NAME'
+                                        });
+                                        $(this).find('td').eq(2).attr({
+                                            'data-column-name': 'PUB_REPRESENTATIVE',
+                                            'data-table-name': 'PUBLISHER',
+                                            'data-parent-column': 'PUB_REPRESENTATIVE'
+                                        });
+                                        $(this).find('td').eq(3).attr({
+                                            'data-column-name': 'PUB_PHONE',
+                                            'data-table-name': 'PUBLISHER',
+                                            'data-parent-column': 'PUB_PHONE'
+                                        });
+                                        $(this).find('td').eq(4).attr({
+                                            'data-column-name': 'PUB_ADDR',
+                                            'data-table-name': 'PUBLISHER',
+                                            'data-parent-column': 'PUB_ADDR'
+                                        });
+                                        $(this).find('td').eq(5).attr({
+                                            'data-column-name': 'PUB_BANK',
+                                            'data-table-name': 'PUBLISHER',
+                                            'data-parent-column': 'PUB_BANK'
+                                        });
+                                        $(this).find('td').eq(6).attr({
+                                            'name': 'dontedit'
+                                        });
+
+                                    });
+                                    table.draw();
+
+
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                    console.error(error);
+                                });
+                            // table.row(0).add([selectKey, parsedData.pubName, parsedData.pubAddr, parsedData.pubPhone, parsedData.pubRepresentative, parsedData.pubBank]).draw(true);
+                            // 여러개 파일 보내기
+                            /*
+                                                        fetch('/form-submit',  {
+                                                            method:  'POST',
+                                                            headers:  {
+                                                                'Content-Type':  'application/x-www-form-urlencoded'
+                                                            },
+                                                            body:  new  FormData(form)
+                                                        })
+                                                            .then(response  =>  response.json())
+                                                            .then(data  =>  console.log(data))
+                                                            .catch(error  =>  console.error('Error:',  error));
+
+
+                                                        const  fileInputs  =  document.querySelectorAll('input[type="file"]');
+                                                        fileInputs.forEach(input  =>  {
+                                                            input.addEventListener('change',  (event)  =>  {
+                                                                const  files  =  event.target.files;
+                                                                for  (let  i  =  0;  i  <  files.length;  i++)  {
+                                                                    const  file  =  files[i];
+
+                                                                }
+                                                            });
+                                                        });*/
+
+
+                            /*
+                                                       if (formData.get('files')) {
+                                                           fetch("
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
-                                        /*             "Content-Type": "multipart/form-data",*/
+                                        /!*             "Content-Type": "multipart/form-data",*!/
                                     },
                                     body: formData
-                                    /*                 tableData: JSON.stringify(tableData)*/
+                                    /!*                 tableData: JSON.stringify(tableData)*!/
 
                                 }).then(response => {
                                     if (response.ok) {
@@ -1157,13 +1273,117 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                     });
 
                             } else {
-                                fetch("${path}/logistics/inventory/endwrite", {
+                                fetch("
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
-                                        /*             "Content-Type": "multipart/form-data",*/
+                                        /!*             "Content-Type": "multipart/form-data",*!/
                                     },
                                     body: formData,
-                                    /*                 tableData: JSON.stringify(tableData)*/
+                                    /!*                 tableData: JSON.stringify(tableData)*!/
                                     processData: false,
                                     contentType: false,
                                 }).then(response => {
@@ -1180,7 +1400,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                         console.error(error);
                                         alert('Error: ' + error.message); // 오류 발생 시 alert 창에 표시
                                     });
-                            }
+                            }*/
                         }
 
 
@@ -1199,9 +1419,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                             <div class="table-responsive">
 
                                 <table id="example1"
-                                       class="table table-bordered table-separated">
+                                       class="table table-striped">
                                     <thead>
-                                    <tr>
+                                    <tr class="bt-5 border-primary">
                                         <th>출판사 코드</th>
                                         <th>출판사명</th>
                                         <th>대표자명</th>
@@ -1209,21 +1429,19 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                         <th>주소</th>
                                         <th>이체 정보</th>
                                         <th>삭제</th>
-
                                     </thead>
 
                                     <tbody>
                                     <%--	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">--%>
                                     <c:forEach var="pub" items="${publisherList }">
-                                        <tr>
-                                            <td name="dontedit" data-column-name="PUB_ID"
+                                        <tr class="bt-5 border-primary">
+                                            <td name="dontedit" data-column-name="PUB_ID" data-parent-column="PUB_ID"
                                                 data-table-name="PUBLISHER">${pub.PUB_ID}</td>
-                                            <td data-column-name="PUB_NAME"
-                                                data-table-name="PUBLISHER" data-parent-column="PUB_NAME"
+                                            <td data-column-name="PUB_NAME" data-parent-column="PUB_NAME"
                                                 data-table-name="PUBLISHER">${pub.PUB_NAME}</td>
                                             <td data-column-name="PUB_REPRESENTATIVE"
                                                 data-table-name="PUBLISHER" data-parent-column="PUB_REPRESENTATIVE"
-                                                data-table-name="PUBLISHER">${pub.PUB_REPRESENTATIVE}</td>
+                                            >${pub.PUB_REPRESENTATIVE}</td>
                                             <td data-column-name="PUB_PHONE"
                                                 data-table-name="PUBLISHER" data-parent-column="PUB_PHONE"
                                                 data-table-name="PUBLISHER">${pub.PUB_PHONE}</td>
@@ -1237,21 +1455,25 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                 <form id="deleteForm"
                                                       action="${path}/logistics/inventory/list/delete"
                                                       method="post" style="display: none;">
-                                                    <input type="hidden" name="iv_id" id="deleteId">
+                                                    <input type="hidden" name="pub_id" id="deleteId">
                                                 </form>
+                                                <button type="button" onclick="confirmDeletion(this,${pub.PUB_ID})"
+                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
+                                                    삭제
+                                                </button>
                                                 <script>
-                                                    function confirmDeletion(buttonElement, ivId) {
+                                                    function confirmDeletion(buttonElement, pubId) {
                                                         var trElement = buttonElement.closest('tr');
                                                         var table = $('#example1').DataTable();
                                                         // var thisRowIndex = table.row(trElement).index();
                                                         if (confirm('정말로 삭제 하시겠습니까?')) {
                                                             // Ajax 요청 설정
-                                                            fetch('${path}/logistics/inventory/list/delete', {
+                                                            fetch('${path}/logistics/publisher/list/delete', {
                                                                 method: 'POST',
                                                                 headers: {
                                                                     'Content-Type': 'application/x-www-form-urlencoded',
                                                                 },
-                                                                body: 'iv_id=' + ivId // ivId는 삭제할 항목의 ID
+                                                                body: 'pub_id=' + pubId // ivId는 삭제할 항목의 ID
                                                             })
                                                                 .then(response => {
                                                                     if (response.ok) {
@@ -1271,10 +1493,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                         }
                                                     }
                                                 </script>
-                                                <button type="button" onclick="confirmDeletion(this,${pub.PUB_ID})"
-                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
-                                                    삭제
-                                                </button>
+
 
                                             </td>
 

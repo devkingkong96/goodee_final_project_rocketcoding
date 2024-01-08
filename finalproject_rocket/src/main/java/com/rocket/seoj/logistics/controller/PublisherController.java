@@ -1,12 +1,16 @@
 package com.rocket.seoj.logistics.controller;
 
 
+import com.rocket.common.Getrequest;
+import com.rocket.seoj.logistics.model.dto.Publisher;
 import com.rocket.seoj.logistics.model.service.PublisherService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +24,8 @@ import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.*;
 
+import static com.rocket.common.Getrequest.getParameterMap;
+
 /**
  * Brief description of functions
  *
@@ -29,7 +35,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/logistics")
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class PublisherController {
 
     private final PublisherService service;
@@ -44,7 +50,7 @@ public class PublisherController {
 
             return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
         }*/
-    public static HashMap<String, Object> getParameterMap(HttpServletRequest request) {
+/*    public static HashMap<String, Object> getParameterMap(HttpServletRequest request) {
 
         HashMap<String, Object> parameterMap = new HashMap<String, Object>();
         Enumeration enums = request.getParameterNames();
@@ -60,6 +66,67 @@ public class PublisherController {
             }
         }
         return parameterMap;
+    }*/
+//    public HashMap<String, Object> getParameterMap(HttpServletRequest request) {
+//
+//        HashMap<String, Object> parameterMap = new HashMap<String, Object>();
+//
+//        Enumeration<String> enums = request.getParameterNames();
+//
+//        while (enums.hasMoreElements()) {
+//            String paramName = (String)enums.nextElement();
+//            log.error("ㅁㄴ라ㅣㅈ가미ㅓㅇ미ㅏ어ㅣㅏㅁ어ㅣㅏ모리ㅏㅁ롸졷ㅂ : " + paramName);
+//            String[] parameters = request.getParameterValues(paramName);
+//            log.error("?????????????????????????????????????? : " + parameters);
+//            if (parameters.length > 1) {
+//                parameterMap.put(paramName, parameters);
+//            } else {
+//                parameterMap.put(paramName, parameters[0]);
+//            }
+//        }
+//
+//        return parameterMap;
+//    }
+
+    @PostMapping("/publisher/list/insert")
+    public ResponseEntity<?> insertPublisher(HttpServletRequest request) {
+
+        HashMap<String, Object> params = Getrequest.getParameterMap(request);
+//        params.put("pubId", 0);
+        log.debug("{}", params);
+        // param.stream().map(e->)
+        long selectKey = service.insertPublisher(params);
+        log.debug("selectKey : " + params.get("pubId"));
+        if (selectKey != 0) {
+            return ResponseEntity
+                    .ok()
+                    .body(Map.of("message", "추가 완료", "status", "success", "selectKey", params.get("pubId")));
+        } else {
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "추가 실패", "status", "error"));
+        }
+    }
+
+    @PostMapping("publisher/list/delete")
+    public ResponseEntity<?> deleteInventoryAndAttachments(@RequestParam("pub_id") Long pubId) {
+
+        log.debug("딜리트: " + pubId);
+        boolean deletionSuccess = service.isdelUpdatePublisher(pubId);
+
+
+        if (deletionSuccess) {
+
+            return ResponseEntity
+                    .ok()
+                    .body(Map.of("message", "삭제 성공", "status", "success"));
+        } else {
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "삭제 실패", "status", "error"));
+        }
     }
 
     @PostMapping("/publisher/list/tableupdate")

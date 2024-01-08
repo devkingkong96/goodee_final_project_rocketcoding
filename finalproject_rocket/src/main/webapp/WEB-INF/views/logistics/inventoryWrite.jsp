@@ -586,6 +586,47 @@
             var rowIndex = $(this).closest('tr').index();
             select2Data[rowIndex] = prdId;
 
+            var selectElement = document.querySelector('.chooseBook');
+            var selectedValue = selectElement.value; // 선택된 옵션의 밸류값 가져오기
+
+// 선택된 밸류값과 일치하는 옵션 찾기
+            var selectedOption = selectElement.querySelector('option[value="' + selectedValue + '"]');
+
+            if (selectedOption) {
+                var selectedText = selectedOption.textContent; // 선택된 옵션의 텍스트 가져오기
+                console.log("Selected Text: " + selectedText);
+            } else {
+                console.log("No option selected");
+            }
+
+            // selectedText에 선택한 옵션의 텍스트 값이 들어 있습니다.
+            // console.log(selectedText);
+
+            /*            var some = document.querySelector('.selectbook-form-label').textContent = selectedBook;
+                        console.log(some);*/
+
+            var rowData = table.row(rowIndex).data();
+            rowData[2] = '<label class="form-label" style="display:none;">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option>' + selectedText + '</option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>';
+            console.log("rowData[2]: " + rowData[2]);
+            /*            var rowData = table.row(0)[2];
+                        console.log("rowData: " + rowData);*/
+            // console.log("rowData[2] : " + rowData[2]);
+            // rowData = selectedBook;
+
+            /*            var cell = $(e.target);
+                        var columnIdx = cell.index();
+                        var rowIdx = cell.closest('tr').index();
+                        // var table = $('#example1').DataTable();
+                        var data = table.row(rowIdx).data();
+
+
+                        data[columnIdx] = newValue; // 데이터 배열 업데이트
+
+                        /!*            // 검색 색인 업데이트 없이 데이터만 업데이트
+                                    table.row(rowIdx).data(data);*!/
+                        table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트*/
+
+
             var selectedValue = $(this).val(); // 선택된 값 가져오기
             var selectId = selectedValue; // 새로운 ID 생성
             $(this).attr('id', selectId); // ID를 변경된 값으로 설정
@@ -615,7 +656,7 @@
                     table.cell(rowIndex, 4).data(response.PRD_PRICE);
                     table.cell(rowIndex, 5).data(response.PRICE_IN_STK);
 
-                    table.draw(false);
+                    table.draw();
 
                 },
                 error: function (xhr, status, error) {
@@ -643,7 +684,7 @@
             /*            var currentButtonRow = $(this).attr('id').closest('tr');*/
 
 
-            var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
+            var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label" style="display:none";>도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
 
 
             var firstRowChooseBook = $('#example1 tbody tr:first .choosebook');
@@ -1033,7 +1074,7 @@
                                         <td name="dontedit" data-column-name="SEND_BRC_ID"
                                             data-parent-column="BRANCH_NAME"
                                             data-table-name="BRANCH">
-                                            <label class="form-label">도서 선택</label>
+                                            <label class="form-label" style="display:none;">도서 선택</label>
                                             <select class="chooseBook form-control select2"
                                                     data-placeholder="도서를 선택하세요" style="width: 100%;">
                                                 <option></option>
@@ -1790,5 +1831,3 @@
 
 </body>
 </html>
-
-

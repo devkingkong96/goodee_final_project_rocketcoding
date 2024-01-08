@@ -6,7 +6,8 @@ import java.util.Map;
 import com.rocket.seoj.logistics.model.dto.Inventory;
 import com.rocket.seoj.logistics.model.dto.InventoryAttach;
 import com.rocket.seoj.logistics.model.dto.PrdInventory;
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class InventoryService {
 
     private final InventoryDao dao;

@@ -488,6 +488,7 @@ ${path}";
                             });
 
                             $('#example1').editableTableWidget().on('change', function (e, newValue) {
+                                
                                 // 셀의 데이터가 변경되었을 때의 처리
                                 var cell = $(e.target);
                                 var columnIdx = cell.index();
@@ -798,9 +799,9 @@ ${path}";
                                                                 </table> -->
 
                                 <table id="example1"
-                                       class="table table-bordered table-separated">
+                                       class="table table-striped">
                                     <thead>
-                                    <tr>
+                                    <tr class="bt-5 border-primary">
                                         <th>입/출고 코드</th>
                                         <th>타입</th>
                                         <th>총 수량</th>
@@ -817,7 +818,7 @@ ${path}";
                                     <tbody>
                                     <%--	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">--%>
                                     <c:forEach var="iv" items="${inventories }">
-                                        <tr>
+                                        <tr class="bt-5 border-primary">
                                             <td name="dontedit" data-column-name="IV_ID"
                                                 data-table-name="INVENTORY">${iv.IV_ID}</td>
                                             <td name="dontedit" data-column-name="IV_VAT_TYPE"

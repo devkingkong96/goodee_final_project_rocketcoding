@@ -9,6 +9,9 @@ import com.rocket.jsy.employee.model.dto.Employee;
 
 public interface EmployeeDao {
 	List<Map<String, Object>> selectEmployeeAll(SqlSession session);
+	List<Map<String, Object>> selectBranch(SqlSession session);
+    List<Map<String, Object>> selectDepartment(SqlSession session);
+    List<Map<String, Object>> selectDwrules(SqlSession session);
 	
 	List<Map<String, Object>> selectEmployeeHolidayAll(SqlSession session);
 	

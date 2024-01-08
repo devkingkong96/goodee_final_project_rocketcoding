@@ -46,7 +46,7 @@
 								<th>직위/직급</th>
 								<th>이메일</th>
 								<th>입사일자</th>
-								<th>재직여부</th>
+								<th>재직여부</th>					
 							</tr>
 						</thead>
 						<tbody>
@@ -89,11 +89,11 @@
         <table class="table table-striped-columns">
           <tr>
             <td>지점고유코드</td>
-            <td>
-              <select id="branchId" name="branchId">
-                <c:forEach items="${employees}" var="employees">
-				        <option value="${employees.BRANCH_ID}">${employees.BRANCH_ID}</option>
-			    </c:forEach>
+              <td>
+                <select id="branchId" name="branchId">
+                  <c:forEach items="${branches}" var="employee">
+                    <option value="${employee.BRANCH_ID}">${employee.BRANCH_ID}</option>
+                  </c:forEach>
                 <!-- 추가 지점 옵션 -->
               </select>
             </td>
@@ -115,24 +115,23 @@
             <td><input type="text" id="empEmail" name="empEmail"/></td>
           </tr>
           <tr>
-            <td>부서명</td>
-            <td>
-            	<select id="employees" name="employees">
-            		<c:forEach items="${employees}" var="employees">
-				        <option value="${employees.DEP_NAME}">${employees.DEP_NAME}</option>
-				    </c:forEach>
-            	</select>
-            </td>
-          </tr>
-          <tr>
-            <td>출근시간</td>
-            <td>
-              <select id="dwrules" name="dwrules">
-                <c:forEach items="${employees}" var="employees">
-				        <option value="${employees.DWRULES_START}">${employees.DWRULES_START}</option>
-			    </c:forEach>
-                <!-- 추가 출근 시간 옵션 -->
-              </select>
+             <td>부서명</td>
+              <td>
+                <select id="depName" name="depName">
+                  <c:forEach items="${departments}" var="employee">
+                    <option value="${employee.DEP_CODE}">${employee.DEP_NAME}</option>
+                  </c:forEach>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>출근시간</td>
+              <td>
+                <select id="dwruleStart" name="dwruleStart">
+				  <c:forEach items="${dwrules}" var="employee">
+				    <option value="${employee.DWRULES_CODE}">${employee.DWRULES_START}</option>
+				  </c:forEach>
+				</select>
             </td>
           </tr>
         </table>
@@ -148,6 +147,27 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<script>
+$(document).ready(function(){
+  $("#saveEmployee").click(function(e){
+    e.preventDefault();
+
+    var formData = $("#employeeForm").serialize();
+
+    $.ajax({
+      type: "POST",
+      url: "/employeeinsert", 
+      data: formData,
+      success: function(response){
+        alert("저장이 완료되었습니다.");
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        alert("저장에 실패하였습니다. 다시 시도해주세요.");
+      }
+    });
+  });
+});
+</script>
 <!-- 인사카드 수정 모달창 -->
 <div class="modal fade" id="modal-modify">
   <div class="modal-dialog" role="document">

@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Approval {
 	
-	private long aprvNo;
+	private int aprvNo;
 	private int aprvSq;
 	private int aprvLv;
 	private String aprvRe;
 	
-	private long docNo;
+	private int docNo;
 	private Date aprvDate;
 	
 	private int empNo;

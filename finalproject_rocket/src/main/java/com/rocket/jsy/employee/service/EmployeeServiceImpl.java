@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rocket.jsy.employee.model.dao.EmployeeDao;
 import com.rocket.jsy.employee.model.dto.Employee;
@@ -23,6 +24,20 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<Map<String, Object>> selectEmployeeAll() {
 		return dao.selectEmployeeAll(session);
 	}
+	@Override
+    public List<Map<String, Object>> selectBranch() {
+        return dao.selectBranch(session);
+    }
+    
+    @Override
+    public List<Map<String, Object>> selectDepartment(){
+        return dao.selectDepartment(session);
+    }
+    
+    @Override
+    public List<Map<String, Object>> selectDwrules() {
+        return dao.selectDwrules(session);
+    }
 	
 	@Override
 	public List<Map<String, Object>> selectEmployeeHolidayAll() {
@@ -50,6 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 //        return result;
 //    }
 	@Override
+	@Transactional
 	public int insertEmployee(Employee employee) {
 	    return dao.insertEmployee(session, employee);
 	}

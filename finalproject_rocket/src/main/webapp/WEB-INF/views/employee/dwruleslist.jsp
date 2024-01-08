@@ -25,6 +25,7 @@
    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
    <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
+
 <div class="content-wrapper">
    <div class="container-full">
       <!-- Main content -->
@@ -48,14 +49,16 @@
 								<th>코드</th>
 								<th>출근</th>
 								<th>퇴근</th>
+								<th>조퇴</th>
 							</tr>
 						</thead>
 						<tbody>
 						    <c:forEach var="dwrules" items="${dwrules}">
-								<tr class="editable">
+								<tr class="editable" onclick="rowClick(this, ${dwrules.DWRULES_CODE})">
 						            <td>${dwrules.DWRULES_CODE}</td>
-						            <td><fmt:formatDate value="${dwrules.DWRULES_START}" pattern="HH:mm" /></td>
-									<td><fmt:formatDate value="${dwrules.DWRULES_END}" pattern="HH:mm" /></td>
+             						<td>${dwrules.DWRULES_START}</td>
+            						<td>${dwrules.DWRULES_END}</td>
+            						<td>${dwrules.DWRULES_EARLY}</td>
 						        </tr>
 						    </c:forEach>
 						</tbody>			  
@@ -69,7 +72,7 @@
 			<!-- /.col -->
 		  </div>
 		  <!-- /.row -->
-		<button class="btn commute delete">삭제</button>
+		<button class="btn commute delete" onclick="deleteRows()">삭제</button>
       </section>
    </div>
 </div>
@@ -81,32 +84,46 @@
         <h4 class="modal-title"><strong>근무규칙 설정</strong></h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form action="/dwrulesadd" method="post">
       <div class="modal-body">
        <table class="table table-striped-columns">
 	    <tr>
-	        <td>출근</td>
-	        <td><input type="time" id="comEnroll" name="comEnroll"/></td>
+        	<td>출근</td>
+        	<td><input type="time" id="dwrulesStart" name="dwrulesStart"/></td>
 	    </tr>
 	    <tr>
 	        <td>퇴근</td>
-	        <td><input type="time" id="comEnd" name="comEnd"/></td>
+	        <td><input type="time" id="dwrulesEnd" name="dwrulesEnd"/></td>
+	    </tr>
+	    <tr>
+	    	<td>조퇴</td>
+	    	<td><input type="time" id="dwrulesEarly" name="dwrulesEarly"/></td>
 	    </tr>
 	</table>
         <div id="checkMsg" style="color: red"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="saveEmployee" class="btn btn-info float-end">저장</button>
+        <button type="submit" id="saveEmployee" class="btn btn-info float-end">저장</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
       </div>
+      </form>
     </div>
     <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
 </div>
 <script>
+$(document).ready(function() {
+	  $('.box-subtitle').click(function() {
+	    $('#myModal').modal('show');
+	  });
+	});
+</script>
+<script>
     window.onload = function(){
-        var comEnroll = document.getElementById('comEnroll');
-        var comEnd = document.getElementById('comEnd');
+        var comEnroll = document.getElementById('dwrulesStart');
+        var comEnd = document.getElementById('dwrulesEnd');
+        var comEarly = document.getElementById('dwrulesEarly');
 
         comEnroll.onchange = function() {
             comEnroll.value = comEnroll.value.slice(0, 3) + '00';
@@ -114,6 +131,9 @@
 
         comEnd.onchange = function() {
             comEnd.value = comEnd.value.slice(0, 3) + '00';
+        }
+        comEarly.onchange = function() {
+        	comEarly.value = comEarly.value.slice(0, 3) + '00';
         }
     }
 </script>
@@ -129,10 +149,45 @@
             selectedRows[comNo] = row;
         }
     }
-    $(document).ready(function() {
-    	  $('.box-subtitle').click(function() {
-    	    $('#myModal').modal('show');
-    	  });
-    	});
+
+    function deleteRows() {
+        var promises = [];
+
+        for (var comNo in selectedRows) {
+            var promise = new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: '/deleteDwRule',   
+                    type: 'POST',        
+                    data: { 'comNo': comNo }, // 삭제할 행의 정보
+                    success: function(response) {
+                        if (response.success) {
+                            selectedRows[comNo].remove();
+                            delete selectedRows[comNo];
+                            resolve();
+                        } else {
+                            console.error('Failed to delete row: ' + response.error);
+                            reject();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // 서버로부터 에러 응답을 받았을 때 실행할 코드
+                        console.error('Failed to delete row: ' + error);
+                        reject();
+                    }
+                });
+            });
+
+            promises.push(promise);
+        }
+
+        Promise.all(promises)
+            .then(function() {
+                console.log('성공');
+                location.reload();
+            })
+            .catch(function() {
+                console.error('실패');
+            });
+    }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

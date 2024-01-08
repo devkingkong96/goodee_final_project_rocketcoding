@@ -93,7 +93,7 @@
 	                                    	<th rowspan="2">
 	                                    		<p>기안자</p>
 	                                    	</th>
-	                                    	<td>홍길동</td>
+	                                    	<td>${user.empName }</td>
 	                                    </tr>
                                 	</table>
                                 </div>
@@ -117,19 +117,19 @@
 											            <tr style="background-color: #f2f2f2;">
 											               <td rowspan="4" style="text-align: center;">결재</td>
 											            </tr>
-											            <tr style="background-color: #f2f2f2;">
+											            <tr style="background-color: #f2f2f2;" id="name">
 											                <td>이름</td>
 											                <td>이름</td>
 											                <td>이름</td>
 											                <td>이름</td>
 											            </tr>
-											            <tr style="height: 120px">
+											            <tr style="height: 120px" id="empty">
 											                <td>도장</td>
 											                <td>도장</td>
 											                <td>도장</td>
 															<td>도장</td>
 														</tr>
-											            <tr>
+											            <tr id="emplv">
 											                <td>직책</td>
 											                <td>직책</td>
 											                <td>직책</td>
@@ -139,7 +139,14 @@
 											    </table>
 											</div>
 										</div>
-										
+										<div class="box-header" style="display: flex">
+										<h4>
+											참조자 : 
+										</h4>
+										&nbsp;	
+										<p>dasdasdsadad</p>
+										</div>
+										</div>
                                         <form action="${path }/aprv/insertaprv" method="post">
                                             <div class="box-header">
                                                 <h4 class="box-title">제목<br>
@@ -232,7 +239,7 @@
                                             </div>
                                   <div>
                                   <h1 style="position: static; margin-right: 40px">결재자</h1>
-                                  <div class="column" style="width: 100%;">
+                                  <div class="column" style="width: 100%;" id="aprv">
                                   </div>  	
 
 
@@ -240,7 +247,7 @@
                                   </div>
                                 <div>
                                   <h1 style="position: static;">참조자</h1>
-                                  <div class="column" style="width: 100%">
+                                  <div class="column" style="width: 100%" id="reader">
 								</div>
 
                                     
@@ -250,7 +257,10 @@
                                             
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal" onclick="saveMembers();">저장</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal">닫기</button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -268,6 +278,8 @@
 <!-- /.content-wrapper -->
 
 <script>
+
+
 	//태그선택하게하기
 	function tagSelect() {
         var x = document.getElementById("tagSelect").value;
@@ -333,6 +345,9 @@
 </script>
 
 <script>
+
+
+
 	//ajax통신
 	$('input[type=radio][name=group4]').change(function() {
 	    $.ajax({
@@ -349,7 +364,7 @@
 	                 html += '<button class="draggable" draggable="true">'
 	            	 html += '<div class="d-flex align-items-center mb-30">'
 	                 html += '<div class="me-15">'
-	                 html += '<img src="../../../images/avatar/1.jpg" class="avatar avatar-lg rounded10" alt="" />'  
+	                 /* html += '<img src="../../../images/avatar/1.jpg" class="avatar avatar-lg rounded10" alt="" />' */  
 	                 html += '</div>'
 	                 html += '<div class="d-flex flex-column fw-500" style="width: 100px;height:50px">'
 	                 html += '<p  class="text-dark hover-primary mb-1 fs-16">'+ data[i].EMP_NAME +'</p>'
@@ -388,34 +403,82 @@ $(document).ready(function() {
 //sorttable
 const columns = document.querySelectorAll(".column");
 columns.forEach((column) => {
-	  new Sortable(column, {
-	    group: "shared",
-	    animation: 150,
-	    ghostClass: "blue-background-class",
-	    onStart: function (evt) {
-	      // 드래그를 시작할 때 항목의 원래 리스트와 위치를 저장합니다.
-	      evt.item.oldParent = evt.from;
-	      evt.item.oldIndex = evt.oldIndex;
-	    },
-	    onAdd: function (evt) {
-	      const item = evt.item; // 드롭한 항목
-	      const empNo = item.querySelector('input[type="hidden"]').value; // 드롭한 항목의 empNo 값
-	      const items = evt.to.children; // 드롭한 위치의 모든 항목
-	      for (let i = 0; i < items.length; i++) {
-	        if (items[i] !== item && items[i].querySelector('input[type="hidden"]').value === empNo) {
-	          alert("중복된 요소가 있습니다.");
-	          
-	          // 중복이 발견되었을 때 항목을 원래 위치로 돌려놓습니다.
-	          evt.from.insertBefore(item, evt.from.children[item.oldIndex]);
-	          break;
-	        }
-	      }
-	    },
-	  });
-	});
+  new Sortable(column, {
+    group: "shared",
+    animation: 150,
+    ghostClass: "blue-background-class",
+    onStart: function (evt) {
+      // 드래그를 시작할 때 항목의 원래 리스트와 위치를 저장합니다.
+      evt.item.oldParent = evt.from;
+      evt.item.oldIndex = evt.oldIndex;
+    },
+    onAdd: function (evt) {
+      const item = evt.item; // 드롭한 항목
+      const empNo = item.querySelector('input[type="hidden"]').value; // 드롭한 항목의 empNo 값
+      const aprvItems = document.getElementById('aprv').children; // 결재자 div의 모든 항목
+      const readerItems = document.getElementById('reader').children; // 참조자 div의 모든 항목
 
+      for (const items of [aprvItems, readerItems]) {
+        for (let i = 0; i < items.length; i++) {
+          if (items[i] !== item && items[i].querySelector('input[type="hidden"]').value === empNo) {
+            alert("중복된 요소가 있습니다.");
+            
+            // 중복이 발견되었을 때 항목을 원래 위치로 돌려놓습니다.
+            evt.from.insertBefore(item, evt.from.children[item.oldIndex]);
+            return;
+          }
+        }
+      }
+    },
+  });
+});
+
+	
 ﻿
 
+</script>
+
+<script>
+	const saveMembers = () => {
+		const aprvItems = document.getElementById('aprv').children;
+		const readItems = document.getElementById('reader').children;
+		let aprvempInfo = [];
+		let readerempInfo = [];
+
+		for(let i = 0; i < aprvItems.length; i++) {
+		  let pTag = aprvItems[i].querySelector("p.text-dark.hover-primary.mb-1.fs-16");
+		  let spanTag = aprvItems[i].querySelector("span.text-mute");
+		  let inputTag = aprvItems[i].querySelector("input.empNo");
+
+		  if(pTag && spanTag && inputTag) {
+		    aprvempInfo.push ({
+		      empName: pTag.innerHTML,
+		      empLv: spanTag.innerHTML,
+		      empNo: inputTag.value
+		    });
+		  }
+		}
+		for(let i = 0; i < readItems.length; i++) {
+			  let pTag = readItems[i].querySelector("p.text-dark.hover-primary.mb-1.fs-16");
+			  let spanTag = readItems[i].querySelector("span.text-mute");
+			  let inputTag = readItems[i].querySelector("input.empNo");
+
+			  if(pTag && spanTag && inputTag) {
+				 readerempInfo.push ({
+			      empName: pTag.innerHTML,
+			      empLv: spanTag.innerHTML,
+			      empNo: inputTag.value
+			    });
+			  }
+			}
+		
+		console.log(aprvempInfo);
+		console.log(readerempInfo); // 콘솔에 empInfo 객체 출력
+ 	
+
+	   
+	  
+	};
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 

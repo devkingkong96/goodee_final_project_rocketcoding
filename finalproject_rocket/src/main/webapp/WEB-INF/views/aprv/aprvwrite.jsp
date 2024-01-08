@@ -117,23 +117,14 @@
 											            <tr style="background-color: #f2f2f2;">
 											               <td rowspan="4" style="text-align: center;">결재</td>
 											            </tr>
-											            <tr style="background-color: #f2f2f2;" id="name">
-											                <td>이름</td>
-											                <td>이름</td>
-											                <td>이름</td>
-											                <td>이름</td>
+											            <tr style="background-color: #f2f2f2; width: 10px;" id="name">
+											                
 											            </tr>
 											            <tr style="height: 120px" id="empty">
-											                <td>도장</td>
-											                <td>도장</td>
-											                <td>도장</td>
-															<td>도장</td>
+											                
 														</tr>
 											            <tr id="emplv">
-											                <td>직책</td>
-											                <td>직책</td>
-											                <td>직책</td>
-											                <td>직책</td>
+											                
 											            </tr>
 											        </tbody>
 											    </table>
@@ -144,7 +135,7 @@
 											참조자 : 
 										</h4>
 										&nbsp;	
-										<p>dasdasdsadad</p>
+										<p id="taget-reader"></p>
 										</div>
 										</div>
                                         <form action="${path }/aprv/insertaprv" method="post">
@@ -473,12 +464,42 @@ columns.forEach((column) => {
 			}
 		
 		console.log(aprvempInfo);
-		console.log(readerempInfo); // 콘솔에 empInfo 객체 출력
- 	
+		console.log(readerempInfo); 
+			
+		document.getElementById('name').innerHTML = `<td>${user.empName}</td>`;
+	    document.getElementById('empty').innerHTML = '';
+	    document.getElementById('emplv').innerHTML = `<td>${user.empLv}</td>`;
 
-	   
-	  
+	    // 테이블에 새로운 내용 추가
+	    for(let i=0; i<aprvempInfo.length; i++){
+	        var row = document.getElementById('name');
+	        var cell = document.createElement('td');
+	        cell.innerText = aprvempInfo[i].empName;
+	        row.appendChild(cell);
+
+	        var rowEmpty = document.getElementById('empty');
+	        var cellEmpty = document.createElement('td');
+	        rowEmpty.appendChild(cellEmpty);
+
+	        var rowEmpLv = document.getElementById('emplv');
+	        var cellEmpLv = document.createElement('td');
+	        cellEmpLv.innerText = aprvempInfo[i].empLv;
+	        rowEmpLv.appendChild(cellEmpLv);
+	    }
+	    
+	    var text = " ";
+	    for(let i=0;i<readerempInfo.length;i++){
+	    	text += readerempInfo[i].empLv
+	    	text += " ";
+	    	text += readerempInfo[i].empName
+	    	text += "님 ";
+	    	
+	    }
+	    document.getElementById('taget-reader').innerHTML= text;
 	};
+		
+
+	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 

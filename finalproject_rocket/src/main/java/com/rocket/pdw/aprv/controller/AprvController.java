@@ -139,8 +139,10 @@ public class AprvController {
 	public String writer(Model m) {
 		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int no = e.getEmpNo();
+        
+        System.out.println(getAprvListByEmpNo());
 		List<Map<String,Object>> writer = getAprvListByEmpNo().stream()				
-				.filter(map-> !map.get("DOC_STATCD").equals(BigDecimal.ZERO) && map.get("EMP_NO").equals(no))   
+				.filter(map-> !map.get("DOC_STATCD").equals(BigDecimal.ZERO) && map.get("EMP_NO").equals(BigDecimal.valueOf(no)))   
 			    .collect(Collectors.toList());
 		
 		m.addAttribute("lists", writer);

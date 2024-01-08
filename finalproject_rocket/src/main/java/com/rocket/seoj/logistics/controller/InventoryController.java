@@ -245,11 +245,12 @@ public class InventoryController {
         log.debug("컨트롤러 invAttach : " + invAttach);
         log.debug("컨트롤러 formData : " + formData);
 //        log.debug("formDataJson: " + (String)formData);
-//        log.error("컨트롤러 tableData: " + tableData);
+        
+//        log.error("컨트롤러 tableData: " + tableData); 이거 오류 물어봐야함 
 
         log.debug("깐트롤라");
         formData.setSendEmpId(loginemp.getEmpNo());
-        formData.setSendBrcId(loginemp.getBranchId());
+		/* formData.setSendBrcId(loginemp.getBranchId()); */
 
 
         long generatedId = service.insertInventory(formData);

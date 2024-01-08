@@ -7,39 +7,39 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.rocket.psh.board.model.dao.BoardDao;
-import com.rocket.psh.board.model.dto.Fboard;
 
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class FboardServicelmpl implements FboardService {
 	
+	public final BoardDao dao;
+	public final SqlSession session;
 	
-	private final SqlSession session;
-	
-	private final BoardDao dao;
-	
-	
-
 	@Override
-	public int selectFboardCount() {
-		return dao.selectFboardCount(session);
-	}
-
-	@Override
-	public Fboard selectBoardByNo(int boardNo) {
-		return dao.selectBoardByNo(session, boardNo);
-	}
-
-	@Override
-	public int insertFboard(Fboard b) {
-		return dao.insertFboard(session, b);
-	}
-
-	@Override
-	public List<Fboard> selectBoard(Map<String, Integer> page) {
+	public List<Map<String, Object>> selectFboardList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return dao.selectBoard(session, page);
+		return null;
 	}
-
+	@Override
+	public int insertFboard(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public Map<String, Object> selectFboardDetail(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int updateFboard(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int deleteFboard(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+		
 }

@@ -48,16 +48,19 @@
 							</tr>
 						</thead>
 						<tbody>
-				    <c:forEach var="employee" items="${employees}">
-				        <c:forEach var="document" items="${employee.documentList}">
+				    <c:forEach var="employees" items="${employees}">
+				        <%-- <c:forEach var="document" items="${employee.documentList}"> --%>
 				            <tr>
-				                <td>${employee.empNo}</td>
-				                <td>${employee.empName}</td>
-				                <td>${document.docNo}</td>
-				                <td>${document.docTitle}</td>
-				                <td>${document.startDate} ~ ${document.endDate}</td>
-				            </tr>
-				        </c:forEach>
+				                <td>${employees.EMP_NO}</td>
+				                <td>${employees.EMP_NAME}</td>
+				                <td>${employees.DOC_NO}</td>
+				                <td>${employees.DOC_TITLE}</td>
+								<td>
+								<fmt:formatDate value="${employees.START_DATE}" pattern="yyyy-MM-dd" /> ~ 
+								<fmt:formatDate value="${employees.END_DATE}" pattern="yyyy-MM-dd" />
+								</td>				            
+								</tr>
+				        <%-- </c:forEach> --%>
 				    </c:forEach>
 					</tbody>
 				<tfoot>

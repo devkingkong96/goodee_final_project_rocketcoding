@@ -12,23 +12,37 @@ import com.rocket.jsy.employee.model.dto.Employee;
 public class EmployeeDaolmpl implements EmployeeDao{
 
 	@Override
-	public List<Employee> selectEmployeeAll(SqlSession session) {
+	public List<Map<String, Object>> selectEmployeeAll(SqlSession session) {
 		return session.selectList("employee.selectEmployeeAll");
 	}
 	@Override
-	public List<Employee> selectEmployeeHolidayAll(SqlSession session) {
+    public List<Map<String, Object>> selectBranch(SqlSession session) {
+        return session.selectList("employee.selectBranch");
+    }
+
+    @Override
+    public List<Map<String, Object>> selectDepartment(SqlSession session) {
+        return session.selectList("department.selectDepartment");
+    }
+
+    @Override
+    public List<Map<String, Object>> selectDwrules(SqlSession session) {
+        return session.selectList("employee.selectDwrules");
+    }
+	@Override
+	public List<Map<String, Object>> selectEmployeeHolidayAll(SqlSession session) {
 		return session.selectList("employee.selectEmployeeHolidayAll");
 	}
 
 	@Override
-	public Employee selectEmployeeByNo(SqlSession session, String empNo) {
+	public Map<String, Object> selectEmployeeByNo(SqlSession session, int empNo) {
 		return session.selectOne("employee.selectEmployeeByNo",empNo);
 	}
 
-	@Override
-	public int insertEmployee(SqlSession session, Employee e) {
-		return session.insert("employee.insertEmployee",e);
-	}
+//	@Override
+//    public int insertEmployee(SqlSession session, Map<String, Object> params) {
+//        return session.insert("employee.insertEmployee", params);
+//    }
 
 	@Override
 	public int updateEmployee(SqlSession session, Employee e) {
@@ -37,6 +51,10 @@ public class EmployeeDaolmpl implements EmployeeDao{
 	@Override
 	public List<Map<String, Object>> selectEmployeeMyPageCalendar(SqlSession session) {
 	    return session.selectList("employee.selectEmployeeMyPageCalendar");
+	}
+	@Override
+	public int insertEmployee(SqlSession session, Employee employee) {
+	    return session.insert("employee.insertEmployee", employee);
 	}
 	
 }

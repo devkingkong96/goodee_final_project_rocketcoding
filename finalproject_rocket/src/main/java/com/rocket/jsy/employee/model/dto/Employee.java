@@ -9,17 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.rocket.ksj.chat.model.dto.EmpChat;
-import com.rocket.pdw.aprv.model.dto.Approval;
-import com.rocket.pdw.aprv.model.dto.Document;
-import com.rocket.psh.board.model.dto.Fboard;
-import com.rocket.psh.board.model.dto.FboardComment;
-import com.rocket.psh.board.model.dto.Notice;
-import com.rocket.seoj.logistics.model.dto.Branch;
-import com.rocket.seoj.logistics.model.dto.Inventory;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,10 +28,11 @@ public class Employee implements UserDetails {
 	private String empStatus;
 	private String empFication;
 	private String empEmail;
+	private String empFile;
 	
 	private int depCode; //부서코드
-	private long branchId;//지점고유번호
-	
+	private int branchId;//지점고유번호
+	private int dwrulesCode;//일일근무규칙코드
 	
 	@Override
 	public Collection< ? extends GrantedAuthority> getAuthorities() {

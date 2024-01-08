@@ -65,7 +65,7 @@
 									  <div class="row">
 										<div class="col-6">
 										  <div class="checkbox">
-											<input class="form-check-input" name="rememberMe" type="checkbox" id="basic_checkbox_1" >
+											<input class="filled-in chk-col-primary" name="rememberMe" type="checkbox" id="basic_checkbox_1" >
 											<label for="basic_checkbox_1">로그인 상태 유지</label>
 										  </div>
 										</div>
@@ -113,8 +113,8 @@
 			<div id="checkMsg" style="color: red"></div>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" id="sendEmail" class="btn btn-info float-end">발송</button>
-			<button type="submit" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+			<button type="submit" id="sendEmail" class="btn btn-info float-end">발송</button>
+			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
 		  </div>
 		</div>
 		<!-- /.modal-content -->

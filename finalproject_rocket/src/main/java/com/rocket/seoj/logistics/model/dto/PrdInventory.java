@@ -19,11 +19,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PrdInventory {
-	
-	private long prdIvId;
-	private int prdIvQuantity;
-	
-	private long prdId;
-	
-	private long ivId;
+
+    private long prdIvId;
+    private int prdIvQuantity;
+    private String prdIvMemo;
+
+    private Long prdId;
+
+    private Long ivId;
 }

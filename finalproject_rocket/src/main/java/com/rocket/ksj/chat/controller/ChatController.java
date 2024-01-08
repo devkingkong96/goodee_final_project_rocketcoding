@@ -32,9 +32,10 @@ public class ChatController {
 	public String chatlist(Model m,HttpSession session) {
 		Employee emp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
+		//로그인한 회원 번호
 		int empNo=emp.getEmpNo();
-		//직원 리스트 가져오기
-		List<Map<String, Object>>emplist=service.selectEmployeeAll();
+		//로그인한 회원 제외한 직원 리스트 가져오기
+		List<Map<String, Object>>emplist=service.selectEmployeeAll(empNo);
 		//로그인한 직원 채팅방 가져오기
 		List<Map<String, Object>>chatlist=service.selectChatAll(empNo);
 		//모든 대화방 가져오기
@@ -42,6 +43,7 @@ public class ChatController {
 		
 		m.addAttribute("emplist",emplist);
 		m.addAttribute("chatlist",chatlist);
+		m.addAttribute("logempNo",empNo);
 //		m.addAttribute("chatroomlist",chatroomlist);
 		
 		return "chat/chatlist";

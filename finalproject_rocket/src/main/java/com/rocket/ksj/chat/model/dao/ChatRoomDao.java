@@ -19,5 +19,24 @@ public class ChatRoomDao {
 	public ChatRoom selectRoomById(SqlSession session,int roomNo){
 		return session.selectOne("chatroom.selectRoomById",roomNo);
 	}
-	
+	//채팅방 이름으로 채팅방 생성
+	public int createChatRoom(SqlSession session,String roomName) {
+		return session.insert("chatroom.createChatRoom",roomName);
+	}
+	//직원마다 중간 테이블 생성
+	public int createEmpChat(SqlSession session,int empNo) {
+		return session.insert("empchat.createEmpChat",empNo);
+	}
+	//채팅방 번호로 채팅메시지 삭제
+	public int deleteRoomByNo(SqlSession session,int roomNo) {
+		return session.delete("chatroom.deleteRoomByNo",roomNo);
+	}
+	//채팅방 번호로 채팅참여 중간 테이블 삭제
+	public int deleteEmpChatByNo(SqlSession session,int roomNo) {
+		return session.delete("empchat.deleteEmpChatByNo",roomNo);
+	}
+	//채팅방 번호로 채팅메시지 삭제
+	public int deleteMessageByNo(SqlSession session,int roomNo) {
+		return session.delete("chatmessage.deleteMessageByNo",roomNo);
+	}
 }

@@ -17,5 +17,6 @@ public class ChatRoom {
 	private int chatRoomNo;
 	private int empCount;
 	private Date createdAt;
+	private String chatRoomName;
 	
 }

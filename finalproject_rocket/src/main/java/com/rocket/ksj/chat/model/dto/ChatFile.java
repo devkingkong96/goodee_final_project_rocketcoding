@@ -15,8 +15,10 @@ import lombok.NoArgsConstructor;
 public class ChatFile {
 	
 	private int fileNo;
-	private int messageId;
 	private String originFileName;
 	private String renamedFileName;
 	private Date uploadAt;
+	private int chFiRoomNo; //채팅방 테이블 fk키
+	private int chFiEmpNo; //직원 테이블 fk키
+	
 }

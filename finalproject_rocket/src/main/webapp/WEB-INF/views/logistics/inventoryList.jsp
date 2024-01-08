@@ -2,16 +2,21 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%-- <%@ page import="org.apache.logging.log4j.LogManager" %>
+<%@ page import="org.apache.logging.log4j.Logger" %> --%>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm");
     String formattedNow = now.format(formatter);
 %>
+<%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param name="title" value=""/>
+    <jsp:param name="title" value="입/출고 내역"/>
 </jsp:include>
 <script type="text/javascript"
         src="${path }/resources/assets/vendor_components/moment/moment.js"></script>
@@ -19,9 +24,9 @@
 <%--<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">--%>
 <%-- <script src="${path }/resources/js/pdfmake.min.js"></script>
 <script src="${path }/resources/js/vfs_fonts.js"></script> --%>
-<link rel="stylesheet"
+<%--<link rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
+</head>--%>
 <!-- <script
 src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script> -->
 
@@ -87,603 +92,24 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
             .custom-file, .form-control {
                 margin: 20px; !* custom-file과 form-control 클래스가 적용된 요소에도 마진 추가 *!
             }*/
-    .col-xl-4.connectedSortable div {
-        margin-bottom: 20px;
-        margin-right: 20px;
-        margin-left: 20px;
+    .col-lg-6 col-6 connectedSortable ui-sortable {
+        margin-right: 50px;
+        margin-left: 50px;
     }
 
     .dataTables_wrapper .dataTable td {
         white-space: normal;
         word-wrap: break-word;
     }
-</style>
-<script>
 
-
-    /*
-        let fs = require('fs');
-
-        // nanumgothinc.ttf 파일 경로
-        let filePath = path + '/resources/assets/fonts/malgun.ttf';
-
-        // 파일 읽기
-        fs.readFile(filePath, (err, data) => {
-            if (err) {
-                console.error('파일을 읽을 수 없습니다:', err);
-                return;
-            }
-
-            // Base64로 인코딩
-            let base64Data = data.toString('base64');
-            console.log(base64Data);
-
-            pdfMake.vfs = {
-                'malgun.ttf': 'base64Data',
-            };
-
-            let fs = require('fs');
-
-            // nanumgothinc.ttf 파일 경로
-            let filePath = path + '/resources/assets/fonts/malgunbd.ttf';
-
-            // 파일 읽기
-            fs.readFile(filePath, (err, data) => {
-                if (err) {
-                    console.error('파일을 읽을 수 없습니다:', err);
-                    return;
-                }
-
-                // Base64로 인코딩
-                let base64Data = data.toString('base64');
-                console.log(base64Data);
-
-                pdfMake.vfs = {
-                    'malgunbd.ttf': 'base64Data',
-                }; */
-
-
-
-    /*     var path = "
-${path}";
-    pdfMake.fonts = {
-        NanumGothic: {
-            normal: path + '/resources/assets/fonts/NanumGothic.ttf',
-            bold: path + '/resources/assets/fonts/NanumGothicBold.ttf',
-            italics: path + '/resources/assets/fonts/NanumGothicLight.ttf',
-            bolditalics: path + '/resources/assets/fonts/NanumGothicExtraBold.ttf'
-        }
-    }; */
-
-    // 각 폰트 파일의 경로를 콘솔에 출력
-    // console.log("NanumGothic 폰트 경로:");
-    // console.log(pdfMake.fonts.NanumGothic.normal);
-    // console.log(pdfMake.fonts.NanumGothic.bold);
-    // console.log(pdfMake.fonts.NanumGothic.italics);
-    // console.log(pdfMake.fonts.NanumGothic.bolditalics);
-
-    /*    // 폰트 파일 로드 테스트를 위한 임시 텍스트 요소 생성
-        var testElement = document.createElement('div');
-        testElement.style.fontFamily = 'NanumGothic';
-        testElement.textContent = '폰트 로드 테스트';
-        document.body.appendChild(testElement);
-
-        // 폰트 로드 확인
-        testElement.addEventListener('fontloading', function () {
-            console.log('폰트 로드 중...');
-        });
-
-        testElement.addEventListener('fontactive', function () {
-            console.log('폰트 로드 성공!');
-        });
-
-        testElement.addEventListener('fontinactive', function () {
-            console.log('폰트 로드 실패...');
-        });*/
-    function getCurrentDateTime() {
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = ('0' + (now.getMonth() + 1)).slice(-2);
-        var day = ('0' + now.getDate()).slice(-2);
-        var hour = ('0' + now.getHours()).slice(-2);
-        var minute = ('0' + now.getMinutes()).slice(-2);
-        var second = ('0' + now.getSeconds()).slice(-2);
-        return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+    .box-table {
+        margin-bottom: 400px;
+        /*margin-left: 50px;*/
+        /*width: 95%;*/
+        align-content: center;
     }
+</style>
 
-    $(function () {
-        $("#min").datepicker();
-        $("#max").datepicker();
-    });
-    $(document).ready(function () {
-
-        var path = "${path}";
-
-
-        $('#example1').DataTable({
-
-
-            // 기본 DataTables 설정
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "info": true,
-            ordering: true,
-            order: [[4, "asc"]],
-            // "editable": true,
-            "responsive": true,
-            /*    "dateFormat": 'YYYY-MM-DD HH:mm', */
-            "dom": '<"dt-buttons"Bfli>rtp',
-            "autoWidth": false,
-            "fixedHeader": true,
-            "drawCallback": function (settings) {
-                // DataTables가 다시 그려질 때마다 실행됩니다.
-                $('#example1').editableTableWidget();
-
-            },
-            /*  "columns": [
-                  { "editable": false },  // 입/출고
-                  { "editable": false },  // 타입
-                  { "editable": false },  // 수량
-                  { "editable": false },  // 게시일
-                  { "editable": false },  // 결재여부
-                  { "editable": false },  // 거래처
-                  { "editable": true },  // 담당자
-                  { "editable": false },  // 금액합계
-                  { "editable": true },  // 부가세유형
-                  { "editable": true },  // 적요
-                  { "editable": false },  // 삭제
-
-              ],*/
-
-            columnDefs: [
-                {targets: '_all', editable: true, orderable: true},
-                {
-                    targets: 3,
-                    /* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 */
-                    render: function (data, type, row) {
-                        if (type === 'display' || type === 'filter') {
-                            var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
-
-                            return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
-                        }
-                        /*                          if (type === 'sort') {
-                                                   // 정렬을 위해 원본 데이터 형식 사용
-                                                   return data;
-                                                 }   */
-                        return data;
-                    },
-
-                }
-
-
-            ],
-
-
-            /*    "ordering": [[0, 'desc']],*/
-            // 수정 불가능한 행 설정
-            createdRow: function (row, data, dataIndex) {
-                if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
-                    $(row).addClass('not-editable');
-                }
-            },
-            "buttons": [{
-                extend: 'colvis',
-                text: '일부 컬럼 보기'
-
-            }, {
-                extend: 'colvisRestore',
-                text: '컬럼 복원'
-
-            }, {
-
-                extend: 'copy',
-
-                /*            exportData: {decodeEntities: true}, */
-                text: '클립보드에 복사',
-                exportOptions: {
-                    columns: ':visible',
-                    rows: ':visible',
-                    encoding: 'UTF-8'
-
-                }
-            }, {
-                extend: 'csv',
-
-                /*                 exportData: {decodeEntities: true}, */
-                title: '입/출고 추가 ' + getCurrentDateTime(),
-                exportOptions: {
-                    columns: ':visible',
-                    rows: ':visible',
-                    encoding: 'UTF-8'
-                }
-            }, {
-                extend: 'excel',
-                title: '입/출고 추가 ' + getCurrentDateTime(),
-                /*                 exportData: {decodeEntities: true}, */
-                exportOptions: {
-                    columns: ':visible',
-                    rows: ':visible',
-                    encoding: 'UTF-8'
-
-                }
-            }, {
-                extend: 'pdfHtml5',
-                /*          exportData: {decodeEntities: true}, */
-                text: 'PDF',
-                title: '입/출고 추가 ' + getCurrentDateTime(),
-                font: 'hangul',
-                exportOptions: {
-                    columns: ':visible',
-                    rows: ':visible',
-                    encoding: 'UTF-8',
-
-                    /*font: 'hangul',*/
-                    customize: function (doc) {
-                        // 폰트 설정 추가
-                        /*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*/
-                        doc.defaultStyle.fonts = 'Roboto';
-                        doc.defaultStyle.font = 'Roboto';
-                        modifier: {
-                            page: 'current'
-                        }
-                        /*                        /!*    doc.defaultStyle.font = 'hangul'; // 폰트 패밀리 이름
-                                                doc.styles.tableHeader.font = 'hangul';
-                                                doc.styles.tableHeader.fontSize = 'hangul';
-                                                doc.defaultStyle.fontSize = 'hangul';// 테이블 헤더에 적용할 폰트*!/*/
-                    },
-                    /*                    customize: function (doc) {
-                                            // 폰트 설정 추가
-                                       /!*     doc.defaultStyle.styles.tableBodyEven.font = 'hangul';*!/
-                                           /!* doc.defaultStyle.fonts = 'hangul';*!/
-
-                                        /!*    doc.defaultStyle.font = 'hangul'; // 폰트 패밀리 이름
-                                            doc.styles.tableHeader.font = 'hangul';
-                                            doc.styles.tableHeader.fontSize = 'hangul';
-                                            doc.defaultStyle.fontSize = 'hangul';// 테이블 헤더에 적용할 폰트*!/
-                                        },*/
-                    /*          format: {
-                                  body: function (data, row, column, node) {
-                                      // 한글 폰트 설정
-                                      var font = 'hangul'; // 사용하고자 하는 폰트명으로 변경해주세요.
-                                      node.style.fontFamily = font;
-                                      return node;
-                                  }
-                              },*/
-                    /*                    customize: function (doc) {
-                                            doc.defaultStyle.font = 'NanumGothic';
-                                            doc.styles.tableHeader.font = 'NanumGothic';
-                                        },*/
-                }
-
-            }, {
-                extend: 'print',
-                title: '입/출고 추가 ' + getCurrentDateTime(),
-                /*           exportData: {decodeEntities: true}, */
-                exportOptions: {
-                    columns: ':visible',
-                    rows: ':visible',
-                    encoding: 'UTF-8'
-                }
-            }
-
-            ],
-            "lengthMenu": [[10, 25, 50, 100, -1],
-                [10, 25, 50, 100, "All"]],
-            "language": {
-                "lengthMenu": "표시할 항목 수: _MENU_",
-                "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
-                "search": "검색:",
-                "paginate": {
-                    "first": "처음",
-                    "last": "마지막",
-                    "next": "다음",
-                    "previous": "이전",
-                    "emptyTable": "데이터가 없어요.",
-                    "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-                    // "info": "현재 _START_ - _END_ / _TOTAL_건",
-                    "infoEmpty": "데이터 없음",
-                    "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-                    // "search": "에서 검색: ",
-                    "zeroRecords": "일치하는 데이터가 없어요.",
-                    "loadingRecords": "로딩중...",
-                    "processing": "잠시만 기다려 주세요..."
-                    // "paginate": {
-                    //     "next": "다음",
-                    //     "previous": "이전"
-
-                    // },
-
-                },
-
-            }
-        });
-
-        $('#example1').editableTableWidget().on('change', function (e, newValue) {
-            // 셀의 데이터가 변경되었을 때의 처리
-            var cell = $(e.target);
-            var columnIdx = cell.index();
-            var rowIdx = cell.closest('tr').index();
-            var table = $('#example1').DataTable();
-            var data = table.row(rowIdx).data();
-
-            data[columnIdx] = newValue; // 데이터 배열 업데이트
-            table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트
-        });
-        var table = $('#example1').DataTable();
-
-        /*        // 각 열에 대한 검색을 수행할 수 있는 셀렉트 박스 추가
-                table.columns().every(function() {
-                    var column = this;
-                    var select = $('<select><option value=""></option></select>')
-                        .appendTo($(column.footer()).empty())
-                        .on('change', function() {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-
-                    column.data().unique().sort().each(function(d, j) {
-                        select.append('<option value="' + d + '">' + d + '</option>');
-                    });
-                });*/
-        // 편집 가능한 테이블에서 행이 수정될 때 발생하는 이벤트
-        /*$('#example1').on('edit', function (e, datatable, cell) {
-                // 수정된 셀의 행 인덱스 가져오기
-                var rowIndex = cell.index().row;
-            console.log("행 인덱스: " + rowIndex);
-            // Datatables로부터 해당 행의 데이터 가져오기
-            var rowData = datatable.row(rowIndex).data();
-
-            // IV_ID 열의 데이터 가져오기
-            var ivIdValue = rowData.IV_ID;
-
-            // 수정된 값 가져오기
-            var cellData = cell.data();
-
-            // 이제 IV_ID와 cellData를 사용하여 원하는 작업 수행
-            // 데이터를 서버로 전송하거나 다른 작업을 수행할 수 있음
-            console.log("IV_ID: " + ivIdValue);
-            console.log("새로운 값: " + cellData);
-
-            // 추가 작업을 수행할 수 있음
-            // ...
-
-            // 예를 들어, 서버로 데이터를 전송하는 경우
-            $.ajax({
-                method: "POST",
-                url: "your_server_url_here",
-                data: {
-                    IV_ID: ivIdValue,
-                    newValue: cellData
-                },
-                success: function (response) {
-                    // 성공적으로 서버에 데이터를 전송한 후 수행할 작업
-                    console.log("데이터 전송 성공");
-                },
-                error: function (error) {
-                    // 데이터 전송 중 오류 발생 시 수행할 작업
-                    console.error("데이터 전송 오류: " + error);
-                }
-            });
-
-        });*/
-
-    });
-    /*
-        alert("test")
-        $('#example1').DataTable().order([0, 'asc']).draw();
-    */
-
-    /*     let minDate, maxDate;
-
-        // Custom filtering function which will search data in column four between two values
-        DataTable.ext.search.push(function (settings, data, dataIndex) {
-            let min = minDate.val();
-            let max = maxDate.val();
-            let date = new Date(data[3]);
-
-            if (
-                (min === null && max === null) ||
-                (min === null && date <= max) ||
-                (min <= date && max === null) ||
-                (min <= date && date <= max)
-            ) {
-                return true;
-            }
-            return false;
-        });
-
-        // Create date inputs
-        minDate = new DateTime('#min', {
-            format: 'MMMM Do YYYY'
-        });
-        maxDate = new DateTime('#max', {
-            format: 'MMMM Do YYYY'
-        });
-
-        // DataTables initialisation
-        let table = new DataTable('#example1');
-
-        // Refilter the table
-        document.querySelectorAll('#min, #max').forEach((el) => {
-            el.addEventListener('change', () => table.draw());
-        });
-     */
-</script>
-<%--<script>
-    $(document).ready(
-        function () {
-            //Only needed for the filename of export files.
-            //Normally set in the title tag of your page.
-            /*document.title = 'Simple DataTable';*/
-            // DataTable initialisation
-            // var data = [
-            // <c:forEach var="iv" items="${inventories}" varStatus="status">
-            // {
-            //     "IV_ID": "${iv.IV_ID}",
-            //    "IV_TYPE": " ${iv.IV_TYPE}",
-            //    "QUANTITY": "${iv.QUANTITY != null ? iv.QUANTITY : '수량'}",
-            //    "IV_DATE": "${iv.IV_DATE}",
-            //    "CONFIRM_YN": "${iv.CONFIRM_YN != null ? iv.CONFIRM_YN : '결재여부'}",
-            //    "SEND_BRANCH_NAME": "${iv.SEND_BRANCH_NAME}",
-            //    "SEND_EMP_NAME": " ${iv.SEND_EMP_NAME}",
-            //    "TOTAL_AMOUNT": "${iv.TOTAL_AMOUNT != null ? iv.TOTAL_AMOUNT : '금액합계'}",
-            //     "IV_VAT_TYPE": "${iv.IV_VAT_TYPE}",
-            //    "IV_MEMO": "<c:out value='${iv.IV_MEMO}'/>",
-            //    "deleteLink": '<a href="${path} / inventory / delete ? iv_id =${iv.IV_ID}">삭제</a>'
-            // }
-            //  <c:if test="${!status.last}">, </c:if>
-            //   </c:forEach>
-            //];
-
-            $('#example1').DataTable(
-                {
-                    "processing": true,
-                    "serverSide": true,
-                    "destroy": true,
-                    "dateFormat": 'YYYY-MM-DD HH:mm:ss',
-                    "ajax": {
-                        "url": "${path }/logistics/inventories",
-                        "type": "GET",
-                        "dataSrc": function (json) {
-                            console.log("Received JSON:", json);
-                            var data = json.data;
-                            return data;
-                        }
-                    },
-                    "columns": [
-                        {title: "입/출고 코드", "data": "IV_ID"},
-                        {title: "타입", "data": "IV_TYPE"},
-                        {
-                            /*                    title: "수량", "data": "QUANTITY"*/
-                            title: "수량",
-                            "data": null,
-                            "defaultContent": "수량",
-                            "render": function (data, type, row, meta) {
-                                return '임의의 값 또는 HTML 요소';
-                            }
-                        },
-                        {title: "게시일", "data": "IV_DATE"},
-                        {
-                            title: "결재여부",/* "data": "CONFIRM_YN"*/
-                            "data": null,
-                            "defaultContent": "결재여부",
-                            "render": function (data, type, row, meta) {
-                                return '임의의 값 또는 HTML 요소';
-                            }
-                        },
-                        {title: "거래처", "data": "SEND_BRANCH_NAME"},
-                        {title: "담당자", "data": "SEND_EMP_NAME"},
-                        {
-                            /* title: "금액합계", "data": "TOTAL_AMOUNT" */
-                            title: "금액합계",
-                            "data": null,
-                            "defaultContent": "금액합계",
-                            "render": function (data, type, row, meta) {
-                                return '임의의 값 또는 HTML 요소';
-                            }
-                        },
-                        {"data": "IV_VAT_TYPE"},
-                        {"data": "IV_MEMO"},
-                        {
-                            /*                      title: "금액합계", "data": "TOTAL_AMOUNT"*/
-                            title: "삭제",
-                            "data": null,
-                            "defaultContent": "삭제",
-                            "render": function (data, type, row, meta) {
-                                return '<a href="${path}/inventory/delete?iv_id=${iv.IV_ID}">삭제</a>';
-                            }
-                        }
-                        /*                                   {
-                                                               title: "적요",
-                                                               "data": "deleteLink", "render": function (data) {
-                                                                   return data;
-                                                               }
-                                                           }*/
-                    ],
-                    "dom": '<"dt-buttons"Bfli>rtp',
-                    "paging": true,
-                    "autoWidth": true,
-                    "fixedHeader": true,
-                    // 기타 DataTables 설정
-                    "drawCallback": function (settings) {
-                        // DataTables가 다시 그려질 때마다 실행됩니다.
-                        $('#example1').editableTableWidget();
-
-                    },
-                    "buttons": [{
-                        extend: 'colvis',
-                        text: '일부 컬럼 보기'
-
-                    }, {
-
-                        extend: 'copyHtml5',
-                        text: '클립보드에 복사',
-                        exportOptions: {
-                            columns: ':visible'
-
-                        }
-                    }, {
-                        extend: 'csvHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }, {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }, {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }, {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }
-
-                    ],
-                    "lengthMenu": [[10, 25, 50, 100, -1],
-                        [10, 25, 50, 100, "All"]],
-                    "language": {
-                        "lengthMenu": "표시할 항목 수: _MENU_",
-                        "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
-                        "search": "검색:",
-                        "paginate": {
-                            "first": "처음",
-                            "last": "마지막",
-                            "next": "다음",
-                            "previous": "이전",
-                            "emptyTable": "데이터가 없어요.",
-                            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-                            // "info": "현재 _START_ - _END_ / _TOTAL_건",
-                            "infoEmpty": "데이터 없음",
-                            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-                            // "search": "에서 검색: ",
-                            "zeroRecords": "일치하는 데이터가 없어요.",
-                            "loadingRecords": "로딩중...",
-                            "processing": "잠시만 기다려 주세요..."
-                            // "paginate": {
-                            //     "next": "다음",
-                            //     "previous": "이전"
-
-                            // },
-
-                        },
-
-                    }
-
-
-                });
-
-            // table.on('init', function() {
-            //     $(".dataTables_length").after("<br>"); // .dataTables_length 뒤에 <br> 추가
-            // });
-        });
-</script>--%>
 
 <div class="content-wrapper">
     <div class="container-full">
@@ -737,10 +163,10 @@ ${path}";
             </div>
 
             <!-- Content Header (Page header) -->
-            <div class="content-header">
+            <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h4 class="page-title">입고/출고 내역</h4>
+                        <h5 class="page-title">입고/출고 내역</h5>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
@@ -756,194 +182,605 @@ ${path}";
                     </div>
                 </div>
             </div>
-            <!-- Main content -->
-            <section class="content">
 
-                <div class="row">
+            <div class="row">
 
-                    <div class="col-xl-4 connectedSortable">
-                        <div class="box">
-                            <div class="box-header with-border">
-                                <h4 class="box-title">입/출고 추가</h4>
-
-                                <ul class="box-controls pull-right">
-                                    <li><a class="box-btn-close" href="#"></a></li>
-                                    <li><a class="box-btn-slide" href="#"></a></li>
-                                    <li><a class="box-btn-fullscreen" href="#"></a></li>
-                                </ul>
-                            </div>
-                            <div class="box-body p-0">
+                <div class="col-lg-12 col-12">
+                    <script>
 
 
-                                <form name="boardFrm" action="${path }/board/insertBoard.do"
-                                      method="post" enctype="multipart/form-data">
+                        /*
+                            let fs = require('fs');
+
+                            // nanumgothinc.ttf 파일 경로
+                            let filePath = path + '/resources/assets/fonts/malgun.ttf';
+
+                            // 파일 읽기
+                            fs.readFile(filePath, (err, data) => {
+                                if (err) {
+                                    console.error('파일을 읽을 수 없습니다:', err);
+                                    return;
+                                }
+
+                                // Base64로 인코딩
+                                let base64Data = data.toString('base64');
+                                console.log(base64Data);
+
+                                pdfMake.vfs = {
+                                    'malgun.ttf': 'base64Data',
+                                };
+
+                                let fs = require('fs');
+
+                                // nanumgothinc.ttf 파일 경로
+                                let filePath = path + '/resources/assets/fonts/malgunbd.ttf';
+
+                                // 파일 읽기
+                                fs.readFile(filePath, (err, data) => {
+                                    if (err) {
+                                        console.error('파일을 읽을 수 없습니다:', err);
+                                        return;
+                                    }
+
+                                    // Base64로 인코딩
+                                    let base64Data = data.toString('base64');
+                                    console.log(base64Data);
+
+                                    pdfMake.vfs = {
+                                        'malgunbd.ttf': 'base64Data',
+                                    }; */
 
 
-                                    <input name="group1" type="radio" id="write_Option_1" checked>
 
-                                    <label for="write_Option_1">입고</label> <input name="group1"
-                                                                                  type="radio" id="write_Option_2">
-                                    <label
-                                            for="write_Option_2">출고</label>
+                        /*     var path = "
+${path}";
+    pdfMake.fonts = {
+        NanumGothic: {
+            normal: path + '/resources/assets/fonts/NanumGothic.ttf',
+            bold: path + '/resources/assets/fonts/NanumGothicBold.ttf',
+            italics: path + '/resources/assets/fonts/NanumGothicLight.ttf',
+            bolditalics: path + '/resources/assets/fonts/NanumGothicExtraBold.ttf'
+        }
+    }; */
 
-                                    <div>
-                                        <input class="form-control" type="datetime-local"
-                                               value="<%=formattedNow%>" id="example-datetime-local-input">
-                                    </div>
+                        // 각 폰트 파일의 경로를 콘솔에 출력
+                        // console.log("NanumGothic 폰트 경로:");
+                        // console.log(pdfMake.fonts.NanumGothic.normal);
+                        // console.log(pdfMake.fonts.NanumGothic.bold);
+                        // console.log(pdfMake.fonts.NanumGothic.italics);
+                        // console.log(pdfMake.fonts.NanumGothic.bolditalics);
 
-                                    <div>
-                                        <label class="form-label">담당자</label> <select
-                                            class="form-control select2" multiple="multiple"
-                                            data-placeholder="Select a State" style="width: 100%;">
-                                        <option>부서 가져오기</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
-                                    </select>
-                                    </div>
+                        /*    // 폰트 파일 로드 테스트를 위한 임시 텍스트 요소 생성
+                            var testElement = document.createElement('div');
+                            testElement.style.fontFamily = 'NanumGothic';
+                            testElement.textContent = '폰트 로드 테스트';
+                            document.body.appendChild(testElement);
 
-                                    <div>
-                                        <label class="form-label">거래처</label> <select
-                                            class="form-control select2" multiple="multiple"
-                                            data-placeholder="Select a State" style="width: 100%;">
-                                        <option>부서 가져오기</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
-                                    </select>
-                                    </div>
-                                    <%--				<div class="dropzone" id="myDropzone">
-                                                        <div class="fallback">
-                                                            <input name="file" type="file" multiple/>
-                                                        </div>
-                                                    </div>--%>
-                                    <div>
-                                        부가세 포함 여부 <input name="group2" type="radio" id="vat_Option_1"
-                                                         checked> <label for="vat_Option_1">포함</label> <input
-                                            name="group2" type="radio" id="vat_Option_2"> <label
-                                            for="vat_Option_2">제외</label>
-                                    </div>
+                            // 폰트 로드 확인
+                            testElement.addEventListener('fontloading', function () {
+                                console.log('폰트 로드 중...');
+                            });
 
-                                    <div id="board-container">
-                                        <div class="input-group mb-3" style="padding: 0px;">
-                                            <div class="input-group-prepend" style="padding: 0px;">
-                                                <button type="button"
-                                                        class="waves-effect waves-light btn btn-info-light btn-flat mb-5"
-                                                        onclick="fn_addFileForm();">첨부파일 추가
-                                                </button>
-                                                <button type="button"
-                                                        class="waves-effect waves-light btn btn-danger-light btn-flat mb-5"
-                                                        onclick="fn_deleteFileForm();">첨부파일 삭제
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div id="basicFileForm" class="input-group mb-3"
-                                             style="padding: 0px;">
+                            testElement.addEventListener('fontactive', function () {
+                                console.log('폰트 로드 성공!');
+                            });
 
-                                            <span class="input-group-text1">첨부파일 1</span>
+                            testElement.addEventListener('fontinactive', function () {
+                                console.log('폰트 로드 실패...');
+                            });*/
+                        function getCurrentDateTime() {
+                            var now = new Date();
+                            var year = now.getFullYear();
+                            var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                            var day = ('0' + now.getDate()).slice(-2);
+                            var hour = ('0' + now.getHours()).slice(-2);
+                            var minute = ('0' + now.getMinutes()).slice(-2);
+                            var second = ('0' + now.getSeconds()).slice(-2);
+                            return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+                        }
 
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="upFile"
-                                                       id="upFile1"> <label class="custom-file-label"
-                                                                            for="upFile1">파일을 선택하세요</label>
-                                            </div>
-                                        </div>
-                                        <textarea class="form-control" name="iv_memo" placeholder="적요"
-                                        ></textarea>
-                                        <br/>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="ti-save-alt"></i> 저장
-                                        </button>
+                        $(function () {
+                            $("#min").datepicker();
+                            $("#max").datepicker();
+                        });
+                        $(document).ready(function () {
+
+                            var path = "${path}";
 
 
-                                        <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <%--					<script>
-                                                    // Dropzone 설정
-                                                    Dropzone.options.myDropzone = {
-                                                        url: "${path}/board/insertBoard.do",
-                                                        autoProcessQueue: false, // 자동 처리 비활성화
-                                                        init: function () {
-                                                            var myDropzone = this;
-
-                                                            // 폼 제출 핸들러
-                                                            document.getElementsByName("boardFrm")[0].addEventListener('submit', function (e) {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-
-                                                                // 모든 파일을 처리 큐에 추가
-                                                                myDropzone.files.forEach(function (file) {
-                                                                    myDropzone.enqueueFile(file);
-                                                                });
-
-                                                                // 파일 처리 완료 후 폼 데이터 전송
-                                                                myDropzone.on("queuecomplete", function () {
-                                                                    // 폼 데이터를 AJAX를 통해 전송
-                                                                    // 폼 데이터 추가 로직...
-                                                                });
-                                                            });
-                                                        }
-                                                    };
-                                                </script>--%>
+                            $('#example1').DataTable({
 
 
-                            <script>
-                                const adddelFunction = (function () {
-                                    let count = 2;
-                                    const addFile = () => {
-                                        if (count <= 5) {
-                                            const fileForm = $("#basicFileForm").clone(true);
-                                            fileForm.find("span.input-group-text1").text("첨부파일 " + count);
-                                            fileForm.find("label.custom-file-label").text("파일을 선택하세요")
-                                                .attr("for", "upFile" + count);
-                                            fileForm.find("input[type=file]").attr("id", "upFile" + count).val("");
-                                            $("textarea[name=iv_memo]").before(fileForm);
-                                            count++;
-                                        } else {
-                                            alert("첨부파일은 5개까지 가능합니다.");
-                                        }
-                                    };
-                                    const delFile = () => {
-                                        if (count != 2) {
-                                            $("textarea[name=iv_memo]").prev().remove();
-                                            count--;
-                                        }
-                                    };
+                                // 기본 DataTables 설정
+                                "paging": true,
+                                "lengthChange": true,
+                                "searching": true,
+                                "info": true,
+                                ordering: true,
+                                order: [[3, "desc"]],
+                                // "editable": true,
+                                "responsive": true,
+                                /*    "dateFormat": 'YYYY-MM-DD HH:mm', */
+                                "dom": '<"dt-buttons">Bflirtp',
+                                "autoWidth": false,
+                                "fixedHeader": true,
+                                "drawCallback": function (settings) {
+                                    // DataTables가 다시 그려질 때마다 실행됩니다.
+                                    $('#example1').editableTableWidget();
 
-                                    return [addFile, delFile];
-                                })();
+                                },
+                                /*  "columns": [
+                                      { "editable": false },  // 입/출고
+                                      { "editable": false },  // 타입
+                                      { "editable": false },  // 수량
+                                      { "editable": false },  // 게시일
+                                      { "editable": false },  // 결재여부
+                                      { "editable": false },  // 거래처
+                                      { "editable": true },  // 담당자
+                                      { "editable": false },  // 금액합계
+                                      { "editable": true },  // 부가세유형
+                                      { "editable": true },  // 적요
+                                      { "editable": false },  // 삭제
 
-                                const fn_addFileForm = adddelFunction[0];
-                                const fn_deleteFileForm = adddelFunction[1];
+                                  ],*/
 
-                                $("input[name=upFile]").change(e => {
-                                    const fileName = e.target.files[0].name;
-                                    $(e.target).next(".custom-file-label").text(fileName);
+                                columnDefs: [
+                                    {targets: '_all', editable: true, orderable: true},
+                                    {
+                                        targets: 3,
+                                        /* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 */
+                                        render: function (data, type, row) {
+                                            if (type === 'display' || type === 'filter') {
+                                                var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
+
+                                                return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
+                                            }
+                                            /*                          if (type === 'sort') {
+                                                                       // 정렬을 위해 원본 데이터 형식 사용
+                                                                       return data;
+                                                                     }   */
+                                            return data;
+                                        },
+
+                                    }
+
+
+                                ],
+
+
+                                /*    "ordering": [[0, 'desc']],*/
+                                // 수정 불가능한 행 설정
+                                createdRow: function (row, data, dataIndex) {
+                                    if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
+                                        $(row).addClass('not-editable');
+                                    }
+                                },
+                                "buttons": [{
+                                    extend: 'colvis',
+                                    text: '일부 컬럼 보기'
+
+                                }, {
+                                    extend: 'colvisRestore',
+                                    text: '컬럼 복원'
+
+                                }, {
+
+                                    extend: 'copy',
+
+                                    /*            exportData: {decodeEntities: true}, */
+                                    text: '클립보드에 복사',
+                                    exportOptions: {
+                                        columns: ':visible',
+                                        rows: ':visible',
+                                        encoding: 'UTF-8'
+
+                                    }
+                                }, {
+                                    extend: 'csv',
+
+                                    /*                 exportData: {decodeEntities: true}, */
+                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    exportOptions: {
+                                        columns: ':visible',
+                                        rows: ':visible',
+                                        encoding: 'UTF-8'
+                                    }
+                                }, {
+                                    extend: 'excel',
+                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    /*                 exportData: {decodeEntities: true}, */
+                                    exportOptions: {
+                                        columns: ':visible',
+                                        rows: ':visible',
+                                        encoding: 'UTF-8'
+
+                                    }
+                                }, {
+                                    extend: 'pdfHtml5',
+                                    /*          exportData: {decodeEntities: true}, */
+                                    text: 'PDF',
+                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    font: 'hangul',
+                                    exportOptions: {
+                                        columns: ':visible',
+                                        rows: ':visible',
+                                        encoding: 'UTF-8',
+
+                                        /*font: 'hangul',*/
+                                        customize: function (doc) {
+                                            // 폰트 설정 추가
+                                            /*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*/
+                                            doc.defaultStyle.fonts = 'Roboto';
+                                            doc.defaultStyle.font = 'Roboto';
+                                            modifier: {
+                                                page: 'current'
+                                            }
+                                            /*                        /!*    doc.defaultStyle.font = 'hangul'; // 폰트 패밀리 이름
+                                                                    doc.styles.tableHeader.font = 'hangul';
+                                                                    doc.styles.tableHeader.fontSize = 'hangul';
+                                                                    doc.defaultStyle.fontSize = 'hangul';// 테이블 헤더에 적용할 폰트*!/*/
+                                        },
+                                        /*                    customize: function (doc) {
+                                                                // 폰트 설정 추가
+                                                           /!*     doc.defaultStyle.styles.tableBodyEven.font = 'hangul';*!/
+                                                               /!* doc.defaultStyle.fonts = 'hangul';*!/
+
+                                                            /!*    doc.defaultStyle.font = 'hangul'; // 폰트 패밀리 이름
+                                                                doc.styles.tableHeader.font = 'hangul';
+                                                                doc.styles.tableHeader.fontSize = 'hangul';
+                                                                doc.defaultStyle.fontSize = 'hangul';// 테이블 헤더에 적용할 폰트*!/
+                                                            },*/
+                                        /*          format: {
+                                                      body: function (data, row, column, node) {
+                                                          // 한글 폰트 설정
+                                                          var font = 'hangul'; // 사용하고자 하는 폰트명으로 변경해주세요.
+                                                          node.style.fontFamily = font;
+                                                          return node;
+                                                      }
+                                                  },*/
+                                        /*                    customize: function (doc) {
+                                                                doc.defaultStyle.font = 'NanumGothic';
+                                                                doc.styles.tableHeader.font = 'NanumGothic';
+                                                            },*/
+                                    }
+
+                                }, {
+                                    extend: 'print',
+                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    /*           exportData: {decodeEntities: true}, */
+                                    exportOptions: {
+                                        columns: ':visible',
+                                        rows: ':visible',
+                                        encoding: 'UTF-8'
+                                    }
+                                }
+
+                                ],
+                                "lengthMenu": [[10, 25, 50, 100, -1],
+                                    [10, 25, 50, 100, "All"]],
+                                "language": {
+                                    "lengthMenu": "표시할 항목 수: _MENU_",
+                                    "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
+                                    "search": "검색:",
+                                    "paginate": {
+                                        "first": "처음",
+                                        "last": "마지막",
+                                        "next": "다음",
+                                        "previous": "이전",
+                                        "emptyTable": "데이터가 없어요.",
+                                        "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                                        // "info": "현재 _START_ - _END_ / _TOTAL_건",
+                                        "infoEmpty": "데이터 없음",
+                                        "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+                                        // "search": "에서 검색: ",
+                                        "zeroRecords": "일치하는 데이터가 없어요.",
+                                        "loadingRecords": "로딩중...",
+                                        "processing": "잠시만 기다려 주세요..."
+                                        // "paginate": {
+                                        //     "next": "다음",
+                                        //     "previous": "이전"
+
+                                        // },
+
+                                    },
+
+                                }
+                            });
+
+                            $('#example1').editableTableWidget().on('change', function (e, newValue) {
+                                // 셀의 데이터가 변경되었을 때의 처리
+                                var cell = $(e.target);
+                                var columnIdx = cell.index();
+                                var rowIdx = cell.closest('tr').index();
+                                var table = $('#example1').DataTable();
+                                var data = table.row(rowIdx).data();
+
+                                data[columnIdx] = newValue; // 데이터 배열 업데이트
+                                table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트
+                            });
+                            var table = $('#example1').DataTable();
+
+                            /*        // 각 열에 대한 검색을 수행할 수 있는 셀렉트 박스 추가
+                                    table.columns().every(function() {
+                                        var column = this;
+                                        var select = $('<select><option value=""></option></select>')
+                                            .appendTo($(column.footer()).empty())
+                                            .on('change', function() {
+                                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                            });
+
+                                        column.data().unique().sort().each(function(d, j) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                    });*/
+                            // 편집 가능한 테이블에서 행이 수정될 때 발생하는 이벤트
+                            /*$('#example1').on('edit', function (e, datatable, cell) {
+                                    // 수정된 셀의 행 인덱스 가져오기
+                                    var rowIndex = cell.index().row;
+                                console.log("행 인덱스: " + rowIndex);
+                                // Datatables로부터 해당 행의 데이터 가져오기
+                                var rowData = datatable.row(rowIndex).data();
+
+                                // IV_ID 열의 데이터 가져오기
+                                var ivIdValue = rowData.IV_ID;
+
+                                // 수정된 값 가져오기
+                                var cellData = cell.data();
+
+                                // 이제 IV_ID와 cellData를 사용하여 원하는 작업 수행
+                                // 데이터를 서버로 전송하거나 다른 작업을 수행할 수 있음
+                                console.log("IV_ID: " + ivIdValue);
+                                console.log("새로운 값: " + cellData);
+
+                                // 추가 작업을 수행할 수 있음
+                                // ...
+
+                                // 예를 들어, 서버로 데이터를 전송하는 경우
+                                $.ajax({
+                                    method: "POST",
+                                    url: "your_server_url_here",
+                                    data: {
+                                        IV_ID: ivIdValue,
+                                        newValue: cellData
+                                    },
+                                    success: function (response) {
+                                        // 성공적으로 서버에 데이터를 전송한 후 수행할 작업
+                                        console.log("데이터 전송 성공");
+                                    },
+                                    error: function (error) {
+                                        // 데이터 전송 중 오류 발생 시 수행할 작업
+                                        console.error("데이터 전송 오류: " + error);
+                                    }
                                 });
-                            </script>
 
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
+                            });*/
 
-                <div class="col-12">
+                        });
+                        /*
+                            alert("test")
+                            $('#example1').DataTable().order([0, 'asc']).draw();
+                        */
+
+                        /*     let minDate, maxDate;
+
+                            // Custom filtering function which will search data in column four between two values
+                            DataTable.ext.search.push(function (settings, data, dataIndex) {
+                                let min = minDate.val();
+                                let max = maxDate.val();
+                                let date = new Date(data[3]);
+
+                                if (
+                                    (min === null && max === null) ||
+                                    (min === null && date <= max) ||
+                                    (min <= date && max === null) ||
+                                    (min <= date && date <= max)
+                                ) {
+                                    return true;
+                                }
+                                return false;
+                            });
+
+                            // Create date inputs
+                            minDate = new DateTime('#min', {
+                                format: 'MMMM Do YYYY'
+                            });
+                            maxDate = new DateTime('#max', {
+                                format: 'MMMM Do YYYY'
+                            });
+
+                            // DataTables initialisation
+                            let table = new DataTable('#example1');
+
+                            // Refilter the table
+                            document.querySelectorAll('#min, #max').forEach((el) => {
+                                el.addEventListener('change', () => table.draw());
+                            });
+                         */
+                    </script>
+                    <%--<script>
+                        $(document).ready(
+                            function () {
+                                //Only needed for the filename of export files.
+                                //Normally set in the title tag of your page.
+                                /*document.title = 'Simple DataTable';*/
+                                // DataTable initialisation
+                                // var data = [
+                                // <c:forEach var="iv" items="${inventories}" varStatus="status">
+                                // {
+                                //     "IV_ID": "${iv.IV_ID}",
+                                //    "IV_TYPE": " ${iv.IV_TYPE}",
+                                //    "QUANTITY": "${iv.QUANTITY != null ? iv.QUANTITY : '수량'}",
+                                //    "IV_DATE": "${iv.IV_DATE}",
+                                //    "CONFIRM_YN": "${iv.CONFIRM_YN != null ? iv.CONFIRM_YN : '결재여부'}",
+                                //    "SEND_BRANCH_NAME": "${iv.SEND_BRANCH_NAME}",
+                                //    "SEND_EMP_NAME": " ${iv.SEND_EMP_NAME}",
+                                //    "TOTAL_AMOUNT": "${iv.TOTAL_AMOUNT != null ? iv.TOTAL_AMOUNT : '금액합계'}",
+                                //     "IV_VAT_TYPE": "${iv.IV_VAT_TYPE}",
+                                //    "IV_MEMO": "<c:out value='${iv.IV_MEMO}'/>",
+                                //    "deleteLink": '<a href="${path} / inventory / delete ? iv_id =${iv.IV_ID}">삭제</a>'
+                                // }
+                                //  <c:if test="${!status.last}">, </c:if>
+                                //   </c:forEach>
+                                //];
+
+                                $('#example1').DataTable(
+                                    {
+                                        "processing": true,
+                                        "serverSide": true,
+                                        "destroy": true,
+                                        "dateFormat": 'YYYY-MM-DD HH:mm:ss',
+                                        "ajax": {
+                                            "url": "${path }/logistics/inventories",
+                                            "type": "GET",
+                                            "dataSrc": function (json) {
+                                                console.log("Received JSON:", json);
+                                                var data = json.data;
+                                                return data;
+                                            }
+                                        },
+                                        "columns": [
+                                            {title: "입/출고 코드", "data": "IV_ID"},
+                                            {title: "타입", "data": "IV_TYPE"},
+                                            {
+                                                /*                    title: "수량", "data": "QUANTITY"*/
+                                                title: "수량",
+                                                "data": null,
+                                                "defaultContent": "수량",
+                                                "render": function (data, type, row, meta) {
+                                                    return '임의의 값 또는 HTML 요소';
+                                                }
+                                            },
+                                            {title: "게시일", "data": "IV_DATE"},
+                                            {
+                                                title: "결재여부",/* "data": "CONFIRM_YN"*/
+                                                "data": null,
+                                                "defaultContent": "결재여부",
+                                                "render": function (data, type, row, meta) {
+                                                    return '임의의 값 또는 HTML 요소';
+                                                }
+                                            },
+                                            {title: "거래처", "data": "SEND_BRANCH_NAME"},
+                                            {title: "담당자", "data": "SEND_EMP_NAME"},
+                                            {
+                                                /* title: "금액합계", "data": "TOTAL_AMOUNT" */
+                                                title: "금액합계",
+                                                "data": null,
+                                                "defaultContent": "금액합계",
+                                                "render": function (data, type, row, meta) {
+                                                    return '임의의 값 또는 HTML 요소';
+                                                }
+                                            },
+                                            {"data": "IV_VAT_TYPE"},
+                                            {"data": "IV_MEMO"},
+                                            {
+                                                /*                      title: "금액합계", "data": "TOTAL_AMOUNT"*/
+                                                title: "삭제",
+                                                "data": null,
+                                                "defaultContent": "삭제",
+                                                "render": function (data, type, row, meta) {
+                                                    return '<a href="${path}/inventory/delete?iv_id=${iv.IV_ID}">삭제</a>';
+                                                }
+                                            }
+                                            /*                                   {
+                                                                                   title: "적요",
+                                                                                   "data": "deleteLink", "render": function (data) {
+                                                                                       return data;
+                                                                                   }
+                                                                               }*/
+                                        ],
+                                        "dom": '<"dt-buttons"Bfli>rtp',
+                                        "paging": true,
+                                        "autoWidth": true,
+                                        "fixedHeader": true,
+                                        // 기타 DataTables 설정
+                                        "drawCallback": function (settings) {
+                                            // DataTables가 다시 그려질 때마다 실행됩니다.
+                                            $('#example1').editableTableWidget();
+
+                                        },
+                                        "buttons": [{
+                                            extend: 'colvis',
+                                            text: '일부 컬럼 보기'
+
+                                        }, {
+
+                                            extend: 'copyHtml5',
+                                            text: '클립보드에 복사',
+                                            exportOptions: {
+                                                columns: ':visible'
+
+                                            }
+                                        }, {
+                                            extend: 'csvHtml5',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }, {
+                                            extend: 'excelHtml5',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }, {
+                                            extend: 'pdfHtml5',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }, {
+                                            extend: 'print',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }
+
+                                        ],
+                                        "lengthMenu": [[10, 25, 50, 100, -1],
+                                            [10, 25, 50, 100, "All"]],
+                                        "language": {
+                                            "lengthMenu": "표시할 항목 수: _MENU_",
+                                            "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
+                                            "search": "검색:",
+                                            "paginate": {
+                                                "first": "처음",
+                                                "last": "마지막",
+                                                "next": "다음",
+                                                "previous": "이전",
+                                                "emptyTable": "데이터가 없어요.",
+                                                "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                                                // "info": "현재 _START_ - _END_ / _TOTAL_건",
+                                                "infoEmpty": "데이터 없음",
+                                                "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+                                                // "search": "에서 검색: ",
+                                                "zeroRecords": "일치하는 데이터가 없어요.",
+                                                "loadingRecords": "로딩중...",
+                                                "processing": "잠시만 기다려 주세요..."
+                                                // "paginate": {
+                                                //     "next": "다음",
+                                                //     "previous": "이전"
+
+                                                // },
+
+                                            },
+
+                                        }
+
+
+                                    });
+
+                                // table.on('init', function() {
+                                //     $(".dataTables_length").after("<br>"); // .dataTables_length 뒤에 <br> 추가
+                                // });
+                            });
+                    </script>--%>
                     <div class="box">
                         <div class="box-header">
-                            <h4 class="box-title">
-                                입/출고 <strong>입/출고내역</strong>
+
+
+                            <h4 class="box-title"><strong>입/출고내역</strong>
                             </h4>
                             <h6 class="subtitle">수정할 row를 선택하세요</h6>
                         </div>
+
 
                         <div class="box-body">
                             <div class="table-responsive">
@@ -966,7 +803,7 @@ ${path}";
                                     <tr>
                                         <th>입/출고 코드</th>
                                         <th>타입</th>
-                                        <th>수량</th>
+                                        <th>총 수량</th>
                                         <th>게시일</th>
                                         <th>결재여부</th>
                                         <th>거래처</th>
@@ -985,38 +822,79 @@ ${path}";
                                                 data-table-name="INVENTORY">${iv.IV_ID}</td>
                                             <td name="dontedit" data-column-name="IV_VAT_TYPE"
                                                 data-table-name="INVENTORY">${iv.IV_TYPE}</td>
-                                            <td name="dontedit">수량</td>
+                                            <td name="dontedit">${iv.TOTAL_PRD_IV_QUANTITY}</td>
                                             <td name="dontedit" data-column-name="IV_DATE"
                                                 data-table-name="INVENTORY">${iv.IV_DATE}</td>
-                                            <td name="dontedit">결제여부</td>
+                                            <td name="dontedit">
+
+                                                <c:choose>
+                                                    <c:when test="${iv.DOC_STATCD == 0}">
+                                                        진행중
+                                                    </c:when>
+                                                    <c:when test="${iv.DOC_STATCD == 1}">
+                                                        완료
+                                                    </c:when>
+                                                    <c:when test="${iv.DOC_STATCD == -1}">
+                                                        반려
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        상태 미정
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                             <td name="dontedit" data-column-name="SEND_BRC_ID"
                                                 data-parent-column="BRANCH_NAME"
                                                 data-table-name="BRANCH">${iv.SEND_BRANCH_NAME}</td>
                                             <td data-column-name="SEND_EMP_ID"
                                                 data-parent-column="EMP_NAME"
                                                 data-table-name="EMPLOYEE">${iv.SEND_EMP_NAME}</td>
-                                            <td name="dontedit">금액합계</td>
+                                            <td name="dontedit">${iv.CALCULATED_PRICE2}</td>
                                             <td data-column-name="IV_VAT_TYPE"
                                                 data-parent-column="IV_VAT_TYPE"
                                                 data-table-name="INVENTORY">${iv.IV_VAT_TYPE}</td>
                                             <td data-column-name="IV_MEMO" data-parent-column="IV_MEMO"
                                                 data-table-name="INVENTORY">${iv.IV_MEMO}</td>
-                                            <td>
+                                            <td name="dontedit">
                                                 <form id="deleteForm"
-                                                      action="${path}/logistics/inventory/List/delete"
+                                                      action="${path}/logistics/inventory/list/delete"
                                                       method="post" style="display: none;">
                                                     <input type="hidden" name="iv_id" id="deleteId">
                                                 </form>
                                                 <script>
-                                                    function confirmDeletion(ivId) {
+                                                    function confirmDeletion(buttonElement, ivId) {
+                                                        var trElement = buttonElement.closest('tr');
+                                                        var table = $('#example1').DataTable();
+                                                        // var thisRowIndex = table.row(trElement).index();
                                                         if (confirm('정말로 삭제 하시겠습니까?')) {
-                                                            document.getElementById('deleteId').value = ivId; // ivId는 삭제할 항목의 ID
-                                                            document.getElementById('deleteForm').submit(); // 폼 제출
+                                                            // Ajax 요청 설정
+                                                            fetch('${path}/logistics/inventory/list/delete', {
+                                                                method: 'POST',
+                                                                headers: {
+                                                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                                                },
+                                                                body: 'iv_id=' + ivId // ivId는 삭제할 항목의 ID
+                                                            })
+                                                                .then(response => {
+                                                                    if (response.ok) {
+                                                                        return response.json();
+                                                                    } else {
+                                                                        throw new Error('서버에 문제가 발생했습니다.');
+                                                                    }
+                                                                })
+                                                                .then(data => {
+                                                                    alert(data.message);
+                                                                    table.row(trElement).remove().draw();
+                                                                    // table.row($(this).parents('tr')).remove().draw();
+                                                                    // 성공적으로 처리된 후 작업을 여기에 작성하세요.
+                                                                    // 예: 페이지 새로고침, 사용자에게 알림 표시 등
+                                                                })
+                                                                .catch(error => {
+                                                                    console.error('오류가 발생했습니다:', error);
+                                                                });
                                                         }
                                                     }
                                                 </script>
-                                                <button type="button"
-                                                        onclick="confirmDeletion(${iv.IV_ID})"
+                                                <button type="button" onclick="confirmDeletion(this,${iv.IV_ID})"
                                                         class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
                                                     삭제
                                                 </button>
@@ -1048,36 +926,7 @@ ${path}";
                     </div>
                 </div>
 
-
-                <div class="row"></div>
-            </section>
-            <!-- /.content -->
-
-            <!-- Page Content overlay -->
-
-
-            <!-- Vendor JS -->
-
-            <script src="${path }/resources/js/vendors.min.js"></script>
-            <script src="${path }/resources/js/pages/chat-popup.js"></script>
-            <script
-                    src="${path }/resources/assets/icons/feather-icons/feather.min.js"></script>
-            <script
-                    src="${path }/resources/assets/vendor_components/datatable/datatables.min.js"></script>
-            <script
-                    src="${path }/resources/assets/vendor_components/tiny-editable/mindmup-editabletable.js"></script>
-            <script
-                    src="${path }/resources/assets/vendor_components/tiny-editable/numeric-input-example.js"></script>
-
-            <!-- CRMi App -->
-            <script src="${path }/resources/js/template.js"></script>
-
-            <script src="${path }/resources/js/pages/data-table.js"></script>
-            <script src="${path }/resources/js/pages/editable-tables.js"></script>
-
-            <script>
-
-            </script>
+            </div>
         </section>
     </div>
 </div>

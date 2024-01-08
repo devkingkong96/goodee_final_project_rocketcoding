@@ -36,37 +36,17 @@ public class ChatController {
 		//직원 리스트 가져오기
 		List<Map<String, Object>>emplist=service.selectEmployeeAll();
 		//로그인한 직원 채팅방 가져오기
-//		List<Map<String, Object>>chatlist=service.selectChatAll(empNo);
+		List<Map<String, Object>>chatlist=service.selectChatAll(empNo);
 		//모든 대화방 가져오기
-		List<Map<String, Object>>chatroomlist=service.selectRoomAll();
+//		List<Map<String, Object>>chatroomlist=service.selectRoomAll();
 		
 		m.addAttribute("emplist",emplist);
-//		m.addAttribute("chatlist",chatlist);
-		m.addAttribute("chatroomlist",chatroomlist);
+		m.addAttribute("chatlist",chatlist);
+//		m.addAttribute("chatroomlist",chatroomlist);
 		
 		return "chat/chatlist";
 	}
 	
-	@PostMapping
-	public String chatCreateRoom(Model m,int count) {
-		int result=service.createChatRoom(count);
-		
-		String msg,loc;
-		
-		if(result>0) {
-			msg="대화방 생성 성공";
-			loc="chat/list";
-		}else {
-			msg="대화방 생성 실패";
-			loc="chat/list";
-		}
-		
-		m.addAttribute("msg",msg);
-		m.addAttribute("loc",loc);
-		
-		return "common/msg";
-	}
 	
-//	@GetMapping("roomid")
-//	public String chat
+	
 }

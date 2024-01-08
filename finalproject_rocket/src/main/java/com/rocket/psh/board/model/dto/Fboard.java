@@ -20,9 +20,7 @@ import lombok.ToString;
 public class Fboard {
 	
 	private int fboardNo;
-	
 	private int empNo;
-	
 	private String fboardTitle;
 	private String fobardContent;
 	private int fboardViews;

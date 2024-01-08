@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Document {
 	
-	private long docNo;
+	private int docNo;
 	
-	private long docTag; // 외래 키 DOC_TAG에 해당하는 Tag 타입의 참조
+	private int docTag; // 외래 키 DOC_TAG에 해당하는 Tag 타입의 참조
 	
 	private String docTitle;
 	private String docCont;

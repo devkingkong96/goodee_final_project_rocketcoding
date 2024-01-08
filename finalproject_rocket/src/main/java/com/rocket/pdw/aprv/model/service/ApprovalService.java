@@ -1,22 +1,12 @@
 package com.rocket.pdw.aprv.model.service;
 
+import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Service;
-
-import com.rocket.pdw.aprv.model.dao.ApprovalDao;
-import com.rocket.pdw.aprv.model.dto.Tag;
-
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
-public class ApprovalService {
-	private final ApprovalDao dao;
-	private final SqlSession session; 
+public interface ApprovalService {
+	List<Map<String,Object>> selectAprvList (int no);
 	
-	public int inserttag(Tag dt) {
-		return dao.inserttag(session,dt);
-		
-	}
+	List<Map<String,Object>> ckLvList (List<Map<String,Object>>ckLvList);
+	
+	List<Map<String,Object>>findName (Integer depCode);
 }

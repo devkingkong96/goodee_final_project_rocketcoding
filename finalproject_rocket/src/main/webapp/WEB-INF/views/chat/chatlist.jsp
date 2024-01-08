@@ -11,15 +11,23 @@
 <!-- Content Wrapper. Contains page content -->
 <%-- <form action="${path }/chat/room" method="post"> --%>
 <form id="createRoom">
+<input type="hidden" name="logempNo" value="${logempNo }"/>
   <div class="content-wrapper">
 	  <div class="container-full">
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-4 col-4">
+				<div class="col-lg-6 col-6">
 					<div class="box">
 						<div class="box-header">
-							<span class="fs-20">채팅방 목록</span>
+						<div class="row">
+							<div class="col-lg-6 col-6">
+								<span class="fs-20">채팅방 목록</span>
+							</div>
+							<div class="col-lg-6 col-6 ">
+								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">채팅방 삭제</button>
+							</div>
+						</div>
 						</div>
 						<div class="box-body">
 							<!-- Tab panes -->
@@ -38,7 +46,8 @@
 												</p>
 												<p>참여 인원 수 : <c:out value="${c.EMP_COUNT }"/></p>
 											  </div>
-											  <button type="button" class="btn btn-danger btn-sm" id="chatRoomDelete">채팅방 삭제</button>
+											  <input type="checkbox" id="${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.CHATROOM_NO}"/>
+												<label for="${c.CHATROOM_NO }"> </label>
 											</div>
 											</c:forEach>
 											</c:if>
@@ -154,7 +163,28 @@
 				location.reload();
 			}
 		});
-	})
+	});
+	
+	document.getElementById('chatRoomDelete').addEventListener('click',function(){
+		if(confirm("채팅방을 삭제하시겠습니까?(복구 불가)")){
+			$.ajax({
+				type:"DELETE",
+				url:"${path}/chat/room",
+				data:$("#createRoom").serialize(),
+				dataType:"json",
+				success:function(){
+					alert("채팅방 삭제 성공");
+					location.reload();
+				},
+				error:function(){
+					alert("채팅방 삭제 실패");
+					location.reload();
+				}
+			});
+		}else{
+			return
+		}
+	});
 	
 	
 </script>

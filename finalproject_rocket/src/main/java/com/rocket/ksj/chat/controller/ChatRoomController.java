@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,30 +32,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatRoomController {
 	
+	private final Gson gson;
 	private final ChatService chatService;
 	private final ChatRoomService roomService;
 	private final ChatMessageService msgService;
 	
-//	//채팅방 생성
-//	@PostMapping
-//	public String chatCreateRoom(Model m,int count) {
-//		int result=chatService.createChatRoom(count);
-//		
-//		String msg,loc;
-//		
-//		if(result>0) {
-//			msg="대화방 생성 성공";
-//			loc="chat/list";
-//		}else {
-//			msg="대화방 생성 실패";
-//			loc="chat/list";
-//		}
-//		
-//		m.addAttribute("msg",msg);
-//		m.addAttribute("loc",loc);
-//		
-//		return "common/msg";
-//	}
 	
 	//채팅방 생성
 	@PostMapping
@@ -62,26 +44,10 @@ public class ChatRoomController {
 	public String chatCreateRoom(HttpServletRequest request) {
 		HashMap<String, Object>reqAll=getParameterMap(request);
 		
-		String roomName=(String)reqAll.get("roomName");
+		String result=roomService.createChatRoomAll(reqAll);
 		
-		log.info("방 이름 {}",roomName);
-		
-		String [] employees=(String[])reqAll.get("empCheck");
-		
-		for(String e:employees) {
-			log.info("직원 리스트 {}",e);
-		}
-		
-//		List<Object>list=(List)reqAll.get("empCheck");
-//		log.info("list값들 {}",list);
-		
-//		JsonObject jsonobj=gson.fromJson(json, JsonObject.class);
-//		JsonObject jsonobj=JsonParser.parseString(json).getAsJsonObject();
-		log.info("json값들 {}",reqAll);
-		
-//		int result=chatService.createChatRoom(count);
-		
-		return "success";
+		String jsonString=gson.toJson(result);
+		return jsonString;
 	}
 	
 	//채팅방 입장
@@ -108,9 +74,17 @@ public class ChatRoomController {
 	}
 	
 	//채팅방 삭제
-//	@DeleteMapping("/{roomId}")
-//	public String deleteRoom(@PathVariable int roomId) {
-//		
-//	}
+	@DeleteMapping
+	@ResponseBody
+	public String deleteRoom(HttpServletRequest req) {
+		log.info("delete 채팅방 테스트{}");
+		HashMap<String, Object>reqAll=getParameterMap(req);
+		log.info("delete 채팅방 테스트{}",reqAll.get("roomCheck"));
+		
+		String result=roomService.deleteRoomAll(reqAll);
+		
+		String jsonString=gson.toJson(result);
+		return jsonString;
+	}
 	
 }

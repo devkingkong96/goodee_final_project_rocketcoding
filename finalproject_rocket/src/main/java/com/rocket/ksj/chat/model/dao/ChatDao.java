@@ -13,8 +13,8 @@ public class ChatDao {
 	
 	
 	//채팅창 직원 목록 가져오기
-	public List<Map<String, Object>>selectEmployeeAll(SqlSession session){
-		return session.selectList("employee.selectEmployeeAll");
+	public List<Map<String, Object>>selectEmployeeAll(SqlSession session,int empNo){
+		return session.selectList("empchat.selectEmployeeAll",empNo);
 	}
 	//회원의 채팅방,중간테이블 가져오기
 	public List<Map<String, Object>> selectChatAll(SqlSession session,int empNo){

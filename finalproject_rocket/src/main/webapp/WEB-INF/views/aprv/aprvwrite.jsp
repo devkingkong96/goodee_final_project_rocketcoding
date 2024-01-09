@@ -127,7 +127,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="box-header" style="display: flex">
+                                        <div class="box-header" style="display: flex" id="singleTag">
                                             <h4>
                                                 참조자 :
                                             </h4>
@@ -136,6 +136,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" name="EMP_NO" value="${user.empNo }">
+                                    <input type="hidden" name="DOC_TAG" value="" id="DOC_TAG">
                                     
                                     
                                     <div class="box-header">
@@ -156,6 +157,7 @@
                                         <br>
                                     </form>
                                         
+                                      
                                         
                                    
                                    
@@ -347,10 +349,12 @@
                 </tr>
             </tbody>
         </table>`;
+        document.getElementById("DOC_TAG").value=1;
         } else if (x === "option2") {
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
             document.getElementById("tagCont").innerHTML = "";
+            document.getElementById("DOC_TAG").value=2;
         } else {
             document.getElementById("contentContainer").style.display = "none";
             document.getElementById("tagCont").innerHTML = "";
@@ -490,7 +494,7 @@
 		    
 		    var infoEmp = document.createElement('input');
 		    infoEmp.setAttribute('type', 'hidden');
-		    infoEmp.setAttribute('name', 'APRV_NO');
+		    infoEmp.setAttribute('name', 'APRV_EMP');
 		    infoEmp.value = aprvempInfo[i].empNo;
 		    
 		    cell.appendChild(infoEmp);
@@ -512,9 +516,23 @@
             text += " ";
             text += readerempInfo[i].empName
             text += "님 ";
-
+            
+            
+            
         }
         document.getElementById('taget-reader').innerHTML = text;
+        
+        var singleTag = document.getElementById('singleTag'); 
+
+        for(let i=0; i<readerempInfo.length; i++){
+            var infoEmp = document.createElement('input');
+            infoEmp.setAttribute('type', 'hidden');
+            infoEmp.setAttribute('name', 'APRV_SQ');
+            infoEmp.value = readerempInfo[i].empNo;
+            
+            singleTag.appendChild(infoEmp);
+        }
+
     };
 </script>
 <script>
@@ -529,12 +547,12 @@ $('#submitAll').click(function(e) {
         url: '${path}/docu/submit',
         data: $('#form1').serialize(),
         dataType:"json",
-        success: function(response) {
+        success: function() {
             
-            console.log(data);
+          	location.leload();
         },
-        error:function(response){
-        	console.log(data);
+        error:function(){
+        	alert('망했습니다!!');
         }
     });
 });

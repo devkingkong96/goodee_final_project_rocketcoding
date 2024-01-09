@@ -218,11 +218,18 @@ public class AprvController {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
 		log.info("reqAll{}",reqAll);
+		
+		int result = service.insertAprvDocu(reqAll);
+		
+		if(result>0) {
+			return "index";
+			
+		}else return "ERROR";
   
   
-		return "index";
   
 	}
 	 
+	  
 
 }

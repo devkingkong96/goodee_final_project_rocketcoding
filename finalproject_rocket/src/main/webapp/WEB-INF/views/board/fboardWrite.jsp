@@ -11,6 +11,7 @@
    <div class="container-full">
       <!-- Main content -->
       <section class="content">
+      <form id="boardfrm">
 		  <div class="board">
 		        <div class="board-wite">
 		            <h1>글 작성</h1>
@@ -30,6 +31,7 @@
 		            <a href="">취소</a>
 		        </div>
 		    </div>
+		    </form>
       </section>
    </div>
 </div>

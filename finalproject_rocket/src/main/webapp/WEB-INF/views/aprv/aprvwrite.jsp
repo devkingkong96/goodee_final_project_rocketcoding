@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -557,5 +558,3 @@ $('#submitAll').click(function(e) {
     });
 });
 </script>
-
-<jsp:include page="/WEB-INF/views/common/footer.jsp" />

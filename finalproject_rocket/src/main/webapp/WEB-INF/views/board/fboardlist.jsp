@@ -60,19 +60,7 @@
   
 	
 	<!-- Page Content overlay -->
-	
-	
-<%-- 	<!-- Vendor JS -->
-	<script src="${path}/vendors.min.js"></script>
-	<script src="${path}/pages/chat-popup.js"></script>
-    <script src="${path}/assets/icons/feather-icons/feather.min.js"></script>	
-	<script src="${path}/assets/vendor_components/datatable/datatables.min.js"></script>
-	
-	<!-- CRMi App -->
-	<script src="${path}/js/template.js"></script>
-	
-	<script src="${path}/js/pages/data-table.js"></script> --%>
-	
+
 	
 
 	<!-- Vendor JS -->

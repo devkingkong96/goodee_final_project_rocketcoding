@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rocket.jsy.employee.model.dao.DwRulesDao;
 import com.rocket.jsy.employee.model.dto.DwRules;
@@ -25,6 +26,7 @@ public class DwRulesServiceImpl implements DwRulesService{
 		return dao.selectDwRulesAll(session);
 	}
 	@Override
+	@Transactional
 	public void addDwRules(DwRules dwRules) {
 	    log.info("dwrulesStart: {}, dwrulesEnd: {}, dwrulesEarly: {}", 
         dwRules.getDwrulesStart(), dwRules.getDwrulesEnd(), dwRules.getDwrulesEarly());

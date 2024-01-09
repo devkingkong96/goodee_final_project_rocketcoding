@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.rocket.jsy.employee.model.dto.Employee;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface EmployeeService {
 	
@@ -15,13 +15,17 @@ public interface EmployeeService {
     List<Map<String, Object>> selectDepartment();
     
     List<Map<String, Object>> selectDwrules();
-	
+    	
 	List<Map<String, Object>> selectEmployeeHolidayAll();
 	
 	Map<String, Object> selectEmployeeByNo(int EmpNo);
 	
-	int insertEmployee(Employee employee);
+	int insertEmployee(HashMap<String, Object>map);
 
+	int updateEmpFile(String empFile, int empNo);
+	
+	int updateEmployee(HashMap<String, Object>updatemap);
+	
 	List<Map<String, Object>> selectEmployeeMyPageCalendar();
 
 	

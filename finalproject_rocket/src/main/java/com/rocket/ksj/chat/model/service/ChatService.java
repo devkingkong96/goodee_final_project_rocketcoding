@@ -19,8 +19,8 @@ public class ChatService {
 	private final SqlSession session;
 	
 	//전직원 조회하기
-	public List<Map<String, Object>>selectEmployeeAll(){
-		return dao.selectEmployeeAll(session);
+	public List<Map<String, Object>>selectEmployeeAll(int empNo){
+		return dao.selectEmployeeAll(session,empNo);
 	}
 	//채팅방,채팅참여(중간테이블) 전체 조회하기
 	public List<Map<String, Object>>selectChatAll(int empNo){

@@ -1,6 +1,7 @@
 package com.rocket.seoj.logistics.model.dao;
 
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @version 2023-12-25
  */
 @Repository
-@Log4j2
+@Slf4j
 public class PublisherDao {
 
 
@@ -59,4 +60,11 @@ public class PublisherDao {
         return session.selectList("publisher.selectAllPublisher");
     }
 
+    public boolean isdelUpdatePublisher(SqlSession session, Long pubId) {
+        return session.update("publisher.isdelUpdatePublisher", pubId) > 0;
+    }
+
+    public long insertPublisher(SqlSession session, HashMap<String, Object> params) {
+        return session.insert("publisher.insertPublisher", params);
+    }
 }

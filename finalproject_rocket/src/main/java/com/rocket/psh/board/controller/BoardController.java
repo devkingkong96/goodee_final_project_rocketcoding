@@ -1,73 +1,47 @@
 package com.rocket.psh.board.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.rocket.psh.board.model.dto.Fboard;
 import com.rocket.psh.board.model.service.FboardService;
 
-import lombok.AllArgsConstructor;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 @Controller
 @RequiredArgsConstructor
+/* @Log4j */	
 @RequestMapping("/board")
 public class BoardController {
-	
+	/* Logger log = LoggerFactory.getLogger(this.getClass()); */
+
 	private final FboardService service;
 	
-	
-	@GetMapping("/fboardlist.do")
-	public void selectFboard(
-			@RequestParam(defaultValue="1") int cPage,
-			@RequestParam(defaultValue="10") int numPerpage,
-			Model model) {
+	// 게시물 등록 할때 쓰는거
+//	@RequestMapping(value = "/fboardlist", method = RequestMethod.POST)
+//	public ModelAndView FboardList(HttpServletRequest request) {
+//		HashMap<String, Object>param=getParameterMap(request);
+//		
+//	}
+
+	@RequestMapping(value="/fboardlist", method = RequestMethod.POST)
+	public ModelAndView FboardList(HttpServletRequest request) {
+		HashMap<String, Object>param=getParameterMap(request);
+		return null;
 		
-		model.addAttribute("boards",service.selectBoard(Map.of("cPage",cPage,"numPage",numPerpage)));
-		
-		/* int totalData=service.selectFboardCount(); */
-		
-		
-		
-		/* model.addAttribute("totalContents",totalData); */
-		
-		
+    }
+
+	private HashMap<String, Object> getParameterMap(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	@RequestMapping("/fboardView.do")
-	public void selelctBoardByNo(int fboardNo,Model model) {
-		model.addAttribute("board",service.selectBoardByNo(fboardNo));
-	}
-	@RequestMapping("/fboardWrite.do")
-	public void boardWrite() {}
-	
-	  @RequestMapping("/insertFboard.do") 
-	  public String insertFboard(Fboard b,Model model) { 
-		 String msg,loc;  int result=service.insertFboard(b); 
-		  if(result>0) { 
-			  msg="등록이 완료되었습니다.";  
-			  loc="board/fboardlist.do"; 
-		  }else { 
-			  msg="등록이 실패하셨습니다"; 
-			  loc="board/fdoardWrite.do";
-			}
-	
-		  model.addAttribute("msg",msg);  
-		  model.addAttribute("loc",loc); 
-		  	return
-		  "common/msg"; 
-	  }
-	 @GetMapping("/fboardlist")
-	 public String fBoardView() {
-		 return "board/fboardlist";
-	 }
-	 
-	 @GetMapping("/fboardWrite")
-	 public String fboardWrite() {
-		 return "board/fboardWrite";
-	 }
+
 }

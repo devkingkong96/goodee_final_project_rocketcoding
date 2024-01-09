@@ -10,16 +10,33 @@
 </jsp:include>
 <!-- Content Wrapper. Contains page content -->
 <%-- <form action="${path }/chat/room" method="post"> --%>
-<form id="createRoom">
+<form id="Roomfrm">
+<input type="hidden" name="logempNo" value="${logempNo }"/>
   <div class="content-wrapper">
 	  <div class="container-full">
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-4 col-4">
+				<div class="col-lg-6 col-6">
 					<div class="box">
 						<div class="box-header">
-							<span class="fs-20">채팅방 목록</span>
+						<div class="row">
+							<div class="col-lg-6 col-6">
+								<span class="fs-20">채팅방 목록</span>
+							</div>
+							<div class="col-lg-6 col-6 ">
+								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">채팅방 삭제</button>
+							</div>
+						</div>
+						<div class="col-lg-12 col-12">
+						<div class="box-controls pull-right mt-2">
+							<div class="box-header-actions">
+							  <div class="lookup lookup-sm lookup-right d-none d-lg-block">
+								<input type="text" name="s" id="searchRoom" placeholder="통합검색">
+							  </div>
+							</div>
+					  	</div>
+					  	</div>
 						</div>
 						<div class="box-body">
 							<!-- Tab panes -->
@@ -38,7 +55,8 @@
 												</p>
 												<p>참여 인원 수 : <c:out value="${c.EMP_COUNT }"/></p>
 											  </div>
-											  <button type="button" class="btn btn-danger btn-sm" id="chatRoomDelete">채팅방 삭제</button>
+											  <input type="checkbox" id="${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.CHATROOM_NO}"/>
+												<label for="${c.CHATROOM_NO }"> </label>
 											</div>
 											</c:forEach>
 											</c:if>
@@ -63,13 +81,21 @@
 								<div class="col-lg-6 col-6">
 									<span class="fs-20">직원 목록</span>
 								</div>
-								<div class="col-lg-6 col-6 ">
+								<div class="col-lg-6 col-6">
 									<button type="button" class="btn btn-primary float-end" id="chatRoomCreate"  data-bs-toggle="modal" data-bs-target="#modal-default">채팅방 생성</button>
 								</div>
 								</div>
+								<div class="col-lg-12 col-12">
+								  <div class="box-controls pull-right mt-2">
+									<div class="box-header-actions">
+									  <div class="lookup lookup-sm lookup-right d-none d-lg-block">
+										<input type="text" name="s" id="searchEmp" placeholder="통합검색">
+									  </div>
+									</div>
+								  </div>
+								</div>
                             </div>
                             <div class="box-body">
-                            
                                     <div class="tab-pane" id="contacts" role="tabpanel">	
                                         <div class="chat-box-one-side3">
                                             <div class="media-list media-list-hover">
@@ -140,10 +166,35 @@
 
 <script>
 	document.getElementById('createBtn').addEventListener('click',function(){
+		var checkboxes = document.getElementsByName('empCheck');
+		var modal = document.getElementById('modal-default');
+		var backdrop = document.getElementsByClassName('modal-backdrop')[0];
+		var roomName = document.getElementById('roomName').value;
+		var checked = false;
+
+		for (var i = 0; i < checkboxes.length; i++) {
+		  if (checkboxes[i].checked) {
+		    checked = true;
+		    break;
+		  }
+		}
+
+		if (!checked) {
+		  alert('직원을 선택해주세요.');
+		  modal.style.display = 'none';
+		  backdrop.style.display = 'none';
+		  return;
+		}
+		
+		if(roomName==""){
+			alert('채팅방 이름을 입력해주세요.');
+			return;
+		}
+		
 		$.ajax({
 			type:"POST",
 			url:"${path}/chat/room",
-			data:$("#createRoom").serialize(),
+			data:$("#Roomfrm").serialize(),
 			dataType:"json",
 			success:function(){
 				alert("채팅방 생성 성공");
@@ -154,7 +205,43 @@
 				location.reload();
 			}
 		});
-	})
+	});
+	
+	document.getElementById('chatRoomDelete').addEventListener('click',function(){
+		var checkboxes = document.getElementsByName('roomCheck');
+		var checked = false;
+
+		for (var i = 0; i < checkboxes.length; i++) {
+		  if (checkboxes[i].checked) {
+		    checked = true;
+		    break;
+		  }
+		}
+
+		if (!checked) {
+		  alert('채팅방을 선택해주세요.');
+		  return;
+		}
+		
+		if(confirm("채팅방을 삭제하시겠습니까?(복구 불가)")){
+			$.ajax({
+				type:"DELETE",
+				url:"${path}/chat/room",
+				data:$("#Roomfrm").serialize(),
+				dataType:"json",
+				success:function(){
+					alert("채팅방 삭제 성공");
+					location.reload();
+				},
+				error:function(){
+					alert("채팅방 삭제 실패");
+					location.reload();
+				}
+			});
+		}else{
+			return
+		}
+	});
 	
 	
 </script>

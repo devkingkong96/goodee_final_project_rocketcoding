@@ -15,7 +15,7 @@ import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.seoj.logistics.model.dto.*;
 import com.rocket.seoj.logistics.model.service.InventoryService;
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +40,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/logistics")
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class InventoryController {
 
     private final InventoryService service;
-	
+
 	/*	@ExceptionHandler (DataAccessException.class)
 		public ResponseEntity<Object>
 		       handleDataAccessException(DataAccessException ex,
@@ -52,7 +52,7 @@ public class InventoryController {
 			Map<String, Object> body = new LinkedHashMap<>();
 			body.put("timestamp", LocalDateTime.now());
 			body.put("message", "업데이트 실패");
-	
+
 			return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 		}*/
 
@@ -164,7 +164,7 @@ public class InventoryController {
         }
     }
 
-    @RequestMapping("inventory/endwrite")
+    @PostMapping("inventory/endwrite")
     public ResponseEntity<?> endWriteInventory(@RequestParam(name = "files", required = false) MultipartFile[] upFile,
 //                                               List<PrdInventory> prdInventory,
                                                @RequestParam("prdInventory") String prdInventory,
@@ -186,8 +186,8 @@ public class InventoryController {
         model.addAttribute("loginemp", loginemp);
 
 
-//        log.error("tableData: " + tableData[0]['prdId']);
-        log.error(prdInventory);
+//        log.debug("tableData: " + tableData[0]['prdId']);
+        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ말미ㅏㅇ미ㅏ이마임이ㅏㅁ라");
         List<PrdInventory> prdInventoryList = convertJsonToPrdInventoryList(prdInventory);
 
         String path = session
@@ -245,17 +245,17 @@ public class InventoryController {
         log.debug("컨트롤러 invAttach : " + invAttach);
         log.debug("컨트롤러 formData : " + formData);
 //        log.debug("formDataJson: " + (String)formData);
-//        log.error("컨트롤러 tableData: " + tableData);
+//        log.debug("컨트롤러 tableData: " + tableData);
 
-        log.debug("깐트롤라");
+//        log.debug("깐트롤라");
         formData.setSendEmpId(loginemp.getEmpNo());
-        formData.setSendBrcId(loginemp.getBranchId());
+        formData.setSendBrcId((long)loginemp.getBranchId());
 
 
         long generatedId = service.insertInventory(formData);
-        log.error("generatedId: " + generatedId);
+        log.debug("generatedId: " + generatedId);
 
-        log.error("fileList" + fileList.size());
+        log.debug("fileList" + fileList.size());
         if (upFile != null) {
             for (InventoryAttach attach : fileList) {
                 attach.setIvId(generatedId);
@@ -277,7 +277,7 @@ public class InventoryController {
         List<Integer> result3 = service.insertPrdInventory(prdInventoryList);
 
 
-//        result2.forEach(insertInventoryAttachResult -> log.error("결과: " + insertInventoryAttachResult));
+//        result2.forEach(insertInventoryAttachResult -> log.debug("결과: " + insertInventoryAttachResult));
 
 
         if (generatedId > 0) {

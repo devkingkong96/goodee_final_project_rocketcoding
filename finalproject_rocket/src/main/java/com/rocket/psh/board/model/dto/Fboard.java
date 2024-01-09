@@ -22,7 +22,7 @@ public class Fboard {
 	private int fboardNo;
 	private int empNo;
 	private String fboardTitle;
-	private String fobardContent;
+	private String fboardContent;
 	private int fboardViews;
 	private Date fboardDate;
 	

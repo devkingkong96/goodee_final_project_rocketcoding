@@ -27,11 +27,12 @@ public class StompChatController {
 	
 	//채팅방 입장
 	@MessageMapping("/chat/enter")
-	public void message(ChatMessage message,SimpMessageHeaderAccessor headerAccessor) {
-		log.info("{} 채팅방 입장 성공",message.getMsgEmpNo());
+	public void enterMessage(ChatMessage message,SimpMessageHeaderAccessor headerAccessor) {
+		log.info("{}님의 채팅방 입장 성공",message.getMsgEmpName());
 		
 		int roomNo=message.getMsgRoomNo();
 		
+		log.info("{}번 채팅방 입장 성공",roomNo);
 		//socket session에 직원 정보,방 번호 저장
 //		headerAccessor.getSessionAttributes().put("roomNo", headerAccessor);
 		
@@ -62,4 +63,7 @@ public class StompChatController {
 		template.convertAndSend("/sub/chat/room/"+message.getMsgRoomNo(),message);
 	}
 	
+	//채팅 파일 업로드 메시지
+//	@MessageMapping("/chat/filesend")
+//	public void filesendMessage()
 }

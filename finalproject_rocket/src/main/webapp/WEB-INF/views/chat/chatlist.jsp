@@ -32,7 +32,7 @@
 						<div class="box-controls pull-right mt-2">
 							<div class="box-header-actions">
 							  <div class="lookup lookup-sm lookup-right d-none d-lg-block">
-								<input type="text" name="s" id="searchRoom" placeholder="통합검색">
+								<input type="text" name="s" id="searchRoom" placeholder="Search">
 							  </div>
 							</div>
 					  	</div>
@@ -89,7 +89,7 @@
 								  <div class="box-controls pull-right mt-2">
 									<div class="box-header-actions">
 									  <div class="lookup lookup-sm lookup-right d-none d-lg-block">
-										<input type="text" name="s" id="searchEmp" placeholder="통합검색">
+										<input type="text" name="s" id="searchEmp" placeholder="Search">
 									  </div>
 									</div>
 								  </div>
@@ -165,6 +165,7 @@
   <!-- /.modal -->
 
 <script>
+	//채팅방 생성
 	document.getElementById('createBtn').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('empCheck');
 		var modal = document.getElementById('modal-default');
@@ -206,7 +207,7 @@
 			}
 		});
 	});
-	
+	//채팅방 삭제
 	document.getElementById('chatRoomDelete').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('roomCheck');
 		var checked = false;

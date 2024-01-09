@@ -14,9 +14,9 @@
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-8 col-12">
+				<div class="col-lg-8 col-8">
 					<div class="row">
-						<div class="col-xxxl-8 col-lg-12 col-12">
+						<div class="col-xxxl-8 col-lg-8 col-8">
 							<div class="box">
 							  <div class="box-header">
 								<div class="media align-items-top p-0">
@@ -31,8 +31,15 @@
 											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.empCount }"/></p>
 										</div>
 										<div>
-											<ul class="list-inline mb-0 fs-18">
-												<!-- <li class="list-inline-item"><a href="#" class="hover-primary"><i class="fa fa-ellipsis-h"></i></a></li> -->
+											<ul class="box-controls pull-right">
+											  <li class="dropdown">
+												<a data-bs-toggle="dropdown" href="#"><i class="ti-more-alt rotate-180"></i></a>
+												<div class="dropdown-menu dropdown-menu-end">
+												  <a class="dropdown-item" id="dropchatinvite"><i class="mdi mdi-account-plus"></i>초대하기</a>
+												  <div class="dropdown-divider"></div>
+												  <a class="dropdown-item" href="${path }/chat/list"><i class="mdi mdi-close-box-outline"></i>방 나가기</a>
+												</div>
+											  </li>
 											</ul>
 										</div>
 									</div>				  
@@ -119,8 +126,55 @@
 							</div>
 						</div>
 						
+						<div class="col-lg-4 col-4">
+                        <div class="box">
+                            <div class="box-header">
+                            	<div class="row">
+								<div class="col-lg-6 col-6">
+									<span class="fs-20">참석 목록</span>
+								</div>
+								<div class="col-lg-6 col-6">
+									<div class="box-controls pull-right mt-2">
+									<div class="box-header-actions">
+									  <div class="lookup lookup-sm lookup-right d-none d-lg-block">
+										<input type="text" name="s" id="searchEmp" placeholder="Search">
+									  </div>
+									</div>
+								  </div>
+								</div>
+								</div>
+                            </div>
+                            <div class="box-body">
+                                    <div class="tab-pane" id="contacts" role="tabpanel">	
+                                        <div class="chat-box-one-side3">
+                                            <div class="media-list media-list-hover">
+                                            	<c:if test="${not empty emplist }">
+												<c:forEach var="e" items="${emplist }">
+                                                <div class="media py-10 px-0 align-items-center">
+                                                  <p class="avatar avatar-lg status-success">
+                                                    <img src="${path}/resources/images/avatar/1.jpg" alt="...">
+                                                  </p>
+                                                  <div class="media-body">
+                                                    <p class="fs-20" id="chatEmpName">
+                                                      <c:out value="${e.EMP_NAME }"/>
+                                                    </p>
+                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/></p>
+                                                  </div>
+                                                  
+                                                  	<input type="checkbox" id="${e.EMP_NO }" class="filled-in chk-col-primary" name="empCheck" value="${e.EMP_NO}"/>
+													<label for="${e.EMP_NO }"> </label>
+                                                  
+                                                </div>
+                                                </c:forEach>
+                                                </c:if>
+                                              </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
 					</div>
-
 				</div>
 			</div>
 		</section>
@@ -281,7 +335,10 @@
   				}
   			}
   			
-  			
+  		document.getElementById('dropchatinvite').addEventListener('click',function(){
+  			 var windowFeatures = "width=400,height=300";
+  	        window.open("${path}/chat/list", "_blank", windowFeatures);
+  		});
   			
   	</script>
 

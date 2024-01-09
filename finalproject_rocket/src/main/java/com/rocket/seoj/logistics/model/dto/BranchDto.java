@@ -15,25 +15,23 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BranchDto {
-	
-	private long branchId;
-	private String branchName;
-	private String branchType;
-	private String branchIsdel;
-	private String branchAddr;
+
+    private long branchId;
+    private String branchName;
+    private String branchType;
+    private String branchIsdel;
+    private String branchAddr;
 	
 	/*	private List<Employee> employeeList;
 		
 		private List<Inventory> inventoryList;
 		
 		private List<Stock> stockList;*/
-	
-	public BranchDto of(Branch br) {
-		return new BranchDto(br.getBranchId(), br.getBranchName(),
-		                     br.getBranchType(), br.getBranchIsdel(),
-		                     br.getBranchAddr()
-		
-		);
-		
-	}
+
+    public BranchDto of(Branch br) {
+        return new BranchDto(br.getBranchId(), br.getBranchName(), br.getBranchType(), br.getBranchIsdel(),
+                             br.getBranchAddr()
+
+        );
+    }
 }

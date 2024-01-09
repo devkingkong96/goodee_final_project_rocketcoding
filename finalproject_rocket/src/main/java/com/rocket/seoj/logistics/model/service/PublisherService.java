@@ -3,18 +3,20 @@ package com.rocket.seoj.logistics.model.service;
 import com.rocket.seoj.logistics.model.dao.PublisherDao;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class PublisherService {
 
     private final PublisherDao dao;
@@ -45,4 +47,11 @@ public class PublisherService {
     }
 
 
+    public boolean isdelUpdatePublisher(Long pubId) {
+        return dao.isdelUpdatePublisher(session, pubId);
+    }
+
+    public long insertPublisher(HashMap<String, Object> params) {
+        return dao.insertPublisher(session, params);
+    }
 }

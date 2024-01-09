@@ -16,6 +16,7 @@
 	<script src="${path}/resources/assets/vendor_components/moment/min/moment.min.js"></script>
 	<script src="${path}/resources/assets/vendor_components/fullcalendar/fullcalendar.js"></script>
 	<script src="${path}/resources/assets/vendor_components/ckeditor/ckeditor.js"></script>
+	<script src="${path}/resources/assets/vendor_components/dropzone/dropzone.js"></script>
 	<!-- CRMi App -->
 	<script src="${path}/resources/js/template.js"></script>
 	<script src="${path}/resources/js/pages/calendar.js"></script>

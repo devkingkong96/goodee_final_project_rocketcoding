@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +31,7 @@
 
 <div class="wrapper">
     <div id="loader"></div>
-
+	
     <header class="main-header">
         <!-- 로고 만들면 추가 -->
         <div class="d-flex align-items-center logo-box justify-content-start d-md-none d-block">
@@ -210,8 +211,8 @@
             <div class="user-profile my-15 px-20 py-10 b-1 rounded10 mx-15">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="image d-flex align-items-center">
-                        <img src="${path}/resources/images/avatar/avatar-13.png" class="rounded-0 me-10"
-                             alt="User Image">
+                        <img src="${path }/resources/upload/profile/${loginEmp.empFile}" class="rounded-0 me-10"
+                             alt="user">
                         <div>
                             <h4 class="mb-0 fw-600"><c:out value="${loginemp.empName }"/></h4>
                             <p class="mb-0"><c:out value="${loginemp.empLv }"/></p>
@@ -220,7 +221,7 @@
                     <div class="info">
                         <a class="dropdown-toggle p-15 d-grid" data-bs-toggle="dropdown" href="#"></a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="extra_profile.html"><i class="ti-user"></i>마이페이지</a>
+                            <a class="dropdown-item" href="${path }/mypage"><i class="ti-user"></i>마이페이지</a>
                             <!-- <a class="dropdown-item" href="mailbox.html"><i class="ti-email"></i> Inbox</a>
                             <a class="dropdown-item" href="contact_app_chat.html"><i class="ti-link"></i> Conversation</a> -->
                             <div class="dropdown-divider"></div>

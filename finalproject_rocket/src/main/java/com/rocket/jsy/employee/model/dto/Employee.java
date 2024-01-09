@@ -30,6 +30,8 @@ public class Employee implements UserDetails {
 	private String empEmail;
 	private String empFile;
 	
+	private Department dep;
+	
 	private int depCode; //부서코드
 	private int branchId;//지점고유번호
 	private int dwrulesCode;//일일근무규칙코드

@@ -37,9 +37,9 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 					<div class="table-responsive">
-					  <table id="example" class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
+					  <table id="example" class="table table-striped table-hover display nowrap margin-top-10 w-p100">
 						<thead>
-							<tr class="editable">
+							<tr class="editable bt-5 border-primary">
 								<th>사원번호</th>
 								<th>성명</th>
 								<th>부서명</th>
@@ -117,7 +117,7 @@
           <tr>
              <td>부서명</td>
               <td>
-                <select id="depName" name="depName">
+                <select id="depCode" name="depCode">
                   <c:forEach items="${departments}" var="employee">
                     <option value="${employee.DEP_CODE}">${employee.DEP_NAME}</option>
                   </c:forEach>
@@ -127,7 +127,7 @@
             <tr>
               <td>출근시간</td>
               <td>
-                <select id="dwruleStart" name="dwruleStart">
+                <select id="dwruleCode" name="dwruleCode">
 				  <c:forEach items="${dwrules}" var="employee">
 				    <option value="${employee.DWRULES_CODE}">${employee.DWRULES_START}</option>
 				  </c:forEach>
@@ -149,24 +149,26 @@
 </div>
 <script>
 $(document).ready(function(){
-  $("#saveEmployee").click(function(e){
-    e.preventDefault();
+	  $("#saveEmployee").click(function(e){
+	    e.preventDefault();
 
-    var formData = $("#employeeForm").serialize();
+	    var formData = $("#employeeForm").serialize();
 
-    $.ajax({
-      type: "POST",
-      url: "/employeeinsert", 
-      data: formData,
-      success: function(response){
-        alert("저장이 완료되었습니다.");
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-        alert("저장에 실패하였습니다. 다시 시도해주세요.");
-      }
-    });
-  });
-});
+	    $.ajax({
+	      type: "POST",
+	      url: "/employeeinsert", 
+	      data: formData,
+	      success: function(response){
+		        alert("수정이 완료되었습니다.");
+		        $('#modal-modify').modal('hide'); 
+		        location.reload(); 
+		      },
+		      error: function(jqXHR, textStatus, errorThrown){
+		        alert("수정에 실패하였습니다. 오류 내용: " + errorThrown);
+		      }
+		    });
+		  });
+		});
 </script>
 <!-- 인사카드 수정 모달창 -->
 <div class="modal fade" id="modal-modify">
@@ -177,8 +179,12 @@ $(document).ready(function(){
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form id="employeeForm" method="post" action="/employeeupdate">
+      <form id="employeeupdateForm" method="post" action="/employeeupdate">
         <table class="table table-striped-columns">
+          <tr>
+          	<td>사원번호</td>
+          	<td><input type="text" id="empNo" name="empNo"/><td>
+          </tr>
           <tr>
             <td>비밀번호</td>
             <td><input type="text" id="empPw" name="empPw"/></td>
@@ -198,29 +204,28 @@ $(document).ready(function(){
           <tr>
             <td>부서명</td>
             <td>
-            	<select id="employees" name="employees">
-            		<c:forEach items="${employees}" var="employees">
-				        <option value="${employees.DEP_NAME}">${employees.DEP_NAME}</option>
+            	<select id="depCode" name="depCode">
+            		<c:forEach items="${departments}" var="employees">
+				        <option value="${employees.DEP_CODE}">${employees.DEP_NAME}</option>
 				    </c:forEach>
             	</select>
             </td>
           </tr>
           <tr>
-            <td>재직여부</td>
-            <td>
-            	<select id="empFication" name="employees">
-            		<c:forEach items="${employees}" var="employees">
-				        <option value="${employees.EMP_FICATION}">${employees.EMP_FICATION}</option>
-				    </c:forEach>
-            	</select>
-            </td>
-          </tr>
+		  <td>재직여부</td>
+		  <td>
+		    <select id="empFication" name="empFication">
+		      <option value="재직자">재직자</option>
+		      <option value="퇴사자">퇴사자</option>
+		    </select>
+		  </td>
+		</tr>
           <tr>
             <td>출근시간</td>
             <td>
               <select id="dwrules" name="dwrules">
-                <c:forEach items="${employees}" var="employees">
-				        <option value="${employees.DWRULES_START}">${employees.DWRULES_START}</option>
+                <c:forEach items="${dwrules}" var="employees">
+				        <option value="${employees.DWRULES_CODE}">${employees.DWRULES_START}</option>
 			    </c:forEach>
                 <!-- 추가 출근 시간 옵션 -->
               </select>
@@ -229,11 +234,11 @@ $(document).ready(function(){
         </table>
         <div id="checkMsg" style="color: red"></div>
       </div>
-      <div class="modal-footer">
-        <button type="button" id="saveEmployee" class="btn btn-info float-end">수정</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
-      </div>
         </form>
+      	<div class="modal-footer">
+		  <button type="submit" id="updateEmployee" class="btn btn-info float-end">수정</button>
+		  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+		</div>
     </div>
     <!-- /.modal-content -->
   </div>
@@ -242,6 +247,7 @@ $(document).ready(function(){
 <script>
 $(document).ready(function() {
 	$('table tbody .editable').on('click', function() {
+		var empNo = $(this).find('td:eq(0)').text();
 		var empName = $(this).find('td:eq(1)').text();
 		var depName = $(this).find('td:eq(2)').text();
 		var empLv = $(this).find('td:eq(3)').text();
@@ -249,81 +255,37 @@ $(document).ready(function() {
 		var empEnDate = $(this).find('td:eq(5)').text();
 		var empFication = $(this).find('td:eq(6)').text();
 
+		$('#modal-modify #empNo').val(empNo); // 사원번호
 		$('#modal-modify #empName').val(empName); // 사원이름
 		$('#modal-modify #employees').val(depName); // 부서명
 		$('#modal-modify #empLv').val(empLv); // 직위/직급
 		$('#modal-modify #empEmail').val(empEmail); // 이메일
 		$('#modal-modify #empEnDate').val(empEnDate).prop('disabled', true); 
-		$('#modal-modify #empFication').val(empFication); // 재직여부
+		 $('#modal-modify #empFication option').filter(function() {
+		      return $(this).text() === empFication;
+		    }).prop('selected', true);
+
 		$('#modal-modify').modal('show');
 	});
-});
+	$("#updateEmployee").click(function(e){
+	    e.preventDefault(); 
+
+	    var formData = $("#employeeupdateForm").serialize(); 
+
+	    $.ajax({
+	      type: "POST",
+	      url: "/employeeupdate",
+	      data: formData,
+	      success: function(response){
+	        alert("수정이 완료되었습니다.");
+	        $('#modal-modify').modal('hide'); 
+	        location.reload(); 
+	      },
+	      error: function(jqXHR, textStatus, errorThrown){
+	        alert("수정에 실패하였습니다. 오류 내용: " + errorThrown);
+	      }
+	    });
+	  });
+	});
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-<script>
-/* $('#example3').DataTable({
-    'paging'      : true,
-    'lengthChange': false,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false,
-    "dom": '<"dt-buttons"Bfli>rtp',
-    "fixedHeader": true,
-    "buttons": [{
-
-        extend: 'copy',
-    }, {
-        extend: 'csv',
-    }, {
-        extend: 'excel',
-    }, {
-        extend: 'pdfHtml5',
-        
-        text: 'PDF',
-    }, {
-        extend: 'print',
-
-    }
-
-    ],
-  });
-  $('#america').DataTable({
-    'paging'      : true,
-    'lengthChange': false,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false
-  });
-   */
-</script>
-<!-- <script>
-$(document).ready(function() {
-  $('#saveEmployee').click(function() {
-    // 폼 데이터를 객체로 생성
-    var formData = {
-      empName: $('#empName').val(),
-      empLv: $('#empLv').val(),
-      depCode: $('#depname').val(),
-      branchId: $('#branchId').val(),
-      commute: $('#commute').val(),
-      
-    };
-
-    // AJAX 요청 설정
-    $.ajax({
-      type: 'POST',
-      url: '/employeeadd',
-      data: formData,
-      success: function(response) {
-        console.log(response);
-        $('#modal-default').modal('hide');
-      },
-      error: function(error) {
-        console.error(error);
-      }
-    });
-  });
-});
-</script> -->

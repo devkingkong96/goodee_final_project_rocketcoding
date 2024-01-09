@@ -30,7 +30,7 @@
 
 <div class="wrapper">
     <div id="loader"></div>
-
+	
     <header class="main-header">
         <!-- 로고 만들면 추가 -->
         <div class="d-flex align-items-center logo-box justify-content-start d-md-none d-block">
@@ -220,7 +220,7 @@
                     <div class="info">
                         <a class="dropdown-toggle p-15 d-grid" data-bs-toggle="dropdown" href="#"></a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="extra_profile.html"><i class="ti-user"></i>마이페이지</a>
+                            <a class="dropdown-item" href="${path }/mypage"><i class="ti-user"></i>마이페이지</a>
                             <!-- <a class="dropdown-item" href="mailbox.html"><i class="ti-email"></i> Inbox</a>
                             <a class="dropdown-item" href="contact_app_chat.html"><i class="ti-link"></i> Conversation</a> -->
                             <div class="dropdown-divider"></div>

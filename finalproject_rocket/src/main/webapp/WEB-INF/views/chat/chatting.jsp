@@ -110,7 +110,8 @@
 										<input class="form-control b-0 py-10" type="text" placeholder="메시지를 작성해주세요." id="msgText"/>
 										<div class="d-flex justify-content-between align-items-center mt-md-0 mt-30">
 											<!-- 파일 전송 버튼 -->
-											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">
+											<input type="file" id="chatFileUpload" style="display:none" name="file"/>
+											<button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary" onclick="document.getElementById('chatFileUpload').click();">
 												<i class="mdi mdi-link"></i>
 											</button>
 											<!-- <button type="button" class="waves-effect waves-circle btn btn-circle me-10 btn-outline-secondary">

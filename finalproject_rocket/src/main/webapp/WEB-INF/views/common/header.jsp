@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -210,8 +211,8 @@
             <div class="user-profile my-15 px-20 py-10 b-1 rounded10 mx-15">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="image d-flex align-items-center">
-                        <img src="${path}/resources/images/avatar/avatar-13.png" class="rounded-0 me-10"
-                             alt="User Image">
+                        <img src="${path }/resources/upload/profile/${loginEmp.empFile}" class="rounded-0 me-10"
+                             alt="user">
                         <div>
                             <h4 class="mb-0 fw-600"><c:out value="${loginemp.empName }"/></h4>
                             <p class="mb-0"><c:out value="${loginemp.empLv }"/></p>

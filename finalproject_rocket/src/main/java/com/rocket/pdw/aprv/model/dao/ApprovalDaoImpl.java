@@ -7,7 +7,10 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Repository
 public class ApprovalDaoImpl implements ApprovalDao{
 
@@ -39,6 +42,62 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	
 		return session.selectList("approval.selectEmployee", no);
 	}
+
+	@Override
+	@Transactional
+	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
+	    
+		int docu = session.insert("approval.insertDocu", reqAll);
+		 
+	    
+		String[] testArrays  = (String[])reqAll.get("APRV_EMP");	
+		String[] testArrays2 = (String[])reqAll.get("APRV_SQ");
+		
+		int [] aprvEmpArrays = new int[testArrays.length];
+		for(int i=0;i<testArrays.length;i++) {
+			aprvEmpArrays[i]=Integer.parseInt(testArrays[i]);
+		}
+		
+		int [] aprvSQArrays=new int[testArrays2.length];
+		for(int i=0;i<testArrays2.length;i++) {
+			aprvSQArrays[i]=Integer.parseInt(testArrays2[i]);
+	    }
+		
+
+		int count=1;
+			for(int i=0;i<aprvEmpArrays.length;i++) { 
+			  Map<String,Object> aprv = new HashMap<String,Object>();
+			  if(i==0) { 
+				aprv.put("APRV_SQ", 1);
+			  	aprv.put("APRV_LV", count++);
+			  	aprv.put("APRV_EMP",aprvEmpArrays[i]);
+			  	
+			  	session.insert("approval.fistAprv",aprv);
+			  	
+			  }else {
+			  	aprv.put("APRV_SQ", 0);
+			  	aprv.put("APRV_LV", count++);
+			  	aprv.put("APRV_EMP", aprvEmpArrays[i]);
+			  	
+			  	session.insert("approval.insertAprv", aprv);
+			  }
+		  }
+		  
+		  for(int i=0;i<aprvSQArrays.length;i++) { 
+			  Map<String,Object> aprv = new HashMap<String,Object>();
+			  	aprv.put("APRV_SQ", 0);
+			  	aprv.put("APRV_LV", 99);
+			  	aprv.put("APRV_EMP", aprvSQArrays[i]);
+			  	session.insert("approval.insertAprv", aprv);
+		}
+		  
+
+	   
+	   return 1; 
+	    
+	    
+	}
+
 	
 	
 }

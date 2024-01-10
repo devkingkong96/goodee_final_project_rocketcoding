@@ -379,7 +379,7 @@ ${path}";
                                     extend: 'csv',
 
                                     /*                 exportData: {decodeEntities: true}, */
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '입/출고 리스트 ' + getCurrentDateTime(),
                                     exportOptions: {
                                         columns: ':visible',
                                         rows: ':visible',
@@ -387,7 +387,7 @@ ${path}";
                                     }
                                 }, {
                                     extend: 'excel',
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '입/출고 리스트 ' + getCurrentDateTime(),
                                     /*                 exportData: {decodeEntities: true}, */
                                     exportOptions: {
                                         columns: ':visible',
@@ -399,7 +399,7 @@ ${path}";
                                     extend: 'pdfHtml5',
                                     /*          exportData: {decodeEntities: true}, */
                                     text: 'PDF',
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '입/출고 리스트 ' + getCurrentDateTime(),
                                     font: 'hangul',
                                     exportOptions: {
                                         columns: ':visible',
@@ -446,7 +446,7 @@ ${path}";
 
                                 }, {
                                     extend: 'print',
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '입/출고 리스트 ' + getCurrentDateTime(),
                                     /*           exportData: {decodeEntities: true}, */
                                     exportOptions: {
                                         columns: ':visible',
@@ -488,7 +488,7 @@ ${path}";
                             });
 
                             $('#example1').editableTableWidget().on('change', function (e, newValue) {
-                                
+
                                 // 셀의 데이터가 변경되었을 때의 처리
                                 var cell = $(e.target);
                                 var columnIdx = cell.index();
@@ -859,7 +859,7 @@ ${path}";
                                                 <form id="deleteForm"
                                                       action="${path}/logistics/inventory/list/delete"
                                                       method="post" style="display: none;">
-                                                    <input type="hidden" name="iv_id" id="deleteId">
+                                                    <input type="hidden" name="iv_id" id="deleteId" valie="${iv.IV_ID}">
                                                 </form>
                                                 <script>
                                                     function confirmDeletion(buttonElement, ivId) {

@@ -37,7 +37,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 		 
 		return dao.selectEmployee(session,no);
 	}
+	@Override
+	public int insertAprvDocu(Map<String, Object> reqAll) {
+		
+		return dao.insertAprvDocu(session,reqAll);
+	}
 	
 	
 	
 }
+

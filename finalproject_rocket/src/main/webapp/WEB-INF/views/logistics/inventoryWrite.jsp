@@ -350,7 +350,7 @@
         var second = ('0' + now.getSeconds()).slice(-2);
         return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     }
-
+    
 
     $(document).ready(function () {
         // alert("ready");
@@ -985,9 +985,11 @@
                                                             class="custom-file-label waves-effect waves-light btn btn-primary-light btn-flat mb-3"
                                                             for="upFile1" style="margin:10px;">파일을
                                                         선택하세요</label>
+
+                                                    <%--                                                    <div name="fileButton"></div>--%>
                                                 </div>
                                             </div>
-                                            <div name="fileButton"></div>
+
                                             <div class="col-lg-2 col-5">
                                                 <label>
                                                     <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"
@@ -1731,7 +1733,7 @@
                                         fileForm.find("label.custom-file-label").text("파일을 선택하세요")
                                             .attr("for", "upFile" + count);
                                         fileForm.find("input[type=file]").attr("id", "upFile" + count).val("").change(changeFileFunc);
-                                        $("textarea[name=fileButton]").before(fileForm);
+                                        $("textarea[name=ivMemo]").before(fileForm);
                                         count++;
 
                                     } else {
@@ -1740,7 +1742,7 @@
                                 };
                                 const delFile = () => {
                                     if (count != 2) {
-                                        $("textarea[name=fileButton]").prev().remove();
+                                        $("textarea[name=ivMemo]").prev().remove();
                                         count--;
                                     }
                                 };

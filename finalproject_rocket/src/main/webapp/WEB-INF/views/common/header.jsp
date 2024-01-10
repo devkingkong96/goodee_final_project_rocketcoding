@@ -31,7 +31,7 @@
 
 <div class="wrapper">
     <div id="loader"></div>
-	
+
     <header class="main-header">
         <!-- 로고 만들면 추가 -->
         <div class="d-flex align-items-center logo-box justify-content-start d-md-none d-block">
@@ -266,10 +266,11 @@
                             </a>
                         </li>
                         <li>
-                           <a href="${pageContext.request.contextPath}/board/fboardlist">
-      						 <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
-       						 <span>게시판</span>
-    						</a>
+                            <a href="${pageContext.request.contextPath}/board/fboardlist">
+                                <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                                <span>게시판</span>
+                            </a>
                         </li>
                         <li>
                             <a href="${path }/chat/list">

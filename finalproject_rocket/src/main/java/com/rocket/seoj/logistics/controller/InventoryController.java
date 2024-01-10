@@ -1,5 +1,26 @@
 package com.rocket.seoj.logistics.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.seoj.logistics.model.dto.Inventory;
+import com.rocket.seoj.logistics.model.dto.InventoryAttach;
+import com.rocket.seoj.logistics.model.dto.InventoryFileWrapper;
+import com.rocket.seoj.logistics.model.dto.PrdInventory;
+import com.rocket.seoj.logistics.model.service.InventoryService;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,27 +30,6 @@ import java.sql.Clob;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.rocket.jsy.employee.model.dto.Employee;
-import com.rocket.seoj.logistics.model.dto.*;
-import com.rocket.seoj.logistics.model.service.InventoryService;
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Brief description of functions
@@ -210,6 +210,9 @@ public class InventoryController {
                 .getClass()
                 .getName());
 */
+        long generatedId = service.insertInventory(formData);
+        log.debug("generatedId: " + generatedId);
+
         List<InventoryAttach> fileList = new ArrayList<>();
 
         if (upFile != null) {
@@ -226,13 +229,13 @@ public class InventoryController {
                     try {
 //						upFile.transferTo(new File(path,rename));
                         mf.transferTo(new File(path, rename));
-                        InventoryAttach file = InventoryAttach.builder()
-                                                              // TODO 사용자 id 나중에 넣어줘야함
-                                                              .ivId(1)
-                                                              .ivFileNameOri(oriName)
-                                                              .ivFileNameRe(rename)
-                                                              .ivAttachIsdel("N")
-                                                              .build();
+                        InventoryAttach file = InventoryAttach
+                                .builder()
+                                .ivId(generatedId)
+                                .ivFileNameOri(oriName)
+                                .ivFileNameRe(rename)
+                                .ivAttachIsdel("N")
+                                .build();
 
                         fileList.add(file);
                     } catch (IOException | DataAccessException e) {
@@ -252,10 +255,8 @@ public class InventoryController {
         formData.setSendBrcId((long)loginemp.getBranchId());
 
 
-        long generatedId = service.insertInventory(formData);
-        log.debug("generatedId: " + generatedId);
-
         log.debug("fileList" + fileList.size());
+        List<Integer> result2 = null;
         if (upFile != null) {
             for (InventoryAttach attach : fileList) {
                 attach.setIvId(generatedId);
@@ -263,10 +264,16 @@ public class InventoryController {
 
 
             // TODO @transactional 되서 List<Integer>를 반환 안해도 될거같은데.. 물어보기
-            List<Integer> result2 = service.insertInventoryAttach(fileList);
+            result2 = service.insertInventoryAttach(fileList);
             log.debug(String.valueOf(result2));
         }
-
+        for (Integer result : result2) {
+            if (result == 0) {
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("message", "실패 : 파일 추가 실패", "status", "error"));
+            }
+        }
 
 //        List<PrdInventory> prdInventoryList = prdInventory.getPrdInventory();
 
@@ -275,6 +282,13 @@ public class InventoryController {
         }
 
         List<Integer> result3 = service.insertPrdInventory(prdInventoryList);
+        for (Integer result : result3) {
+            if (result == 0) {
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("message", "실패 : 상품_입출고 추가 실패", "status", "error"));
+            }
+        }
 
 
 //        result2.forEach(insertInventoryAttachResult -> log.debug("결과: " + insertInventoryAttachResult));
@@ -344,7 +358,7 @@ public class InventoryController {
     }
 
     @RequestMapping("inventory/list")
-    public String getAllItems(Model model) {
+    public String selectAllInventories(Model model) {
 		/*		List<Map> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);*/
         List<Map<String, Object>> inventories = service.selectAllInventories();

@@ -350,7 +350,7 @@
         var second = ('0' + now.getSeconds()).slice(-2);
         return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     }
-
+    
 
     $(document).ready(function () {
         // alert("ready");
@@ -931,8 +931,6 @@
                                                         data-placeholder="Select a State" style="width: 100%;">--%>
                                             <select class="chooseRecieveEmp form-control select2" name="sendEmpId"
                                                     data-placeholder="지점을 선택하세요" style="width: 100%;">
-
-
                                             </select>
                                         </div>
                                     </div>
@@ -958,7 +956,7 @@
                                             <label for="vat_Option_2">제외</label>
                                         </div>
 
-                                        <div id="board-container">
+                                        <div id="file-container">
                                             <div class="input-group mb-3"
                                                  style="padding: 0px; margin-top: 10px; margin-left: -10px;">
                                                 <div class="input-group-prepend" style="padding: 0px; ">
@@ -987,8 +985,11 @@
                                                             class="custom-file-label waves-effect waves-light btn btn-primary-light btn-flat mb-3"
                                                             for="upFile1" style="margin:10px;">파일을
                                                         선택하세요</label>
+
+                                                    <%--                                                    <div name="fileButton"></div>--%>
                                                 </div>
                                             </div>
+
                                             <div class="col-lg-2 col-5">
                                                 <label>
                                                     <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"

@@ -16,7 +16,7 @@
 %>
 <%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param name="title" value="입/출고 내역"/>
+    <jsp:param name="title" value="출판사 리스트"/>
 </jsp:include>
 <script type="text/javascript"
         src="${path }/resources/assets/vendor_components/moment/moment.js"></script>
@@ -189,9 +189,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
-                                    <li class="breadcrumb-item" aria-current="page">출판사 관리</li>
+                                    <li class="breadcrumb-item" aria-current="page">출판사 목록</li>
                                     <li class="breadcrumb-item active" aria-current="page">출판사
-                                        목록
+                                        관리
                                     </li>
                                 </ol>
                             </nav>
@@ -203,7 +203,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
             <div class="row">
                 <div class="col-lg-12 col-12">
                     <div class=" connectedSortable">
-                        <form name="insertinventory" id="insertpublisher"
+                        <form name="insertpublisher" id="insertpublisher"
                         <%-- method="post"--%> enctype="multipart/form-data">
                             <div class="box">
                                 <div class="box-header with-border">
@@ -371,8 +371,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                             var select2Data = {};
 
                             $('#example1').DataTable({
-
-
                                 // 기본 DataTables 설정
                                 "paging": true,
                                 "lengthChange": true,
@@ -399,7 +397,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                          render: function (data, type, row) {
                                              if (type === 'display' || type === 'filter') {
                                                  var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
-
                                                  return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
                                              }
                                              /!*                          if (type === 'sort') {
@@ -408,7 +405,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                                       }   *!/
                                              return data;
                                          },
-
                                      }*/
                                 ],
 
@@ -422,28 +418,22 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                 "buttons": [{
                                     extend: 'colvis',
                                     text: '일부 컬럼 보기'
-
                                 }, {
                                     extend: 'colvisRestore',
                                     text: '컬럼 복원'
-
                                 }, {
-
                                     extend: 'copy',
-
                                     /*            exportData: {decodeEntities: true}, */
                                     text: '클립보드에 복사',
                                     exportOptions: {
                                         columns: ':visible',
                                         rows: ':visible',
                                         encoding: 'UTF-8'
-
                                     }
                                 }, {
                                     extend: 'csv',
-
                                     /*                 exportData: {decodeEntities: true}, */
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '출판사 리스트 ' + getCurrentDateTime(),
                                     exportOptions: {
                                         columns: ':visible',
                                         rows: ':visible',
@@ -451,7 +441,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                     }
                                 }, {
                                     extend: 'excel',
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '출판사 리스트 ' + getCurrentDateTime(),
                                     /*                 exportData: {decodeEntities: true}, */
                                     exportOptions: {
                                         columns: ':visible',
@@ -463,7 +453,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                     extend: 'pdfHtml5',
                                     /*          exportData: {decodeEntities: true}, */
                                     text: 'PDF',
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '출판사 리스트 ' + getCurrentDateTime(),
                                     font: 'hangul',
                                     exportOptions: {
                                         columns: ':visible',
@@ -486,7 +476,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                                 }, {
                                     extend: 'print',
-                                    title: '입/출고 추가 ' + getCurrentDateTime(),
+                                    title: '출판사 리스트 ' + getCurrentDateTime(),
                                     /*           exportData: {decodeEntities: true}, */
                                     exportOptions: {
                                         columns: ':visible',
@@ -1067,6 +1057,15 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                     var currentData = table.rows().data().toArray();
                                     currentData.splice(0, 0, [selectKey, parsedData.pubName, parsedData.pubAddr, parsedData.pubPhone, parsedData.pubRepresentative, parsedData.pubBank, '<form id="deleteForm" action="${path}/logistics/inventory/list/delete" method="post" style="display: none;"> <input type="hidden" name="pub_id" id="deleteId"> </form> <button type="button" onclick="confirmDeletion(this,' + selectKey + ')" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제 </button>']);
                                     table.clear().rows.add(currentData).draw(true);
+                                    table.columns().every(function () {
+                                        var currentColumn = this;
+                                        var searchData = currentColumn.search();
+                                        table.column(currentColumn.index()).search(searchData);
+                                    });
+
+                                    // 테이블을 다시 그립니다. 이 과정에서 검색 색인도 갱신됩니다.
+                                    table.draw();
+
 
                                     $('#example1 tbody tr').each(function () {
                                         // 이전에 선택된 값을 저장
@@ -1156,99 +1155,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
@@ -1274,98 +1180,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             } else {
                                 fetch("
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1409,7 +1223,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                         <div class="box-header">
 
 
-                            <h4 class="box-title"><strong>입/출고내역</strong>
+                            <h4 class="box-title"><strong>출판사 목록</strong>
                             </h4>
                             <h6 class="subtitle">수정할 row를 선택하세요</h6>
                         </div>
@@ -1443,19 +1257,20 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                 data-table-name="PUBLISHER" data-parent-column="PUB_REPRESENTATIVE"
                                             >${pub.PUB_REPRESENTATIVE}</td>
                                             <td data-column-name="PUB_PHONE"
-                                                data-table-name="PUBLISHER" data-parent-column="PUB_PHONE"
-                                                data-table-name="PUBLISHER">${pub.PUB_PHONE}</td>
+                                                data-table-name="PUBLISHER"
+                                                data-parent-column="PUB_PHONE">${pub.PUB_PHONE}</td>
                                             <td data-column-name="PUB_ADDR"
-                                                data-table-name="PUBLISHER" data-parent-column="PUB_ADDR"
-                                                data-table-name="PUBLISHER">${pub.PUB_ADDR}</td>
+                                                data-table-name="PUBLISHER"
+                                                data-parent-column="PUB_ADDR">${pub.PUB_ADDR}</td>
                                             <td data-column-name="PUB_BANK"
-                                                data-table-name="PUBLISHER" data-parent-column="PUB_BANK"
-                                                data-table-name="PUBLISHER">${pub.PUB_BANK}</td>
+                                                data-table-name="PUBLISHER"
+                                                data-parent-column="PUB_BANK">${pub.PUB_BANK}</td>
                                             <td name="dontedit">
                                                 <form id="deleteForm"
                                                       action="${path}/logistics/inventory/list/delete"
                                                       method="post" style="display: none;">
-                                                    <input type="hidden" name="pub_id" id="deleteId">
+                                                    <input type="hidden" name="pub_id" id="deleteId"
+                                                           value="${pub.PUB_ID}">
                                                 </form>
                                                 <button type="button" onclick="confirmDeletion(this,${pub.PUB_ID})"
                                                         class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">

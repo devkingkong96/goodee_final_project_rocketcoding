@@ -19,12 +19,13 @@ import lombok.ToString;
 @Builder
 public class Fboard {
 	
-	private int fboardNo;
-	private int empNo;
-	private String fboardTitle;
-	private String fboardContent;
-	private int fboardViews;
-	private Date fboardDate;
+	private int fboardNo; //게시판 번호
+	private int empNo;	  //게시글 작성자 
+	private String fboardTitle;	// 게시글 제목
+	private String fboardContent; //게시글 내용
+	private int fboardViews;	//조회수
+	private Date fboardDate;	//게시글 작성일
+	private String fboard_Yn;// 삭제여뷰
 	
 	
 }

@@ -79,12 +79,10 @@ public class LoginController {
 		List<Map<String, String>> approvalList=service.selectAprvMainPage();
 		List<Map<String, String>> fboardList=service.selectFboardMainPage();
 		List<Map<String, String>> notices=service.selectNoticeMainPage();
-		Employee loginemp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		m.addAttribute("approvalList",approvalList);
 		m.addAttribute("fboardList",fboardList);
 		m.addAttribute("notices",notices);
-		session.setAttribute("loginemp", loginemp);
 		return "index";
 	}
 	

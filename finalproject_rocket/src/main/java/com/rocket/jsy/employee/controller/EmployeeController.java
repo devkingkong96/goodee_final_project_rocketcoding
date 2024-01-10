@@ -1,12 +1,13 @@
 package com.rocket.jsy.employee.controller;
 
 
+import static com.rocket.common.Getrequest.getParameterMap;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rocket.jsy.employee.model.dto.Employee;
+import com.google.gson.Gson;
 import com.rocket.jsy.employee.service.EmployeeService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EmployeeController {
 	
+	private final Gson gson;
 	private final EmployeeService service;
 	
 	@GetMapping("/mypage")
@@ -61,24 +64,29 @@ public class EmployeeController {
 		model.addAttribute("employees",employees);
 		return "employee/employeeholidaylist";
 	}
-	 @GetMapping("/myPageCalendar")
-	 @ResponseBody
-	    public List<Map<String, Object>> myPageCalendar() {
-	        return service.selectEmployeeMyPageCalendar();
-	    }
-	 @PostMapping("/employeeinsert")
-	 public String insertEmployee(Employee employee) {
-	     service.insertEmployee(employee);
-	     return "redirect:/employee/employeelist";
-	 }
-	 @Autowired
-	 private EmployeeService employeeService;
 	 
-//	 @PostMapping("/employeeupdate")
-//	 	public String updateEmployee(Employee employee) {
-//	     employeeService.updateEmployee(employee);
-//		 return "redirect:/employee/employeelist";
-//	 }
+//	 @GetMapping("/myPageCalendar")
+//	 @ResponseBody
+//	    public List<Map<String, Object>> myPageCalendar() {
+//	        return service.selectEmployeeMyPageCalendar();
+//	    }
+	 
+	 @PostMapping("/employeeinsert")
+	 @ResponseBody
+	 public String insertEmployee(HttpServletRequest request) {
+		 HashMap<String, Object>map=getParameterMap(request);
+		 log.info("받은 데이터: {}", map);
+		 int result = service.insertEmployee(map);
+		 return result > 0 ? "success" : "fail";
+	 }
+	 @PostMapping("/employeeupdate")
+	 @ResponseBody
+	 public String updateEmployee(HttpServletRequest request) {
+	     HashMap<String, Object> updateMap = getParameterMap(request);
+	     log.info("받은 데이터: {}", updateMap);
+	     int result = service.updateEmployee(updateMap);
+	     return result > 0 ? "success" : "fail";
+	 }
 	 
 	 
 

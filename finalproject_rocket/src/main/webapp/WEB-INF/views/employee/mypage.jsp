@@ -4,36 +4,44 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param name="title" value="마이페이지"/>
 </jsp:include>
 <div class="content-wrapper">
+	
    <div class="container-full">
       <!-- Main content -->
       <section class="content">
          <div class="content-wrapper">
 	  <div class="container-full">
+	  		
 			<div class="row">
 				<div class="col-lg-5 col-12">
 					<div class="box">
-						<div class="user-bg"> <img width="100%" alt="user" src="${path}/resources/images/avatar/375x200/2.jpg"> </div>
+						<div class="user-bg">
+						    <form action="/upload" method="post" enctype="multipart/form-data">
+						        <input type="file" id="fileUpload" style="display:none" name="file" onchange="form.submit()"/>
+						        <img src="${path }/resources/upload/profile/${loginEmp.empFile}" alt="user" width="200px" height="200px" id="userImage" onclick="document.getElementById('fileUpload').click();"/>
+						    </form>
+						</div>
 						<div class="box-body">
 							<div class="row text-center mt-10">
 								<div class="col-md-6 border-end">
 									<strong>이름</strong>
-									<p>${employee.EMP_NAME}</p>
+									<p>${loginEmp.empName}</p>
 								</div>
 								<div class="col-md-6"><strong>부서</strong>
-									<p>${employee.DEP_NAME}</p>
+									<p>${loginEmp.dep.depName}</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row text-center mt-10">
 								<div class="col-md-6 border-end"><strong>직위</strong>
-									<p>${employee.EMP_LV}</p>
+									<p>${loginEmp.empLv}</p>
 								</div>
 								<div class="col-md-6"><strong>입사일자</strong>
-									<p><fmt:formatDate value="${employee.EMP_ENDATE}" pattern="yyyy/MM/dd" /></p>
+									<p><fmt:formatDate value="${loginEmp.empEndate}" pattern="yyyy/MM/dd" /></p>
 								</div>
 							</div>
 							<hr>
@@ -74,8 +82,6 @@
       </section>
    </div>
 </div>
-
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
    <script>
 	     document.addEventListener('DOMContentLoaded', function() {
 	         var calendarEl = $('#mycal1');
@@ -91,4 +97,17 @@
 	            });
 	         calendar.render();
 	       });
-   </script>
+	   </script>
+  <!--  function getFormatTime(date){
+   var hh=date.getHours();
+   hh = hh >= 10 ? hh : '0' +hh;
+   var mm =date.getMinutes();
+   mm = mm >= 10 ? mm : '0' +mm;
+   var ss =date.getSeconds();
+   ss = ss >= 10 ? ss : '0' +ss;
+   return hh + ':'+mm + ':'+ ss ;
+   
+}
+var time = getFormatTime(new Date()); -->
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

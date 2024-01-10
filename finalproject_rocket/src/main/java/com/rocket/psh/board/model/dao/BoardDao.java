@@ -3,23 +3,25 @@ package com.rocket.psh.board.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.rocket.psh.board.model.dto.Fboard;
 
 public interface BoardDao {
+   
+	List<Map<String, Object>> selectFboardList(SqlSession session, Map<String,Object> param);
 	
-	// 게시글 목록 조회
-	List<Map<String, Object>> selectBoard(Map<String, Object> map);
+	int insertFboard(SqlSession session,Fboard fboard);
 	
-	// 게시글 삽입
-	int insertFboard(Fboard fboard);
+	Map<String, Object> selectFboardDetail(SqlSession session, int fboardNo);
 	
-	// 게시글 상세 정보 조회
-	Fboard selectBoardByNo(int boardNo);
+	int updateFboard(SqlSession session,Map<String, Object> map);
 	
-	// 게시글 수정
-	int updateFboard(Fboard fboard);
+	int deleteFboard(SqlSession session,int fboardNo);
 	
-	// 게시글 삭제
-	int deleteFboard(int boardNo);
+	int increaseViewCount(SqlSession session, int fboardNo);
+	
+	List<Map<String,Object>> selectFboardComments(SqlSession session, int fboardNo);
+	
 	
 }

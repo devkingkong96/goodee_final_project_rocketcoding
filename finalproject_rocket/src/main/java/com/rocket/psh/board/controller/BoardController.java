@@ -26,7 +26,7 @@ public class BoardController {
 	  private final FboardService service;
 	
 	  // 게시물 목록 조회
-	    @GetMapping("/fboardlist")
+	    @GetMapping("/fboardlist.do")
 	    public ModelAndView fboardList(
 	            @RequestParam(defaultValue = "1") int page,
 	            @RequestParam(defaultValue = "title") String searchType,
@@ -74,10 +74,14 @@ public class BoardController {
 	        return mv;
 	    }
 	
+	    @GetMapping("/fboardWrite")
+	    public String writepage() {
+	    	return "board/fboardWrite";
+	    }
 	    
-
+	    
 	 // 게시글 작성 처리
-	    @PostMapping("/fboardwrite")
+	    @PostMapping("/fboardWrite")
 	    public ModelAndView submitFboardWrite(Fboard fboardDTO, BindingResult result) {
 	        ModelAndView mv = new ModelAndView();
 

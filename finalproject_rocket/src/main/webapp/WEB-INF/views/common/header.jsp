@@ -214,8 +214,8 @@
                         <img src="${path }/resources/upload/profile/${loginEmp.empFile}" class="rounded-0 me-10"
                              alt="user">
                         <div>
-                            <h4 class="mb-0 fw-600"><c:out value="${loginemp.empName }"/></h4>
-                            <p class="mb-0"><c:out value="${loginemp.empLv }"/></p>
+                            <h4 class="mb-0 fw-600"><c:out value="${loginEmp.empName }"/></h4>
+                            <p class="mb-0"><c:out value="${loginEmp.empLv }"/></p>
                         </div>
                     </div>
                     <div class="info">
@@ -266,7 +266,7 @@
                             </a>
                         </li>
                         <li>
-                           <a href="${pageContext.request.contextPath}/board/fboardlist">
+                           <a href="${pageContext.request.contextPath}/board/fboardlist.do">
       						 <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
        						 <span>게시판</span>
     						</a>

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -47,6 +48,9 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	@Transactional
 	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
 	    
+		
+		try {
+		
 		int docu = session.insert("approval.insertDocu", reqAll);
 		 
 	    
@@ -94,8 +98,16 @@ public class ApprovalDaoImpl implements ApprovalDao{
 
 	   
 	   return 1; 
+	}catch(Exception e) {
+		e.printStackTrace();
+		
+		
+		return 0;
+	}
 	    
-	    
+	
+	
+	
 	}
 
 	

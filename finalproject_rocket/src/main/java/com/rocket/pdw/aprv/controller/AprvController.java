@@ -115,7 +115,7 @@ public class AprvController {
 				.collect(Collectors.toList());
 
 		m.addAttribute("lists", elist);
-
+		
 		return "aprv/aprvlists";
 	}
 
@@ -189,11 +189,6 @@ public class AprvController {
 	// ==============================================select list
 	// ==================================================================
 
-	@GetMapping("/aprv")
-	public String aprvDetail() {
-		return "aprv/aprv";
-	}
-
 	@GetMapping("/insertaprv")
 	public String insertAprvView(Model m) {
 		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -214,22 +209,22 @@ public class AprvController {
 
 		
 	@PostMapping("/submit") 
+	@ResponseBody
 	public String submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
 		log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
-		
+		//test중.........................................................
+		log.info("===================================================={}",result);
 		if(result>0) {
-			return "index";
-			
-		}else return "ERROR";
-  
-  
-  
+			return "12";	
+		}
+		else return "34";
 	}
-	 
+	
+	
 	  
 
 }

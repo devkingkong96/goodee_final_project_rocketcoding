@@ -2,19 +2,18 @@ package com.rocket.seoj.logistics.controller;
 
 
 import com.rocket.common.Getrequest;
-import com.rocket.seoj.logistics.model.dto.Publisher;
 import com.rocket.seoj.logistics.model.service.PublisherService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,9 +21,9 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.sql.Clob;
 import java.sql.SQLException;
-import java.util.*;
-
-import static com.rocket.common.Getrequest.getParameterMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Brief description of functions
@@ -97,7 +96,7 @@ public class PublisherController {
         // param.stream().map(e->)
         long selectKey = service.insertPublisher(params);
         log.debug("selectKey : " + params.get("pubId"));
-        if (selectKey != 0) {
+        if ((long)params.get("pubId") != 0) {
             return ResponseEntity
                     .ok()
                     .body(Map.of("message", "추가 완료", "status", "success", "selectKey", params.get("pubId")));
@@ -110,7 +109,7 @@ public class PublisherController {
     }
 
     @PostMapping("publisher/list/delete")
-    public ResponseEntity<?> deleteInventoryAndAttachments(@RequestParam("pub_id") Long pubId) {
+    public ResponseEntity<?> deletePublisher(@RequestParam("pub_id") Long pubId) {
 
         log.debug("딜리트: " + pubId);
         boolean deletionSuccess = service.isdelUpdatePublisher(pubId);
@@ -179,7 +178,7 @@ public class PublisherController {
 
 
     @RequestMapping("/publisher/list")
-    public String selectAllBranch(Model model) {
+    public String selectAllPublisher(Model model) {
 
         List<Map<String, Object>> publisherList = service.selectAllPublisher();
 

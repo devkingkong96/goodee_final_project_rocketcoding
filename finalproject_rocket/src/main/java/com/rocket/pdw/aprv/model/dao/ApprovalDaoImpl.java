@@ -43,7 +43,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	
 		return session.selectList("approval.selectEmployee", no);
 	}
-
+	//document, approval insert
 	@Override
 	@Transactional
 	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
@@ -93,21 +93,19 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			  	aprv.put("APRV_LV", 99);
 			  	aprv.put("APRV_EMP", aprvSQArrays[i]);
 			  	session.insert("approval.insertAprv", aprv);
-		}
+		  }
+		  return 1; 
 		  
-
-	   
-	   return 1; 
-	}catch(Exception e) {
-		e.printStackTrace();
-		
-		
-		return 0;
+		}catch(Exception e) {
+				e.printStackTrace();
+		  return 0;
+		}		
 	}
-	    
-	
-	
-	
+
+	@Override
+	public List<Map<String, Object>> selectAprvDocu(SqlSession session, int docNo) {
+		
+		return session.selectList("approval.selectAprvDocu",docNo);
 	}
 
 	

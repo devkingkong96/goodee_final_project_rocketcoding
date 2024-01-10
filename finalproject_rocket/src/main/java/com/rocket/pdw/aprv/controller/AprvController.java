@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -207,7 +208,7 @@ public class AprvController {
 		return service.findName(depCode);
 	}
 
-		
+	///작업중!!	
 	@PostMapping("/submit") 
 	@ResponseBody
 	public String submitDocu(HttpServletRequest req) {
@@ -223,7 +224,17 @@ public class AprvController {
 		}
 		else return "34";
 	}
-	
+	@GetMapping("/aprv/{docNo}")
+	public String aprvDocu(@PathVariable int docNo,Model m) {
+		
+		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		log.info("docNo : {} ",docNo);
+		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		log.info("aprvDocu : {} ",aprvDocu);
+		
+		m.addAttribute("user", e);
+		return "aprv/aprv";
+	}
 	
 	  
 

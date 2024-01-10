@@ -209,7 +209,12 @@
   				//sub 할 url -> /sub/chat/room/roomId로 구독 시작
   				stomp.subscribe("/sub/chat/room/"+roomId,onMessageReceived);
   				//StompChatController의 @MessageMapping("/chat/enter")에서 template.convertAndSend()를 통해 메시지 전달받음.
-  				
+  				 stomp.send("/pub/chat/enter",{},JSON.stringify({
+			            msgRoomNo: roomId,
+			            msgEmpName: username,
+			            type: 'ENTER'
+			        })
+			    )
   			}
   			
   			//메시지 수신
@@ -336,10 +341,14 @@
   				}
   			}
   			
-  		document.getElementById('dropchatinvite').addEventListener('click',function(){
-  			 var windowFeatures = "width=400,height=300";
-  	        window.open("${path}/chat/list", "_blank", windowFeatures);
-  		});
+  			//채팅 파일 업로드
+  			
+  			
+	  		//채팅방에서 초대하기창 모달 띄우기
+	  		document.getElementById('dropchatinvite').addEventListener('click',function(){
+	  			 var windowFeatures = "width=400,height=300";
+	  	        window.open("${path}/chat/list", "_blank", windowFeatures);
+	  		});
   			
   	</script>
 

@@ -266,7 +266,7 @@
                             </a>
                         </li>
                         <li>
-                           <a href="${pageContext.request.contextPath}/board/fboardlist">
+                           <a href="${pageContext.request.contextPath}/board/fboardlist.do">
       						 <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
        						 <span>게시판</span>
     						</a>

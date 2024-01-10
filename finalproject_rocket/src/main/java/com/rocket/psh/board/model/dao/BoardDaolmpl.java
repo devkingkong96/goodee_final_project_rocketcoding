@@ -28,11 +28,11 @@ public class BoardDaolmpl implements BoardDao {
 	@Override
 	public List<Map<String, Object>> selectFboardList(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		int cPage=Integer.parseInt((String)param.get("page"));
+		int cPage=(int)param.get("page");
 		
 		RowBounds rb=new RowBounds((cPage-1)*10, 10);
 		
-		return session.selectList("fboard.selectFboardList",param,rb);
+		return session.selectList("fboard.selectFboardMainPage",param,rb);
 	}
 
 	@Override

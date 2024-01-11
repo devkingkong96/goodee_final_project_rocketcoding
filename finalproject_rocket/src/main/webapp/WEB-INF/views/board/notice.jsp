@@ -15,7 +15,7 @@
     <div class="col-12">
          <div class="box">
                <div class="box-header with-border">
-                 <h3 class="box-title">자유 게시판</h3>
+                 <h3 class="box-title">★공지사항★</h3>
                  <hr color="black" size="7">
                </div>
                <!-- /.box-header -->
@@ -34,12 +34,11 @@
                        </thead>
                        <tbody>
                            <tr>
-                               <td>Tiger Nixon</td>
-                               <td>System Architect</td>
-                               <td>Edinburgh</td>
-                               <td>61</td>
-                               <td>2011/04/25</td>
-                          
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
                            </tr>
                        </tbody>
                   
@@ -52,18 +51,17 @@
       </section>
    </div>
 </div>
-	<!-- Page Content overlay -->
-	
-	
 	<!-- Vendor JS -->
-	<script src="../src/js/vendors.min.js"></script>
-	<script src="../src/js/pages/chat-popup.js"></script>
-    <script src="../../../assets/icons/feather-icons/feather.min.js"></script>	
-	<script src="../../../assets/vendor_components/datatable/datatables.min.js"></script>
-	
+	<script src="src/resources/js/vendors.min.js"></script>
+	<script src="src/resources/js/pages/chat-popup.js"></script>
+	<script
+		src="src/resources/js/assets/icons/feather-icons/feather.min.js"></script>
+	<script
+		src="src/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
+
 	<!-- CRMi App -->
-	<script src="../src/js/template.js"></script>
-	
-	<script src="../src/js/pages/data-table.js"></script>
+	<script src="src/resources/js/template.js"></script>
+
+	<script src="src/resources/js/pages/data-table.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -76,47 +76,8 @@ public class StompChatController {
 	}
 	
 	//채팅 파일 업로드 메시지
-	@MessageMapping("/chat/filesend")
-	public void filesendMessage(HttpServletRequest request,HttpSession session) {
-		try {
-			MultipartFile upFile=(MultipartFile)request.getPart("file");
-		} catch (IOException | ServletException e) {
-			e.printStackTrace();
-		}
-		//파일 경로
-		String path = session
-				.getServletContext()
-				.getRealPath("/resources/upload/chatfile");
-		
-		//serialize 값 가져오기
-		HashMap<String, Object>req=getParameterMap(request);
-		log.info("파일 업로드 정보 가져오기 form{}",req);
-		MultipartFile upFile=(MultipartFile)req.get("file");
-		log.info("파일 업로드 정보 가져오기 upFile{}",upFile);
-		
-               if (!upFile.isEmpty()) {
-//				String oriName=upFile.getOriginalFilename();
-                   String oriName = upFile.getOriginalFilename();
-                   String ext = oriName.substring(oriName.lastIndexOf("."));
-                   Date today = new Date(System.currentTimeMillis());
-                   int randomNum = (int)(Math.random() * 10000) + 1;
-                   String rename = "Rocket_Inventory_File_" + (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(
-                           today)) + "_" + randomNum + ext;
-                   try {
-//					upFile.transferTo(new File(path,rename));
-                   	upFile.transferTo(new File(path, rename));
-                       InventoryAttach file = InventoryAttach.builder()
-                                                             // TODO 사용자 id 나중에 넣어줘야함
-                                                             .ivId(1)
-                                                             .ivFileNameOri(oriName)
-                                                             .ivFileNameRe(rename)
-                                                              .ivAttachIsdel("N")
-                                                              .build();
-
-                    } catch (IOException | DataAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
-               template.convertAndSend("/sub/chat/room/10035",req);
-			}
-}
+//	@MessageMapping("/chat/filesend")
+//	public void filesendMessage(ChatMessage message) {
+//		template.convertAndSend("/sub/chat/room/"+message.getMsgRoomNo(),message);
+//		}
+	}

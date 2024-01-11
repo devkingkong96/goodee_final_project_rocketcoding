@@ -36,7 +36,7 @@
             <c:choose>
                 <c:when test="${not empty list}">
                     <c:forEach items="${list}" var="row">
-                        <tr>
+                       <tr style="cursor: pointer;" onclick="window.location.href='${path}/board/fboardView/' + ${row.FBOARD_NO}">
                             <td>${row.FBOARD_NO}</td>
                             <td>${row.FBOARD_TITLE}</td>
                             <td>${row.EMP_NO}</td>

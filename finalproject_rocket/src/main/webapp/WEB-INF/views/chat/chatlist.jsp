@@ -163,8 +163,29 @@
   </div>
 </form>
   <!-- /.modal -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+
+var sockJS=new SockJS("/ws/list");
+var stomp=Stomp.over(sockJS);
+
+//Stomp 연결 시 실행
+stomp.connect({},onConnected,onError);
+
+//연결 성공했을 때 실행하는 함수
+function onConnected(){
+	console.log("stomp 연결 성공");
+	
+	//subscribe(path,callback)으로 메세지 받기 가능
+
+}
+function onError(){
+	console.log("에러");
+}
+
+
 	//채팅방 생성
 	document.getElementById('createBtn').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('empCheck');
@@ -245,6 +266,7 @@
 			return
 		}
 	});
+	
 	
 	
 </script>

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.psh.board.model.dto.Fboard;
 import com.rocket.psh.board.model.service.FboardService;
 
@@ -56,9 +58,9 @@ public class BoardController {
 	    }
 
 	    // 게시글 상세 조회 (조회수 증가 포함)
-	    @GetMapping("/fboarddetail")
+	    @GetMapping("/fboardView")
 	    public ModelAndView fboardDetail(@RequestParam("fboardNo") int fboardNo) {
-	        ModelAndView mv = new ModelAndView("board/fboarddetail");
+	        ModelAndView mv = new ModelAndView("board/fboardView");
 
 	        // 조회수 증가 처리 (중복 조회 방지 로직 포함)
 	        int result=service.increaseViewCount(fboardNo);
@@ -84,7 +86,11 @@ public class BoardController {
 	    @PostMapping("/fboardWrite")
 	    public ModelAndView submitFboardWrite(Fboard fboardDTO, BindingResult result) {
 	        ModelAndView mv = new ModelAndView();
-
+	        Employee em = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	        int empNo=em.getEmpNo();
+	        fboardDTO.setEmpNo(empNo);
+	        
+	        
 	        // 입력 데이터 유효성 검사
 	        if (result.hasErrors()) {
 	            mv.setViewName("board/fboardwrite");
@@ -96,7 +102,7 @@ public class BoardController {
 	        // 게시글 작성 로직 수행
 	        try {
 	            service.insertFboard(fboardDTO);
-	            mv.setViewName("redirect:/board/fboardlist");
+	            mv.setViewName("redirect:/board/fboardlist.do");
 	        } catch (Exception e) {
 	            mv.setViewName("board/fboardwrite");
 	            mv.addObject("fboard", fboardDTO);

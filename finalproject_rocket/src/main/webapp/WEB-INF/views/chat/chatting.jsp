@@ -46,6 +46,7 @@
   color: black;
   cursor: pointer;
 }
+
 </style>
 <title>채팅 페이지</title>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -287,10 +288,12 @@
   				var message=chat.message;
   				var sendAt=chat.sendAt;
   				var type=chat.type;
-  				if(type==='TALK'){
-  				//화면 출력할 태그들 생성하기
+  				var msgFiReName=chat.msgFiReName;
+  				
   				const $div = document.createElement("div");
 					  $div.classList.add("col-12");
+  				if(type==='TALK'){
+  				//화면 출력할 태그들 생성하기
   				
 				const $card = document.createElement("div");
   				//채팅 작성자가 본인이라면
@@ -312,7 +315,7 @@
   				
   				const $cardBody = document.createElement("div");
   				$cardBody.classList.add("card-body");
-
+				
   				const $flexRow = document.createElement("div");
   				$flexRow.classList.add("d-flex", "flex-row", "pb-2");
 
@@ -350,13 +353,90 @@
   				$card.appendChild($cardBody);
   				$div.appendChild($card);
   				
+  				}else if(type==='UPLOAD'){
+
+  						const $card = document.createElement("div");
+  		  				//채팅 작성자가 본인이라면
+  		  				if(writer===username){
+  							$card.classList.add("card", "d-inline-block", "mb-3", "float-end", "me-2", "bg-info", "max-w-p80");
+  		  				}else{
+  		  					$card.classList.add("card", "d-inline-block", "mb-3", "float-start", "me-2", "no-shadow", "bg-lighter", "max-w-p80");
+  		  				}
+  		  				
+  		  				const $positionAbsolute=document.createElement("div");
+  		  				$positionAbsolute.classList.add("position-absolute", "pt-1", "pe-2", "r-0");
+  		  				
+  		  				const $sendAt = document.createElement("span");
+  		  				$sendAt.classList.add("text-extra-small");
+  		  				$sendAt.textContent = sendAt;
+  		  				
+  		  				$positionAbsolute.appendChild($sendAt);
+  		  				$card.appendChild($positionAbsolute);
+  		  				
+  		  				const $cardBody = document.createElement("div");
+  		  				$cardBody.classList.add("card-body");
+
+  		  				const $flexRow = document.createElement("div");
+  		  				$flexRow.classList.add("d-flex", "flex-row", "pb-2");
+
+  		  				const $flexGrow = document.createElement("div");
+  		  				$flexGrow.classList.add("d-flex", "flex-grow-1", "min-width-zero");
+
+  		  				const $m2 = document.createElement("div");
+  		  				$m2.classList.add("m-2", "ps-0", "align-self-center", "d-flex", "flex-column", "flex-lg-row", "justify-content-between");
+
+  		  				const $minWidthZero = document.createElement("div");
+  		  				$minWidthZero.classList.add("min-width-zero");
+
+  		  				const $strong = document.createElement("strong");
+  		  				const $p = document.createElement("p");
+  		  				$p.classList.add("mb-0", "fs-16");
+  		  				$p.textContent = writer;
+
+  		  				$strong.appendChild($p);
+  		  				$minWidthZero.appendChild($strong);
+  		  				$m2.appendChild($minWidthZero);
+  		  				$flexGrow.appendChild($m2);
+  		  				$flexRow.appendChild($flexGrow);
+  		  				$cardBody.appendChild($flexRow);
+
+  		  				const $chatTextStart = document.createElement("div");
+  		  				$chatTextStart.classList.add("chat-text-start", "ps-20");
+
+  		  				const $img = document.createElement("img");
+  		  						$img.src = `${path}/resources/upload/chatfile/`+msgFiReName;
+  		  						$img.width = "200";
+  		  						$img.height = "200";
+  		  						$img.alt = "user";
+  		  						$img.classList.add("chatUpFile");
+  		  						$img.id = "chatfile";
+
+  		  						const $button = document.createElement("button");
+  		  						$button.classList.add("btn", "fa", "fa-download");
+  		  						$button.id = "downBtn";
+  		  						$button.name = "downBtn";
+  		  						$button.onclick = function() {
+  		  						  downloadFile('파일명', '파일경로');
+  		  						};
+  		  				if(writer===username){
+  		  				$chatTextStart.appendChild($button);
+  		  				$chatTextStart.appendChild($img);
+  		  				}else{
+  		  				$chatTextStart.appendChild($img);
+  		  				$chatTextStart.appendChild($button);
+  		  				}
+
+  		  				$cardBody.appendChild($chatTextStart);
+
+  		  				$card.appendChild($cardBody);
+  		  				$div.appendChild($card);
+  					}
   				const startMsg = document.getElementById("startMsg");
   				startMsg.appendChild($div);
   				
   				const scroll=document.querySelector("#scrollStart");
   				scroll.scrollTop = scroll.scrollHeight;
   				}
-  			}
   			
   			//통신 실패했을 때 함수
   			function onError(){
@@ -400,20 +480,24 @@
   				}
   			}
   			
-  			//채팅 파일 업로드
+  			//채팅 업로드 파일 검사
   			// 파일 선택 시 이벤트 핸들러
 			document.getElementById('chatFileUpload').addEventListener('change', function(e) {
 			  var file = e.target.files[0]; // 선택한 파일 가져오기
 			  var filesize = Math.round(file.size/1024); // 파일 크기
 			  
 			  var reader = new FileReader(); // FileReader 객체 생성
-			// 확장자 추출
+		 	  // 확장자 추출
 		      var fileDot = file.name.lastIndexOf('.');
-
-		    // 확장자 검사
+			  
+		      // 확장자 검사
 		      var fileType = file.name.substring(fileDot + 1, file.name.length);
-		    // console.log('type : ' + fileType);
+		      console.log('type : ' + fileType);
 
+		      // 파일명
+		      var filename = file.name.substring(0,fileDot);
+		      console.log('name : ' + filename);
+		      
 		      if (!(fileType == 'png' || fileType == 'jpg' || fileType == 'jpeg' || fileType == 'gif')) {
 		         alert('파일 업로드는 png, jpg, gif, jpeg 만 가능합니다');
 		         return;
@@ -425,7 +509,7 @@
 				var fileSize = document.getElementById("fileSize");
 				
 				previewImage.src = e.target.result; // 미리보기 이미지 소스 설정
-			    fileName.textContent = "파일명: " + file.name; // 파일명 설정
+			    fileName.textContent = "파일명: " + filename; // 파일명 설정
 			    fileSize.textContent = "파일크기: " + filesize + "KB"; // 파일 크기 설정
 				
 			    var modal = document.getElementById("previewModal");
@@ -437,6 +521,51 @@
 			  reader.readAsDataURL(file);
 			});
   			
+  			//파일 업로드 버튼
+  			function sendFile(){
+  				
+  				var form = $('#chatFileUpload')[0].files[0];
+	 			var formData = new FormData();
+	 			
+	 			formData.append('file',form);
+ 	 			
+  				console.log("form 데이터 : "+form);
+  				console.log("form 데이터 : "+formData);
+  				
+ 	 			$.ajax({
+ 	 				url : '${path}/chat/file/upload',
+ 	 				type : 'POST',
+ 	 				enctype: 'multipart/form-data',
+ 	 				data : formData,
+ 	 				contentType : false,
+ 	 				processData : false,
+ 	 				success : function(data){
+ 	 				//채팅 메시지 전송(기록용)
+ 	 				console.log("데이터값 : "+data);
+ 	 	 	 			if(stomp){
+ 	 	 	 				var data=data;
+ 	 	 	 				//모달 종료
+ 	 	 	 				upModalClose();
+ 	 	 	 				
+ 	 	 	  				var chatMsg={
+ 	 	 	  						msgRoomNo:roomId,
+ 	 	 	  						msgEmpName:username,
+ 	 	 	  						msgEmpNo:userno,
+ 	 	 	  						msgFiOriName:data.msgFiOriName,
+ 	 	 	  						msgFiReName:data.msgFiReName,
+ 	 	 	  						type:'UPLOAD'
+ 	 	 	  						}
+ 	 	 	  			//send(path, header,message)로 메세지 발신
+ 	 	 	  			//StompChatController의 @MessageMapping(value="/chat/message")로 메시지 발신
+ 	 	 	  			stomp.send('/pub/chat/send',{},JSON.stringify(chatMsg));
+ 	 	  				}
+ 	 				},
+ 	 				error: function(error){
+ 	 					alert("에러 : "+error);
+ 	 				}
+ 	 			});
+  				}
+  			
   			//파일 업로드 모달 닫기
 			function upModalClose(){
 				var modal = document.getElementById("previewModal");
@@ -444,18 +573,8 @@
 				document.body.classList.remove("modal-open"); // 스크롤 허용
 			}
   			
-  			 function sendFile(){
-  				console.log("테스트");
-  				if(stomp){
- 	 				var file=$('#fileUploadfrm').serialize();
- 	 				var newForm = new Form();
- 	 				newForm.
- 	 				
-	  				//send(path, header,message)로 메세지 발신
-	  				//StompChatController의 @MessageMapping(value="/chat/filesend")로 메시지 발신
-	  				stomp.send('/pub/chat/filesend',{},file);
-  					}
-  				}
+  			//파일 다운로드
+  			
   			
 	  		//채팅방에서 초대하기 창 띄우기
 	  		document.getElementById('dropchatinvite').addEventListener('click',function(){

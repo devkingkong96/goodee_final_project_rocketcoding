@@ -72,7 +72,7 @@
       </section>
    </div>
 </div>
-<!-- 규칙 추가 모달창 -->
+<!-- 부서 추가 모달창 -->
 <div class="modal fade" id="myModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

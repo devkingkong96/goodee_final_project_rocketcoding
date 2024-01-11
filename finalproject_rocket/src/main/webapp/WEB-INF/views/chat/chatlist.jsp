@@ -197,9 +197,11 @@
 			url:"${path}/chat/room",
 			data:$("#Roomfrm").serialize(),
 			dataType:"json",
-			success:function(){
-				alert("채팅방 생성 성공");
-				location.reload();
+			success:function(res){
+				if(res==='success'){
+					alert("채팅방 생성 성공");
+					location.reload();
+				}
 			},
 			error:function(){
 				alert("채팅방 생성 실패");

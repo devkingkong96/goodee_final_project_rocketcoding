@@ -20,4 +20,8 @@ public class ChatMessage {
 	private int msgEmpNo; //회원테이블 fk키
 	private int msgRoomNo; //채팅방 fk키
 	private String msgEmpName; //회원테이블 직원이름
+	private String msgFiOriName; //수정 전 파일명
+	private String msgFiReName; //수정 전 파일명
+	private String msgDelChck; //삭제여부
+	private String type; // ENTER,UPFILE,TALK
 }

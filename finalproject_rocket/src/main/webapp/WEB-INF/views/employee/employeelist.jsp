@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param name="title" value=""/>
 </jsp:include>
@@ -76,6 +77,16 @@
       </section>
    </div>
 </div>
+<script>
+    $(document).ready(function() {
+        var depName = '${loginEmp.dep.depName}';
+        if (depName === '인사팀') {
+            $('.btn.employee.plus').show();
+        } else {
+            $('.btn.employee.plus').hide();
+        }
+    });
+</script>
 <!-- 인사카드 등록 모달창 -->
 <div class="modal fade" id="modal-default">
   <div class="modal-dialog" role="document">
@@ -255,7 +266,7 @@ $(document).ready(function() {
 		var empEnDate = $(this).find('td:eq(5)').text();
 		var empFication = $(this).find('td:eq(6)').text();
 
-		$('#modal-modify #empNo').val(empNo); // 사원번호
+		$('#modal-modify #empNo').val(empNo).prop('readOnly', true); // 사원번호
 		$('#modal-modify #empName').val(empName); // 사원이름
 		$('#modal-modify #employees').val(depName); // 부서명
 		$('#modal-modify #empLv').val(empLv); // 직위/직급

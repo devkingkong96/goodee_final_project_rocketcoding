@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -42,11 +43,14 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	
 		return session.selectList("approval.selectEmployee", no);
 	}
-
+	//document, approval insert
 	@Override
 	@Transactional
 	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
 	    
+		
+		try {
+		
 		int docu = session.insert("approval.insertDocu", reqAll);
 		 
 	    
@@ -89,13 +93,19 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			  	aprv.put("APRV_LV", 99);
 			  	aprv.put("APRV_EMP", aprvSQArrays[i]);
 			  	session.insert("approval.insertAprv", aprv);
-		}
+		  }
+		  return 1; 
 		  
+		}catch(Exception e) {
+				e.printStackTrace();
+		  return 0;
+		}		
+	}
 
-	   
-	   return 1; 
-	    
-	    
+	@Override
+	public List<Map<String, Object>> selectAprvDocu(SqlSession session, int docNo) {
+		
+		return session.selectList("approval.selectAprvDocu",docNo);
 	}
 
 	

@@ -9,9 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import com.rocket.psh.board.model.dto.Fboard;
 
+import jakarta.transaction.Transactional;
+
 @Repository
+
 public class BoardDaolmpl implements BoardDao {
 	
+	@Transactional
 	@Override
 	public int insertFboard(SqlSession session, Fboard fboard) {
 		// TODO Auto-generated method stub

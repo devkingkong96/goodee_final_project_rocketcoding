@@ -1,51 +1,37 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-
     <jsp:param name="title" value="" />
 </jsp:include>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-
-
-
 <style>
     table {
         width: 100%;
         border-collapse: collapse;
     }
-
     th,
     td {
         border: 1px solid black;
         padding: 15px;
         text-align: left;
     }
-
     th {
         background-color: #f2f2f2;
     }
 </style>
-
-
 <%
 	Date date = new Date();
 	SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
 	String strDate = simpleDate.format(date);
 	
-
 %>
-
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <div class="container-full">
@@ -116,18 +102,16 @@
                                                         <td rowspan="4" style="text-align: center;">결재</td>
                                                     </tr>
                                                     <tr style="background-color: #f2f2f2; width: 10px;" id="name">
-
                                                     </tr>
                                                     <tr style="height: 120px" id="empty">
-
                                                     </tr>
                                                     <tr id="emplv">
-
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
+                                        <div class="box-header" style="display: flex">
                                         <div class="box-header" style="display: flex" id="singleTag">
                                             <h4>
                                                 참조자 :
@@ -138,8 +122,8 @@
                                     </div>
                                     <input type="hidden" name="EMP_NO" value="${user.empNo }">
                                     <input type="hidden" name="DOC_TAG" value="" id="DOC_TAG">
-                                    
-                                    
+
+
                                     <div class="box-header">
                                         <h4 class="box-title">제목<br>
                                             <input type="text" name="DOC_TITLE" class="form-control" style="width: 500px">
@@ -149,19 +133,16 @@
                                     <div class="box-body">
                                         <h4 class="box-title">본문</h4>
                                         <div id="tagCont">
-
-
-
                                         </div>
                                         
                                         
                                         <br>
                                     </form>
-                                        
-                                      
-                                        
-                                   
-                                   
+
+
+
+
+
                                     </div>
                                     <div class="box">
                                         <div class="box-header">
@@ -175,14 +156,10 @@
                                             </form>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
                             
-
-
                         </div>
                     </div>
                     <!-- /.box -->
@@ -199,8 +176,6 @@
                         </div>
                         <div class="modal-body">
                             <div id="flex-cotainer" style="display: flex">
-
-
                                 <div class="multinav-scroll" style="height: 97%;">
                                     <!-- sidebar menu-->
                                     <ul class="sidebar-menu" data-widget="tree">
@@ -214,11 +189,9 @@
                                             </a>
                                             <ul class="treeview-menu">
                                                 <li class="treeview">
-
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="1" class="radio-col-danger" />
                                                     <label for="1">일부</label>
-
                                                 </li>
                                                 <li class="treeview">
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -239,7 +212,6 @@
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="5" class="radio-col-danger" />
                                                     <label for="5">아이부</label>
-
                                                 </li>
                                             </ul>
                                         </li>
@@ -258,22 +230,14 @@
                                 </div>
                                 <div>
                                     <h1 style="position: static; margin-right: 40px">결재자</h1>
-                                    <div class="column" style="width: 100%;" id="aprv">
+                                    <div class="column" style="width: 100%; height: 70%" id="aprv">
                                     </div>
-
-
-
                                 </div>
                                 <div>
                                     <h1 style="position: static;">참조자</h1>
-                                    <div class="column" style="width: 100%" id="reader">
+                                    <div class="column" style="width: 100%; height: 70%;border: 2px"  id="reader">
                                     </div>
-
-
                                 </div>
-
-
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal" onclick="saveMembers();">저장</button>
@@ -295,12 +259,10 @@
 </div>
 </div>
 <!-- /.content-wrapper -->
-
 <script>
     //태그선택하게하기
     function tagSelect() {
         var x = document.getElementById("tagSelect").value;
-
         if (x === "option1") {
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
@@ -362,9 +324,9 @@
         }
     }
 </script>
-
 <script>
     //ajax통신
+    //modal창 
     $('input[type=radio][name=group4]').change(function() {
         $.ajax({
             url: '${path}/docu/checkDept',
@@ -373,7 +335,6 @@
                 DEP_CODE: this.id
             },
             success: function(data) {
-
                 var html = '';
                 for (var i = 0; i < data.length; i++) {
                     html += '<div class="column">'
@@ -394,7 +355,6 @@
                     /*  html += '<p>' + data[i].EMP_LV + ' ' + data[i].EMP_NAME + '</p>'; */
                 }
                 document.getElementById("dep-container").innerHTML = html;
-
             }
         });
     });
@@ -408,11 +368,10 @@
         });
     });
 </script>
-
-
 <script>
     //드래그앤드롭
     //sorttable
+    var myNo ="${user.empNo}";
     const columns = document.querySelectorAll(".column");
     columns.forEach((column) => {
         new Sortable(column, {
@@ -427,24 +386,33 @@
             onAdd: function(evt) {
                 const item = evt.item; // 드롭한 항목
                 const empNo = item.querySelector('input[type="hidden"]').value; // 드롭한 항목의 empNo 값
+
+                // myNo인 아이템이 원하지 않는 위치에 드롭된 경우
+                if (empNo === myNo) {
+                    alert("기안자는 이동할 수 없습니다.");
+                    // 드롭한 아이템을 원래 위치로 되돌림
+                    evt.item.oldParent.insertBefore(item, evt.item.oldParent.children[evt.item.oldIndex]);
+                    return;
+                }
+
                 const aprvItems = document.getElementById('aprv').children; // 결재자 div의 모든 항목
                 const readerItems = document.getElementById('reader').children; // 참조자 div의 모든 항목
-
-                for (const items of [aprvItems, readerItems]) {
-                    for (let i = 0; i < items.length; i++) {
-                        if (items[i] !== item && items[i].querySelector('input[type="hidden"]').value === empNo) {
-                            alert("중복된 요소가 있습니다.");
-
-                            // 중복이 발견되었을 때 항목을 원래 위치로 돌려놓습니다.
-                            evt.from.insertBefore(item, evt.from.children[item.oldIndex]);
-                            return;
-                        }
+                let allItems = Array.from(aprvItems).concat(Array.from(readerItems));
+                for (let i = 0; i < allItems.length; i++) {
+                    if (allItems[i] !== item && allItems[i].querySelector('input[type="hidden"]').value === empNo) {
+                        alert("중복된 요소가 있습니다.");
+                        // 중복이 발견되었을 때 항목을 원래 위치로 돌려놓습니다.
+                        evt.item.oldParent.insertBefore(item, evt.item.oldParent.children[evt.item.oldIndex]);
+                        return;
                     }
                 }
             },
         });
-    });
+    });     
 </script>
+
+
+
 
 <script>
     const saveMembers = () => {
@@ -452,12 +420,16 @@
         const readItems = document.getElementById('reader').children;
         let aprvempInfo = [];
         let readerempInfo = [];
+         aprvempInfo.push({
+            empName: "${user.empName}",
+            empLv: "${user.empLv}",
+            empNo: "${user.empNo}"
+        }) 
 
         for (let i = 0; i < aprvItems.length; i++) {
             let pTag = aprvItems[i].querySelector("p.text-dark.hover-primary.mb-1.fs-16");
             let spanTag = aprvItems[i].querySelector("span.text-mute");
             let inputTag = aprvItems[i].querySelector("input.empNo");
-
             if (pTag && spanTag && inputTag) {
                 aprvempInfo.push({
                     empName: pTag.innerHTML,
@@ -470,7 +442,6 @@
             let pTag = readItems[i].querySelector("p.text-dark.hover-primary.mb-1.fs-16");
             let spanTag = readItems[i].querySelector("span.text-mute");
             let inputTag = readItems[i].querySelector("input.empNo");
-
             if (pTag && spanTag && inputTag) {
                 readerempInfo.push({
                     empName: pTag.innerHTML,
@@ -479,14 +450,10 @@
                 });
             }
         }
-
         console.log(aprvempInfo);
         console.log(readerempInfo);
-
-        document.getElementById('name').innerHTML = `<td>${user.empName}</td>`;
-        document.getElementById('empty').innerHTML = '';
-        document.getElementById('emplv').innerHTML = `<td>${user.empLv}</td>`;
-
+        
+        
         // 테이블에 새로운 내용 추가
         for (let i = 0; i < aprvempInfo.length; i++) {
 		    var row = document.getElementById('name');
@@ -504,19 +471,17 @@
             var rowEmpty = document.getElementById('empty');
             var cellEmpty = document.createElement('td');
             rowEmpty.appendChild(cellEmpty);
-
             var rowEmpLv = document.getElementById('emplv');
             var cellEmpLv = document.createElement('td');
             cellEmpLv.innerText = aprvempInfo[i].empLv;
             rowEmpLv.appendChild(cellEmpLv);
         }
-
         var text = " ";
         for (let i = 0; i < readerempInfo.length; i++) {
             text += readerempInfo[i].empLv
             text += " ";
             text += readerempInfo[i].empName
-            text += "님 ";
+            text += "님, ";
             
             
             
@@ -524,7 +489,6 @@
         document.getElementById('taget-reader').innerHTML = text;
         
         var singleTag = document.getElementById('singleTag'); 
-
         for(let i=0; i<readerempInfo.length; i++){
             var infoEmp = document.createElement('input');
             infoEmp.setAttribute('type', 'hidden');
@@ -533,28 +497,30 @@
             
             singleTag.appendChild(infoEmp);
         }
-
     };
 </script>
 <script>
 $('#submitAll').click(function(e) {
     e.preventDefault();
-
-    /* var data1 = $('#form1').serialize();
-    var data2 = $('#form2').serialize(); */
-
     $.ajax({
         type: 'POST',
         url: '${path}/docu/submit',
         data: $('#form1').serialize(),
         dataType:"json",
-        success: function() {
-            
-          	location.leload();
+        success: function(response) {
+            // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
+            if(response=='12')
+            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            window.location.href = '${path}/docu/lists/a';
         },
-        error:function(){
-        	alert('망했습니다!!');
+        error:function(error){
+            // AJAX 요청이 실패하면 실행될 콜백 함수
+            console.error(error); // 발생한 에러를 콘솔에 출력
+            alert('망했다')
+            
         }
     });
 });
+
 </script>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

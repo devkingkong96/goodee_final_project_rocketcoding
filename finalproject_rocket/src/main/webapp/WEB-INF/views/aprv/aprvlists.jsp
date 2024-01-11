@@ -25,15 +25,16 @@
 	         </tr>
 	         <c:if test="${not empty lists }">
 	         <c:forEach var="l" items="${lists }">
-	         <tr>
-	         	<td><c:out value="${l.DOC_NO }"/></td>
-	         	<td><c:out value="${l.DOC_TITLE }"/></td>
-	         	<td><c:out value="${l.DOC_STATCD }"/></td>
-	         	<td><c:out value="${l.START_DATE }"/></td>
-	         	<td><c:out value="${l.EMP_NO }"/></td>
-	         	<td><c:out value="${l.DOC_TAG }"/></td>
-	         </tr>
-	         </c:forEach>
+				<tr style="cursor: pointer;" onclick="window.location.href='${path}/docu/aprv/' + ${l.DOC_NO}">
+				    <td><c:out value="${l.DOC_NO }"/></td>
+				    <td><c:out value="${l.DOC_TITLE }"/></td>
+				    <td><c:out value="${l.DOC_STATCD }"/></td>
+				    <td><c:out value="${l.START_DATE }"/></td>
+				    <td><c:out value="${l.EMP_NO }"/></td>
+				    <td><c:out value="${l.DOC_TAG }"/></td>
+				</tr>
+				</c:forEach>
+
 	         </c:if>
          </tbody>	
          </table>

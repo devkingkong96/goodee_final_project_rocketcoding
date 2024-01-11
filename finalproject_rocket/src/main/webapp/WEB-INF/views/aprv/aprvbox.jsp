@@ -25,7 +25,7 @@
 	         </tr>
 	         <c:if test="${not empty lists }">
 	         <c:forEach var="l" items="${lists }">
-	         <tr>
+	         	<tr style="cursor: pointer;" onclick="window.location.href='${path}/docu/aprv/' + ${l.DOC_NO}">
 	         	<td><c:out value="${l.DOC_NO }"/></td>
 	         	<td><c:out value="${l.DOC_TITLE }"/></td>
 	         	<td><c:out value="${l.EMP_NO }"/></td>

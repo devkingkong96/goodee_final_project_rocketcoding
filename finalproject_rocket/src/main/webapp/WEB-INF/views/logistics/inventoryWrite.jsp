@@ -350,7 +350,7 @@
         var second = ('0' + now.getSeconds()).slice(-2);
         return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     }
-    
+
 
     $(document).ready(function () {
         // alert("ready");
@@ -566,7 +566,7 @@
                 empInfo.forEach(emp => {
                     option = document.createElement('option');
                     option.value = emp.EMP_NO; // 예: 직원 ID
-                    option.textContent = emp.EMP_NAME; // 예: 직원 이름
+                    option.textContent = '[' + emp.DEP_NAME + '] [' + emp.EMP_LV + '] ' + emp.EMP_NAME // 예: 직원 이름
                     selectElement.appendChild(option);
                 });
 
@@ -905,7 +905,7 @@
                                                     </select>--%>
                                     <div class="row">
 
-                                        <div class="col-lg-2 col-5" style="margin:5px; margin-top:20px" ;><label
+                                        <div class="col-lg-2 col-3" style="margin:5px; margin-top:20px" ;><label
                                                 class=" form-label">
                                             <i class="si-organization si" style="margin-right:10px;"></i>거래처</label>
                                             <%--               <select
@@ -913,7 +913,7 @@
                                                                    data-placeholder="Select a State" style="width: 100%;">--%>
                                             <select
                                                     class="chooseBrc form-control select2" name="recieveBrcId"
-                                                    data-placeholder="Select a State" style="width: 100%;">
+                                                    data-placeholder="거래처를 선택하세요" style="width: 100%;">
                                                 <option></option>
                                                 <c:forEach var="entry" items="${branchList }">
 
@@ -922,18 +922,38 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
+                                        <%--                                        ${empListByemployeeId }--%>
 
-                                        <div class="col-lg-2 col-5" style="margin:5px; margin-top:20px;">
+
+                                        <div class="col-lg-2 col-3" style="margin:5px; margin-top:20px;">
                                             <label class="form-label"><i class="si-user si"></i>
                                                 거래처 측 담당자</label>
                                             <%--    <select
-                                                        class="form-control select2" name="sendEmpId" multiple="multiple"
+                                                        class="form-control select2" name="recieveEmpId" multiple="multiple"
                                                         data-placeholder="Select a State" style="width: 100%;">--%>
-                                            <select class="chooseRecieveEmp form-control select2" name="sendEmpId"
+                                            <select class="chooseRecieveEmp form-control select2" name="recieveEmpId"
                                                     data-placeholder="지점을 선택하세요" style="width: 100%;">
                                             </select>
                                         </div>
                                     </div>
+
+                                    <%--   <div class="col-lg-4 col-5" style="margin:5px; margin-top:20px" ;><label
+                                               class=" form-label">
+                                           <i class="si-organization si" style="margin-right:10px;"></i>결재자 선택</label>
+                                           &lt;%&ndash;               <select
+                                                                  class="form-control select2" name="recieveBrcId" multiple="multiple"
+                                                                  data-placeholder="Select a State" style="width: 100%;">&ndash;%&gt;
+                                           <select
+                                                   class="form-control select2" name="aprvEmp" multiple="multiple"
+                                                   data-placeholder="Select a State" style="width: 100%;">
+                                               <option></option>
+                                               <c:forEach var="entry" items="${empListByemployeeId }">
+                                                   <option value="${entry.EMP_NO}">
+                                                       [${entry.DEP_NAME}] [${entry.EMP_LV}] ${entry.EMP_NAME}</option>
+                                               </c:forEach>
+                                           </select>
+                                       </div>--%>
+
                                     <%--				<div class="dropzone" id="myDropzone">
                                                         <div class="fallback">
                                                             <input name="file" type="file" multiple/>
@@ -1006,7 +1026,8 @@
                                             <input type="hidden" id="ivIsdel" name="ivIsdel" value="N">
                                             <input type="hidden" id="sendBrcId" name="sendBrcId" value="1">
                                             <!-- 받는 담당 직원도 넣어주면 좋은데 아직은 필요없는 느낌 -->
-                                            <input type="hidden" id="docNo" name="docNo" value="1">
+                                            <!-- TODO docNo는 지금 안보낼거임-->
+                                            <%--                                            <input type="hidden" id="docNo" name="docNo" value="null">--%>
                                             <button type="submit" class="btn btn-primary submitinventory">
                                                 <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
                                             </button>
@@ -1079,9 +1100,9 @@
                                             <select class="chooseBook form-control select2"
                                                     data-placeholder="도서를 선택하세요" style="width: 100%;">
                                                 <option></option>
-                                                <c:forEach var="entry" items="${prdTitleToIdMap }">
-                                                    <c:if test="${entry.key != null}">
-                                                        <option value="${entry.value}">${entry.key}</option>
+                                                <c:forEach var="entry" items="${selectAllProduct }">
+                                                    <c:if test="${entry.PRD_ID != null}">
+                                                        <option value="${entry.PRD_ID}">${entry.PRD_TITLE}</option>
                                                     </c:if>
                                                 </c:forEach>
                                             </select>
@@ -1222,11 +1243,10 @@
                                     alert('요청 기한을 입력해주세요.');
                                     return; // 함수 실행을 중단합니다.
                                 }
-                                if (!document.querySelector('select[name="sendEmpId"]').value) {
+                                if (!document.querySelector('select[name="recieveEmpId"]').value) {
                                     alert('거래처와 직원을 선택해 주세요');
                                     return; // 함수 실행을 중단합니다.
                                 }
-
 
                                 function getAllRowData() {
                                     var table = $('#example1').DataTable();
@@ -1574,14 +1594,14 @@
 
                                     }).then(response => {
                                         if (response.ok) {
-                                            return response.text(); // 응답이 성공적일 때 텍스트 추출
+                                            return response.message(); // 응답이 성공적일 때 텍스트 추출
                                         } else {
                                             throw new Error('Request failed'); // 응답이 실패할 경우 에러 처리
                                         }
                                     })
-                                        .then(text => {
-                                            alert(text); // "입고 등록 성공" 또는 오류 메시지를 alert 창에 표시
-                                        })
+                                        /*                                    .then(text => {
+                                                                                alert(text); // "입고 등록 성공" 또는 오류 메시지를 alert 창에 표시
+                                                                            })*/
                                         .catch(error => {
                                             console.error(error);
                                             alert('Error: ' + error.message); // 오류 발생 시 alert 창에 표시
@@ -1617,21 +1637,25 @@
                                         contentType: false,
                                     }).then(response => {
                                         if (response.ok) {
-                                            return response.text(); // 응답이 성공적일 때 텍스트 추출
+                                            return response.json(); // JSON 응답을 파싱
+                                            // return response.message(); // 응답이 성공적일 때 텍스트 추출
                                         } else {
                                             throw new Error('Request failed'); // 응답이 실패할 경우 에러 처리
                                         }
                                     })
-                                        .then(text => {
-                                            alert(text); // "입고 등록 성공" 또는 오류 메시지를 alert 창에 표시
+                                        .then(data => {
+                                            if (data.status.toString() === "success") {
+                                                alert(data.message); // "입고 등록 성공" 메시지를 표시
+                                            } else {
+                                                alert('입고 등록 실패'); // "입고 등록 실패" 메시지를 표시
+                                            }
                                         })
                                         .catch(error => {
                                             console.error(error);
-                                            alert('Error: ' + error.message); // 오류 발생 시 alert 창에 표시
+                                            alert('Error: ' + error.message); // 오류 발생 시 에러 메시지를 표시
                                         });
                                 }
                             }
-
 
                             /*
                                                         $('#insertinventory').on('submit', function (e) {

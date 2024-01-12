@@ -115,8 +115,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
     <div class="container-full">
         <!-- Main content -->
         <section class="content">
-
-
+            
             <!-- 모달 -->
             <div class="col-lg-4 col-12">
                 <div class="box">
@@ -346,8 +345,6 @@ ${path}";
 
 
                                 ],
-
-
                                 /*    "ordering": [[0, 'desc']],*/
                                 // 수정 불가능한 행 설정
                                 createdRow: function (row, data, dataIndex) {
@@ -358,13 +355,11 @@ ${path}";
                                 "buttons": [{
                                     extend: 'colvis',
                                     text: '일부 컬럼 보기'
-
                                 }, {
                                     extend: 'colvisRestore',
                                     text: '컬럼 복원'
 
                                 }, {
-
                                     extend: 'copy',
 
                                     /*            exportData: {decodeEntities: true}, */

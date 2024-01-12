@@ -1,18 +1,17 @@
 package com.rocket.seoj.logistics.model.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rocket.seoj.logistics.model.dto.Inventory;
 import com.rocket.seoj.logistics.model.dto.InventoryAttach;
 import com.rocket.seoj.logistics.model.dto.PrdInventory;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Brief description of functions
@@ -119,7 +118,35 @@ public class InventoryDao {
         return session.selectList("branch.branchempinfo", branchId);
     }
 
+    public List<Map<String, Object>> getEmpListByemployeeId(SqlSession session, long branchId) {
+        return session.selectList("inventory.employeeListInBranch", branchId);
+    }
 
+    public List<Map<String, Object>> selectAllProduct(SqlSession session) {
+        return session.selectList("product.selectAllProduct");
+    }
+
+    /*    public ArrayList<Map<String, Object>> getInventoryInfoForCreateDocument(SqlSession session,
+                                                                                Map<String, Object> paramMap) {
+            // MyBatis로부터 List<Map<String, Object>> 형태의 결과를 받습니다.
+            List<Map<String, Object>> resultMapList = session.selectList("inventory.getInventoryInfoForCreateDocument",
+                                                                         paramMap);
+
+            // 받은 결과를 ArrayList<Map<String, Object>>으로 변환합니다.
+            ArrayList<Map<String, Object>> resultList = new ArrayList<>(resultMapList);
+
+            return resultList;
+        }*/
+    public ArrayList<Map<String, Object>> getInventoryInfoForCreateDocument(SqlSession session, long ivId) {
+        // MyBatis로부터 List<Map<String, Object>> 형태의 결과를 받습니다.
+        List<Map<String, Object>> resultMapList = session.selectList("inventory.getInventoryInfoForCreateDocument",
+                                                                     ivId);
+
+        // 받은 결과를 ArrayList<Map<String, Object>>으로 변환합니다.
+        ArrayList<Map<String, Object>> resultList = new ArrayList<>(resultMapList);
+
+        return resultList;
+    }
 
     /*
     public List<Integer> insertInventoryAttach(SqlSession session, List<InventoryAttach> fileList) {

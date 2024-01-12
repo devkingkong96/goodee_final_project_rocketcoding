@@ -175,7 +175,9 @@ public class InventoryController {
                                                InventoryFileWrapper invAttach,
                                                Model model,
                                                HttpSession session,
-                                               @ModelAttribute Inventory formData
+                                               @ModelAttribute Inventory formData,
+//                                               @RequestParam("aprvEmp") String aprvEmpList,
+                                               @RequestParam(name = "inventoryInfoForCreateDocument", required = false) ArrayList<Map<String, Object>> inventoryInfoForCreateDocument
 //                                               @RequestParam("formData") Object formData,
     ) {
 
@@ -187,7 +189,7 @@ public class InventoryController {
 
 
 //        log.debug("tableData: " + tableData[0]['prdId']);
-        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ말미ㅏㅇ미ㅏ이마임이ㅏㅁ라");
+//        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ" + aprvEmpList);
         List<PrdInventory> prdInventoryList = convertJsonToPrdInventoryList(prdInventory);
 
         String path = session
@@ -210,8 +212,10 @@ public class InventoryController {
                 .getClass()
                 .getName());
 */
+        formData.setSendEmpId(loginemp.getEmpNo());
         long generatedId = service.insertInventory(formData);
         log.debug("generatedId: " + generatedId);
+
 
         List<InventoryAttach> fileList = new ArrayList<>();
 
@@ -267,11 +271,13 @@ public class InventoryController {
             result2 = service.insertInventoryAttach(fileList);
             log.debug(String.valueOf(result2));
         }
-        for (Integer result : result2) {
-            if (result == 0) {
-                return ResponseEntity
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Map.of("message", "실패 : 파일 추가 실패", "status", "error"));
+        if (result2 != null) {
+            for (Integer result : result2) {
+                if (result == 0) {
+                    return ResponseEntity
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("message", "실패 : 파일 추가 실패", "status", "error"));
+                }
             }
         }
 
@@ -295,7 +301,41 @@ public class InventoryController {
 
 
         if (generatedId > 0) {
-            return ResponseEntity.ok("입고 등록 성공");
+
+            Map<String, Object> paramMap = new HashMap<>();
+//            paramMap.put("docTag", 2);
+            paramMap.put("empNo", loginemp.getEmpNo()); // 첫 번째 파라미터
+
+            //TODO aprvEmpList 넣는 부분
+//            paramMap.put("aprvEmpList", aprvEmpList); // 두 번째 파라미터
+
+//            inventoryInfoForCreateDocument = service.getInventoryInfoForCreateDocument(paramMap);
+            inventoryInfoForCreateDocument = service.getInventoryInfoForCreateDocument(generatedId);
+
+/*            try {
+
+                for (Integer aprvEmp : aprvEmpList) {
+                    Map<String, Object> ListAprvEmp = new HashMap<>();
+                    ListAprvEmp.put("aprvEmp", aprvEmp);
+                    // 다른 필요한 데이터를 inventoryInfo에 추가할 수 있습니다.
+
+
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    // Employee 객체를 Map<String, Object>로 변환
+                    Map<String, Object> loginempMap = objectMapper.convertValue(loginemp, Map.class);
+
+                    // inventoryInfo를 inventoryInfoForCreateDocument에 추가
+                    inventoryInfoForCreateDocument.add(ListAprvEmp);
+                    inventoryInfoForCreateDocument.add(loginempMap);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }*/
+
+            return ResponseEntity
+                    .ok()
+                    .body(Map.of("message", "입고 등록 성공", "status", "success", "inventoryInfoForCreateDocument",
+                                 inventoryInfoForCreateDocument));
         } else {
             return ResponseEntity
                     .badRequest()
@@ -325,10 +365,11 @@ public class InventoryController {
                 .getPrincipal();
         model.addAttribute("loginemp", loginemp);
 
-
+        List<Map<String, Object>> empListByemployeeId = service.getEmpListByemployeeId(loginemp.getBranchId());
         List<Map<String, Object>> branchList = service.selectAllBranch();
         System.out.println(branchList.size());
         List<Map<String, Object>> writeInventoryItem = service.selectWriteInventory();
+        List<Map<String, Object>> selectAllProduct = service.selectAllProduct();
 
         Map<Object, Object> prdTitleToIdMap = new HashMap<>(); // PRD_TITLE을 키로, PRD_ID를 값으로 하는 맵
         Set<Object> prdTitles = new HashSet<>(); // 중복 제거를 위한 Set
@@ -339,8 +380,8 @@ public class InventoryController {
             if (title != null && prdTitles.add(title)) {
                 prdTitleToIdMap.put(title, id);
             }
-        }
 
+        }
 
         ObjectMapper prdTitleToJson = new ObjectMapper();
 
@@ -351,9 +392,12 @@ public class InventoryController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+        model.addAttribute("selectAllProduct", selectAllProduct);
+        model.addAttribute("empListByemployeeId", empListByemployeeId);
         model.addAttribute("branchList", branchList);
         model.addAttribute("prdTitleToIdMap", prdTitleToIdMap);
         model.addAttribute("writeInventoryItem", writeInventoryItem);
+
         return "logistics/inventoryWrite";
     }
 

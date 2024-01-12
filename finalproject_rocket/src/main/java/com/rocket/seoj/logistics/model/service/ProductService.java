@@ -50,18 +50,22 @@ public class ProductService {
         return dao.selectAllPublisher(session);
     }
 
+    @Transactional
     public long insertProduct(Product params) {
         return dao.insertProduct(session, params);
     }
 
+    @Transactional
     public List<Integer> insertProductAttach(List<PrdAttach> fileList) {
         return dao.insertProductAttach(session, fileList);
     }
 
+    @Transactional
     public boolean isdelUpdateProduct(Long prdId) {
         return dao.isdelUpdateProduct(session, prdId);
     }
 
+    @Transactional
     public int updateColumn(long id,
                             String columnName,
                             String tableName,

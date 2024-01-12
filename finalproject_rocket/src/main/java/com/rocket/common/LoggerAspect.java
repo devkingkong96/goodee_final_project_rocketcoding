@@ -89,8 +89,49 @@ public class LoggerAspect {
         log.debug("-----------------------------------------------------");
         return obj;
     }
+    @Around("within(com.rocket.pdw..*) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
+    public Object dwTest(ProceedingJoinPoint pj) throws Throwable {
 
 
+        log.debug("================ around before log ================");
+/*        StopWatch watch = new StopWatch();
+        watch.start();*/
+        Signature sig = pj.getSignature();
+
+        log.debug("around before 실행 메소드 : " + sig.getDeclaringTypeName() + "." + sig.getName());
+
+
+        Object[] params = pj.getArgs();
+        if (params != null) {
+            for (Object o : params) {
+
+                log.debug("around before 매개변수 : " + "{}", o);
+
+            }
+        }
+        log.debug("-----------------------------------------------------");
+        Object obj = pj.proceed();
+        log.debug("================ around after log ================");
+
+/*        watch.stop();
+        log.debug("실행 시간 : " + watch.getTotalTimeMillis() + "ms");*/
+        sig = pj.getSignature();
+
+        log.debug("around after 실행 메소드 : " + sig.getDeclaringTypeName() + "." + sig.getName());
+
+
+        params = pj.getArgs();
+        if (params != null) {
+            for (Object o : params) {
+
+                log.debug("around after 실행 매개변수 : " + "{}", o);
+
+            }
+        }
+        log.debug("-----------------------------------------------------");
+        return obj;
+    }
+    
     //AfterThrowing 설정하기
     @AfterThrowing(value = "within(com.rocket.seoj..controller.*)", throwing = "e")
     public void afterThrowingLogger(JoinPoint jp, Throwable e) {

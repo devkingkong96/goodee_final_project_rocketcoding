@@ -197,7 +197,22 @@ public class AprvController {
 		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int no = e.getEmpNo();
 		List<Map<String, Object>> employee = service.selectEmployee(no);
-
+		//참조자 한명 오류 해결할것
+		//=====데이터주삼========
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		m.addAttribute("user", e);
 		m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
 		return "aprv/aprvwrite";
@@ -248,22 +263,44 @@ public class AprvController {
 		HashMap<String, Object> reqAll = getParameterMap(req);	
 		
 		
+		service.updateAprv(reqAll);
 		
-		log.info("===========updateAprv reqAll{}",reqAll);
-		System.out.println(reqAll.get("DOC_NO"));
-		// 결재시 전결재자가 결재를 안했다면 ? -> js에서 comfirm알람띄우기 
-		// 결재시 결재자가 마지막결재자라면 ? -> approval에서   APRV_LV.size aprv_lv != 99;
-		 String str = (String)reqAll.get("DOC_NO");
-		 int docNo= Integer.valueOf(str);
-		 List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		 int noReaderCount=aprvDocu.stream().filter(map-> !map.get("APRV_LV").equals(BigDecimal.valueOf(99))).toList().size();
-		 List<Map<String,Object>>lastAprv = aprvDocu.stream().filter(map-> map.get("APRV_LV").equals(BigDecimal.valueOf(noReaderCount))).toList();
-		 System.out.println("{마지막결재자입니다} : "+lastAprv); 
+		
+		
+		
+//		log.info("===========updateAprv reqAll{}",reqAll);
+//		// 결재시 전결재자가 결재를 안했다면 ? -> js에서 알림띄우기 
+//		// 결재시 결재자가 마지막결재자라면 ? -> 
+//		String str = (String)reqAll.get("DOC_NO");
+//		 int docNo= Integer.valueOf(str);
+//		 List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+//		 int aprvCount=aprvDocu.stream().filter(map-> !map.get("APRV_LV").equals(BigDecimal.valueOf(99))).toList().size();
+//		 List<Map<String,Object>>lastAprv = aprvDocu.stream().filter(map-> map.get("APRV_LV").equals(BigDecimal.valueOf(aprvCount))).toList();
+//		 log.info("{마지막결재자입니다} : "+lastAprv); 
+//		 
+//		 
+//		 BigDecimal empNoBigDecimal = new BigDecimal((String)reqAll.get("EMP_NO"));
+//		 if(empNoBigDecimal.equals(lastAprv.get(0).get("APRV_EMP"))) {
+//			 // update aprv()
+//				/* service.updateAprv(); */
+//			 // update document  
+//		 }else {
+//			// update aprv()
+//		 }
+		 
 		
 		 
 
-
 	}
-	  
+	public void rejectAprv(HttpServletRequest req) {
+		
+		HashMap<String, Object> reqAll = getParameterMap(req);
+		
+		service.rejectAprv(reqAll);
+		
+		
+		
+		
+	}
 
 }

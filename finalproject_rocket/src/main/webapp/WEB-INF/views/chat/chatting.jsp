@@ -94,12 +94,17 @@
 								  	<div class="row" id="startMsg">
 								  <c:if test="${not empty messages }">
 								  <c:forEach var="msg" items="${messages }">
+								  <div class="col-12">
 								  <c:choose>
 								  <c:when test="${msg.MSG_EMP_NO==empinfo.empNo }">
-								  <div class="col-12">
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-info max-w-p80">
+								  </c:when>
+								  <c:otherwise>
+									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
+								  </c:otherwise>
+								  </c:choose>
 										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small"><fmt:formatDate pattern="yy.MM.dd hh:mm" value="${msg.SEND_AT}"/></span>
+											<span class="text-extra-small"><fmt:formatDate value="${msg.SEND_AT }" type="time" timeStyle="short" /> </span>
 										</div>
 										<div class="card-body">
 											<div class="d-flex flex-row pb-2">
@@ -112,39 +117,25 @@
 												</div>
 											</div>
 											<div class="chat-text-start ps-20">
-												<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
+											<c:choose>
+												<c:when test="${not empty msg.MESSAGE }">
+														<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
+												</c:when>
+												<c:when test="${not empty msg.MSG_FI_RENAME && msg.MSG_EMP_NO!=empinfo.empNo}">
+													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile">
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('파일명', '파일경로')"></button>
+												</c:when>
+												<c:otherwise>
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('파일명', '파일경로')"></button>
+													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile">
+												</c:otherwise>
+											</c:choose>
 											</div>
 										</div>
 									  </div>
 								  </div>
-									  </c:when>
-									  <c:otherwise>
-									  	<div class="col-12">
-									  <div class="card d-inline-block mb-3 float-start me-2 no-shadow bg-lighter max-w-p80">
-										<div class="position-absolute pt-1 pe-2 r-0">
-											<span class="text-extra-small text-muted"><fmt:formatDate pattern="yy.MM.dd hh:mm" value="${msg.SEND_AT}"/></span>
-										</div>
-										<div class="card-body">
-											<div class="d-flex flex-row pb-2">
-												<div class="d-flex flex-grow-1 min-width-zero">
-													<div class="m-2 ps-0 align-self-center d-flex flex-column flex-lg-row justify-content-between">
-														<div class="min-width-zero">
-															<strong><p class="mb-0 fs-16 text-dark"><c:out value="${msg.MSG_EMP_NAME }"/></p></strong>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="chat-text-start ps-20">
-												<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
-											</div>
-										</div>
-									  </div>
-									  </div>
-									  </c:otherwise>
-								  </c:choose>
 								  </c:forEach>
 								  </c:if>
-								  
 								  
 								  </div>
 								  </div>
@@ -176,10 +167,7 @@
                         <div class="box">
                             <div class="box-header">
                             	<div class="row">
-								<div class="col-lg-6 col-6">
-									<span class="fs-20">참석 목록</span>
-								</div>
-								<div class="col-lg-6 col-6">
+									<p class="fs-20">참석 목록</p>
 									<div class="box-controls pull-right mt-2">
 									<div class="box-header-actions">
 									  <div class="lookup lookup-sm lookup-right d-none d-lg-block">
@@ -187,7 +175,6 @@
 									  </div>
 									</div>
 								  </div>
-								</div>
 								</div>
                             </div>
                             <div class="box-body">
@@ -408,7 +395,7 @@
   		  						$img.width = "200";
   		  						$img.height = "200";
   		  						$img.alt = "user";
-  		  						$img.classList.add("chatUpFile");
+  		  						$img.classList.add("chatfile");
   		  						$img.id = "chatfile";
 
   		  						const $button = document.createElement("button");
@@ -419,11 +406,11 @@
   		  						  downloadFile('파일명', '파일경로');
   		  						};
   		  				if(writer===username){
-  		  				$chatTextStart.appendChild($button);
-  		  				$chatTextStart.appendChild($img);
+	  		  				$chatTextStart.appendChild($button);
+	  		  				$chatTextStart.appendChild($img);
   		  				}else{
-  		  				$chatTextStart.appendChild($img);
-  		  				$chatTextStart.appendChild($button);
+	  		  				$chatTextStart.appendChild($img);
+	  		  				$chatTextStart.appendChild($button);
   		  				}
 
   		  				$cardBody.appendChild($chatTextStart);

@@ -7,13 +7,18 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="" />
 </jsp:include>
+<style>
+    .box-footer{
+        text-align: right;
+        }
+</style>
 <div class="content-wrapper">
    <div class="container-full">
       <!-- Main content -->
       <section class="content">
 		   <!-- Main content -->
 			<div class="row">			  
-				<div class="col-lg-6 col-12">
+				<div class="col-lg-12 col-12">
 					<form class="form" action="${path }/board/fboardWrite" method="post" enctype="multipart/form-data">
 					  <div class="box">
 						<div class="box-header with-border">
@@ -44,11 +49,11 @@
 								</div>
 							</div>
 				              <div class="box-footer">
-								<button type="button" class="btn btn-warning me-1">
-								  <i class="ti-trash"></i> 취소
-								</button>
 								<button type="submit" class="btn btn-primary">
 								  <i class="ti-save-alt"></i> 등록
+								</button>
+								<button type="button" class="btn btn-warning me-1">
+								  <i class="ti-trash"></i> 취소
 								</button>
 							</div>  
 		</div>

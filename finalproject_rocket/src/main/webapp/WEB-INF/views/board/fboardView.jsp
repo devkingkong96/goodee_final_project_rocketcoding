@@ -11,31 +11,8 @@
    <div class="container-full">
       <!-- Main content -->
       <section class="content">
-         <form>
-         	<table class="board_view">
-        <caption>상세보기</caption> 
-        <tbody>
-            <tr>
-                <th>제목</th>
-                <td></td>
-                <th>조회수</th>
-                <td></td>
-            </tr>
-            <tr>
-                <th>작성자</th>
-                <td></td>
-                <th>작성시간</th>
-                <td>$</td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td colspan="3">
-                   
-                </td>
-            </tr>
-       	 </tbody>
-       	  </table>
-         </form>
+       		${fboard.fboardContent}
+       		
       </section>
    </div>
 </div>

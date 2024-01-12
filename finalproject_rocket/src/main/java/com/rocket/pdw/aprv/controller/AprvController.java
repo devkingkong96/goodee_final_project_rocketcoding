@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,7 +59,7 @@ public class AprvController {
 	public String w(Model m) {
 
 		List<Map<String, Object>> alist = getAprvListByEmpNo().stream()
-				// 타입이 BigDecimal이다..
+				// 타입이 BigDecimal이다..	
 				// 진행중인문서그리고 참조자가 아니어야함
 				.filter(map -> map.get("DOC_STATCD").equals(BigDecimal.ZERO)
 						&& !map.get("APRV_LV").equals(BigDecimal.valueOf(99)))
@@ -73,9 +74,11 @@ public class AprvController {
 		}).collect(Collectors.toList());
 
 		List<Map<String, Object>> ck = service.ckLvList(ckLvList);
+		
+		
 		List<Map<String, Object>> wlist = ck.stream().filter(map -> map.get("APRV_SQ").equals(BigDecimal.ONE))
 				.collect(Collectors.toList());
-
+		
 		m.addAttribute("lists", wlist);
 		return "aprv/aprvlists";
 	}
@@ -115,7 +118,7 @@ public class AprvController {
 				.collect(Collectors.toList());
 
 		m.addAttribute("lists", elist);
-
+		
 		return "aprv/aprvlists";
 	}
 
@@ -189,11 +192,6 @@ public class AprvController {
 	// ==============================================select list
 	// ==================================================================
 
-	@GetMapping("/aprv")
-	public String aprvDetail() {
-		return "aprv/aprv";
-	}
-
 	@GetMapping("/insertaprv")
 	public String insertAprvView(Model m) {
 		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -212,24 +210,60 @@ public class AprvController {
 		return service.findName(depCode);
 	}
 
-		
+	///작업중!!	
 	@PostMapping("/submit") 
+	@ResponseBody
 	public String submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
 		log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
-		
+		//test중.........................................................
+		log.info("===================================================={}",result);
 		if(result>0) {
-			return "index";
-			
-		}else return "ERROR";
-  
-  
-  
+			return "12";	
+		}
+		else return "34";
 	}
-	 
+	@GetMapping("/aprv/{docNo}")
+	public String aprvDocu(@PathVariable int docNo,Model m) {
+		
+		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		/* log.info("docNo : {} ",docNo); */
+		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		log.info("aprvDocu : {} ",aprvDocu);
+		
+		m.addAttribute("user", e);
+		m.addAttribute("docNo", docNo);
+		m.addAttribute("docu", aprvDocu);
+		return "aprv/aprv";
+	}
+	//updateaprv
+	@PostMapping("/updateaprv")
+	@ResponseBody
+	public void updateAprv(HttpServletRequest req) {
+		
+		
+		HashMap<String, Object> reqAll = getParameterMap(req);	
+		
+		
+		
+		log.info("===========updateAprv reqAll{}",reqAll);
+		System.out.println(reqAll.get("DOC_NO"));
+		// 결재시 전결재자가 결재를 안했다면 ? -> js에서 comfirm알람띄우기 
+		// 결재시 결재자가 마지막결재자라면 ? -> approval에서   APRV_LV.size aprv_lv != 99;
+		 String str = (String)reqAll.get("DOC_NO");
+		 int docNo= Integer.valueOf(str);
+		 List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		 int noReaderCount=aprvDocu.stream().filter(map-> !map.get("APRV_LV").equals(BigDecimal.valueOf(99))).toList().size();
+		 List<Map<String,Object>>lastAprv = aprvDocu.stream().filter(map-> map.get("APRV_LV").equals(BigDecimal.valueOf(noReaderCount))).toList();
+		 System.out.println("{마지막결재자입니다} : "+lastAprv); 
+		
+		 
+
+
+	}
 	  
 
 }

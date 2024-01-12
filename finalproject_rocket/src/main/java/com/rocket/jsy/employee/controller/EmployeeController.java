@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.rocket.jsy.employee.service.EmployeeService;
+import com.rocket.jsy.employee.service.MypageService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EmployeeController {
 	
+	private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 	private final Gson gson;
 	private final EmployeeService service;
+	private final MypageService mypageservice;
 	
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
@@ -39,10 +42,16 @@ public class EmployeeController {
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 	        int empNo = Integer.parseInt(userDetails.getUsername());
 	        Map<String, Object> employee = service.selectEmployeeByNo(empNo);
+	        Map<String, Object> coomute = mypageservice.selectEmployeeByNo(empNo);
+	        log.info("Employee: " + employee.toString());
+	        log.info("Coomute: " + coomute.toString());
 	        model.addAttribute("employee", employee);
+	        model.addAttribute("coomute", coomute);
+
 	    }
 	    return "employee/mypage";
 	}
+	
 	@GetMapping("/employeelist")
 	public String employeelist(Model model) {
 	    List<Map<String, Object>> employees = service.selectEmployeeAll();
@@ -76,6 +85,9 @@ public class EmployeeController {
 	 public String insertEmployee(HttpServletRequest request) {
 		 HashMap<String, Object>map=getParameterMap(request);
 		 log.info("받은 데이터: {}", map);
+		 String pw=(String)map.get("empPw");
+		 pw=encoder.encode(pw);
+		 map.put("empPw", pw);
 		 int result = service.insertEmployee(map);
 		 return result > 0 ? "success" : "fail";
 	 }
@@ -84,8 +96,13 @@ public class EmployeeController {
 	 public String updateEmployee(HttpServletRequest request) {
 	     HashMap<String, Object> updateMap = getParameterMap(request);
 	     log.info("받은 데이터: {}", updateMap);
+	     String pw=(String)updateMap.get("empPw");
+		 pw=encoder.encode(pw);
+		 updateMap.put("empPw", pw);
 	     int result = service.updateEmployee(updateMap);
 	     return result > 0 ? "success" : "fail";
+	     //리턴값 수정....
+	     
 	 }
 	 
 	 

@@ -42,6 +42,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return dao.insertAprvDocu(session,reqAll);
 	}
+	@Override
+	public List<Map<String, Object>> selectAprvDocu(int docNo) {
+		
+		return dao.selectAprvDocu(session,docNo);
+	}
 	
 	
 	

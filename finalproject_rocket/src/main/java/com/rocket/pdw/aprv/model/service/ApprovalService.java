@@ -14,4 +14,6 @@ public interface ApprovalService {
 	List<Map<String,Object>>selectEmployee (int no);
 	
 	int insertAprvDocu(Map<String,Object>reqAll);
+	
+	List<Map<String,Object>>selectAprvDocu(int docNo);
 }

@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%-- <%
+	if(request.getRequestURI().contains("/upload")){
+		out.print("<script> location.href = '/mypage'</script>");
+	}
+
+%>
+ --%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -47,10 +54,9 @@
 							<hr>
 							<div class="row text-center mt-10">
 								<div class="col-md-12"><strong>근태현황</strong>
-									<li>지각 :</li>
-									<li>조퇴 :</li>
-									<li>남은연차 :</li>
-									<li>사용연차 :</li>
+									<li>지각 : ${coomute['지각수']}</li>
+									<li>출근 : ${coomute['출근수']}</li>
+									<li>조퇴 : ${coomute['조퇴수']}</li>
 								</div>
 							</div>
 						</div>
@@ -66,13 +72,13 @@
 			</div>
 			<div class="row justify-content-center mt-4">
 				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary w-100 mb-2">휴가신청</button>
+					<button class="btn btn-primary startholiday w-100 mb-2" type="submit">휴가신청</button>
 				</div>
 				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary w-100 mb-2">출근등록</button>
+					<button type="button" class="btn btn-primary startWorkBtn w-100 mb-2" id="startWork">출근등록</button>
 				</div>
 				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary w-100 mb-2">퇴근등록</button>
+					<button class="btn btn-primary endWorkBtn w-100 mb-2" id="endWork">퇴근등록</button>
 				</div>
 			</div>
 		<!-- /.content -->
@@ -82,22 +88,77 @@
       </section>
    </div>
 </div>
-   <script>
-	     document.addEventListener('DOMContentLoaded', function() {
-	         var calendarEl = $('#mycal1');
-	         var calendar = new FullCalendar.Calendar(calendarEl, {
-	                initialView: 'dayGridMonth',
-	                events: {
-	                    url: '/myPageCalendar',
-	                    method: 'GET',
-	                    failure: function() {
-	                        alert('데이터를 가져오는데 실패하였습니다.');
-	                    },
-	                }
-	            });
-	         calendar.render();
-	       });
-	   </script>
+<script>
+//세션에서 사용자 정보(empNo)를 가져오는 함수
+function getEmpNoFromSession() {
+    return ${loginEmp.empNo};
+}
+
+document.getElementById('startWork').addEventListener('click',function(){
+    var storedDate = localStorage.getItem('startWork');
+    var today = new Date().toISOString().slice(0,10);
+    if(storedDate != today) {
+        sendData('/startWork');
+        localStorage.setItem('startWork', today);
+    } else {
+        alert("오늘은 이미 출근 등록을 하셨습니다.");
+    }
+});
+
+document.getElementById('endWork').addEventListener('click',function(){
+    var storedDate = localStorage.getItem('endWork');
+    var today = new Date().toISOString().slice(0,10);
+    if(storedDate != today) {
+        sendData('/endWork');
+        localStorage.setItem('endWork', today);
+    } else {
+        alert("오늘은 이미 퇴근 등록을 하셨습니다.");
+    }
+});
+
+function sendData(url) {
+    var empNo = getEmpNoFromSession();
+    $.ajax({
+        url:url,
+        type: 'POST',
+        data: {'empNo': empNo },
+        success: function(response) {
+            var message;
+            if(url === "/endWork") {
+                message = response.time + "시 " + response.message2;
+                var userConfirmed = confirm(message);
+                if(userConfirmed) {
+                    location.reload();
+                }
+            } else {
+                message = response.time + "시 " + response.message;
+                alert(message);
+            }
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
+};
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = $('#mycal1');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+               initialView: 'dayGridMonth',
+               events: {
+                   url: '/myPageCalendar',
+                   method: 'GET',
+                   failure: function() {
+                       alert('데이터를 가져오는데 실패하였습니다.');
+                   },
+               }
+           });
+        calendar.render();
+      });
+</script>
   <!--  function getFormatTime(date){
    var hh=date.getHours();
    hh = hh >= 10 ? hh : '0' +hh;

@@ -334,12 +334,12 @@ public class InventoryController {
 
             return ResponseEntity
                     .ok()
-                    .body(Map.of("message", "입고 등록 성공", "status", "success", "inventoryInfoForCreateDocument",
+                    .body(Map.of("message", "등록 성공", "status", "success", "inventoryInfoForCreateDocument",
                                  inventoryInfoForCreateDocument));
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body("입고 등록 실패");
+                    .body("등록 실패");
         }
 //        return ResponseEntity.ok(tableData);
     }

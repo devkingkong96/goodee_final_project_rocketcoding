@@ -23,7 +23,7 @@
 %>
 <%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param name="title" value="재고 현황 조회"/>
+    <jsp:param name="title" value="지점별 재고 현황"/>
 </jsp:include>
 <script type="text/javascript"
         src="${path }/resources/assets/vendor_components/moment/moment.js"></script>
@@ -196,14 +196,14 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
             <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h5 class="page-title">재고 현황 검색</h5>
+                        <h5 class="page-title">지점별 재고 현황 </h5>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
                                     <li class="breadcrumb-item" aria-current="page">재고 관리</li>
-                                    <li class="breadcrumb-item active" aria-current="page">재고 현황 검색
+                                    <li class="breadcrumb-item active" aria-current="page">지점별 재고 현황
                                     </li>
                                 </ol>
                             </nav>
@@ -211,7 +211,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                     </div>
                 </div>
             </div>
-
+            ${daybyStockList}
             <div class="row">
                 <%--               <div class="col-lg-12 col-12">
                                    <div class=" connectedSortable">
@@ -989,6 +989,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
                             ${jsonMap}';
                             var prdTitleToIdMap = JSON.parse(prdTitleToIdMapString);
 
@@ -1107,6 +1108,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
                                                             var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option>
+
 
 
 
@@ -1370,6 +1372,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
                             ${entry.value}">
 
 
@@ -1502,7 +1505,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
                             ${entry.key}</option>
+
 
 
 
@@ -2610,9 +2615,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                         <div class="box-header">
 
 
-                            <h4 class="box-title"><strong>재고 현황 검색</strong>
+                            <h4 class="box-title"><strong>지점별 재고 현황</strong>
                             </h4>
-                            <h6 class="subtitle">재고 현황 내역을 파일로 활용하세요</h6>
+                            <h6 class="subtitle">지점별 재고 현황 내역을 파일로 활용하세요</h6>
                         </div>
 
 

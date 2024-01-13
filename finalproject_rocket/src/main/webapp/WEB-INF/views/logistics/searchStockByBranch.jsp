@@ -539,63 +539,63 @@
         <!-- Main content -->
         <section class="content">
 
-            <!-- 모달 -->
-            <div class="col-lg-4 col-12">
-                <div class="box">
-                    <div class="box-body">
-                        <h4 class="box-title d-block">Large modal</h4>
-                        <button type="button" class="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
-                            Large modal
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col -->
+            <%--            <!-- 모달 -->
+                        <div class="col-lg-4 col-12">
+                            <div class="box">
+                                <div class="box-body">
+                                    <h4 class="box-title d-block">Large modal</h4>
+                                    <button type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
+                                        Large modal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
 
-            <div class="modal fade bs-example-modal-lg" tabindex="-1"
-                 role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-                 style="display: none;">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h4>Overflowing text to show scroll behavior</h4>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl
-                                consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-                                faucibus dolor auctor.</p>
-                            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
-                                commodo cursus magna, vel scelerisque nisl consectetur et. Donec
-                                sed odio dui. Donec ullamcorper nulla non metus auctor
-                                fringilla.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger text-start"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
+                        <div class="modal fade bs-example-modal-lg" tabindex="-1"
+                             role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                             style="display: none;">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Overflowing text to show scroll behavior</h4>
+                                        <p>Praesent commodo cursus magna, vel scelerisque nisl
+                                            consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
+                                            faucibus dolor auctor.</p>
+                                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
+                                            commodo cursus magna, vel scelerisque nisl consectetur et. Donec
+                                            sed odio dui. Donec ullamcorper nulla non metus auctor
+                                            fringilla.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger text-start"
+                                                data-bs-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>--%>
 
             <!-- Content Header (Page header) -->
             <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h4 class="page-title">재고현황 검색</h4>
+                        <h4 class="page-title">지점별 재고 현황 검색</h4>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#"> <i
+                                    <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
                                     <li class="breadcrumb-item" aria-current="page">물류 관리</li>
-                                    <li class="breadcrumb-item active" aria-current="page">재고 현황 검색
+                                    <li class="breadcrumb-item active" aria-current="page">지점별 재고 현황 검색
                                     </li>
                                 </ol>
                             </nav>
@@ -607,11 +607,12 @@
                 <div class="col-lg-6 col-12">
                     <div class=" connectedSortable">
                         <form name="searchdaybystock" id="searchdaybystock" method="get"
-                              action="${path}/logistics/stock/daybystock"
+                              action="${path}/logistics/stock/branchby"
                         <%-- method="post"--%> >
                             <div class="box">
                                 <div class="box-header with-border">
-                                    <h4 class="box-title"><%--<i class="ti-agenda"></i>--%><strong> 재고 현황 검색</strong>
+                                    <h4 class="box-title"><%--<i class="ti-agenda"></i>--%><strong> 지점별 재고 현황
+                                        검색</strong>
                                     </h4>
 
                                     <h6 class="subtitle">검색 기준 항목을 선택 하세요</h6>
@@ -640,7 +641,20 @@
                                             <label for="ivType_Option_2">출고</label>
                                         </div>--%>
 
-
+                                    <div class="col-6
+                                        " style="margin-bottom: 20px;">
+                                        <div class="col-12" style="margin-bottom: 5px;">
+                                            <label class="form-label" style="margin:5px;">
+                                                <i class="si-note si"></i>
+                                                타입</label>
+                                        </div>
+                                        <input name="tableType" type="radio" id="ivType_Option_1" checked value="branch"
+                                               class="with-gap radio-col-primary">
+                                        <label for="ivType_Option_1">종(지점 기준)</label>
+                                        <input name="tableType" type="radio" id="ivType_Option_2" value="product"
+                                               class="with-gap radio-col-primary">
+                                        <label for="ivType_Option_2">횡(도서명 기준)</label>
+                                    </div>
                                     <div class="col-lg-5 col-12">
                                         <label class="form-label" style="margin:5px;"
                                                for="stkDate"><i
@@ -671,7 +685,8 @@
                                                                   </div>--%>
 
                                     <%--                                    <div class="row">--%>
-
+                                    <input type="hidden" name="branchId" value=""/>
+                                    <input type="hidden" name="prdId" value=""/>
                                     <div class="col-lg-5 col-12" style="margin:5px; margin-top:20px" ;><label
                                             class=" form-label">
                                         <i class="si-organization si" style="margin-right:10px;"></i>지점</label>
@@ -680,7 +695,7 @@
                                                                data-placeholder="Select a State" style="width: 100%;">--%>
                                         <select
                                                 class="chooseBrc form-control select2" name="branchId"
-                                                data-placeholder="지점" style="width: 100%;">
+                                                data-placeholder="지점" style="width: 100%;" multiple="multiple">
                                             <option></option>
                                             <c:forEach var="entry" items="${branchList }">
 
@@ -698,7 +713,7 @@
                                                     class="form-control select2" name="recieveEmpId" multiple="multiple"
                                                     data-placeholder="Select a State" style="width: 100%;">--%>
                                         <select class="chooseRecieveEmp form-control select2" name="prdId"
-                                                data-placeholder="품목" style="width: 100%;">
+                                                data-placeholder="품목" style="width: 100%;" multiple="multiple">
                                             <option></option>
                                             <c:forEach var="entry" items="${productList }">
 
@@ -1242,7 +1257,31 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
                                 ${path}/logistics/stock/daybystock?
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1291,6 +1330,18 @@
                             })*/
                                 /*} else {
                                     fetch("
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

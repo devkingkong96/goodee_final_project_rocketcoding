@@ -31,7 +31,7 @@
 
 <div class="wrapper">
     <div id="loader"></div>
-	
+
     <header class="main-header">
         <!-- 로고 만들면 추가 -->
         <div class="d-flex align-items-center logo-box justify-content-start d-md-none d-block">
@@ -235,6 +235,8 @@
                     <!-- sidebar menu-->
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">메뉴 리스트</li>
+
+                        <%--         <%=request.getRequestURI()%>--%>
                         <li>
                             <a href="contact_userlist_grid.html">
                                 <i class="icon-Add-user"><span class="path1"></span><span class="path2"></span></i>
@@ -253,23 +255,87 @@
                                 <span>조직도</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="ecommerce_products.html">
+
+                        <!-- 물류 메뉴-->
+                        <li class="treeview">
+                            <a href="#">
                                 <i class="icon-Box3"><span class="path1"></span><span class="path2"></span></i>
-                                <span>재고관리</span>
+                                <span>물류 관리</span>
+                                <span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+
+
+                                <%--              <a href="${path}/logistics/inventory/write"><i class="icon-Commit"><span
+                                                        class="path1"></span><span class="path2"></span></i>입/출고 등록</a>--%>
+
+
                             </a>
+                            <ul class="treeview-menu">
+
+                                <li class='<%= request.getRequestURI().contains("/logistics/product") ? "active" : "" %>'>
+                                    <a href="${path}/logistics/product/list"><i class="icon-Commit"><span
+                                            class="path1"></span><span
+                                            class="path2"></span></i>상품 관리</a></li>
+                                <li class='<%= request.getRequestURI().contains("/logistics/publisher") ? "active" : "" %>'>
+                                    <a href="${path}/logistics/publisher/list"><i class="icon-Commit"><span
+                                            class="path1"></span><span
+                                            class="path2"></span></i>출판사 관리</a></li>
+
+
+                                <li class="treeview <%= request.getRequestURI().contains("/logistics/inventory") ? "active" : "" %>">
+                                    <a href="#">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>입/출고 관리
+                                        <span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+
+                                        <li class='<%= request.getRequestURI().contains("inventoryWrite") ? "active" : "" %>'>
+                                            <a href="${path}/logistics/inventory/write"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>입/출고 등록</a></li>
+                                        <li class='<%= request.getRequestURI().contains("inventoryList") ? "active" : "" %>'>
+                                            <a href="${path}/logistics/inventory/list"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>입/출고 내역</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>재고 관리
+                                        <span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class='<%= request.getRequestURI().contains("searchStockbyDay") || request.getRequestURI().contains("daybyStockPage") ? "active" : "" %>'>
+                                            <a href="${path}/logistics/stock/searchbyday"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>재고 현황 검색</a>
+                                        </li>
+                                        <li class='<%= request.getRequestURI().contains("searchStockByBranch") ? "active" : "" %>'>
+                                            <a href="${path}/logistics/stock/searchbybranch"><i
+                                                    class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>지점별 재고 현황 검색</a>
+                                        </li>
+                                        <li><a href="contact_app.html"><i class="icon-Commit"><span
+                                                class="path1"></span><span class="path2"></span></i>재고 수불부 검색</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
                         </li>
+                        <!-- 물류 메뉴 끝-->
+
                         <li>
-                            <a href="ecommerce_products.html">
-                                <i class="fa fa-cubes"><span class="path1"></span><span class="path2"></span></i>
-                                <span>재고관리</span>
+                            <a href="${pageContext.request.contextPath}/board/fboardlist.do">
+                                <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                                <span>게시판</span>
                             </a>
-                        </li>
-                        <li>
-                           <a href="${pageContext.request.contextPath}/board/fboardlist.do">
-      						 <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
-       						 <span>게시판</span>
-    						</a>
                         </li>
                         <li>
                             <a href="${path }/chat/list">
@@ -277,13 +343,8 @@
                                 <span>채팅</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="{path }/logistics/inventory">
-                                <i class="icon-Layout-4-blocks"><span class="path1"></span><span
-                                        class="path2"></span></i>
-                                <span>seoj</span>
-                            </a>
-                        </li>
+
+
                     </ul>
                     <div class="sidebar-widgets">
                         <div class="copyright text-center m-25">

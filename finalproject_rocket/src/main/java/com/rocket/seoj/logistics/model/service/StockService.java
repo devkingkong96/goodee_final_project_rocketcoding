@@ -38,4 +38,12 @@ public class StockService {
     public List<Map<String, Object>> selectDaybyStock(HashMap<String, Object> params) {
         return dao.selectDaybyStock(session, params);
     }
+
+    public List<Map<String, Object>> selectStockByBranch(HashMap<String, Object> params) {
+        return dao.selectStockByBranch(session, params);
+    }
+
+    public List<Map<String, Object>> selectStockByProduct(HashMap<String, Object> params) {
+        return dao.selectStockByProduct(session, params);
+    }
 }

@@ -33,4 +33,8 @@ public class StockDao {
     public List<Map<String, Object>> selectStockByBranch(SqlSession session, HashMap<String, Object> params) {
         return session.selectList("stock.selectStockByBranch", params);
     }
+
+    public List<Map<String, Object>> selectStockByProduct(SqlSession session, HashMap<String, Object> params) {
+        return session.selectList("stock.selectDaybyStock", params);
+    }
 }

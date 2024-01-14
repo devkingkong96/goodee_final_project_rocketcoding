@@ -607,7 +607,7 @@
                 <div class="col-lg-6 col-12">
                     <div class=" connectedSortable">
                         <form name="searchdaybystock" id="searchdaybystock" method="get"
-                              action="${path}/logistics/stock/branchby"
+                              action="${path}/logistics/stock/branchbyheigt"
                         <%-- method="post"--%> >
                             <div class="box">
                                 <div class="box-header with-border">
@@ -648,12 +648,13 @@
                                                 <i class="si-note si"></i>
                                                 타입</label>
                                         </div>
-                                        <input name="tableType" type="radio" id="ivType_Option_1" checked value="branch"
+                                        <input name="tableType" type="radio" id="ivType_Option_1" checked
+                                               value="product"
                                                class="with-gap radio-col-primary">
-                                        <label for="ivType_Option_1">종(지점 기준)</label>
-                                        <input name="tableType" type="radio" id="ivType_Option_2" value="product"
+                                        <label for="ivType_Option_1">종(도서명 기준)</label>
+                                        <input name="tableType" type="radio" id="ivType_Option_2" value="branch"
                                                class="with-gap radio-col-primary">
-                                        <label for="ivType_Option_2">횡(도서명 기준)</label>
+                                        <label for="ivType_Option_2">횡(지점 기준)</label>
                                     </div>
                                     <div class="col-lg-5 col-12">
                                         <label class="form-label" style="margin:5px;"
@@ -722,6 +723,43 @@
                                             </c:forEach>
                                         </select>
                                     </div>
+                                    <script>
+                                        $(document).ready(function () {
+
+
+                                            // 폼 제출 이벤트 핸들러
+                                            document.getElementById("searchdaybystock").addEventListener("submit", function () {
+                                                var branchSelect = document.querySelector('.chooseBrc');
+                                                var prdSelect = document.querySelector('.chooseRecieveEmp');
+
+                                                // 지점 선택 필드에서 선택된 값이 있는 경우 숨겨진 필드를 비활성화
+                                                if (branchSelect.value) {
+                                                    document.querySelector('input[name="branchId"]').disabled = true;
+                                                }
+
+                                                // 품목 선택 필드에서 선택된 값이 있는 경우 숨겨진 필드를 비활성화
+                                                if (prdSelect.value) {
+                                                    document.querySelector('input[name="prdId"]').disabled = true;
+                                                }
+                                            });
+
+
+                                            $('#searchdaybystock').submit(function () {
+                                                if (!$('.chooseBrc').val()) {
+                                                    $('<input>').attr({
+                                                        type: 'hidden',
+                                                        name: 'branchId',
+                                                        value: ''
+                                                    }).appendTo('#searchdaybystock');
+                                                    $('<input>').attr({
+                                                        type: 'hidden',
+                                                        name: 'prdId',
+                                                        value: ''
+                                                    }).appendTo('#searchdaybystock');
+                                                }
+                                            });
+                                        });
+                                    </script>
                                     <%--                                    </div>--%>
 
                                     <%--   <div class="col-lg-4 col-5" style="margin:5px; margin-top:20px" ;><label
@@ -828,6 +866,32 @@
                         </form>
 
                         <script>
+
+
+                            document.addEventListener("DOMContentLoaded", function () {
+                                // 페이지가 로드될 때 실행할 코드
+
+                                // 라디오 버튼 요소 가져오기
+                                var radioButtons = document.querySelectorAll('input[name="tableType"]');
+
+                                // 폼 요소 가져오기
+                                var form = document.getElementById('searchdaybystock');
+
+                                // 라디오 버튼에 이벤트 리스너 추가
+                                radioButtons.forEach(function (radioButton) {
+                                    radioButton.addEventListener("change", function () {
+                                        var selectedType = document.querySelector('input[name="tableType"]:checked').value;
+
+                                        if (selectedType === 'branch') {
+                                            form.action = "${path}/logistics/stock/branchby";
+                                        } else if (selectedType === 'product') {
+                                            form.action = "${path}/logistics/stock/branchbyheigt";
+                                        }
+                                    });
+                                });
+                            });
+
+
                             /*                 $('#insertinventory').on('submit', function (e) {
                                                  e.preventDefault(); // 기본 submit 동작 방지
 
@@ -1269,7 +1333,21 @@
 
 
 
+
+
+
+
+
+
+
                                 ${path}/logistics/stock/daybystock?
+
+
+
+
+
+
+
 
 
 
@@ -1330,6 +1408,13 @@
                             })*/
                                 /*} else {
                                     fetch("
+
+
+
+
+
+
+
 
 
 

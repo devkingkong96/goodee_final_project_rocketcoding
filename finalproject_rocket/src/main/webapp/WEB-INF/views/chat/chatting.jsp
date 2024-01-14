@@ -70,9 +70,9 @@
 									<div class="d-lg-flex d-block justify-content-between align-items-center w-p100">
 										<div class="media-body mb-lg-0 mb-20">
 											<p class="fs-16">
-											  <a class="hover-primary" href="#"><strong><c:out value="${room.chatRoomName }"/></strong></a>
+											  <a class="hover-primary" href="#"><strong><c:out value="${room.CHATROOM_NAME }"/></strong></a>
 											</p>
-											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.empCount }"/></p>
+											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.EMP_COUNT }"/></p>
 										</div>
 										<div>
 											<ul class="box-controls pull-right">
@@ -81,7 +81,7 @@
 												<div class="dropdown-menu dropdown-menu-end">
 												  <a class="dropdown-item" id="dropchatinvite"><i class="mdi mdi-account-plus"></i>초대하기</a>
 												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="${path }/chat/list"><i class="mdi mdi-close-box-outline"></i>방 나가기</a>
+												  <a class="dropdown-item" onclick="leaveRoom()"><i class="mdi mdi-close-box-outline"></i>방 나가기</a>
 												</div>
 											  </li>
 											</ul>
@@ -122,12 +122,12 @@
 														<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
 												</c:when>
 												<c:when test="${not empty msg.MSG_FI_RENAME && msg.MSG_EMP_NO!=empinfo.empNo}">
-													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile">
-													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('파일명', '파일경로')"></button>
+													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
 												</c:when>
 												<c:otherwise>
-													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('파일명', '파일경로')"></button>
-													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile">
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
+													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
 												</c:otherwise>
 											</c:choose>
 											</div>
@@ -193,10 +193,6 @@
                                                     </p>
                                                     <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/></p>
                                                   </div>
-                                                  
-                                                  	<input type="checkbox" id="${e.EMP_NO }" class="filled-in chk-col-primary" name="empCheck" value="${e.EMP_NO}"/>
-													<label for="${e.EMP_NO }"> </label>
-                                                  
                                                 </div>
                                                 </c:forEach>
                                                 </c:if>
@@ -235,9 +231,11 @@
   			/* var time=today.toLocaleString(); */
   			/* console.log(time); */
   	
-  			var roomId='${room.chatRoomNo }';
+  			var roomId='${room.CHATROOM_NO }';
   			var username='${empinfo.empName }';
   			var userno='${empinfo.empNo }';
+  			
+  			console.log("로그인한 직원 번호 : "+userno);
   			
   			var sockJS=new SockJS("/ws/chat");
   			var stomp=Stomp.over(sockJS);
@@ -271,11 +269,16 @@
   				console.log(chat.sendAt);
   				
   				//작성자,메시지 내용,발신 시간 값 가져오기
-  				var writer=chat.msgEmpName;
+  				var writer=chat.msgEmpNo;
+  				var writerName=chat.msgEmpName;
   				var message=chat.message;
   				var sendAt=chat.sendAt;
   				var type=chat.type;
+  				var msgFiOriName=chat.msgFiOriName;
   				var msgFiReName=chat.msgFiReName;
+  				
+  				console.log("보낸 사람 : "+writer);
+  				console.log("로그인한 사람 : "+userno);
   				
   				const $div = document.createElement("div");
 					  $div.classList.add("col-12");
@@ -284,7 +287,7 @@
   				
 				const $card = document.createElement("div");
   				//채팅 작성자가 본인이라면
-  				if(writer===username){
+  				if(writer==userno){
 					$card.classList.add("card", "d-inline-block", "mb-3", "float-end", "me-2", "bg-info", "max-w-p80");
   				}else{
   					$card.classList.add("card", "d-inline-block", "mb-3", "float-start", "me-2", "no-shadow", "bg-lighter", "max-w-p80");
@@ -318,7 +321,7 @@
   				const $strong = document.createElement("strong");
   				const $p = document.createElement("p");
   				$p.classList.add("mb-0", "fs-16");
-  				$p.textContent = writer;
+  				$p.textContent = writerName;
 
   				$strong.appendChild($p);
   				$minWidthZero.appendChild($strong);
@@ -344,7 +347,7 @@
 
   						const $card = document.createElement("div");
   		  				//채팅 작성자가 본인이라면
-  		  				if(writer===username){
+  		  				if(writer==userno){
   							$card.classList.add("card", "d-inline-block", "mb-3", "float-end", "me-2", "bg-info", "max-w-p80");
   		  				}else{
   		  					$card.classList.add("card", "d-inline-block", "mb-3", "float-start", "me-2", "no-shadow", "bg-lighter", "max-w-p80");
@@ -389,23 +392,23 @@
 
   		  				const $chatTextStart = document.createElement("div");
   		  				$chatTextStart.classList.add("chat-text-start", "ps-20");
-
+						//이미지 생성
   		  				const $img = document.createElement("img");
   		  						$img.src = `${path}/resources/upload/chatfile/`+msgFiReName;
   		  						$img.width = "200";
   		  						$img.height = "200";
   		  						$img.alt = "user";
-  		  						$img.classList.add("chatfile");
-  		  						$img.id = "chatfile";
-
-  		  						const $button = document.createElement("button");
+  		  						/* $img.classList.add("chatfile");
+  		  						$img.id = "chatfile"; */
+						//버튼 생성
+  		  				const $button = document.createElement("button");
   		  						$button.classList.add("btn", "fa", "fa-download");
   		  						$button.id = "downBtn";
   		  						$button.name = "downBtn";
   		  						$button.onclick = function() {
-  		  						  downloadFile('파일명', '파일경로');
+  		  						  downloadFile(''+msgFiOriName+'', ''+msgFiReName+'');
   		  						};
-  		  				if(writer===username){
+  		  				if(writer==userno){
 	  		  				$chatTextStart.appendChild($button);
 	  		  				$chatTextStart.appendChild($img);
   		  				}else{
@@ -561,7 +564,27 @@
 			}
   			
   			//파일 다운로드
-  			
+  			function downloadFile(ori,re){
+  				var data={
+  						msgFiOriName:ori,
+  						msgFiReName:re
+  				}
+  				console.log(data);
+  				$.ajax({
+  					url:'${path}/chat/file/download',
+  					type:'POST',
+  					data:JSON.stringify(data),
+  					dataType:"json",
+  					contentType:"application/json",
+  					success:function(res){
+  						console.log(res);
+  						console.log('다운로드 성공');
+  					},
+  					error:function(error){
+  						alert("에러메시지 : "+error);
+  					}
+  				});
+  			}
   			
 	  		//채팅방에서 초대하기 창 띄우기
 	  		document.getElementById('dropchatinvite').addEventListener('click',function(){
@@ -569,6 +592,32 @@
 	  	        window.open("", "_blank", windowFeatures);
 	  		});
   			
+	  		//방 나가기
+	  		function leaveRoom(){
+	  			if(confirm('방을 정말 나가겠습니까?')){
+	  				console.log('방 나감');
+	  				console.log(roomId);
+	  				console.log(userno);
+	  				var data={
+	  						roomId:roomId,
+	  						userNo:userno
+	  				}
+	  				$.ajax({
+	  					url:'${path}/chat/room/'+roomId,
+	  					type:'PUT',
+	  					data:data,
+	  					success:function(res){
+	  						window.location.replace('${path}/chat/list');
+	  					},
+	  					error:function(error){
+	  						alert(error);
+	  					}
+	  				});
+	  			}else{
+	  				return;
+	  			}
+	  		}
+	  		
   	</script>
 
 

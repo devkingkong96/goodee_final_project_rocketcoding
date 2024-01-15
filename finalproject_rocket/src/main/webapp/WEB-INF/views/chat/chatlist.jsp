@@ -25,7 +25,7 @@
 								<span class="fs-20">채팅방 목록</span>
 							</div>
 							<div class="col-lg-6 col-6 ">
-								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">채팅방 삭제</button>
+								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">방 나가기</button>
 							</div>
 						</div>
 						<div class="col-lg-12 col-12">
@@ -163,8 +163,29 @@
   </div>
 </form>
   <!-- /.modal -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+
+var sockJS=new SockJS("/ws/list");
+var stomp=Stomp.over(sockJS);
+
+//Stomp 연결 시 실행
+stomp.connect({},onConnected,onError);
+
+//연결 성공했을 때 실행하는 함수
+function onConnected(){
+	console.log("stomp 연결 성공");
+	
+	//subscribe(path,callback)으로 메세지 받기 가능
+
+}
+function onError(){
+	console.log("에러");
+}
+
+
 	//채팅방 생성
 	document.getElementById('createBtn').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('empCheck');
@@ -197,9 +218,11 @@
 			url:"${path}/chat/room",
 			data:$("#Roomfrm").serialize(),
 			dataType:"json",
-			success:function(){
-				alert("채팅방 생성 성공");
-				location.reload();
+			success:function(res){
+				if(res==='success'){
+					alert("채팅방 생성 성공");
+					location.reload();
+				}
 			},
 			error:function(){
 				alert("채팅방 생성 실패");
@@ -207,7 +230,7 @@
 			}
 		});
 	});
-	//채팅방 삭제
+	//채팅방 나가기
 	document.getElementById('chatRoomDelete').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('roomCheck');
 		var checked = false;
@@ -224,18 +247,17 @@
 		  return;
 		}
 		
-		if(confirm("채팅방을 삭제하시겠습니까?(복구 불가)")){
+		if(confirm("채팅방을 나가시겠습니까?")){
 			$.ajax({
 				type:"DELETE",
 				url:"${path}/chat/room",
 				data:$("#Roomfrm").serialize(),
-				dataType:"json",
 				success:function(){
-					alert("채팅방 삭제 성공");
+					alert("방 나가기 성공");
 					location.reload();
 				},
 				error:function(){
-					alert("채팅방 삭제 실패");
+					alert("방 나가기 실패");
 					location.reload();
 				}
 			});
@@ -243,6 +265,7 @@
 			return
 		}
 	});
+	
 	
 	
 </script>

@@ -18,5 +18,6 @@ public class ChatRoom {
 	private int empCount;
 	private Date createdAt;
 	private String chatRoomName;
+	private String chDelChck;
 	
 }

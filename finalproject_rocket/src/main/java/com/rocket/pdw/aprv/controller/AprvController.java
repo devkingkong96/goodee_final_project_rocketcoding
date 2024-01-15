@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,7 +60,7 @@ public class AprvController {
 	public String w(Model m) {
 
 		List<Map<String, Object>> alist = getAprvListByEmpNo().stream()
-				// 타입이 BigDecimal이다..
+				// 타입이 BigDecimal이다..	
 				// 진행중인문서그리고 참조자가 아니어야함
 				.filter(map -> map.get("DOC_STATCD").equals(BigDecimal.ZERO)
 						&& !map.get("APRV_LV").equals(BigDecimal.valueOf(99)))
@@ -73,9 +75,11 @@ public class AprvController {
 		}).collect(Collectors.toList());
 
 		List<Map<String, Object>> ck = service.ckLvList(ckLvList);
+		
+		
 		List<Map<String, Object>> wlist = ck.stream().filter(map -> map.get("APRV_SQ").equals(BigDecimal.ONE))
 				.collect(Collectors.toList());
-
+		
 		m.addAttribute("lists", wlist);
 		return "aprv/aprvlists";
 	}
@@ -115,7 +119,7 @@ public class AprvController {
 				.collect(Collectors.toList());
 
 		m.addAttribute("lists", elist);
-
+		
 		return "aprv/aprvlists";
 	}
 
@@ -189,17 +193,27 @@ public class AprvController {
 	// ==============================================select list
 	// ==================================================================
 
-	@GetMapping("/aprv")
-	public String aprvDetail() {
-		return "aprv/aprv";
-	}
-
 	@GetMapping("/insertaprv")
 	public String insertAprvView(Model m) {
 		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int no = e.getEmpNo();
 		List<Map<String, Object>> employee = service.selectEmployee(no);
-
+		//참조자 한명 오류 해결할것
+		//=====데이터주삼========
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		m.addAttribute("user", e);
 		m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
 		return "aprv/aprvwrite";
@@ -212,24 +226,77 @@ public class AprvController {
 		return service.findName(depCode);
 	}
 
-		
+	///작업중!!	
 	@PostMapping("/submit") 
+	@ResponseBody
 	public String submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
-		log.info("reqAll{}",reqAll);
+		//log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
-		
+		//test중.........................................................
+		log.info("===================================================={}",result);
 		if(result>0) {
-			return "index";
-			
-		}else return "ERROR";
-  
-  
-  
+			return "12";	
+		}
+		else return "34";
 	}
-	 
-	  
+	@GetMapping("/aprv/{docNo}")
+	public String aprvDocu(@PathVariable int docNo,Model m) {
+		
+		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		/* log.info("docNo : {} ",docNo); */
+		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		//log.info("aprvDocu : {} ",aprvDocu);
+		
+		m.addAttribute("user", e);
+		m.addAttribute("docNo", docNo);
+		m.addAttribute("docu", aprvDocu);
+		return "aprv/aprv";
+	}
+	//updateaprv
+	@PostMapping("/updateaprv")
+	@ResponseBody
+	public ResponseEntity<?> updateAprv(HttpServletRequest req) {
+		
+		
+		HashMap<String, Object> reqAll = getParameterMap(req);	
+		
+		
+		int result = service.updateAprv(reqAll);
+		
+		log.info("======================reqAll{}",reqAll);
+		
+		reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
+			
+		if (result > 0) {
+			return ResponseEntity.ok().body("결재 성공");
+
+		} else {
+			return ResponseEntity.ok().body("결재 실패");
+
+		}
+
+
+	}
+	@PostMapping("/rejectAprv")
+	@ResponseBody
+	public ResponseEntity<?> rejectAprv(HttpServletRequest req) {
+		
+		HashMap<String, Object> reqAll = getParameterMap(req);
+		
+		int result = service.rejectAprv(reqAll);
+		
+		if (result > 0) {
+			return ResponseEntity.ok().body("반려 성공");
+
+		} else {
+			return ResponseEntity.ok().body("반려 실패");
+
+		}
+		
+		
+	}
 
 }

@@ -1,5 +1,6 @@
 package com.rocket.pdw.aprv.model.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +43,14 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	
 		return session.selectList("approval.selectEmployee", no);
 	}
-
+	//document, approval insert
 	@Override
 	@Transactional
 	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
 	    
+		
+		try {
+		
 		int docu = session.insert("approval.insertDocu", reqAll);
 		 
 	    
@@ -89,13 +93,70 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			  	aprv.put("APRV_LV", 99);
 			  	aprv.put("APRV_EMP", aprvSQArrays[i]);
 			  	session.insert("approval.insertAprv", aprv);
-		}
+		  }
+		  return 1; 
 		  
+		}catch(Exception e) {
+				e.printStackTrace();
+		  return 0;
+		}		
+	}
 
-	   
-	   return 1; 
-	    
-	    
+	@Override
+	public List<Map<String, Object>> selectAprvDocu(SqlSession session, int docNo) {
+		
+		return session.selectList("approval.selectAprvDocu",docNo);
+	}
+
+	@Override
+	@Transactional
+	public int updateAprv(SqlSession session, Map<String, Object> reqAll) {
+	    log.info("===========updateAprv reqAll{}", reqAll);
+
+	    String str = (String)reqAll.get("DOC_NO");
+	    int docNo = Integer.valueOf(str);
+	    List<Map<String, Object>> aprvDocu = selectAprvDocu(session, docNo);
+	    int aprvCount = aprvDocu.stream()
+	                            .filter(map -> !map.get("APRV_LV").equals(BigDecimal.valueOf(99)))
+	                            .toList()
+	                            .size();
+	    List<Map<String, Object>> lastAprv = aprvDocu.stream()
+	                                                  .filter(map -> map.get("APRV_LV").equals(BigDecimal.valueOf(aprvCount)))
+	                                                  .toList();
+	    log.info("{마지막결재자입니다} : " + lastAprv);
+
+	    BigDecimal empNoBigDecimal = new BigDecimal((String)reqAll.get("EMP_NO"));
+	    if(empNoBigDecimal.equals(lastAprv.get(0).get("APRV_EMP"))) {
+	        int updateCount1 = session.update("approval.updateAprv", reqAll);
+	        int updateCount2 = session.update("approval.updateDocu", reqAll);
+	        
+	        if (updateCount1 > 0 && updateCount2 > 0) {
+	            // 두 업데이트가 모두 성공적으로 수행되었다면 1을 반환
+	            return 1;
+	        } else {
+	            // 하나라도 실패했다면, 실패한 업데이트의 반환 값을 반환
+	            return 0;
+	        }
+	    } else {
+	        // 마지막 결재자가 아닐 경우, updateAprv만 수행하고 결과 반환
+	        return session.update("approval.updateAprv", reqAll);
+	    }
+	}
+
+
+	@Override
+	@Transactional
+	public int rejectAprv(SqlSession session, Map<String, Object> reqAll) {
+		int updateCount1 = session.update("approval.rejectAprv", reqAll);
+        int updateCount2 = session.update("approval.rejectDocu", reqAll);
+        if (updateCount1 > 0 && updateCount2 > 0) {
+            // 두 업데이트가 모두 성공적으로 수행되었다면 1을 반환
+            return 1;
+        } else {
+            // 하나라도 실패했다면, 실패한 업데이트의 반환 값을 반환
+            return 0;
+            
+        }
 	}
 
 	

@@ -16,5 +16,5 @@ public class EmpChat {
 	private int emChEmpNo; //직원테이블 fk값
 	private int emChRoomNo;//채팅방 fk값
 	private String chBookMark;//북마크 Y/N
-	private String chatRoomName;//채팅방 이름
+	private String emChDelChck;//삭제여부
 }

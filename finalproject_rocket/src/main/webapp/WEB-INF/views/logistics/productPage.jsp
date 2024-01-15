@@ -134,63 +134,63 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
         <!-- Main content -->
         <section class="content">
 
-            <!-- 모달 -->
-            <div class="col-lg-4 col-12">
-                <div class="box">
-                    <div class="box-body">
-                        <h4 class="box-title d-block">Large modal</h4>
-                        <button type="button" class="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
-                            Large modal
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col -->
+            <%--            <!-- 모달 -->
+                        <div class="col-lg-4 col-12">
+                            <div class="box">
+                                <div class="box-body">
+                                    <h4 class="box-title d-block">Large modal</h4>
+                                    <button type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
+                                        Large modal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
 
-            <div class="modal fade bs-example-modal-lg" tabindex="-1"
-                 role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-                 style="display: none;">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h4>Overflowing text to show scroll behavior</h4>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl
-                                consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-                                faucibus dolor auctor.</p>
-                            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
-                                commodo cursus magna, vel scelerisque nisl consectetur et. Donec
-                                sed odio dui. Donec ullamcorper nulla non metus auctor
-                                fringilla.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger text-start"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
+                        <div class="modal fade bs-example-modal-lg" tabindex="-1"
+                             role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                             style="display: none;">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Overflowing text to show scroll behavior</h4>
+                                        <p>Praesent commodo cursus magna, vel scelerisque nisl
+                                            consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
+                                            faucibus dolor auctor.</p>
+                                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
+                                            commodo cursus magna, vel scelerisque nisl consectetur et. Donec
+                                            sed odio dui. Donec ullamcorper nulla non metus auctor
+                                            fringilla.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger text-start"
+                                                data-bs-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>--%>
 
             <!-- Content Header (Page header) -->
             <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h5 class="page-title">책 목록</h5>
+                        <h5 class="page-title">도서 목록</h5>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#"> <i
+                                    <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
-                                    <li class="breadcrumb-item" aria-current="page">책 목록</li>
-                                    <li class="breadcrumb-item active" aria-current="page">책
+                                    <li class="breadcrumb-item" aria-current="page">도서 목록</li>
+                                    <li class="breadcrumb-item active" aria-current="page">도서
                                         목록 관리
                                     </li>
                                 </ol>
@@ -1587,6 +1587,10 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
+
+
+
                                     ${path}/logistics/inventory/list/delete" method="post" style="display: none;"> <input type="hidden" name="pub_id" id="deleteId"> </form> <button type="button" onclick="confirmDeletion(this,' + selectKey + ')" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제 </button>']);*/
 
                                     var pubName;
@@ -1712,6 +1716,10 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
+
+
+
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
@@ -1737,6 +1745,10 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             } else {
                                 fetch("
+
+
+
+
 
 
 
@@ -1775,7 +1787,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                         <div class="box-header">
 
 
-                            <h4 class="box-title"><strong>책 목록</strong>
+                            <h4 class="box-title"><strong>도서 목록</strong>
                             </h4>
                             <h6 class="subtitle">수정할 row를 선택하세요</h6>
                         </div>

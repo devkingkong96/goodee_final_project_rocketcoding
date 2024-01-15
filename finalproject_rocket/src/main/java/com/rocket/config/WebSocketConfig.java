@@ -20,6 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 		// 웹소켓 session을 Httpsession으로 인터셉터
 //		registry.addEndpoint("/ws/chat").setAllowedOrigins("*").withSockJS(); //.withSockJs(); ->연결될 엔드포인트
 		registry.addEndpoint("/ws/chat").setAllowedOrigins("http://localhost:8080").withSockJS(); //Sockjs는 보안이슈로 와일드카드를 허용 X
+//		registry.addEndpoint("/ws/list").setAllowedOrigins("http://localhost:8080").withSockJS();
 	}
 	
 	@Override

@@ -86,6 +86,23 @@ public class LoginController {
 		return "index";
 	}
 	
+//	@RequestMapping("/")
+//	public String index(Model model,HttpSession session) {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//	    if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+//	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//	        int empNo = Integer.parseInt(userDetails.getUsername());
+//	        Map<String, Object> employee = Empservice.selectEmployeeByNo(empNo);
+//	        Map<String, Object> coomute = mypageservice.selectEmployeeByNo(empNo);
+//	        log.info("Employee: " + employee.toString());
+//	        log.info("Coomute: " + coomute.toString());
+//	        model.addAttribute("employee", employee);
+//	        model.addAttribute("coomute", coomute);
+//
+//	    }
+//	    return "employee/mypage";
+//	}
+	
 	@RequestMapping("/chatting")
 	public String test() {
 		

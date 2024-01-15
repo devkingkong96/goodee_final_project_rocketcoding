@@ -34,6 +34,8 @@ public class ChatService {
 	public List<Map<String, Object>>selectRoomAll(){
 		return dao.selectRoomAll(session);
 	}
-	
-	
+	//채팅방 직원 목록 가져오기
+	public List<Map<String, Object>>selectEmployeeInRoom(int roomNo){
+		return dao.selectEmployeeInRoom(session,roomNo);
+	}
 }

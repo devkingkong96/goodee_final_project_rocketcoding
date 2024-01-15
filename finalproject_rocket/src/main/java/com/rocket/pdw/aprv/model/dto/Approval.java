@@ -25,5 +25,5 @@ public class Approval {
 	private int docNo;
 	private Date aprvDate;
 	
-	private int empNo;
+	private int aprvEmp;
 }

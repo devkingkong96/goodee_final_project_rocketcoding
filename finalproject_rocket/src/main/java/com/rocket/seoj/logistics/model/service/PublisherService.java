@@ -41,16 +41,18 @@ public class PublisherService {
 
     }
 
+
     @Transactional
     public List<Map<String, Object>> selectAllPublisher() {
         return dao.selectAllPublisher(session);
     }
 
-
+    @Transactional
     public boolean isdelUpdatePublisher(Long pubId) {
         return dao.isdelUpdatePublisher(session, pubId);
     }
 
+    @Transactional
     public long insertPublisher(HashMap<String, Object> params) {
         return dao.insertPublisher(session, params);
     }

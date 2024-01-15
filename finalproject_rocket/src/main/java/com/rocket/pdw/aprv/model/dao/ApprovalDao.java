@@ -12,4 +12,7 @@ public interface ApprovalDao {
 	List<Map<String,Object>> findName(SqlSession session,Integer depCode);
 	List<Map<String,Object>> selectEmployee(SqlSession session, int no);
 	int insertAprvDocu(SqlSession session,Map<String, Object> reqAll);
+	List<Map<String,Object>>selectAprvDocu(SqlSession session,int docNo);
+	int updateAprv(SqlSession session,Map<String,Object>reqAll);
+	int rejectAprv(SqlSession session,Map<String,Object>reqAll);
 }

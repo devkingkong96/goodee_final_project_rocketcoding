@@ -32,17 +32,18 @@ public class ChatRoomService {
 	//채팅방,채팅참여 중간 테이블 생성
 	@Transactional
 	public String createChatRoomAll(HashMap<String, Object>req) {
-		String roomName=(String)req.get("roomName");
-		log.info("방 이름 {}",roomName);
-		//채팅방 생성
-		dao.createChatRoom(session,roomName);
-		
-		//채팅방 생성자의 중간 테이블 생성
-		String logempNoStr=(String)req.get("logempNo");
-		int logempNo=Integer.parseInt(logempNoStr);
-		log.info("로그인한 회원 번호{}",logempNo);
-		dao.createEmpChat(session, logempNo);
-		
+		if(req.get("roomName")!=null) {
+			String roomName=(String)req.get("roomName");
+			log.info("방 이름 {}",roomName);
+			//채팅방 생성
+			dao.createChatRoom(session,roomName);
+			
+			//채팅방 생성자의 중간 테이블 생성
+			String logempNoStr=(String)req.get("logempNo");
+			int logempNo=Integer.parseInt(logempNoStr);
+			log.info("로그인한 회원 번호{}",logempNo);
+			dao.createEmpChat(session, logempNo);
+		}
 		//초대된 회원마다 채팅참여 중간 테이블 생성
 		if(req.get("empCheck")!=null) {
 			//1:1 개인방
@@ -58,6 +59,29 @@ public class ChatRoomService {
 				}
 			}
 		}
+		//채팅방에서 회원 초대(중간 테이블 생성)
+		if(req.get("plustempCheck")!=null) {
+			Map<String, Object>param=new HashMap<>();
+			//개인 초대
+			if(req.get("plustempCheck") instanceof String) {
+				int empNo=Integer.parseInt((String)req.get("plustempCheck"));
+				int roomId=Integer.parseInt((String)req.get("roomId"));
+				param.put("empNo", empNo);
+				param.put("roomId",roomId);
+				dao.plusEmpChat(session,param);
+			//여러명 초대
+			}else if(req.get("plustempCheck") instanceof String[]) {
+				String [] employees=(String[])req.get("plustempCheck");
+				for(String e:employees) {
+					int empNo=Integer.parseInt(e);
+					int roomId=Integer.parseInt((String)req.get("roomId"));
+					param.put("empNo", empNo);
+					param.put("roomId",roomId);
+					dao.plusEmpChat(session,param);
+				}
+			}
+		}
+		
 		return "success";
 	}
 	//채팅방,채팅 참여 중간테이블,채팅메시지 삭제
@@ -85,7 +109,7 @@ public class ChatRoomService {
 //	}
 	//채팅방 나가기(숨기기) ->채팅 목록에서
 	@Transactional
-	public String hiderooms(HashMap<String, Object>req) {
+	public String deleteEmpChatRooms(HashMap<String, Object>req) {
 		Map<String, Object>param=new HashMap<>();
 		if(req.get("roomCheck")!=null) {
 			//방 한개만 나가기
@@ -94,7 +118,7 @@ public class ChatRoomService {
 				int empNo=Integer.parseInt((String)req.get("logempNo"));
 				param.put("roomId", roomId);
 				param.put("empNo", empNo);
-				dao.hiderooms(session,param);
+				dao.deleteEmpChatRoomById(session,param);
 			//여러방 나가기
 			}else if(req.get("roomCheck") instanceof String[]) {
 				String [] rooms=(String[])req.get("roomCheck");
@@ -103,15 +127,15 @@ public class ChatRoomService {
 					int empNo=Integer.parseInt((String)req.get("logempNo"));
 					param.put("roomId", roomId);
 					param.put("empNo", empNo);
-					dao.hiderooms(session,param);
+					dao.deleteEmpChatRoomById(session,param);
 				}
 			}
 		}
 		return "success";
 	}
 	//방 나가기(방 숨기기)
-	public int hideRoomById(Map<String, Object>param) {
-		return dao.hideRoomById(session,param);
+	public int deleteEmpChatRoomById(Map<String, Object>param) {
+		return dao.deleteEmpChatRoomById(session,param);
 	}
 	
 }

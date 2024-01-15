@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -189,6 +190,21 @@ public class ChatController {
 		
 		String jsonString=gson.toJson("success");
 		return jsonString;
+	}
+	
+	@GetMapping("/room/modalsearch/{roomId}")
+	@ResponseBody
+	public List<Map<String, Object>>modalSearch(@PathVariable int roomId,String modalsearchValue){
+		log.info("가져온 검색어{}",modalsearchValue);
+		log.info("방 번호{}",roomId);
+		
+		Map<String,Object>param=new HashMap<>();
+		param.put("modalsearchValue", modalsearchValue);
+		param.put("roomId", roomId);
+		List<Map<String, Object>>result=service.modalSearch(param);
+		log.info("방 번호{}",result);
+		
+		return result;
 	}
 	
 }

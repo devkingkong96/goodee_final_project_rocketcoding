@@ -283,10 +283,11 @@
                 </tr>
                 <tr>
                     <td>기간</td>
-                    <td id="startDate">
+                    <td >
+                    <p id="startDate"></p>
                     
                     
-                    
+                    <p id="endDate"></p>
                     </td>
                 </tr>
                 <tr>
@@ -304,6 +305,10 @@
             </tbody>
         </table>`;
         document.getElementById("DOC_TAG").value=1;
+        var startDate = "${startDate}" ;
+    	document.getElementById("startDate").innerHTML = startDate;
+    	var endDate="${endDate}";
+    	document.getElementById("endDate").innerHTML = endDate;
         } else if (x === "option2") {
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
@@ -316,8 +321,8 @@
     }
 </script>
 <script>
-	var startDate = "${startDate}";
-	console.log(startDate);
+	
+
 </script>
 <script>
     //ajax통신

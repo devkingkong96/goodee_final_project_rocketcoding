@@ -119,10 +119,8 @@ $(document).ready(function() {
     });
 
     $('.holymoly').click(function() {
-        var start = CalendarApp2.selectedRange.start;
-        var end = CalendarApp2.selectedRange.end;
-
-        CalendarApp2.onSelect(start, end, false);
+        // form 제출
+        document.querySelector("#holy").submit();
     });
 });
 //세션에서 사용자 정보(empNo)를 가져오는 함수

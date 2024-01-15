@@ -15,13 +15,24 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param name="title" value="마이페이지"/>
 </jsp:include>
+<!-- extract 버튼 가져오기 -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+   <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+   <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+   <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+   <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+   <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+   <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+   <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+   <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
 <div class="content-wrapper">
 	
    <div class="container-full">
       <!-- Main content -->
       <section class="content">
-         <div class="content-wrapper">
-	  <div class="container-full">
 	  		
 			<div class="row">
 				<div class="col-lg-5 col-12">
@@ -72,7 +83,7 @@
 			</div>
 			<div class="row justify-content-center mt-4">
 				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary startholiday w-100 mb-2" type="submit">휴가신청</button>
+					<button class="btn btn-primary holiday plus" data-bs-toggle="modal" data-bs-target="#modal-default">휴가신청</button>
 				</div>
 				<div class="col-lg-3 col-12">
 					<button type="button" class="btn btn-primary startWorkBtn w-100 mb-2" id="startWork">출근등록</button>
@@ -82,39 +93,67 @@
 				</div>
 			</div>
 		<!-- /.content -->
-		<div id="mycal1"></div>
-	  </div>
-  </div>
-      </section>
-   </div>
+		<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="calendarModalLabel">휴가신청</h5>
+            </div>
+            <div class="modal-body">
+                <div id="mycal1"></div>
+            </div>
+            <div class="modal-footer">
+        		<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary holymoly">신청</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+</div>
 </div>
 <script>
+$(document).ready(function() {
+    $('.holiday.plus').click(function() {
+        $('#calendarModal').modal('show');
+    });
+
+    $('.holymoly').click(function() {
+        var start = CalendarApp2.selectedRange.start;
+        var end = CalendarApp2.selectedRange.end;
+
+        CalendarApp2.onSelect(start, end, false);
+    });
+});
 //세션에서 사용자 정보(empNo)를 가져오는 함수
 function getEmpNoFromSession() {
     return ${loginEmp.empNo};
 }
 
 document.getElementById('startWork').addEventListener('click',function(){
-    var storedDate = localStorage.getItem('startWork');
+    var empNo = getEmpNoFromSession();
+    var storedDate = localStorage.getItem('startWork_' + empNo);
     var today = new Date().toISOString().slice(0,10);
     if(storedDate != today) {
         sendData('/startWork');
-        localStorage.setItem('startWork', today);
+        localStorage.setItem('startWork_' + empNo, today);
     } else {
         alert("오늘은 이미 출근 등록을 하셨습니다.");
     }
 });
 
 document.getElementById('endWork').addEventListener('click',function(){
-    var storedDate = localStorage.getItem('endWork');
+    var empNo = getEmpNoFromSession();
+    var storedDate = localStorage.getItem('endWork_' + empNo);
     var today = new Date().toISOString().slice(0,10);
     if(storedDate != today) {
         sendData('/endWork');
-        localStorage.setItem('endWork', today);
+        localStorage.setItem('endWork_' + empNo, today);
     } else {
         alert("오늘은 이미 퇴근 등록을 하셨습니다.");
     }
 });
+
 
 function sendData(url) {
     var empNo = getEmpNoFromSession();
@@ -142,33 +181,4 @@ function sendData(url) {
 };
 
 </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = $('#mycal1');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-               initialView: 'dayGridMonth',
-               events: {
-                   url: '/myPageCalendar',
-                   method: 'GET',
-                   failure: function() {
-                       alert('데이터를 가져오는데 실패하였습니다.');
-                   },
-               }
-           });
-        calendar.render();
-      });
-</script>
-  <!--  function getFormatTime(date){
-   var hh=date.getHours();
-   hh = hh >= 10 ? hh : '0' +hh;
-   var mm =date.getMinutes();
-   mm = mm >= 10 ? mm : '0' +mm;
-   var ss =date.getSeconds();
-   ss = ss >= 10 ? ss : '0' +ss;
-   return hh + ':'+mm + ':'+ ss ;
-   
-}
-var time = getFormatTime(new Date()); -->
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

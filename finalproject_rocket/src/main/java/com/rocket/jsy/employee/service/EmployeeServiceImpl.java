@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +54,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Map<String, Object> selectEmployeeByNo(int EmpNo) {
 		return dao.selectEmployeeByNo(session, EmpNo);
 	}
+	
+	
 	@Override
     @Transactional
     public int updateEmployee(HashMap<String, Object> employee) {
@@ -81,9 +81,5 @@ public class EmployeeServiceImpl implements EmployeeService{
 		}
 	    return result;
 	  }
-	@Override
-    public List<Map<String, Object>> selectEmployeeMyPageCalendar() {
-        return dao.selectEmployeeMyPageCalendar(session);
-    }
-		
+	
 }

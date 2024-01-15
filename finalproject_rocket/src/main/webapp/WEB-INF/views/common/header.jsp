@@ -315,7 +315,7 @@
                                             <a href="${path}/logistics/stock/searchbyday"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>재고 현황 검색</a>
                                         </li>
-                                        <li class='<%= request.getRequestURI().contains("searchStockByBranch") ? "active" : "" %>'>
+                                        <li class='<%= request.getRequestURI().contains("searchStockByBranch")|| request.getRequestURI().contains("widthBranchByStockPage") || request.getRequestURI().contains("heihtBranchByStockPage") ? "active" : "" %>'>
                                             <a href="${path}/logistics/stock/searchbybranch"><i
                                                     class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>지점별 재고 현황 검색</a>

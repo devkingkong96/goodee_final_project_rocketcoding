@@ -122,6 +122,8 @@
                                     </div>
                                     <input type="hidden" name="EMP_NO" value="${user.empNo }">
                                     <input type="hidden" name="DOC_TAG" value="" id="DOC_TAG">
+                                    <input type="hidden" name="START_DATE" value="" id="START_DATE">
+                                    <input type="hidden" name="END_DATE" value="" id="END_DATE">
 
 
                                     <div class="box-header">
@@ -309,6 +311,9 @@
     	document.getElementById("startDate").innerHTML = startDate;
     	var endDate="${endDate}";
     	document.getElementById("endDate").innerHTML = endDate;
+    	
+    	document.getElementById("START_DATE").value=startDate;
+    	document.getElementById("END_DATE").value=endDate;
         } else if (x === "option2") {
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
@@ -319,6 +324,7 @@
             document.getElementById("tagCont").innerHTML = "";
         }
     }
+    
 </script>
 <script>
 	
@@ -506,12 +512,11 @@ $('#submitAll').click(function(e) {
         type: 'POST',
         url: '${path}/docu/submit',
         data: $('#form1').serialize(),
-        dataType:"json",
+        dataType:"text",
         success: function(response) {
             // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
-            if(response=='12')
             console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
-            window.location.href = '${path}/docu/lists/a';
+            window.location.href = '${path}/'+response;
         },
         error:function(error){
             // AJAX 요청이 실패하면 실행될 콜백 함수

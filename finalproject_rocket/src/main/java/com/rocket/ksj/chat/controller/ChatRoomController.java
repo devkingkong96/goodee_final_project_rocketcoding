@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -59,7 +62,9 @@ public class ChatRoomController {
 		//로그인한 직원 정보 가져오기
 		Employee empinfo=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//해당 채팅방의 정보 가져오기
-		ChatRoom room=roomService.selectRoomById(roomId);
+		Map<String, Object> room=roomService.selectRoomById(roomId);
+		//채팅방 참여한 직원 정보 가져오기
+		List<Map<String, Object>>emplist=chatService.selectEmployeeInRoom(roomId);
 		
 //		//해당 채팅방의 채팅내역들 가져오기
 		List<Map<String, Object>>messages=msgService.selectChatMessageByNo(roomId);
@@ -67,26 +72,50 @@ public class ChatRoomController {
 		log.info("직원 정보{}",empinfo);
 		log.info("채팅방 정보{}",room);
 		log.info("채팅내역 정보{}",messages);
+		log.info("채팅방 직원 목록{}",emplist);		
+		
 		
 		m.addAttribute("empinfo",empinfo);
 		m.addAttribute("room",room);
 		m.addAttribute("messages",messages);
+		m.addAttribute("emplist",emplist);
 		
 		return "chat/chatting";
 	}
 	
-	//채팅방 삭제
+	//채팅방 나가기(숨기기) ->채팅 목록에서
 	@DeleteMapping
-	@ResponseBody
-	public String deleteRoom(HttpServletRequest req) {
+	public ResponseEntity<Object> hiderooms(HttpServletRequest req) {
 		log.info("delete 채팅방 테스트{}");
 		HashMap<String, Object>reqAll=getParameterMap(req);
 		log.info("delete 채팅방 테스트{}",reqAll.get("roomCheck"));
 		
-		String result=roomService.deleteRoomAll(reqAll);
-		
-		String jsonString=gson.toJson(result);
-		return jsonString;
+		String result=roomService.hiderooms(reqAll);
+		log.info("result 결과{}",result);
+		if(result.equals("success")) {
+			return ResponseEntity.ok().build();
+		}else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
+	
+	//채팅방 나가기(숨기기) -> 채팅방안에서
+	@RequestMapping(value = "/{roomId}", method = RequestMethod.PUT)
+	public ResponseEntity<Object> hideRoomById(@PathVariable int roomId,int userNo) {
+		log.info("roomId {}",roomId);
+		log.info("userNo {}",userNo);
+		
+		Map<String, Object> param=new HashMap<>();
+		param.put("roomId", roomId);
+		param.put("userNo", userNo);
+		
+		int result=roomService.hideRoomById(param);
+		if(result>0) {
+			return ResponseEntity.ok().build();
+		}else {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
 	
 }

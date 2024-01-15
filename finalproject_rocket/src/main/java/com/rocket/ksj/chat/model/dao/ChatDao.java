@@ -28,6 +28,10 @@ public class ChatDao {
 	public List<Map<String, Object>>selectRoomAll(SqlSession session){
 		return session.selectList("chatroom.selectRoomAll");
 	}
+	//채팅방 직원 목록 가져오기
+	public List<Map<String, Object>>selectEmployeeInRoom(SqlSession session,int roomNo){
+		return session.selectList("chatroom.selectEmployeeInRoom",roomNo);
+	}
 	
 	
 }

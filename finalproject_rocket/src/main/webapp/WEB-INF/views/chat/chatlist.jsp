@@ -25,7 +25,7 @@
 								<span class="fs-20">채팅방 목록</span>
 							</div>
 							<div class="col-lg-6 col-6 ">
-								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">채팅방 삭제</button>
+								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">방 나가기</button>
 							</div>
 						</div>
 						<div class="col-lg-12 col-12">
@@ -230,7 +230,7 @@ function onError(){
 			}
 		});
 	});
-	//채팅방 삭제
+	//채팅방 나가기
 	document.getElementById('chatRoomDelete').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('roomCheck');
 		var checked = false;
@@ -247,18 +247,17 @@ function onError(){
 		  return;
 		}
 		
-		if(confirm("채팅방을 삭제하시겠습니까?(복구 불가)")){
+		if(confirm("채팅방을 나가시겠습니까?")){
 			$.ajax({
 				type:"DELETE",
 				url:"${path}/chat/room",
 				data:$("#Roomfrm").serialize(),
-				dataType:"json",
 				success:function(){
-					alert("채팅방 삭제 성공");
+					alert("방 나가기 성공");
 					location.reload();
 				},
 				error:function(){
-					alert("채팅방 삭제 실패");
+					alert("방 나가기 실패");
 					location.reload();
 				}
 			});

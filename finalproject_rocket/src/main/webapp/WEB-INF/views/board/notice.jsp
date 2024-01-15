@@ -11,43 +11,54 @@
    <div class="container-full">
       <!-- Main content -->
       <section class="content">
-         <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
-    <div class="col-12">
-         <div class="box">
-               <div class="box-header with-border">
-                 <h3 class="box-title">★공지사항★</h3>
-                 <hr color="black" size="7">
-               </div>
-               <!-- /.box-header -->
-               <div class="box-body">
-                   <div class="table-responsive">
-                     <table id="example1" class="table table-bordered table-striped">
-                       <thead>
-                           <tr>
-                               <th>번호</th>
-                               <th>제목</th>
-                               <th>작성자</th>
-                               <th>조회수</th>
-                               <th>작성일</th>
-                             
-                           </tr>
-                       </thead>
-                       <tbody>
-                           <tr>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                           </tr>
-                       </tbody>
-                  
-                     </table>
-                   </div>
-               </div>
-             </div>
-  	</div>
- </body>
+       		<div class="box-body">
+								<h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i>공지사항</h4>
+								<hr class="my-15">
+								<div class="row">
+								  <div class="col-md-6">
+									<div class="form-group">
+									  <label class="form-label">제목</label>
+									  <input type="text" class="form-control" placeholder="제목 ">
+									</div>
+								  </div>								
+								</div>								
+                  <div class="form-group">
+                    <label class="form-label">비밀번호</label>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="ti-lock"></i></span>
+                      <input type="password" class="form-control" placeholder="비밀번호">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">비밀번호 확인</label>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="ti-lock"></i></span>
+                      <input type="password" class="form-control" placeholder="비밀번호 확인">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">웹 주소</label>
+                    <input class="form-control" type="url" placeholder="http://">
+                  </div>
+								<div class="form-group">
+								  <label class="form-label"></label>
+								  <label class="file">
+									<input type="file" id="file">
+								  </label>
+								</div>
+								<div class="form-group">
+								  <label class="form-label">내용</label>
+								  <textarea rows="5" class="form-control" placeholder="작성해볼까요?"></textarea>
+								</div>
+							</div>
+              <div class="box-footer">
+								<button type="button" class="btn btn-warning me-1">
+								  <i class="ti-trash"></i> 취소
+								</button>
+								<button type="submit" class="btn btn-primary">
+								  <i class="ti-save-alt"></i> 등록
+								</button>
+							</div>  
       </section>
    </div>
 </div>

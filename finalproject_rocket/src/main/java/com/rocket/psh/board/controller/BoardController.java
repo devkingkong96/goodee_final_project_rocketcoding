@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +19,12 @@ import com.rocket.psh.board.model.dto.Fboard;
 import com.rocket.psh.board.model.service.FboardService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
 	
 	
@@ -58,20 +61,24 @@ public class BoardController {
 	    }
 
 	    // 게시글 상세 조회 (조회수 증가 포함)
-	    @GetMapping("/fboardView")
-	    public ModelAndView fboardDetail(@RequestParam("fboardNo") int fboardNo) {
+	    
+	    @GetMapping("/fboardView/{fboardNo}")
+	    public ModelAndView fboardDetail(@PathVariable int fboardNo) {
+	    	log.info("보드 번호{}",fboardNo);
+	    	
 	        ModelAndView mv = new ModelAndView("board/fboardView");
 
-	        // 조회수 증가 처리 (중복 조회 방지 로직 포함)
-	        int result=service.increaseViewCount(fboardNo);
+	        
 
 	        // 게시글 상세 정보 조회
 	        Map<String, Object> fboard = service.selectFboardDetail(fboardNo);
 	        mv.addObject("fboard", fboard);
+	        log.info("보드 정보{}",fboard);
 
 	        // 댓글 목록 조회 (댓글 기능이 있다면)
 	        List<Map<String, Object>> comments = service.selectFboardComments(fboardNo);
 	        mv.addObject("comments", comments);
+	        log.info("댓글 정보{}",comments);
 
 	        return mv;
 	    }

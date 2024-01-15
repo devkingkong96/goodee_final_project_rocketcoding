@@ -128,13 +128,14 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	    BigDecimal empNoBigDecimal = new BigDecimal((String)reqAll.get("EMP_NO"));
 	    if(empNoBigDecimal.equals(lastAprv.get(0).get("APRV_EMP"))) {
 	        int updateCount1 = session.update("approval.updateAprv", reqAll);
-	        int updateCount2 = session.update("approval.updatedocu", reqAll);
+	        int updateCount2 = session.update("approval.updateDocu", reqAll);
+	        
 	        if (updateCount1 > 0 && updateCount2 > 0) {
 	            // 두 업데이트가 모두 성공적으로 수행되었다면 1을 반환
 	            return 1;
 	        } else {
 	            // 하나라도 실패했다면, 실패한 업데이트의 반환 값을 반환
-	            return Math.min(updateCount1, updateCount2);
+	            return 0;
 	        }
 	    } else {
 	        // 마지막 결재자가 아닐 경우, updateAprv만 수행하고 결과 반환
@@ -153,7 +154,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
             return 1;
         } else {
             // 하나라도 실패했다면, 실패한 업데이트의 반환 값을 반환
-            return Math.min(updateCount1, updateCount2);
+            return 0;
             
         }
 	}

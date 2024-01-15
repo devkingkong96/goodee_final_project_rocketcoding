@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -231,7 +232,7 @@ public class AprvController {
 	public String submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
-		log.info("reqAll{}",reqAll);
+		//log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
 		//test중.........................................................
@@ -247,7 +248,7 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		log.info("aprvDocu : {} ",aprvDocu);
+		//log.info("aprvDocu : {} ",aprvDocu);
 		
 		m.addAttribute("user", e);
 		m.addAttribute("docNo", docNo);
@@ -257,48 +258,43 @@ public class AprvController {
 	//updateaprv
 	@PostMapping("/updateaprv")
 	@ResponseBody
-	public void updateAprv(HttpServletRequest req) {
+	public ResponseEntity<?> updateAprv(HttpServletRequest req) {
 		
 		
 		HashMap<String, Object> reqAll = getParameterMap(req);	
 		
 		
-		service.updateAprv(reqAll);
+		int result = service.updateAprv(reqAll);
 		
+		log.info("======================reqAll{}",reqAll);
 		
-		
-		
-//		log.info("===========updateAprv reqAll{}",reqAll);
-//		// 결재시 전결재자가 결재를 안했다면 ? -> js에서 알림띄우기 
-//		// 결재시 결재자가 마지막결재자라면 ? -> 
-//		String str = (String)reqAll.get("DOC_NO");
-//		 int docNo= Integer.valueOf(str);
-//		 List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-//		 int aprvCount=aprvDocu.stream().filter(map-> !map.get("APRV_LV").equals(BigDecimal.valueOf(99))).toList().size();
-//		 List<Map<String,Object>>lastAprv = aprvDocu.stream().filter(map-> map.get("APRV_LV").equals(BigDecimal.valueOf(aprvCount))).toList();
-//		 log.info("{마지막결재자입니다} : "+lastAprv); 
-//		 
-//		 
-//		 BigDecimal empNoBigDecimal = new BigDecimal((String)reqAll.get("EMP_NO"));
-//		 if(empNoBigDecimal.equals(lastAprv.get(0).get("APRV_EMP"))) {
-//			 // update aprv()
-//				/* service.updateAprv(); */
-//			 // update document  
-//		 }else {
-//			// update aprv()
-//		 }
-		 
-		
-		 
+		reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
+			
+		if (result > 0) {
+			return ResponseEntity.ok().body("결재 성공");
+
+		} else {
+			return ResponseEntity.ok().body("결재 실패");
+
+		}
+
 
 	}
-	public void rejectAprv(HttpServletRequest req) {
+	@PostMapping("/rejectAprv")
+	@ResponseBody
+	public ResponseEntity<?> rejectAprv(HttpServletRequest req) {
 		
 		HashMap<String, Object> reqAll = getParameterMap(req);
 		
-		service.rejectAprv(reqAll);
+		int result = service.rejectAprv(reqAll);
 		
-		
+		if (result > 0) {
+			return ResponseEntity.ok().body("반려 성공");
+
+		} else {
+			return ResponseEntity.ok().body("반려 실패");
+
+		}
 		
 		
 	}

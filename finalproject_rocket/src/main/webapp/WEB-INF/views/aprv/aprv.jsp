@@ -112,7 +112,24 @@
                                                 참조자 :
                                             </h4>
                                             &nbsp;
-                                            <p id="taget-reader"></p>
+                                            <c:forEach var="doc" items="${docu}">
+    <c:if test="${doc.APRV_LV eq 99}">
+        <c:if test="${doc.APRV_EMP eq user.empNo}">
+            <button type="button" class="btn btn-primary" onclick="read();">확인</button>
+            <input type="hidden" value="${doc.APRV_LV }" name="APRV_LV">
+        </c:if>
+        <c:if test="${doc.APRV_EMP ne user.empNo}">
+            <p id="taget-reader">
+                &nbsp;
+                <c:out value="${doc.EMP_LV }"/>
+                <c:out value="${doc.EMP_NAME }"/> 님
+                &nbsp;   
+            </p>
+        </c:if>
+    </c:if>
+</c:forEach>
+
+                                            
                                         </div>
                                     </div>
   									</div>
@@ -135,7 +152,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="background-color: white;">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">결재선 설정</h4>
+                            <h4 class="modal-title" id="myLargeModalLabel">결재하기</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="myBtn"></button>
                         </div>
                         <div class="modal-body">
@@ -143,7 +160,9 @@
                                 
                                 <button type="button" class="btn btn-danger text-start"  onclick="aprv();"> 결재 </button>
                                 
-                                <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal"> 반려 </button>
+                                <button type="button" class="btn btn-danger text-start"  onclick="reject();"> 반려 </button>
+                                
+                                <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal"> 닫기 </button>
                                 
                                 
                             </div>
@@ -169,24 +188,72 @@
 const docNo = "${docNo}";
 const empNo = "${user.empNo}";
 
+
     
 
 
  function aprv() {
-$.ajax({
-  type : "POST",
-  url  : `${path}/docu/updateaprv`,
-  data : {
-   	DOC_NO: docNo,
-	EMP_NO: empNo
-	
-  },
-  dataType: "json",
-  success : function(){
-    alert("성공했네?!");
-  }
-});
-} 
+    $.ajax({
+        type: "POST",
+        url: `${path}/docu/updateaprv`,
+        data: {
+            DOC_NO: docNo,
+            EMP_NO: empNo
+        },
+        dataType: "text",
+        success: function(response){
+        	console.log(response);
+        	if(response === "결재 성공") {
+                alert(response);
+                location.reload();
+            } else {
+                alert("결재 실패. 전산팀에게 문의하세요.");
+                location.reload();
+            }
+        }
+
+
+    });
+}
+
+
 </script>
 
+<script>
+function reject() {
+    $.ajax({
+        type: "POST",
+        url: `${path}/docu/rejectAprv`,
+        data: {
+            DOC_NO: docNo,
+            EMP_NO: empNo
+        },
+        dataType: "text",
+        success: function(response){
+        	console.log(response);
+        	if(response === "반려 성공") {
+                alert(response);
+                location.reload();
+            } else {
+                alert("반려 실패. 전산팀에게 문의하세요.");
+                location.reload();
+            }
+        }
+
+
+    });
+}
+
+</script>
+<script>
+function read(){
+	
+	if(confirm("정말 확인하시겠습니까?")){
+		aprv();
+	}else{
+		close();
+	}
+	
+}
+</script>
 

@@ -147,16 +147,26 @@ public class StockController {
 // branchId와 prdId 파라미터를 배열로 추출
         String[] branchIdArray = paramMap.get("branchId");
         String[] prdIdArray = paramMap.get("prdId");
-
+//        if (prdIdArray != null) {
+//            for (String prdId : prdIdArray) {
+//                log.error("prdId: " + (prdId != null ? prdId : "null") + " dddddddddddddddddddddddddd");
+//            }
+//        } else {
+//            log.error("prdId: null");
+//        }
 // 배열을 List로 변환
         List<String> branchIdList = branchIdArray != null ? Arrays.asList(branchIdArray) : new ArrayList<>();
         List<String> prdIdList = prdIdArray != null ? Arrays.asList(prdIdArray) : new ArrayList<>();
 
-        if (branchIdList == null || branchIdList.isEmpty()) {
+        if (branchIdList == null || branchIdList.isEmpty() || branchIdList
+                .get(0)
+                .equals("")) {
             branchIdList = new ArrayList<>();
             branchIdList.add("0"); // '0'을 기본값으로 사용
         }
-        if (prdIdList == null || prdIdList.isEmpty()) {
+        if (prdIdList == null || prdIdList.isEmpty() || prdIdList
+                .get(0)
+                .equals("")) {
             prdIdList = new ArrayList<>();
             prdIdList.add("0"); // '0'을 기본값으로 사용
         }
@@ -184,6 +194,20 @@ public class StockController {
             }
         }
 
+        if (prdIdList.contains("0")) {
+            // prdIdList를 새로운 값들로 채우기
+            prdIdList = Arrays.asList("1", "2", "3", "4", "5");
+        }
+        if (branchIdList.contains("0")) {
+            // prdIdList를 새로운 값들로 채우기
+            branchIdList = Arrays.asList("1", "2", "3", "4", "5");
+        }
+
+
+        for (Map<String, Object> stockItem : daybyStockList) {
+            stockItem.put("branchIds", branchIdList);
+            stockItem.put("productIds", prdIdList);
+        }
 
         List<Map<String, Object>> uniqueList = new ArrayList<>();
 
@@ -197,6 +221,7 @@ public class StockController {
             }
         }
 
+
         List<Map<String, Object>> branchNameUniqueList = new ArrayList<>();
 
         Set<Object> brcNameSet = new HashSet<>();
@@ -209,8 +234,10 @@ public class StockController {
                 branchNameUniqueList.add(map);
             }
         }
+
+        model.addAttribute("RealdaybyStockList", daybyStockList);
         model.addAttribute("branchNameUniqueList", branchNameUniqueList);
-        model.addAttribute("daybyStockList", daybyStockList);
+        model.addAttribute("daybyStockList", uniqueList);
         return "logistics/widthBranchByStockPage";
     }
 

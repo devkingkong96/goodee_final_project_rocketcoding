@@ -47,6 +47,16 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return dao.selectAprvDocu(session,docNo);
 	}
+	@Override
+	public int updateAprv(Map<String, Object> reqAll) {
+		// TODO Auto-generated method stub
+		return dao.updateAprv(session,reqAll);
+	}
+	@Override
+	public int rejectAprv(Map<String, Object> reqAll) {
+		// TODO Auto-generated method stub
+		return dao.rejectAprv(session,reqAll);
+	}
 	
 	
 	

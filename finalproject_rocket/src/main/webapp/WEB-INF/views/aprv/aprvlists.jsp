@@ -29,7 +29,7 @@
 				    <td><c:out value="${l.DOC_NO }"/></td>
 				    <td><c:out value="${l.DOC_TITLE }"/></td>
 				    <td><c:out value="${l.DOC_STATCD }"/></td>
-				    <td><c:out value="${l.START_DATE }"/></td>
+				    <td><c:out value="${l.U_DATE }"/></td>
 				    <td><c:out value="${l.EMP_NO }"/></td>
 				    <td><c:out value="${l.DOC_TAG }"/></td>
 				</tr>

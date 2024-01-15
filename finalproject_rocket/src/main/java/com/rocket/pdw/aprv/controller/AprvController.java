@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -98,7 +99,8 @@ public class AprvController {
 	public String v(Model m) {
 		List<Map<String, Object>> vlist = getAprvListByEmpNo().stream()
 				.filter(map -> map.get("APRV_LV").equals(BigDecimal.valueOf(99))
-						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO))
+						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO)
+						&& !map.get("APRV_SQ").equals(BigDecimal.ONE))
 				.collect(Collectors.toList());
 
 		m.addAttribute("lists", vlist);
@@ -136,7 +138,7 @@ public class AprvController {
 	@GetMapping("/lists/p")
 	public String p(Model m) {
 		List<Map<String, Object>> plist = getAprvListByEmpNo().stream()
-				.filter(map -> map.get("APRV_SQ").equals(BigDecimal.valueOf(1))
+				.filter(map -> map.get("APRV_SQ").equals(BigDecimal.ONE)
 						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO))
 				.collect(Collectors.toList());
 
@@ -202,7 +204,9 @@ public class AprvController {
 	// ==================================================================
 
 	@GetMapping("/insertaprv")
-	   public String insertAprvView(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, Model m) {
+	   public String insertAprvView(@RequestParam(value = "startDate", required = false) String startDate, 
+			   						@RequestParam(value = "endDate", required = false) String endDate, 
+			   						Model m) {
 	       Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	       int no = e.getEmpNo();
 	       List<Map<String, Object>> employee = service.selectEmployee(no);
@@ -215,6 +219,7 @@ public class AprvController {
 
 	       return "aprv/aprvwrite";
 	   }
+	
 
 	@GetMapping("/checkDept")
 	@ResponseBody
@@ -226,18 +231,26 @@ public class AprvController {
 	///작업중!!	
 	@PostMapping("/submit") 
 	@ResponseBody
-	public String submitDocu(HttpServletRequest req) {
+	public ResponseEntity<?> submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
-		//log.info("reqAll{}",reqAll);
+		log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
-		//test중.........................................................
-		log.info("===================================================={}",result);
+		
+		log.info("====================================================등록됬나여 {}",result);
 		if(result>0) {
-			return "12";	
+			if(reqAll.get("DOC_TAG").equals("1")) {
+				
+				return ResponseEntity.ok("mypage");	
+			}else {
+				
+				return ResponseEntity.ok("inventory");
+			}
 		}
-		else return "34";
+		else 
+			
+			return ResponseEntity.ok("저장실패");
 	}
 	@GetMapping("/aprv/{docNo}")
 	public String aprvDocu(@PathVariable int docNo,Model m) {

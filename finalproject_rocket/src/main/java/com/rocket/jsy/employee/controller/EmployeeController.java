@@ -3,6 +3,7 @@ package com.rocket.jsy.employee.controller;
 
 import static com.rocket.common.Getrequest.getParameterMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -43,14 +45,18 @@ public class EmployeeController {
 	        int empNo = Integer.parseInt(userDetails.getUsername());
 	        Map<String, Object> employee = service.selectEmployeeByNo(empNo);
 	        Map<String, Object> coomute = mypageservice.selectEmployeeByNo(empNo);
-	        log.info("Employee: " + employee.toString());
-	        log.info("Coomute: " + coomute.toString());
+//	        List<Map<String, Object>> mycalendar = mypageservice.selectEmployeeByCalendar(empNo);
+//	        log.info("Employee: " + employee.toString());
+//	        log.info("Coomute: " + coomute.toString());
+//	        log.info("mycalendar:" + mycalendar.toString());
 	        model.addAttribute("employee", employee);
 	        model.addAttribute("coomute", coomute);
-
+//	        model.addAttribute("mycalendar", mycalendar);
+	        
 	    }
 	    return "employee/mypage";
 	}
+	
 	
 	@GetMapping("/employeelist")
 	public String employeelist(Model model) {

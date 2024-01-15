@@ -268,7 +268,9 @@ $(document).ready(function() {
 
 		$('#modal-modify #empNo').val(empNo).prop('readOnly', true); // 사원번호
 		$('#modal-modify #empName').val(empName); // 사원이름
-		$('#modal-modify #employees').val(depName); // 부서명
+		 $('#modal-modify #depCode option').filter(function() { // 부서명
+	            return $(this).text() === depName;
+	        }).prop('selected', true);
 		$('#modal-modify #empLv').val(empLv); // 직위/직급
 		$('#modal-modify #empEmail').val(empEmail); // 이메일
 		$('#modal-modify #empEnDate').val(empEnDate).prop('disabled', true); 

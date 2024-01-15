@@ -69,7 +69,7 @@
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-8 col-8">
+				<div class="col-lg-10 col-10">
 					<div class="row">
 						<div class="col-xxxl-8 col-lg-8 col-8">
 							<div class="box">
@@ -729,15 +729,78 @@
 	  		//초대하기 목록에서 검색 기능
 	  		document.getElementById('modalSearchEmp').addEventListener('input',function(e){
 	  			var modalsearchValue=e.target.value;
+	  			var data={
+	  					modalsearchValue:modalsearchValue,
+	  					roomId:roomId
+	  			}
 	  			console.log(modalsearchValue);
 	  			
 	  			$.ajax({
-	  				type:'GET',
-	  				url:'${path}/chat/room/modalsearch/'+roomId,
-	  				data:modalsearchValue,
-	  				dataType:"json",
-	  				success(res){
-	  					console.log(res)
+	  				type:'POST',
+	  				url:'${path}/chat/room/modalsearch',
+	  				data:JSON.stringify(data),
+  					dataType:"json",
+  					contentType:"application/json",
+	  				success(data){
+	  					console.log(data)
+	  					/* document.getElementById('employeeList').innerHTML = ""; */
+	  					$.each(data,function(){
+	  						console.log(data);
+	  					// 새로운 div 요소 생성
+	  						var $chatbox = document.createElement('div');
+	  						$chatbox.classList.add('chat-box-one-side3');
+
+	  						// 내부 요소들 생성
+	  						var $mediaList = document.createElement('div');
+	  						$mediaList.classList.add('media-list', 'media-list-hover');
+
+	  						var $media = document.createElement('div');
+	  						$media.classList.add('media', 'py-10', 'px-0', 'align-items-center');
+
+	  						var $avatar = document.createElement('p');
+	  						$avatar.classList.add('avatar', 'avatar-lg', 'status-success');
+
+	  						var $avatarImage = document.createElement('img');
+	  						$avatarImage.src = '${path}/resources/images/avatar/1.jpg';
+	  						$avatarImage.alt = '...';
+
+	  						var $mediaBody = document.createElement('div');
+	  						$mediaBody.classList.add('media-body');
+
+	  						var $empName = document.createElement('p');
+	  						$empName.classList.add('fs-20');
+	  						$empName.id = 'chatEmpName';
+	  						$empName.textContent = data.EMP_NAME;
+
+	  						var $empLv = document.createElement('p');
+	  						$empLv.id = 'chatEmpLv';
+	  						$empLv.textContent = data.EMP_LV + " / " + data.DEP_NAME;
+
+	  						var $checkbox = document.createElement('input');
+	  						$checkbox.type = 'checkbox';
+	  						$checkbox.id = 'emp' + data.EMP_NO;
+	  						$checkbox.classList.add('filled-in', 'chk-col-primary');
+	  						$checkbox.name = 'plustempCheck';
+	  						$checkbox.value = data.EMP_NO;
+
+	  						var $label = document.createElement('label');
+	  						$label.setAttribute('for', 'emp' + data.EMP_NO);
+
+	  						// 요소들을 적절한 구조로 추가
+	  						$avatar.appendChild($avatarImage);
+	  						$mediaBody.appendChild($empName);
+	  						$mediaBody.appendChild($empLv);
+	  						$media.appendChild($avatar);
+	  						$media.appendChild($mediaBody);
+	  						$media.appendChild($checkbox);
+	  						$media.appendChild($label);
+	  						$mediaList.appendChild($media);
+	  						$chatbox.appendChild($mediaList);
+
+	  						// 요소를 원하는 위치에 추가
+	  						var targetElement = document.getElementById('employeeList');
+	  						targetElement.appendChild($chatbox);
+	  					})
 	  				},
 	  				error:function(error){
 	  					alert('에러:'+error);

@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -192,15 +193,12 @@ public class ChatController {
 		return jsonString;
 	}
 	
-	@GetMapping("/room/modalsearch/{roomId}")
+	@PostMapping("/room/modalsearch")
 	@ResponseBody
-	public List<Map<String, Object>>modalSearch(@PathVariable int roomId,String modalsearchValue){
-		log.info("가져온 검색어{}",modalsearchValue);
-		log.info("방 번호{}",roomId);
+	public List<Map<String, Object>> modalSearch(@RequestBody Map<String, Object>param){
+//		log.info("가져온 검색어{}",param);
+//		log.info("방 번호{}",param.get("roomId"));
 		
-		Map<String,Object>param=new HashMap<>();
-		param.put("modalsearchValue", modalsearchValue);
-		param.put("roomId", roomId);
 		List<Map<String, Object>>result=service.modalSearch(param);
 		log.info("방 번호{}",result);
 		

@@ -75,9 +75,4 @@ public class StompChatController {
 		
 	}
 	
-	//채팅 파일 업로드 메시지
-//	@MessageMapping("/chat/filesend")
-//	public void filesendMessage(ChatMessage message) {
-//		template.convertAndSend("/sub/chat/room/"+message.getMsgRoomNo(),message);
-//		}
 	}

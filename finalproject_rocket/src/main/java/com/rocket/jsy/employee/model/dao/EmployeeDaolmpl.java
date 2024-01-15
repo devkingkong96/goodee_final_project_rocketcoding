@@ -44,10 +44,7 @@ public class EmployeeDaolmpl implements EmployeeDao{
 	public int updateEmployee(SqlSession session, HashMap<String, Object> employee) {
 		return session.update("employee.updateEmployee",employee);
 	}
-	@Override
-	public List<Map<String, Object>> selectEmployeeMyPageCalendar(SqlSession session) {
-	    return session.selectList("employee.selectEmployeeMyPageCalendar");
-	}
+
 	@Override
 	public int insertEmployee(SqlSession session, HashMap<String, Object> employee) {
 	    return session.insert("employee.insertEmployee", employee);

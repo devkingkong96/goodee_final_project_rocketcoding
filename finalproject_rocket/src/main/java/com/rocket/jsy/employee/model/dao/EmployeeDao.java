@@ -24,6 +24,4 @@ public interface EmployeeDao {
     int updateEmpFile(SqlSession session, String empFile, int empNo);
 	
 	int updateEmployee(SqlSession session, HashMap<String, Object> employee);
-
-	List<Map<String, Object>> selectEmployeeMyPageCalendar(SqlSession session);
 }

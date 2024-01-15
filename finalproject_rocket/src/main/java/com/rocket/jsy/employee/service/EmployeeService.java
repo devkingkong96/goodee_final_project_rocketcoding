@@ -26,7 +26,4 @@ public interface EmployeeService {
 	
 	int updateEmployee(HashMap<String, Object>updatemap);
 	
-	List<Map<String, Object>> selectEmployeeMyPageCalendar();
-
-	
 }

@@ -12,6 +12,7 @@
 <style>
     table {
         width: 100%;
+        table-layout: fixed;
         border-collapse: collapse;
     }
     th,
@@ -53,7 +54,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
 											<div class="table table-bordered mb-0">
-                                                <table style="border: 1px solid black; " id="aprvtable" >
+                                                <table style="border: 1px solid black; " id="aprvtable">
                                                     <tr style="background-color: #f2f2f2; ">
                                                         <td rowspan="4" style="text-align: center;">결재</td>
                                                     </tr>
@@ -68,11 +69,15 @@
 													    <c:forEach var="doc" items="${docu}">
 														    <c:if test="${doc.APRV_LV ne 99}">
 														        <c:if test="${doc.APRV_SQ == 1}">
-														            <td>
-														                <img src="https://approval.office.hiworks.com/gabia.biz/approval/sign/approval/A/2/87786" 
-														                    style="width: 100%; height: 100%"
-														                    alt="아이콘">
-														            </td>
+														        <td style="text-align: center; vertical-align: middle;">
+																	    <img src="https://approval.office.hiworks.com/gabia.biz/approval/sign/approval/A/2/87786" 
+																	        style="width: 70%; height: auto; max-width: none;" 
+																	        alt="아이콘">
+																	    <p style="color: gray; margin: 0;"><fmt:formatDate value="${doc.APRV_DATE }" pattern="yyyy-MM-DD"/></p>
+																	</td>
+																															        
+														        
+														     
 														        </c:if>
 														        <c:if test="${doc.APRV_SQ == 0}">
 														            <td id="APRV_EMP">
@@ -102,37 +107,73 @@
 													    </c:forEach>
 													</tr>
 
+
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="box-header" style="display: flex">
+                                        <div class="col-md-12 col-12" style="display: flex">
                                         <div class="box-header" style="display: flex" id="singleTag">
                                             <h4>
                                                 참조자 :
                                             </h4>
                                             &nbsp;
                                             <c:forEach var="doc" items="${docu}">
-    <c:if test="${doc.APRV_LV eq 99}">
-        <c:if test="${doc.APRV_EMP eq user.empNo}">
-            <button type="button" class="btn btn-primary" onclick="read();">확인</button>
-            <input type="hidden" value="${doc.APRV_LV }" name="APRV_LV">
-        </c:if>
-        <c:if test="${doc.APRV_EMP ne user.empNo}">
-            <p id="taget-reader">
-                &nbsp;
-                <c:out value="${doc.EMP_LV }"/>
-                <c:out value="${doc.EMP_NAME }"/> 님
-                &nbsp;   
-            </p>
-        </c:if>
-    </c:if>
-</c:forEach>
+										<c:if test="${doc.APRV_LV eq 99}">
+										    <c:if test="${doc.APRV_EMP eq user.empNo}">
+										        	<p>
+										            <c:out value="${doc.EMP_LV }"/>
+										            <c:out value="${doc.EMP_NAME }"/>
+										        	
+										            <c:if test="${doc.APRV_SQ eq 0}"> 
+										            	<button type="button" class="btn btn-primary" onclick="read();">확인</button>
+										            	<input type="hidden" value="${doc.APRV_LV }" name="APRV_LV">
+										            	&nbsp;
+										            </c:if>
+										    		
+										    		<c:if test="${doc.APRV_SQ eq 1}">
+										       	 		<img style="width: 7px;height: 7px;" alt="check" src="https://approval.office.hiworks.com/gabia.biz/approval/sign/approval/F/2">
+										    		</c:if>
+										    		<p>
+										    </c:if>
+										    <c:if test="${doc.APRV_EMP ne user.empNo}">
+										        <p id="taget-reader">
+										            &nbsp;
+										            <c:out value="${doc.EMP_LV }"/>
+										            <c:out value="${doc.EMP_NAME }"/>  
+										 
+										            <c:if test="${doc.APRV_SQ eq 1}">
+										       	 		<img alt="check" src="https://approval.office.hiworks.com/gabia.biz/approval/sign/approval/F/2	">
+										    		</c:if>
+										    		&nbsp;   
+										        </p>
+										    </c:if>
+										</c:if>
+
+										</c:forEach>
 
                                             
                                         </div>
                                     </div>
   									</div>
+                                    
+                                     <div class="box">
+                                        <div class="box-header">
+                                            <h4 class="box-title">${docu[0]['DOC_TITLE']}</h4>
+                                   <c:if test="${not empty docu}">
+									</c:if>
+									   </div>
+                                         <div class="box-body">
+                                            <c:out value="${textdata}"/>
+                                        </div> 
+                                    </div>
+   
+    
+                                    
+                                    
+                                    
+                                    
+                                    
                                     <div class="box">
                                         <div class="box-header">
                                             <h4 class="box-title">파일첨부</h4>
@@ -145,6 +186,11 @@
                                             </form>
                                         </div>
                                     </div>
+                                    
+                                    
+                                    
+                                    
+                                    
                                 </div>
                             </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
@@ -248,7 +294,7 @@ function reject() {
 <script>
 function read(){
 	
-	if(confirm("정말 확인하시겠습니까?")){
+	if(confirm("참조 확인하시겠습니까?")){
 		aprv();
 	}else{
 		close();

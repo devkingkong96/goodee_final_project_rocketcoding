@@ -343,8 +343,82 @@
                                 <span>채팅</span>
                             </a>
                         </li>
+						<li class="treeview">
+                            <a href="#">
+                                <img style="width: 28px; height: 28px; filter : grayscale(100%)"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy9Jc1pfkjTgTIyPDX2byAiDFXg9X-vbgiQA&usqp=CAU"><span class="path1"></span><span class="path2"></span></i>
+                                <span>전자결재</span>
+                                <span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+                            </a>
+                            <ul class="treeview-menu">
 
+                                
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>진행중인 문서
+                                        <span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+                                    </a>
+                                    <ul class="treeview-menu">
 
+                                        <li>
+                                            <a href="${path}/docu/lists/a"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>전체</a></li>
+                                        <li>
+                                            <a href="${path}/docu/lists/w"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>대기</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/lists/v"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>확인</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/lists/e"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>예정</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/lists/p"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>진행</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>문서함
+                                        <span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="${path}/docu/box/all"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>전체</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/write"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>기안</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/aprv"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>결재</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/refer"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>수신</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/return"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>반려</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                     <div class="sidebar-widgets">
                         <div class="copyright text-center m-25">

@@ -1,6 +1,13 @@
 package com.rocket.pdw.aprv.controller;
 
+import static com.rocket.common.Getrequest.getParameterMap;
+
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,17 +21,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.pdw.aprv.model.service.ApprovalService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static com.rocket.common.Getrequest.getParameterMap;
 
 @RequestMapping("/docu")
 @Controller
@@ -33,6 +40,7 @@ import static com.rocket.common.Getrequest.getParameterMap;
 public class AprvController {
 
 	private final ApprovalService service;
+	private static final String UPLOAD_DIR = "/src/main/resources/docu/uploads";
 
 	// 로그인한 사원이 갖고있는 문서리스트
 	private List<Map<String, Object>> getAprvListByEmpNo() {
@@ -194,30 +202,19 @@ public class AprvController {
 	// ==================================================================
 
 	@GetMapping("/insertaprv")
-	public String insertAprvView(Model m) {
-		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int no = e.getEmpNo();
-		List<Map<String, Object>> employee = service.selectEmployee(no);
-		//참조자 한명 오류 해결할것
-		//=====데이터주삼========
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		m.addAttribute("user", e);
-		m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
-		return "aprv/aprvwrite";
-	}
+	   public String insertAprvView(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, Model m) {
+	       Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	       int no = e.getEmpNo();
+	       List<Map<String, Object>> employee = service.selectEmployee(no);
+	       
+	       
+	       m.addAttribute("user", e);
+	       m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
+	       m.addAttribute("startDate", startDate);
+	       m.addAttribute("endDate", endDate);
+
+	       return "aprv/aprvwrite";
+	   }
 
 	@GetMapping("/checkDept")
 	@ResponseBody
@@ -248,11 +245,22 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		//log.info("aprvDocu : {} ",aprvDocu);
+		//log.info("===========aprvDocu : {} ",aprvDocu);
+		
+		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
+		String textdata = null;
+		try {
+			textdata = text.getSubString(1, (int) text.length());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		m.addAttribute("user", e);
 		m.addAttribute("docNo", docNo);
 		m.addAttribute("docu", aprvDocu);
+		m.addAttribute("textdata", textdata);
+		
 		return "aprv/aprv";
 	}
 	//updateaprv
@@ -268,7 +276,7 @@ public class AprvController {
 		
 		log.info("======================reqAll{}",reqAll);
 		
-		reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
+		//reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
 			
 		if (result > 0) {
 			return ResponseEntity.ok().body("결재 성공");
@@ -298,5 +306,19 @@ public class AprvController {
 		
 		
 	}
+	/*
+	 * @PostMapping("/upload") public String uploadfiles(@RequestParam("files")
+	 * MultipartFile [] files,HttpSession session) { try {
+	 * 
+	 * String path =
+	 * session.getServletContext().getRealPath("/resources/upload/chatfile");
+	 * 
+	 * for (MultipartFile file : files) { byte[] bytes = file.getBytes(); Path path
+	 * = Paths.get(UPLOAD_DIR + file.getOriginalFilename()); Files.write(path,
+	 * bytes); }
+	 * 
+	 * return "Files uploaded successfully"; } catch (Exception e) { return
+	 * "Failed to upload files: " + e.getMessage(); } }
+	 */
 
 }

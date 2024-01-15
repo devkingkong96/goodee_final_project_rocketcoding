@@ -13,8 +13,8 @@ public class ChatDao {
 	
 	
 	//채팅창 직원 목록 가져오기
-	public List<Map<String, Object>>selectEmployeeAll(SqlSession session,int empNo){
-		return session.selectList("empchat.selectEmployeeAll",empNo);
+	public List<Map<String, Object>>selectEmployeeAll(SqlSession session,int roomId){
+		return session.selectList("empchat.selectEmployeeAll",roomId);
 	}
 	//회원의 채팅방,중간테이블 가져오기
 	public List<Map<String, Object>> selectChatAll(SqlSession session,int empNo){
@@ -32,6 +32,9 @@ public class ChatDao {
 	public List<Map<String, Object>>selectEmployeeInRoom(SqlSession session,int roomNo){
 		return session.selectList("chatroom.selectEmployeeInRoom",roomNo);
 	}
-	
+	//ajax 채팅방 직원 목록 검색
+	public List<Map<String, Object>>modalSearch(SqlSession session,Map<String, Object> param){
+		return session.selectList("chatroom.modalSearch",param);
+	}
 	
 }

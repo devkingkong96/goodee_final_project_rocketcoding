@@ -150,10 +150,10 @@
 									    </tr>
 									    <tr>
 									        <td>거래처</td>
-									        <td>거래측 담당자이름</td>
+									        <td>${inventoryInfo[0].RECIEVE_EMP_ID}</td>
 									    </tr>
 									    <tr>
-									        <td>lV_TYPE</td>
+									        <td>${inventoryInfo[0].IV_TYPE}</td>
 									        <td>${inventoryInfo[0].IV_DATE} / ${inventoryInfo[0].IV_MEMO} / ${inventoryInfo[0].IV_VAT_TYPE}</td>
 									    </tr>
 									                    
@@ -171,6 +171,10 @@
 									        <td>모든도서 입출고 단가</td>
 									        <td>도서별 매장내 판매액의 총금액</td>
 									    </tr>
+									    	<tr>
+									    		<td>${inventoryInfo[0].TOTAL_INV_ALLPRD}</td>
+									    		<td>${inventoryInfo[0].TOTAL_STORE_PRICE}</td>
+									    	</tr>
 									    <tr style="height: 500px">
 									        <td colspan="2" style="text-align: center;">상기와 같은 이유로 결재 바랍니다.<br><br><br><br><br><br>
 									        <%=strDate %></td>

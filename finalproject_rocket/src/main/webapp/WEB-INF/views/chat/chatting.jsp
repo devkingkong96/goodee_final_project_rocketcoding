@@ -545,7 +545,7 @@
   			
   			//통신 실패했을 때 함수
   			function onError(){
-  				alert('통신 종료');
+  				alert('통신 에러');
   			}
   			
   			/* 버튼 클릭 시 메시지 전송 */
@@ -771,7 +771,6 @@
 		  				data:$("#inviteEmpList").serialize(),
 		  				dataType:"json",
 		  				success:function(res){
-		  					if(res==='success'){
 		  						alert("채팅방 초대 성공");
 		  						inviteModalClose();
 		  						var chatMsg={
@@ -779,7 +778,6 @@
 	 	 	 	  						type:'INVITE'
 	 	 	 	  						}
 		  						stomp.send('/pub/chat/invite',{},JSON.stringify(chatMsg));
-		  					}
 		  				},
 		  				error:function(){
 		  					alert("채팅방 초대 실패");

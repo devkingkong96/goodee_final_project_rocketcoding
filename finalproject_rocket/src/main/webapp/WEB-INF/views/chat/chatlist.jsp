@@ -179,10 +179,16 @@ function onConnected(){
 	console.log("stomp 연결 성공");
 	
 	//subscribe(path,callback)으로 메세지 받기 가능
-
+	stomp.subscribe("/sub/chat/list",onMessageReceived);
 }
+
+function onMessageReceived(payload){
+	console.log("list 수신 확인");
+	
+}
+
 function onError(){
-	console.log("에러");
+	console.log("통신 에러");
 }
 	//체크했을 때 버튼이 활성화하게 하는 함수
 	var empcheck = document.getElementsByName('empCheck');
@@ -239,10 +245,9 @@ function onError(){
 			data:$("#Roomfrm").serialize(),
 			dataType:"json",
 			success:function(res){
-				if(res==='success'){
 					alert("채팅방 생성 성공");
-					location.reload();
-				}
+					console.log(res);
+						stomp.send('/pub/list/invite',{},JSON.stringify(res));
 			},
 			error:function(){
 				alert("채팅방 생성 실패");

@@ -1,6 +1,8 @@
 package com.rocket.ksj.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,7 +33,9 @@ public class ChatRoomService {
 	}
 	//채팅방,채팅참여 중간 테이블 생성
 	@Transactional
-	public String createChatRoomAll(HashMap<String, Object>req) {
+	public List<Object> createChatRoomAll(HashMap<String, Object>req) {
+		List<Object>emps=new ArrayList<>();
+		
 		if(req.get("roomName")!=null) {
 			String roomName=(String)req.get("roomName");
 			log.info("방 이름 {}",roomName);
@@ -49,18 +53,21 @@ public class ChatRoomService {
 			//1:1 개인방
 			if(req.get("empCheck") instanceof String) {
 				int empNo=Integer.parseInt((String)req.get("empCheck"));
+				emps.add(empNo);
 				dao.createEmpChat(session,empNo);
 				//1:N 단체방
 			}else if(req.get("empCheck") instanceof String[]) {
 				String [] employees=(String[])req.get("empCheck");
 				for(String e:employees) {
 					int empNo=Integer.parseInt(e);
+					emps.add(empNo);
 					dao.createEmpChat(session,empNo);
 				}
 			}
 		}
 		//채팅방에서 회원 초대(중간 테이블 생성)
 		if(req.get("plustempCheck")!=null) {
+			emps.add("success");
 			Map<String, Object>param=new HashMap<>();
 			//개인 초대
 			if(req.get("plustempCheck") instanceof String) {
@@ -81,8 +88,7 @@ public class ChatRoomService {
 				}
 			}
 		}
-		
-		return "success";
+		return emps;
 	}
 	//채팅방,채팅 참여 중간테이블,채팅메시지 삭제
 //	@Transactional

@@ -19,8 +19,8 @@ public class ChatService {
 	private final SqlSession session;
 	
 	//전직원 조회하기
-	public List<Map<String, Object>>selectEmployeeAll(int empNo){
-		return dao.selectEmployeeAll(session,empNo);
+	public List<Map<String, Object>>selectEmployeeAll(int roomId){
+		return dao.selectEmployeeAll(session,roomId);
 	}
 	//채팅방,채팅참여(중간테이블) 전체 조회하기
 	public List<Map<String, Object>>selectChatAll(int empNo){
@@ -37,5 +37,9 @@ public class ChatService {
 	//채팅방 직원 목록 가져오기
 	public List<Map<String, Object>>selectEmployeeInRoom(int roomNo){
 		return dao.selectEmployeeInRoom(session,roomNo);
+	}
+	//ajax 채팅방 직원 목록 검색
+	public List<Map<String, Object>>modalSearch(Map<String, Object> param){
+		return dao.modalSearch(session,param);
 	}
 }

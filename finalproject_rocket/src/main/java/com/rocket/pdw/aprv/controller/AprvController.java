@@ -1,6 +1,11 @@
 package com.rocket.pdw.aprv.controller;
 
+import static com.rocket.common.Getrequest.getParameterMap;
+
 import java.math.BigDecimal;
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,9 +26,9 @@ import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.pdw.aprv.model.service.ApprovalService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static com.rocket.common.Getrequest.getParameterMap;
 
 @RequestMapping("/docu")
 @Controller
@@ -33,6 +37,7 @@ import static com.rocket.common.Getrequest.getParameterMap;
 public class AprvController {
 
 	private final ApprovalService service;
+	private static final String UPLOAD_DIR = "/src/main/resources/docu/uploads";
 
 	// 로그인한 사원이 갖고있는 문서리스트
 	private List<Map<String, Object>> getAprvListByEmpNo() {
@@ -90,7 +95,8 @@ public class AprvController {
 	public String v(Model m) {
 		List<Map<String, Object>> vlist = getAprvListByEmpNo().stream()
 				.filter(map -> map.get("APRV_LV").equals(BigDecimal.valueOf(99))
-						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO))
+						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO)
+						&& !map.get("APRV_SQ").equals(BigDecimal.ONE))
 				.collect(Collectors.toList());
 
 		m.addAttribute("lists", vlist);
@@ -128,7 +134,7 @@ public class AprvController {
 	@GetMapping("/lists/p")
 	public String p(Model m) {
 		List<Map<String, Object>> plist = getAprvListByEmpNo().stream()
-				.filter(map -> map.get("APRV_SQ").equals(BigDecimal.valueOf(1))
+				.filter(map -> map.get("APRV_SQ").equals(BigDecimal.ONE)
 						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO))
 				.collect(Collectors.toList());
 
@@ -193,31 +199,54 @@ public class AprvController {
 	// ==============================================select list
 	// ==================================================================
 
-	@GetMapping("/insertaprv")
-	public String insertAprvView(Model m) {
-		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int no = e.getEmpNo();
-		List<Map<String, Object>> employee = service.selectEmployee(no);
-		//참조자 한명 오류 해결할것
-		//=====데이터주삼========
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		m.addAttribute("user", e);
-		m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
-		return "aprv/aprvwrite";
-	}
+	
+	  @RequestMapping("/insertaprv")
+	    public String insertAprvView(@RequestParam(value = "startDate", required = false) String startDate, 
+									 @RequestParam(value = "endDate", required = false) String endDate,
+										Model m, 
+										HttpSession session) {
+
+	        Employee e = (Employee)SecurityContextHolder
+	                .getContext()
+	                .getAuthentication()
+	                .getPrincipal();
+	        int no = e.getEmpNo();
+	      
+	        ArrayList<Map<String, Object>> inventoryInfo = (ArrayList<Map<String, Object>>)session.getAttribute(
+	                "inventoryInfo");
+	      
+
+	        m.addAttribute("inventoryInfo", inventoryInfo);
+
+	/*        log.error(inventoryInfo == null ? "inventoryInfo is null" : "inventoryInfo is not null");
+	        if (inventoryInfo != null) {
+	            for (Map<String, Object> map : inventoryInfo) {
+	                // 각 맵의 모든 키-값 쌍에 대해 반복
+	                for (Map.Entry<String, Object> entry : map.entrySet()) {
+	                    // 로그 출력
+	                    log.error("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+	                }
+	            }
+	        }*/
+	       
+//	        session.removeAttribute("inventoryInfo");
+
+
+	        List<Map<String, Object>> employee = service.selectEmployee(no);
+	        //참조자 한명 오류 해결할것
+	        //=====데이터주삼========
+
+
+	        m.addAttribute("inventoryInfo", inventoryInfo);
+	        m.addAttribute("user", e);
+	        m.addAttribute("dept", employee
+	                .get(0)
+	                .get("DEP_NAME"));
+	        m.addAttribute("startDate", startDate);
+		       m.addAttribute("endDate", endDate);
+	        
+	        return "aprv/aprvwrite";
+	    }
 
 	@GetMapping("/checkDept")
 	@ResponseBody
@@ -229,18 +258,26 @@ public class AprvController {
 	///작업중!!	
 	@PostMapping("/submit") 
 	@ResponseBody
-	public String submitDocu(HttpServletRequest req) {
+	public ResponseEntity<?> submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
-		//log.info("reqAll{}",reqAll);
+		log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
-		//test중.........................................................
-		log.info("===================================================={}",result);
+		
+		log.info("====================================================등록됬나여 {}",result);
 		if(result>0) {
-			return "12";	
+			if(reqAll.get("DOC_TAG").equals("1")) {
+				
+				return ResponseEntity.ok("mypage");	
+			}else {
+				
+				return ResponseEntity.ok("inventory");
+			}
 		}
-		else return "34";
+		else 
+			
+			return ResponseEntity.ok("저장실패");
 	}
 	@GetMapping("/aprv/{docNo}")
 	public String aprvDocu(@PathVariable int docNo,Model m) {
@@ -248,11 +285,26 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		//log.info("aprvDocu : {} ",aprvDocu);
+		log.info("===========aprvDocu : {} ",aprvDocu);
 		
-		m.addAttribute("user", e);
+		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
+		String textdata = null;
+		try {
+			textdata = text.getSubString(1, (int) text.length());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//List<Map<String, Object>> employee = service.selectEmployee((int)aprvDocu.get(0).get("APRV_EMP"));
+	    //log.info("기안자 정보를 가져오기  : {}",employee);   
+	       
+	    m.addAttribute("user", e);
+	    //m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
 		m.addAttribute("docNo", docNo);
 		m.addAttribute("docu", aprvDocu);
+		m.addAttribute("textdata", textdata);
+		
 		return "aprv/aprv";
 	}
 	//updateaprv
@@ -268,7 +320,7 @@ public class AprvController {
 		
 		log.info("======================reqAll{}",reqAll);
 		
-		reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
+		//reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
 			
 		if (result > 0) {
 			return ResponseEntity.ok().body("결재 성공");
@@ -298,5 +350,19 @@ public class AprvController {
 		
 		
 	}
+	/*
+	 * @PostMapping("/upload") public String uploadfiles(@RequestParam("files")
+	 * MultipartFile [] files,HttpSession session) { try {
+	 * 
+	 * String path =
+	 * session.getServletContext().getRealPath("/resources/upload/chatfile");
+	 * 
+	 * for (MultipartFile file : files) { byte[] bytes = file.getBytes(); Path path
+	 * = Paths.get(UPLOAD_DIR + file.getOriginalFilename()); Files.write(path,
+	 * bytes); }
+	 * 
+	 * return "Files uploaded successfully"; } catch (Exception e) { return
+	 * "Failed to upload files: " + e.getMessage(); } }
+	 */
 
 }

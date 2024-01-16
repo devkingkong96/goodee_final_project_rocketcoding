@@ -46,4 +46,8 @@ public class StockService {
     public List<Map<String, Object>> selectStockByProduct(HashMap<String, Object> params) {
         return dao.selectStockByProduct(session, params);
     }
+
+    public List<Map<String, Object>> stockLedger(HashMap<String, Object> params) {
+        return dao.stockLedger(session, params);
+    }
 }

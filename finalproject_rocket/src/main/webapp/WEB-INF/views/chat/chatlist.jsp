@@ -25,7 +25,7 @@
 								<span class="fs-20">채팅방 목록</span>
 							</div>
 							<div class="col-lg-6 col-6 ">
-								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete">방 나가기</button>
+								<button type="button" class="btn btn-danger float-end" id="chatRoomDelete" disabled>방 나가기</button>
 							</div>
 						</div>
 						<div class="col-lg-12 col-12">
@@ -55,8 +55,8 @@
 												</p>
 												<p>참여 인원 수 : <c:out value="${c.EMP_COUNT }"/></p>
 											  </div>
-											  <input type="checkbox" id="${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.CHATROOM_NO}"/>
-												<label for="${c.CHATROOM_NO }"> </label>
+											  <input type="checkbox" id="ch${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.CHATROOM_NO}"/>
+												<label for="ch${c.CHATROOM_NO }"> </label>
 											</div>
 											</c:forEach>
 											</c:if>
@@ -82,7 +82,7 @@
 									<span class="fs-20">직원 목록</span>
 								</div>
 								<div class="col-lg-6 col-6">
-									<button type="button" class="btn btn-primary float-end" id="chatRoomCreate"  data-bs-toggle="modal" data-bs-target="#modal-default">채팅방 생성</button>
+									<button type="button" class="btn btn-primary float-end" id="chatRoomCreate"  data-bs-toggle="modal" data-bs-target="#modal-default" disabled>채팅방 생성</button>
 								</div>
 								</div>
 								<div class="col-lg-12 col-12">
@@ -109,11 +109,11 @@
                                                     <p class="fs-20" id="chatEmpName">
                                                       <c:out value="${e.EMP_NAME }"/>
                                                     </p>
-                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/></p>
+                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
                                                   </div>
                                                   
-                                                  	<input type="checkbox" id="${e.EMP_NO }" class="filled-in chk-col-primary" name="empCheck" value="${e.EMP_NO}"/>
-													<label for="${e.EMP_NO }"> </label>
+                                                  	<input type="checkbox" id="emp${e.EMP_NO }" class="filled-in chk-col-primary" name="empCheck" value="${e.EMP_NO}"/>
+													<label for="emp${e.EMP_NO }"> </label>
                                                   
                                                 </div>
                                                 </c:forEach>
@@ -153,7 +153,7 @@
 			</table>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" id="createBtn" class="btn btn-info float-end">생성</button>
+			<button type="button" id="createBtn" class="btn btn-info float-end" disabled>생성</button>
 			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 		  </div>
 		</div>
@@ -184,34 +184,54 @@ function onConnected(){
 function onError(){
 	console.log("에러");
 }
-
+	//체크했을 때 버튼이 활성화하게 하는 함수
+	var empcheck = document.getElementsByName('empCheck');
+	var roomcheck = document.getElementsByName('roomCheck');
+	var roomcreatebtn = document.getElementById('chatRoomCreate');
+	var deletebtn = document.getElementById('chatRoomDelete');
+	var createbtn = document.getElementById('createBtn');
+	
+	//채팅방 생성 버튼 활성화
+	empcheck.forEach(function(checkbox){
+		checkbox.addEventListener('change',function(){
+			console.log('체크');
+			// 체크박스가 하나 이상 선택되었을 때 버튼 활성화
+	      const checkedCheckboxes = document.querySelectorAll('input[name="empCheck"]:checked');
+	      if (checkedCheckboxes.length > 0) {
+	    	  roomcreatebtn.disabled = false;
+	      } else {
+	    	  roomcreatebtn.disabled = true;
+	      }
+		});
+	});
+	
+	//방 나가기 버튼 활성화
+	roomcheck.forEach(function(checkbox){
+		checkbox.addEventListener('change',function(){
+			console.log('체크');
+			// 체크박스가 하나 이상 선택되었을 때 버튼 활성화
+	      const checkedCheckboxes = document.querySelectorAll('input[name="roomCheck"]:checked');
+	      if (checkedCheckboxes.length > 0) {
+	    	  deletebtn.disabled = false;
+	      } else {
+	    	  deletebtn.disabled = true;
+	      }
+		});
+	});
+	//채팅방 생성 버튼 활성화
+	var roomNameInput = document.getElementById('roomName');
+	roomNameInput.addEventListener('input',function(){
+		var roomName = roomNameInput.value;
+		if(roomName){
+			createbtn.disabled = false;
+		}else{
+			createbtn.disabled = true;
+		}
+	});
+		
 
 	//채팅방 생성
 	document.getElementById('createBtn').addEventListener('click',function(){
-		var checkboxes = document.getElementsByName('empCheck');
-		var modal = document.getElementById('modal-default');
-		var backdrop = document.getElementsByClassName('modal-backdrop')[0];
-		var roomName = document.getElementById('roomName').value;
-		var checked = false;
-
-		for (var i = 0; i < checkboxes.length; i++) {
-		  if (checkboxes[i].checked) {
-		    checked = true;
-		    break;
-		  }
-		}
-
-		if (!checked) {
-		  alert('직원을 선택해주세요.');
-		  modal.style.display = 'none';
-		  backdrop.style.display = 'none';
-		  return;
-		}
-		
-		if(roomName==""){
-			alert('채팅방 이름을 입력해주세요.');
-			return;
-		}
 		
 		$.ajax({
 			type:"POST",

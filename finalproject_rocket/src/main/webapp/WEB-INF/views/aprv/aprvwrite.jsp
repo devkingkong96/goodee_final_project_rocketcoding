@@ -15,6 +15,7 @@
     table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
     th,
     td {
@@ -122,6 +123,8 @@
                                     </div>
                                     <input type="hidden" name="EMP_NO" value="${user.empNo }">
                                     <input type="hidden" name="DOC_TAG" value="" id="DOC_TAG">
+                                    <input type="hidden" name="START_DATE" value="" id="START_DATE">
+                                    <input type="hidden" name="END_DATE" value="" id="END_DATE">
 
 
                                     <div class="box-header">
@@ -144,7 +147,7 @@
 
 
                                     </div>
-                                    <div class="box">
+                                    <%-- <div class="box">
                                         <div class="box-header">
                                             <h4 class="box-title">파일첨부</h4>
                                         </div>
@@ -155,7 +158,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --%>
                                 </div>
                             </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
@@ -267,20 +270,7 @@
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
             document.getElementById("tagCont").innerHTML = `
-        <style>
-            table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 15px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        </style>
+        
         <table>
             <thead>
                 <th colspan="2"><h1 style="text-align: center;">휴가신청서</h1></th>
@@ -296,7 +286,12 @@
                 </tr>
                 <tr>
                     <td>기간</td>
-                    <td>[휴가를 사용할 날짜]</td>
+                    <td >
+                    <p id="startDate"></p>
+                    
+                    
+                    <p id="endDate"></p>
+                    </td>
                 </tr>
                 <tr>
                     <td>휴가종류</td>
@@ -313,6 +308,13 @@
             </tbody>
         </table>`;
         document.getElementById("DOC_TAG").value=1;
+        var startDate = "${startDate}" ;
+    	document.getElementById("startDate").innerHTML = startDate;
+    	var endDate="${endDate}";
+    	document.getElementById("endDate").innerHTML = endDate;
+    	
+    	document.getElementById("START_DATE").value=startDate;
+    	document.getElementById("END_DATE").value=endDate;
         } else if (x === "option2") {
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
@@ -323,6 +325,11 @@
             document.getElementById("tagCont").innerHTML = "";
         }
     }
+    
+</script>
+<script>
+	
+
 </script>
 <script>
     //ajax통신
@@ -416,7 +423,18 @@
 
 <script>
     const saveMembers = () => {
-        const aprvItems = document.getElementById('aprv').children;
+        
+    	document.getElementById('name').innerHTML = '';
+        document.getElementById('empty').innerHTML = '';
+        document.getElementById('emplv').innerHTML = '';
+        
+        
+        if (name) name.innerHTML = '';
+        if (empty) empty.innerHTML = '';
+        if (emplv) emplv.innerHTML = '';
+        
+    	
+    	const aprvItems = document.getElementById('aprv').children;
         const readItems = document.getElementById('reader').children;
         let aprvempInfo = [];
         let readerempInfo = [];
@@ -481,11 +499,11 @@
             text += readerempInfo[i].empLv
             text += " ";
             text += readerempInfo[i].empName
-            text += "님, ";
+            text += " ";
             
             
             
-        }
+        } 
         document.getElementById('taget-reader').innerHTML = text;
         
         var singleTag = document.getElementById('singleTag'); 
@@ -506,12 +524,11 @@ $('#submitAll').click(function(e) {
         type: 'POST',
         url: '${path}/docu/submit',
         data: $('#form1').serialize(),
-        dataType:"json",
+        dataType:"text",
         success: function(response) {
             // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
-            if(response=='12')
             console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
-            window.location.href = '${path}/docu/lists/a';
+            window.location.href = '${path}/'+response;
         },
         error:function(error){
             // AJAX 요청이 실패하면 실행될 콜백 함수
@@ -524,3 +541,51 @@ $('#submitAll').click(function(e) {
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script>
+
+var myDropzone = new Dropzone("#form2", {
+    url: `${path}/docu/upload`,
+    method: "post",
+    autoProcessQueue: false, //자동으로 보내기 방지
+    paramName: 'files',
+    parallelUploads: 99,
+    maxFilesize: 10, // MB
+    uploadMultiple: true
+    
+});
+Dropzone.options.myDropzone = {
+        autoProcessQueue: false,
+        init: function() {
+            var submitButton = document.querySelector("#submitAll");
+            myDropzone = this;
+
+            submitButton.addEventListener("click", function() {
+            	$('#submitAll').click(function(e) {
+            	    e.preventDefault();
+            	    $.ajax({
+            	        type: 'POST',
+            	        url: '${path}/docu/submit',
+            	        data: $('#form1').serialize(),
+            	        dataType:"json",
+            	        success: function(response) {
+            	            // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
+            	            if(response=='12')
+            	            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            	            window.location.href = '${path}/docu/lists/a';
+            	        },
+            	        error:function(error){
+            	            // AJAX 요청이 실패하면 실행될 콜백 함수
+            	            console.error(error); // 발생한 에러를 콘솔에 출력
+            	            alert('망했다')
+            	            
+            	        }
+            	    });
+            	});
+                // If there are files in Dropzone, process them
+                if (myDropzone.getQueuedFiles().length > 0) {
+                    myDropzone.processQueue();
+                }
+            });
+        }
+    };
+</script>

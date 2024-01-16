@@ -40,11 +40,15 @@ public class ChatRoomDao {
 		return session.delete("chatmessage.deleteMessageByNo",roomNo);
 	}
 	//채팅방 나가기(숨기기) ->채팅방에서
-	public int hideRoomById(SqlSession session,Map<String, Object>param) {
-		return session.update("empchat.hideRoomById",param);
+	public int deleteEmpChatRoomById(SqlSession session,Map<String, Object>param) {
+		return session.update("empchat.deleteEmpChatRoomById",param);
 	}
 	//채팅방 나가기(숨기기) ->채팅 목록에서
 	public int hiderooms(SqlSession session,Map<String, Object> param) {
-		return session.update("empchat.hiderooms",param);
+		return session.update("empchat.hideRoomById",param);
+	}
+	//채팅방에서 직원 초대하기 ->채팅방에서
+	public int plusEmpChat(SqlSession session,Map<String, Object> param) {
+		return session.insert("empchat.plusEmpChat",param);
 	}
 }

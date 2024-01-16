@@ -24,8 +24,7 @@
     <link rel="stylesheet" href="${path}/resources/css/horizontal-menu.css">
     <link rel="stylesheet" href="${path}/resources/css/style.css">
     <link rel="stylesheet" href="${path}/resources/css/skin_color.css">
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 
@@ -237,24 +236,52 @@
                         <li class="header">메뉴 리스트</li>
 
                         <%--         <%=request.getRequestURI()%>--%>
-                        <li>
-                            <a href="contact_userlist_grid.html">
-                                <i class="icon-Add-user"><span class="path1"></span><span class="path2"></span></i>
-                                <span>인사담당</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="contact_userlist_grid.html">
-                                <i class="fa fa-group"><span class="path1"></span><span class="path2"></span></i>
-                                <span>인사담당</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="contact_userlist_grid.html">
-                                <i class="mdi mdi-sitemap"><span class="path1"></span><span class="path2"></span></i>
-                                <span>조직도</span>
-                            </a>
-                        </li>
+                        <li class="treeview">
+                       <!-- 인사관리 메뉴  -->
+   			<script>
+			    $(document).ready(function() {
+			        var depName = '${loginEmp.dep.depName}';
+			        if (depName !== '인사팀') {
+			            $('#employeeHolidayList, #employeeCommuteList, #departmentList, #dwRulesList').click(function(e) {
+			                e.preventDefault();
+			                alert('권한이 없습니다.');
+			            });
+			        }
+			    });
+			</script>
+			<a href="#">
+			    <i class="icon-Add-user"><span class="path1"></span><span class="path2"></span></i>
+			    <span>인사 관리</span>
+			    <span class="pull-right-container">
+			        <i class="fa fa-angle-right pull-right"></i>
+			    </span>
+			</a>
+			<ul class="treeview-menu">
+			    <li class="treeview">
+			        <a href="#"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+			            <span>사원 관리</span>
+			            <i class="fa fa-angle-right pull-right"></i> 
+			        </a>
+			        <ul class="treeview-menu">
+			            <li class='<%= request.getRequestURI().contains("/employeelist") ? "active" : "" %>'>
+			                <a href="${path}/employeelist" id="employeeInfoManage"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원 정보관리</a>
+			            </li>
+			            <li class='<%= request.getRequestURI().contains("/employeeholidaylist") ? "active" : "" %>'>
+			                <a href="${path}/employeeholidaylist" id="employeeHolidayList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 휴가사용 조회</a>
+			            </li>
+			            <li class='<%= request.getRequestURI().contains("/employeecommutelist") ? "active" : "" %>'>
+			                <a href="${path}/employeecommutelist" id="employeeCommuteList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 근태관리</a>
+			            </li>
+			        </ul>
+			    </li>
+			    <li class='<%= request.getRequestURI().contains("/departmentlist") ? "active" : "" %>'>
+			        <a href="${path}/departmentlist" id="departmentList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>부서 관리</a>
+			    </li>
+			    <li class='<%= request.getRequestURI().contains("/dwruleslist") ? "active" : "" %>'>
+			        <a href="${path}/dwruleslist" id="dwRulesList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>근무시간 관리</a>
+			    </li>
+			</ul>
+					<!-- 인사관리 메뉴  끝 -->
 
                         <!-- 물류 메뉴-->
                         <li class="treeview">
@@ -343,8 +370,82 @@
                                 <span>채팅</span>
                             </a>
                         </li>
+						<li class="treeview">
+                            <a href="#">
+                                <img style="width: 28px; height: 28px; filter : grayscale(100%)"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy9Jc1pfkjTgTIyPDX2byAiDFXg9X-vbgiQA&usqp=CAU"><span class="path1"></span><span class="path2"></span></i>
+                                <span>전자결재</span>
+                                <span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+                            </a>
+                            <ul class="treeview-menu">
 
+                                
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>진행중인 문서
+                                        <span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+                                    </a>
+                                    <ul class="treeview-menu">
 
+                                        <li>
+                                            <a href="${path}/docu/lists/a"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>전체</a></li>
+                                        <li>
+                                            <a href="${path}/docu/lists/w"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>대기</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/lists/v"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>확인</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/lists/e"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>예정</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/lists/p"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>진행</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i>문서함
+                                        <span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="${path}/docu/box/all"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>전체</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/write"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>기안</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/aprv"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>결재</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/refer"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>수신</a>
+                                        </li>
+                                        <li>
+                                            <a href="${path}/docu/box/return"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>반려</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                     <div class="sidebar-widgets">
                         <div class="copyright text-center m-25">

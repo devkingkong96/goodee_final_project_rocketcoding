@@ -14,7 +14,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: auto; /* 내용이 넘칠 경우 스크롤 가능하게 설정 */
   background-color: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 표시 */
 }
 
@@ -29,6 +29,17 @@
   border: 1px solid #888;
   width: 80%;
   max-width: 400px;
+}
+
+.employees-modal-content {
+  background-color: #fefefe;
+  margin: 1% auto; /* 모달 화면 중앙으로 배치 */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-height: 100%;
+  max-width: 600px;
+  overflow-y: auto; /* 내용 넘칠 경우 스크롤 설정 */
 }
 
 .span-div{
@@ -58,7 +69,7 @@
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-8 col-8">
+				<div class="col-lg-10 col-10">
 					<div class="row">
 						<div class="col-xxxl-8 col-lg-8 col-8">
 							<div class="box">
@@ -79,7 +90,7 @@
 											  <li class="dropdown">
 												<a data-bs-toggle="dropdown" href="#"><i class="ti-more-alt rotate-180"></i></a>
 												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" id="dropchatinvite"><i class="mdi mdi-account-plus"></i>초대하기</a>
+												  <a class="dropdown-item" id="modalchatinvite"><i class="mdi mdi-account-plus"></i>초대하기</a>
 												  <div class="dropdown-divider"></div>
 												  <a class="dropdown-item" onclick="leaveRoom()"><i class="mdi mdi-close-box-outline"></i>방 나가기</a>
 												</div>
@@ -191,7 +202,7 @@
                                                     <p class="fs-20" id="chatEmpName">
                                                       <c:out value="${e.EMP_NAME }"/>
                                                     </p>
-                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/></p>
+                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
                                                   </div>
                                                 </div>
                                                 </c:forEach>
@@ -210,7 +221,7 @@
 		<!-- /.content -->
 	  </div>
   </div>
-  <!-- 모달 창 -->
+  <!-- 파일전송 모달 창 -->
 	<div id="previewModal" class="modal">
 	  <div class="user-modal-content">
 	  <div class="span-div">
@@ -223,6 +234,51 @@
 	    <button onclick="sendFile()">전송</button>
 	  </div>
 	</div>
+	<!-- 방 직원 초대 모달 창 -->
+	<div id="inviteModal" class="modal">
+		<div class="employees-modal-content">
+			<div class="span-div">
+		    	<span id="inviteModalClose" class="close" onclick="inviteModalClose()">&times;</span>
+		  	</div>
+			<h3>대화 상대 초대하기</h3>
+			<div class="box-controls pull-left mt-2">
+				<div class="box-header-actions">
+					<div class="lookup lookup-sm lookup-left d-none d-lg-block">
+						<input type="text" name="modalSearchEmp" id="modalSearchEmp" placeholder="Search">
+					</div>
+				</div>
+			</div>
+			<form id="inviteEmpList">
+			<input type="hidden" name="roomId" id=roomId value="${room.CHATROOM_NO }"/>
+			<div id="employeeList">
+                	<div class="chat-box-one-side3">
+                    	<div class="media-list media-list-hover">
+                        	<c:if test="${not empty emplistAll }">
+								<c:forEach var="e" items="${emplistAll }">
+                                   <div class="media py-10 px-0 align-items-center">
+                                      <p class="avatar avatar-lg status-success">
+                                        <img src="${path}/resources/images/avatar/1.jpg" alt="...">
+                                      </p>
+                                   <div class="media-body">
+                                      <p class="fs-20" id="chatEmpName">
+                                        <c:out value="${e.EMP_NAME }"/>
+                                      </p>
+                                      <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
+                                   </div>
+                                   <input type="checkbox" id="emp${e.EMP_NO }" class="filled-in chk-col-primary" name="plustempCheck" value="${e.EMP_NO}"/>
+								   <label for="emp${e.EMP_NO }"> </label>
+                                </div>
+                                </c:forEach>
+                            </c:if>
+                        </div>
+                     </div>
+			</div>
+			</form>
+				<button type="button" id="invitebtn" onclick="inviteEmployees()" disabled>초대</button>
+				<button type="button" onclick="inviteModalClose()">취소</button>
+		</div>
+	</div>
+	
   <!-- /.content-wrapper -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -381,7 +437,7 @@
   		  				const $strong = document.createElement("strong");
   		  				const $p = document.createElement("p");
   		  				$p.classList.add("mb-0", "fs-16");
-  		  				$p.textContent = writer;
+  		  				$p.textContent = writerName;
 
   		  				$strong.appendChild($p);
   		  				$minWidthZero.appendChild($strong);
@@ -488,8 +544,8 @@
 		      var filename = file.name.substring(0,fileDot);
 		      console.log('name : ' + filename);
 		      
-		      if (!(fileType == 'png' || fileType == 'jpg' || fileType == 'jpeg' || fileType == 'gif')) {
-		         alert('파일 업로드는 png, jpg, gif, jpeg 만 가능합니다');
+		      if (!(fileType == 'png' || fileType == 'jpg' || fileType == 'jpeg')) {
+		         alert('파일 업로드는 png, jpg, jpeg 만 가능합니다');
 		         return;
 		       }
 			  // 파일 로드가 완료되면 미리보기 생성(모달)
@@ -586,12 +642,22 @@
   				});
   			}
   			
-	  		//채팅방에서 초대하기 창 띄우기
-	  		document.getElementById('dropchatinvite').addEventListener('click',function(){
-	  			 var windowFeatures = "width=400,height=300";
-	  	        window.open("", "_blank", windowFeatures);
+	  		//채팅방에서 초대하기 모달 띄우기
+	  		document.getElementById('modalchatinvite').addEventListener('click',function(){
+	  			var modal=document.getElementById("inviteModal");
+	  			modal.style.display="block";
+	  			document.body.classList.add("modal-open"); // 스크롤 막기
+	  			
 	  		});
   			
+	  		//채팅방에서 초대하기 모달 끄기
+			function inviteModalClose(){
+				var modal = document.getElementById("inviteModal");
+				modal.style.display = "none"; // 모달 창 닫기
+				document.body.classList.remove("modal-open"); // 스크롤 허용
+			}
+	  		
+	  		
 	  		//방 나가기
 	  		function leaveRoom(){
 	  			if(confirm('방을 정말 나가겠습니까?')){
@@ -607,6 +673,7 @@
 	  					type:'PUT',
 	  					data:data,
 	  					success:function(res){
+	  						alert('방을 나가셨습니다.');
 	  						window.location.replace('${path}/chat/list');
 	  					},
 	  					error:function(error){
@@ -617,6 +684,129 @@
 	  				return;
 	  			}
 	  		}
+	  		
+	  		//대화방에서 초대하기 버튼 활성화
+	  		var plustempCheck = document.getElementsByName('plustempCheck');
+	  		var invitebtn = document.getElementById('invitebtn');
+	  		plustempCheck.forEach(function(checkbox){
+	  			checkbox.addEventListener('change',function(){
+	  				console.log('체크');
+	  				// 체크박스가 하나 이상 선택되었을 때 버튼 활성화
+	  		      const checkedCheckboxes = document.querySelectorAll('input[name="plustempCheck"]:checked');
+	  		      if (checkedCheckboxes.length > 0) {
+	  		    		invitebtn.disabled = false;
+	  		      } else {
+	  		    		invitebtn.disabled = true;
+	  		      }
+	  			});
+	  		});
+	  		
+	  		//방에서 직원 초대하기
+	  		function inviteEmployees(){
+	  			if(confirm('초대하시겠습니까?')){
+	  				$.ajax({
+		  				type:"POST",
+		  				url:"${path}/chat/room",
+		  				data:$("#inviteEmpList").serialize(),
+		  				dataType:"json",
+		  				success:function(res){
+		  					if(res==='success'){
+		  						alert("채팅방 초대 성공");
+		  						location.reload();
+		  					}
+		  				},
+		  				error:function(){
+		  					alert("채팅방 초대 실패");
+		  					location.reload();
+		  				}
+		  			});
+	  			}else{
+	  				return;
+	  			}
+	  			
+	  		}
+	  		
+	  		//초대하기 목록에서 검색 기능
+	  		document.getElementById('modalSearchEmp').addEventListener('input',function(e){
+	  			var modalsearchValue=e.target.value;
+	  			var data={
+	  					modalsearchValue:modalsearchValue,
+	  					roomId:roomId
+	  			}
+	  			console.log(modalsearchValue);
+	  			
+	  			$.ajax({
+	  				type:'POST',
+	  				url:'${path}/chat/room/modalsearch',
+	  				data:JSON.stringify(data),
+  					dataType:"json",
+  					contentType:"application/json",
+	  				success(data){
+	  					console.log(data)
+	  					/* document.getElementById('employeeList').innerHTML = ""; */
+	  					$.each(data,function(){
+	  						console.log(data);
+	  					// 새로운 div 요소 생성
+	  						var $chatbox = document.createElement('div');
+	  						$chatbox.classList.add('chat-box-one-side3');
+
+	  						// 내부 요소들 생성
+	  						var $mediaList = document.createElement('div');
+	  						$mediaList.classList.add('media-list', 'media-list-hover');
+
+	  						var $media = document.createElement('div');
+	  						$media.classList.add('media', 'py-10', 'px-0', 'align-items-center');
+
+	  						var $avatar = document.createElement('p');
+	  						$avatar.classList.add('avatar', 'avatar-lg', 'status-success');
+
+	  						var $avatarImage = document.createElement('img');
+	  						$avatarImage.src = '${path}/resources/images/avatar/1.jpg';
+	  						$avatarImage.alt = '...';
+
+	  						var $mediaBody = document.createElement('div');
+	  						$mediaBody.classList.add('media-body');
+
+	  						var $empName = document.createElement('p');
+	  						$empName.classList.add('fs-20');
+	  						$empName.id = 'chatEmpName';
+	  						$empName.textContent = data.EMP_NAME;
+
+	  						var $empLv = document.createElement('p');
+	  						$empLv.id = 'chatEmpLv';
+	  						$empLv.textContent = data.EMP_LV + " / " + data.DEP_NAME;
+
+	  						var $checkbox = document.createElement('input');
+	  						$checkbox.type = 'checkbox';
+	  						$checkbox.id = 'emp' + data.EMP_NO;
+	  						$checkbox.classList.add('filled-in', 'chk-col-primary');
+	  						$checkbox.name = 'plustempCheck';
+	  						$checkbox.value = data.EMP_NO;
+
+	  						var $label = document.createElement('label');
+	  						$label.setAttribute('for', 'emp' + data.EMP_NO);
+
+	  						// 요소들을 적절한 구조로 추가
+	  						$avatar.appendChild($avatarImage);
+	  						$mediaBody.appendChild($empName);
+	  						$mediaBody.appendChild($empLv);
+	  						$media.appendChild($avatar);
+	  						$media.appendChild($mediaBody);
+	  						$media.appendChild($checkbox);
+	  						$media.appendChild($label);
+	  						$mediaList.appendChild($media);
+	  						$chatbox.appendChild($mediaList);
+
+	  						// 요소를 원하는 위치에 추가
+	  						var targetElement = document.getElementById('employeeList');
+	  						targetElement.appendChild($chatbox);
+	  					})
+	  				},
+	  				error:function(error){
+	  					alert('에러:'+error);
+	  				}
+	  			});
+	  		});
 	  		
   	</script>
 

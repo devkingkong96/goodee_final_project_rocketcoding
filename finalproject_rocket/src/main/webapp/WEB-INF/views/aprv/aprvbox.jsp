@@ -30,7 +30,7 @@
 	         	<td><c:out value="${l.DOC_TITLE }"/></td>
 	         	<td><c:out value="${l.EMP_NO }"/></td>
 	         	<td><c:out value="${l.START_DATE }"/></td>
-	         	<td><c:out value="${l.END_DATE }"/></td>
+	         	<td><c:out value="${l.U_DATE }"/></td>
 	         	<td><c:out value="${l.DOC_TAG }"/></td>
 	         </tr>
 	         </c:forEach>

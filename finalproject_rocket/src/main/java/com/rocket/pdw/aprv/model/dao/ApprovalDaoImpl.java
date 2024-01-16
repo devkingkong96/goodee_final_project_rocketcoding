@@ -123,7 +123,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	    List<Map<String, Object>> lastAprv = aprvDocu.stream()
 	                                                  .filter(map -> map.get("APRV_LV").equals(BigDecimal.valueOf(aprvCount)))
 	                                                  .toList();
-	    log.info("{마지막결재자입니다} : " + lastAprv);
+	    //log.info("{마지막결재자입니다} : " + lastAprv);
 
 	    BigDecimal empNoBigDecimal = new BigDecimal((String)reqAll.get("EMP_NO"));
 	    if(empNoBigDecimal.equals(lastAprv.get(0).get("APRV_EMP"))) {

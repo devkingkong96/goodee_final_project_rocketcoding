@@ -136,6 +136,49 @@
                                     <div class="box-body">
                                         <h4 class="box-title">본문</h4>
                                         <div id="tagCont">
+                                        <table>
+							                <thead>
+							                <tr>
+							                    <th colspan="2"><h1 style="text-align: center;">입출고 내역 결재서 </h1></th>
+							                </tr>
+							            </thead>
+							            <tbody>
+							            	<c:if test="${not empty inventoryInfo}">
+									    <tr>
+									        <td>기안자</td>
+									        <td>${user.empName}</td>
+									    </tr>
+									    <tr>
+									        <td>거래처</td>
+									        <td>거래측 담당자이름</td>
+									    </tr>
+									    <tr>
+									        <td>lV_TYPE</td>
+									        <td>${inventoryInfo[0].IV_DATE} / ${inventoryInfo[0].IV_MEMO} / ${inventoryInfo[0].IV_VAT_TYPE}</td>
+									    </tr>
+									                    
+									    <tr>
+									        <th>도서명</th>
+									        <th>도서별 입출고 수량 / 도서별 입/출고 단가</th>
+									    </tr>
+									    <c:forEach var="IV" items="${inventoryInfo}">
+									        <tr>
+									            <td>${IV.PRD_TITLE}</td>
+									            <td>${IV.PRD_IV_QUANTITY} / ${IV.PRD_STKPRICE}</td>
+									        </tr>
+									    </c:forEach>
+									    <tr>
+									        <td>모든도서 입출고 단가</td>
+									        <td>도서별 매장내 판매액의 총금액</td>
+									    </tr>
+									    <tr style="height: 500px">
+									        <td colspan="2" style="text-align: center;">상기와 같은 이유로 결재 바랍니다.<br><br><br><br><br><br>
+									        <%=strDate %></td>
+									    </tr>
+									</c:if>
+									</tbody>
+									</table>
+ 
                                         </div>
                                         
                                         
@@ -317,8 +360,42 @@
     	document.getElementById("END_DATE").value=endDate;
         } else if (x === "option2") {
             document.getElementById("contentContainer").style.display = "block";
-            document.getElementById("tagCont").innerHTML = "";
-            document.getElementById("tagCont").innerHTML = "";
+            //document.getElementById("tagCont").innerHTML = "";
+            <%-- document.getElementById("tagCont").innerHTML = `
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="2"><h1 style="text-align: center;">입출고 내역 결재서 </h1></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>기안자</td>
+                    <td>${user.empName}</td>
+                </tr>
+                <tr>
+                    <td>거래처</td>
+                    <td>거래측 담당자이름</td>
+                </tr>
+                <tr>
+                    <td>lV_TYPE</td>
+                    <td>IV_DATE / IV_MEMO / IV_VAT_TYPE</td>
+                </tr>
+                
+                <tr>
+                    <th>도서명</th>
+                    <th>도서별 입출고 수량 / 도서별 입/출고 단가</th>
+                </tr>
+                <tr>
+                    <td>모든도서 입출고 단가</td>
+                    <td>도서별 매장내 판매액의 총금액</td>
+                </tr>
+                <tr style="height: 500px">
+                    <td colspan="2" style="text-align: center;">상기와 같은 이유로 결재 바랍니다.<br><br><br><br><br><br>
+                    <%=strDate %></td>
+                </tr>
+            </tbody>
+        </table>`; --%>
             document.getElementById("DOC_TAG").value=2;
         } else {
             document.getElementById("contentContainer").style.display = "none";

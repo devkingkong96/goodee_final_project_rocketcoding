@@ -49,6 +49,108 @@ public class StockController {
         }
     };
 
+    @RequestMapping("stock/ledger")
+    public String stockLedger(HttpServletRequest request, Model model) {
+        HashMap<String, Object> params = Getrequest.getParameterMap(request);
+
+ /*       for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            // 값이 String 배열인 경우 Arrays.toString()을 사용하여 출력
+            if (value instanceof String[]) {
+                log.error(key + ": " + Arrays.toString((String[])value));
+            } else {
+                log.error(key + ": " + value);
+            }
+        }
+*/
+        Map<String, String[]> paramMap = request.getParameterMap();
+
+// branchId와 prdId 파라미터를 배열로 추출
+        String[] branchIdArray = paramMap.get("branchId");
+        String[] prdIdArray = paramMap.get("prdId");
+
+// 배열을 List로 변환
+        List<String> branchIdList = branchIdArray != null ? Arrays.asList(branchIdArray) : new ArrayList<>();
+        List<String> prdIdList = prdIdArray != null ? Arrays.asList(prdIdArray) : new ArrayList<>();
+
+        if (branchIdList == null || branchIdList.isEmpty()) {
+            branchIdList = new ArrayList<>();
+            branchIdList.add("0"); // '0'을 기본값으로 사용
+        }
+        if (prdIdList == null || prdIdList.isEmpty()) {
+            prdIdList = new ArrayList<>();
+            prdIdList.add("0"); // '0'을 기본값으로 사용
+        }
+
+        params.put("branchIdList", branchIdList);
+        params.put("prdIdList", prdIdList);
+
+        List<Map<String, Object>> daybyStockList = service.stockLedger(params);
+
+        // daybyStockList의 각 항목에 대해 반복
+/*        for (Map<String, Object> item : daybyStockList) {
+            log.error("================================================");
+            // 각 Map의 키-값 쌍에 대해 반복
+            for (Map.Entry<String, Object> entry : item.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+
+                // 값이 String 배열인 경우 Arrays.toString()을 사용하여 출력
+                if (value instanceof String[]) {
+                    log.error("Key: " + key + ", Value: " + Arrays.toString((String[])value));
+                } else {
+                    log.error("Key: " + key + ", Value: " + value);
+                }
+            }
+        }*/
+
+        List<Map<String, Object>> uniqueList = new ArrayList<>();
+
+        Set<Object> prdIdSet = new HashSet<>();
+        for (Map<String, Object> map : daybyStockList) {
+            Object popPrdId = map.get("PRD_ID");
+            /*            log.error("{}", popPrdId);*/
+            if (!prdIdSet.contains(popPrdId)) {
+                prdIdSet.add(popPrdId);
+                uniqueList.add(map);
+            }
+        }
+
+
+        List<Map<String, Object>> branchNameUniqueList = new ArrayList<>();
+
+        Set<Object> brcNameSet = new HashSet<>();
+        for (Map<String, Object> map : daybyStockList) {
+            Object popBrcName = map.get("BRANCH_NAME");
+            if (!brcNameSet.contains(popBrcName)) {
+
+                brcNameSet.add(popBrcName);
+//                log.error("popBrcName : {}", popBrcName);
+                branchNameUniqueList.add(map);
+            }
+        }
+        model.addAttribute("daybyStockList", daybyStockList);
+        model.addAttribute("branchNameUniqueList", branchNameUniqueList);
+
+        return "logistics/StockLedgerPage";
+    }
+
+    @RequestMapping("stock/searchledger")
+    public String searchLedger(Model model) {
+        List<Map<String, Object>> branchList = service.selectAllBranch();
+
+        List<Map<String, Object>> selectAllProduct = service.selectAllProduct();
+
+        model.addAttribute("branchList", branchList);
+        model.addAttribute("productList", selectAllProduct);
+        return "logistics/searchStockLedger";
+//        return "redirect:/logistics/searchDaybyStock";
+        /*        return "logistics/searchDaybyStock";*/
+    }
+
+
     @RequestMapping("stock/branchbyheigt")
     public String selectStockByProduct(HttpServletRequest request, Model model) {
         HashMap<String, Object> params = Getrequest.getParameterMap(request);

@@ -15,6 +15,7 @@
     table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
     th,
     td {
@@ -146,7 +147,7 @@
 
 
                                     </div>
-                                    <div class="box">
+                                    <%-- <div class="box">
                                         <div class="box-header">
                                             <h4 class="box-title">파일첨부</h4>
                                         </div>
@@ -157,7 +158,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --%>
                                 </div>
                             </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
@@ -422,7 +423,18 @@
 
 <script>
     const saveMembers = () => {
-        const aprvItems = document.getElementById('aprv').children;
+        
+    	document.getElementById('name').innerHTML = '';
+        document.getElementById('empty').innerHTML = '';
+        document.getElementById('emplv').innerHTML = '';
+        
+        
+        if (name) name.innerHTML = '';
+        if (empty) empty.innerHTML = '';
+        if (emplv) emplv.innerHTML = '';
+        
+    	
+    	const aprvItems = document.getElementById('aprv').children;
         const readItems = document.getElementById('reader').children;
         let aprvempInfo = [];
         let readerempInfo = [];

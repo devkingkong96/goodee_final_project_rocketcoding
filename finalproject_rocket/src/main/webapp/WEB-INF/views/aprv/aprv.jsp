@@ -160,13 +160,49 @@
                                      <div class="box">
                                         <div class="box-header">
                                             <h4 class="box-title">${docu[0]['DOC_TITLE']}</h4>
-                                   <c:if test="${not empty docu}">
-									</c:if>
+                                   <c:if test="${docu[0]['DOC_TAG'] eq 1}" >
+                                   	
 									   </div>
                                          <div class="box-body">
-                                            <c:out value="${textdata}"/>
+                                            <table>
+            <thead>
+                <th colspan="2"><h1 style="text-align: center;">휴가신청서</h1></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>성명</td>
+                    <td>${user.empName}</td>
+                </tr>
+                <tr>
+                    <td>부서</td>
+                    <td>${dept}</td>
+                </tr>
+                <tr>
+                    <td>기간</td>
+                    <td >
+                    <p id="startDate"></p>
+                    
+                    
+                    <p id="endDate"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>휴가종류</td>
+                    <td>[사용할 휴가의 종류]</td>
+                </tr>
+                <tr>
+                    <td>휴가사유</td>
+                    <td><textarea name="DOC_CONT" > </textarea></td>
+                </tr>
+                <tr style="height: 500px">
+                    <%-- <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
+                    <%=strDate %></td> --%>
+                </tr>
+            </tbody>
+        </table>
                                         </div> 
                                     </div>
+									</c:if>
    
     
                                     

@@ -51,8 +51,7 @@ public class EmployeeController {
 //	        log.info("mycalendar:" + mycalendar.toString());
 	        model.addAttribute("employee", employee);
 	        model.addAttribute("coomute", coomute);
-//	        model.addAttribute("mycalendar", mycalendar);
-	        
+//	        model.addAttribute("mycalendar", mycalendar);	        
 	    }
 	    return "employee/mypage";
 	}

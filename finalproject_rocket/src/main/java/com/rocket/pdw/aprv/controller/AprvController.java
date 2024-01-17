@@ -4,13 +4,14 @@ import static com.rocket.common.Getrequest.getParameterMap;
 
 import java.math.BigDecimal;
 import java.sql.Clob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,13 +38,23 @@ import lombok.extern.slf4j.Slf4j;
 public class AprvController {
 
 	private final ApprovalService service;
-	private static final String UPLOAD_DIR = "/src/main/resources/docu/uploads";
+	
 
 	// 로그인한 사원이 갖고있는 문서리스트
 	private List<Map<String, Object>> getAprvListByEmpNo() {
 		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int no = e.getEmpNo();
 		return service.selectAprvList(no);
+	}
+	private Object convertMapToJson(Map<String, Object> map) {
+		JSONObject json = new JSONObject();
+		for(Map.Entry<String, Object>entry:map.entrySet()){
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			json.put(key, value);
+		}
+		return json;
+
 	}
 
 	// 진행중인 전체 문서
@@ -272,7 +283,7 @@ public class AprvController {
 				return ResponseEntity.ok("mypage");	
 			}else {
 				
-				return ResponseEntity.ok("inventory");
+				return ResponseEntity.ok("logistics/inventory/list");
 			}
 		}
 		else 
@@ -285,16 +296,35 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		log.info("===========aprvDocu : {} ",aprvDocu);
+		//log.info("===========aprvDocu : {} ",aprvDocu);
 		
 		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
-		String textdata = null;
+		String textData = "";
 		try {
-			textdata = text.getSubString(1, (int) text.length());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		    String clobContent = text.getSubString(1, (int) text.length());
+		    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+		        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+		        for (String content : contentArray) {
+		            textData += content.trim();
+		        }
+		    } else {
+		        textData += clobContent;
+		    }
+		} catch (Exception e1) {
+		    e1.printStackTrace();
 		}
+		
+		JSONArray jsonArr= new JSONArray();
+		
+		for(Map<String,Object>map: aprvDocu){
+			jsonArr.add(convertMapToJson(map));
+		}
+		log.info("================json==========={}",jsonArr);
+		
+		
+		
+		
+		
 		
 		//List<Map<String, Object>> employee = service.selectEmployee((int)aprvDocu.get(0).get("APRV_EMP"));
 	    //log.info("기안자 정보를 가져오기  : {}",employee);   
@@ -303,10 +333,13 @@ public class AprvController {
 	    //m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
 		m.addAttribute("docNo", docNo);
 		m.addAttribute("docu", aprvDocu);
-		m.addAttribute("textdata", textdata);
+		m.addAttribute("textData", textData);
+		m.addAttribute("jsonArr", jsonArr);
 		
 		return "aprv/aprv";
 	}
+	
+
 	//updateaprv
 	@PostMapping("/updateaprv")
 	@ResponseBody

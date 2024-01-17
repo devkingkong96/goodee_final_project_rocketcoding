@@ -82,7 +82,7 @@
 														        <c:if test="${doc.APRV_SQ == 0}">
 														            <td id="APRV_EMP">
 														                <c:if test="${doc.APRV_EMP eq user.empNo}">
-														                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
+														                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" id="targetbtn">
 					                                                            결재
 					                                                        </button>
 														                </c:if>
@@ -115,7 +115,7 @@
                                         <div class="col-md-12 col-12" style="display: flex">
                                         <div class="box-header" style="display: flex" id="singleTag">
                                             <h4>
-                                                참조자 :
+                                                참조자 
                                             </h4>
                                             &nbsp;
                                             <c:forEach var="doc" items="${docu}">
@@ -150,78 +150,68 @@
 										    </c:if>
 										</c:if>
 
-										</c:forEach>
-
-                                            
+										</c:forEach>                                     
                                         </div>
                                     </div>
-  									</div>
-                                    
-                                     <div class="box">
+  									</div>                        
+                                    <div class="box">
                                         <div class="box-header">
-                                            <h4 class="box-title">${docu[0]['DOC_TITLE']}</h4>
+                                            
                                    <c:if test="${docu[0]['DOC_TAG'] eq 1}" >
                                    	
 									   </div>
                                          <div class="box-body">
-                                            <table>
-            <thead>
-                <th colspan="2"><h1 style="text-align: center;">휴가신청서</h1></th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>성명</td>
-                    <td>${user.empName}</td>
-                </tr>
-                <tr>
-                    <td>부서</td>
-                    <td>${dept}</td>
-                </tr>
+				                                            <table>
+				            <thead>
+				                <th colspan="2"><h1 style="text-align: center;">휴가신청서</h1></th>
+				            </thead>
+				            <tbody>
+				                <tr>
+				                    <td>성명</td>
+				                    <td>${docu[0]['EMP_NO']}</td>
+				                </tr>
+				                
                 <tr>
                     <td>기간</td>
                     <td >
                     <p id="startDate"></p>
-                    
+                    	${docu[0]['START_DATE']}
                     
                     <p id="endDate"></p>
+                    	${docu[0]['END_DATE']}
                     </td>
                 </tr>
                 <tr>
                     <td>휴가종류</td>
-                    <td>[사용할 휴가의 종류]</td>
+                    <td>${docu[0]['DOC_TITLE']}</td>
                 </tr>
                 <tr>
                     <td>휴가사유</td>
-                    <td><textarea name="DOC_CONT" > </textarea></td>
+                    
+                    <td><c:out value="${textData}"/></td>
                 </tr>
                 <tr style="height: 500px">
-                    <%-- <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
-                    <%=strDate %></td> --%>
+                    <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
+                   	${docu[0]['U_DATE']}
+                   	</td> 
                 </tr>
             </tbody>
         </table>
                                         </div> 
                                     </div>
 									</c:if>
-   
+		<table>							
+		<c:if test="${docu[0]['DOC_TAG'] eq 2}" >							
+			<c:out value="${textData}" escapeXml="false"/>
+  		</c:if>
+  		</table> 
     
                                     
                                     
                                     
                                     
                                     
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h4 class="box-title">파일첨부</h4>
-                                        </div>
-                                        <div class="box-body">
-                                            <form action="${path }/docu/file" class="dropzone" id="form2">
-                                                <div class="fallback">
-                                                    <input name="file" type="file" multiple />
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                  
                                     
                                     
                                     
@@ -229,7 +219,7 @@
                                     
                                 </div>
                             </div>
-                            <button class="btn btn-primary" id="submitAll">제출하기</button>
+                            
                             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none; width: 100%">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="background-color: white;">
@@ -337,5 +327,20 @@ function read(){
 	}
 	
 }
-</script>
 
+</script>
+<script>
+//var docu = JSON.parse("${jsonArr}"); 
+//console.log(docu);
+
+
+
+
+
+
+//document.getElementById("targetbtn").addEventListener("click", function() {
+    
+    //alert('전 결재자 결재를 안했어요');
+//});
+
+</script>

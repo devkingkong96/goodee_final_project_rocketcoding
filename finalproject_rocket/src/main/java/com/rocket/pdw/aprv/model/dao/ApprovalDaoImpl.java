@@ -2,9 +2,11 @@ package com.rocket.pdw.aprv.model.dao;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -50,24 +52,65 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	    
 		
 		try {
+		log.info("DOC_CONT{}",reqAll.get("DOC_CONT"));
 		
-		int docu = session.insert("approval.insertDocu", reqAll);
+		
+		session.insert("approval.insertDocu", reqAll);
 		 
-	    
-		String[] testArrays  = (String[])reqAll.get("APRV_EMP");	
-		String[] testArrays2 = (String[])reqAll.get("APRV_SQ");
+//	    //결재자
+//		String[] testArrays  = (String[])reqAll.get("APRV_EMP");
+//		//참조자
+//		String[] testArrays2 = (String[])reqAll.get("APRV_SQ");
+//		
+//		int [] aprvEmpArrays = new int[testArrays.length];
+//		for(int i=0;i<testArrays.length;i++) {
+//			aprvEmpArrays[i]=Integer.parseInt(testArrays[i]);
+//		}
+//		
+//		int [] aprvSQArrays=new int[testArrays2.length];
+//		for(int i=0;i<testArrays2.length;i++) {
+//			aprvSQArrays[i]=Integer.parseInt(testArrays2[i]);
+//	    }
 		
-		int [] aprvEmpArrays = new int[testArrays.length];
-		for(int i=0;i<testArrays.length;i++) {
-			aprvEmpArrays[i]=Integer.parseInt(testArrays[i]);
+		
+		Object aprvEmpObj = reqAll.get("APRV_EMP");
+		List<Integer> empArrays = new ArrayList<>();
+		if (aprvEmpObj instanceof String) {
+		    
+		    empArrays.add(Integer.parseInt((String)aprvEmpObj));
+		} else if (aprvEmpObj instanceof String[]) {
+		    empArrays = Arrays.stream((String[])aprvEmpObj)
+		                       .map(Integer::parseInt)
+		                       .collect(Collectors.toList());
 		}
-		
-		int [] aprvSQArrays=new int[testArrays2.length];
-		for(int i=0;i<testArrays2.length;i++) {
-			aprvSQArrays[i]=Integer.parseInt(testArrays2[i]);
-	    }
-		
+		//참조자
+		Object aprvSQObj = reqAll.get("APRV_SQ");
+		List<Integer> sqArrays = new ArrayList<>();
+		if (aprvSQObj instanceof String) {
+		    sqArrays.add(Integer.parseInt((String)aprvSQObj));
+		} else if (aprvSQObj instanceof String[]) {
+		    sqArrays = Arrays.stream((String[])aprvSQObj)
+		                        .map(Integer::parseInt)
+		                        .collect(Collectors.toList());
+		}
 
+
+		int[] aprvEmpArrays = empArrays.stream().mapToInt(Integer::intValue).toArray();
+		int[] aprvSQArrays = sqArrays.stream().mapToInt(Integer::intValue).toArray();
+		
+		/*
+		 * List<Object> testArrays ; testArrays.add(reqAll.get("APRV_EMP"));
+		 * List<Object> testArrays2 ; testArrays2.add(reqAll.get("APRV_SQ"));
+		 * 
+		 * int [] aprvEmpArrays = new int[testArrays.size()]; for(int
+		 * i=0;i<testArrays.size();i++) {
+		 * aprvEmpArrays[i]=Integer.parseInt(testArrays[i]); }
+		 * 
+		 * int [] aprvSQArrays=new int[testArrays2.length]; for(int
+		 * i=0;i<testArrays2.size();i++) {
+		 * aprvSQArrays[i]=Integer.parseInt(testArrays2[i]); }
+		 */
+		
 		int count=1;
 			for(int i=0;i<aprvEmpArrays.length;i++) { 
 			  Map<String,Object> aprv = new HashMap<String,Object>();
@@ -81,7 +124,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			  }else {
 			  	aprv.put("APRV_SQ", 0);
 			  	aprv.put("APRV_LV", count++);
-			  	aprv.put("APRV_EMP", aprvEmpArrays[i]);
+			  	aprv.put("APRV_EMP", empArrays.get(i));
 			  	
 			  	session.insert("approval.insertAprv", aprv);
 			  }
@@ -91,7 +134,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			  Map<String,Object> aprv = new HashMap<String,Object>();
 			  	aprv.put("APRV_SQ", 0);
 			  	aprv.put("APRV_LV", 99);
-			  	aprv.put("APRV_EMP", aprvSQArrays[i]);
+			  	aprv.put("APRV_EMP", sqArrays.get(i));
 			  	session.insert("approval.insertAprv", aprv);
 		  }
 		  return 1; 

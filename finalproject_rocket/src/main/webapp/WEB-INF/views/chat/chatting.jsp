@@ -248,7 +248,7 @@
 			<div id="employeeList">
                <c:if test="${not empty emplistAll }">
 					<c:forEach var="e" items="${emplistAll }">
-                    	<div class="media-list media-list-hover">
+                    	<div class="media-list media-list-hover" id="emplist${e.EMP_NO }">
                                    <div class="media py-10 px-0 align-items-center">
                                       <p class="avatar avatar-lg status-success">
                                         <img src="${path}/resources/images/avatar/1.jpg" alt="...">
@@ -284,7 +284,7 @@
   			var username='${empinfo.empName }';
   			var userno='${empinfo.empNo }';
   			
-  			console.log("로그인한 직원 번호 : "+userno);
+  			/* console.log("로그인한 직원 번호 : "+userno); */
   			
   			var sockJS=new SockJS("/ws/chat");
   			var stomp=Stomp.over(sockJS);
@@ -312,13 +312,75 @@
   			//메시지 수신
   			function onMessageReceived(payload){
   				
-  				console.log("수신 확인");
-  				console.log("대화방 직원 목록(바디 아닌 애들):"+payload);
   				
   				var chat=JSON.parse(payload.body);
-  				
-  				if(Array.isArray(chat)) {
+  				console.dir(chat.type);
+  				if(chat.type==="ROOMINVITE"){
+  					document.getElementById('emplist').innerHTML="";
+  					chat.inPerson.forEach(map=>{
+  					// 새로운 div 요소 생성
+  						var $chatbox = document.createElement('div');
+  						$chatbox.classList.add('chat-box-one-side3');
+
+  						// 내부 요소들 생성
+  						var $mediaList = document.createElement('div');
+  						$mediaList.classList.add('media-list', 'media-list-hover');
+
+  						var $media = document.createElement('div');
+  						$media.classList.add('media', 'py-10', 'px-0', 'align-items-center');
+
+  						var $avatar = document.createElement('p');
+  						$avatar.classList.add('avatar', 'avatar-lg', 'status-success');
+
+  						var $avatarImage = document.createElement('img');
+  						$avatarImage.src = '${path}/resources/images/avatar/1.jpg';
+  						$avatarImage.alt = '...';
+
+  						var $mediaBody = document.createElement('div');
+  						$mediaBody.classList.add('media-body');
+
+  						var $empName = document.createElement('p');
+  						$empName.classList.add('fs-20');
+  						$empName.id = 'chatEmpName'+map.EMP_NO;
+  						$empName.textContent = map.EMP_NAME;
+
+  						var $empLv = document.createElement('p');
+  						$empLv.id = 'chatEmpLv'+map.EMP_NO;
+  						$empLv.textContent = map.EMP_LV + " / " + map.DEP_NAME;
+
+
+  						// 요소들을 적절한 구조로 추가
+  						$avatar.appendChild($avatarImage);
+  						$mediaBody.appendChild($empName);
+  						$mediaBody.appendChild($empLv);
+  						$media.appendChild($avatar);
+  						$media.appendChild($mediaBody);
+  						$mediaList.appendChild($media);
+  						$chatbox.appendChild($mediaList);
+
+  						// 요소를 원하는 위치에 추가
+  						var targetElement = document.getElementById('emplist');
+  						targetElement.appendChild($chatbox); 
+  					});
   					
+  					chat.delEmps.forEach((emp)=>{
+  						console.log("emp 목록"+emp);
+  						var parentDiv = document.getElementById('inviteEmpList');
+  						var delDiv = document.getElementById('emplist'+emp);
+  						console.log("delDiv:"+delDiv);
+  						/* parentDiv.removeChild(delDiv); */
+  						
+  						if(delDiv.parentNode){
+  							delDiv.parentNode.removeChild(delDiv);
+  						}
+  						
+  					});
+  				}
+  				//chat.forEach((map)=>{
+  				//	console.dir(map);
+  					/* if(map.get("type")==="ROOMINVITE"){
+  						
+  					map.delete("type");
   					document.getElementById('emplist').innerHTML="";
   					for(let i=0;i<chat.length;i++){
   						const emp=chat[i];
@@ -364,12 +426,11 @@
 
   						// 요소를 원하는 위치에 추가
   						var targetElement = document.getElementById('emplist');
-  						targetElement.appendChild($chatbox);
-  					}
-  				}
+  						targetElement.appendChild($chatbox); */
+  					//}
+  					//}
+  				//});
   				
-  				console.log("대화방 직원 목록(바디 애들):"+chat);
-  				console.log(chat.sendAt);
   				
   				//작성자,메시지 내용,발신 시간 값 가져오기
   				var writer=chat.msgEmpNo;
@@ -380,8 +441,8 @@
   				var msgFiOriName=chat.msgFiOriName;
   				var msgFiReName=chat.msgFiReName;
   				
-  				console.log("보낸 사람 : "+writer);
-  				console.log("로그인한 사람 : "+userno);
+  				/* console.log("보낸 사람 : "+writer);
+  				console.log("로그인한 사람 : "+userno); */
   				
   				
   				if(type==='TALK'){
@@ -597,11 +658,9 @@
 			  
 		      // 확장자 검사
 		      var fileType = file.name.substring(fileDot + 1, file.name.length);
-		      console.log('type : ' + fileType);
 
 		      // 파일명
 		      var filename = file.name.substring(0,fileDot);
-		      console.log('name : ' + filename);
 		      
 		      if (!(fileType == 'png' || fileType == 'jpg' || fileType == 'jpeg')) {
 		         alert('파일 업로드는 png, jpg, jpeg 만 가능합니다');
@@ -634,8 +693,8 @@
 	 			
 	 			formData.append('file',form);
  	 			
-  				console.log("form 데이터 : "+form);
-  				console.log("form 데이터 : "+formData);
+  				/* console.log("form 데이터 : "+form);
+  				console.log("form 데이터 : "+formData); */
   				
  	 			$.ajax({
  	 				url : '${path}/chat/file/upload',
@@ -646,7 +705,7 @@
  	 				processData : false,
  	 				success : function(data){
  	 				//채팅 메시지 전송(기록용)
- 	 				console.log("데이터값 : "+data);
+ 	 				/* console.log("데이터값 : "+data); */
  	 	 	 			if(stomp){
  	 	 	 				var data=data;
  	 	 	 				//모달 종료
@@ -684,7 +743,7 @@
   						msgFiOriName:ori,
   						msgFiReName:re
   				}
-  				console.log(data);
+  				/* console.log(data); */
   				$.ajax({
   					url:'${path}/chat/file/download',
   					type:'POST',
@@ -692,7 +751,7 @@
   					dataType:"json",
   					contentType:"application/json",
   					success:function(res){
-  						console.log(res);
+  						/* console.log(res); */
   						console.log('다운로드 성공');
   					},
   					error:function(error){
@@ -720,9 +779,9 @@
 	  		//방 나가기
 	  		function leaveRoom(){
 	  			if(confirm('방을 정말 나가겠습니까?')){
-	  				console.log('방 나감');
+	  				/* console.log('방 나감');
 	  				console.log(roomId);
-	  				console.log(userno);
+	  				console.log(userno); */
 	  				var data={
 	  						roomId:roomId,
 	  						userNo:userno
@@ -765,6 +824,14 @@
 	  		//방에서 직원 초대하기
 	  		function inviteEmployees(){
 	  			if(confirm('초대하시겠습니까?')){
+	  				
+	  				var delEmps = document.querySelectorAll('input[name="plustempCheck"]:checked');
+	  				var emps=[];
+	  				delEmps.forEach(function(emp){
+	  					emps.push(emp.value);
+	  				})
+	  				console.log("삭제할 애들 : "+emps);
+	  				
 	  				$.ajax({
 		  				type:"POST",
 		  				url:"${path}/chat/room",
@@ -772,12 +839,16 @@
 		  				dataType:"json",
 		  				success:function(res){
 		  						alert("채팅방 초대 성공");
+		  						/* console.log("초대한 방 이름,직원 이름들"+res); */
 		  						inviteModalClose();
-		  						var chatMsg={
-	 	 	 	  						msgRoomNo:roomId,
+		  						
+		  						var data={
+		  								roomId:roomId,
+	 	 	 	  						delEmps:emps,
 	 	 	 	  						type:'INVITE'
 	 	 	 	  						}
-		  						stomp.send('/pub/chat/invite',{},JSON.stringify(chatMsg));
+		  						stomp.send('/pub/chat/invite',{},JSON.stringify(data));
+		  						/* stomp.send('/pub/chat/delete',{},JSON.stringify(res)); */
 		  				},
 		  				error:function(){
 		  					alert("채팅방 초대 실패");
@@ -807,7 +878,6 @@
 	  					modalsearchValue:modalsearchValue,
 	  					roomId:roomId
 	  			};
-	  			console.log(modalsearchValue);
 	  			
 		  			$.ajax({
 		  				type:'POST',
@@ -816,17 +886,14 @@
 	  					dataType:"json",
 	  					contentType:"application/json",
 		  				success(data){
-		  					console.log(data)
 		  					document.getElementById('employeeList').innerHTML = "";
 		  					data.forEach((data)=>{
-			  						console.log(data);
 			  						// 새로운 div 요소 생성
 			  						var $chatbox = document.createElement('div');
-			  						$chatbox.classList.add('chat-box-one-side3');
+			  						$chatbox.classList.add('media-list', 'media-list-hover');
+			  						$chatbox.id = 'emplist' + data.EMP_NO;
 		
 			  						// 내부 요소들 생성
-			  						var $mediaList = document.createElement('div');
-			  						$mediaList.classList.add('media-list', 'media-list-hover');
 		
 			  						var $media = document.createElement('div');
 			  						$media.classList.add('media', 'py-10', 'px-0', 'align-items-center');
@@ -868,8 +935,7 @@
 			  						$media.appendChild($mediaBody);
 			  						$media.appendChild($checkbox);
 			  						$media.appendChild($label);
-			  						$mediaList.appendChild($media);
-			  						$chatbox.appendChild($mediaList);
+			  						$chatbox.appendChild($media);
 		
 			  						// 요소를 원하는 위치에 추가
 			  						var targetElement = document.getElementById('employeeList');

@@ -46,10 +46,10 @@ public class ChatRoomController {
 	//채팅방 생성
 	@PostMapping
 	@ResponseBody
-	public List<Object> chatCreateRoom(HttpServletRequest request) {
+	public Map<Object, Object> chatCreateRoom(HttpServletRequest request) {
 		HashMap<String, Object>reqAll=getParameterMap(request);
 		
-		List<Object> result=roomService.createChatRoomAll(reqAll);
+		Map<Object, Object> result=roomService.createChatRoomAll(reqAll);
 		
 		return result;
 	}

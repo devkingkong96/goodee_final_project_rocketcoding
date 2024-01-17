@@ -33,8 +33,8 @@ public class ChatRoomService {
 	}
 	//채팅방,채팅참여 중간 테이블 생성
 	@Transactional
-	public List<Object> createChatRoomAll(HashMap<String, Object>req) {
-		List<Object>emps=new ArrayList<>();
+	public Map<Object,Object> createChatRoomAll(HashMap<String, Object>req) {
+		Map<Object, Object>emps=new HashMap<>();
 		
 		if(req.get("roomName")!=null) {
 			String roomName=(String)req.get("roomName");
@@ -53,26 +53,27 @@ public class ChatRoomService {
 			//1:1 개인방
 			if(req.get("empCheck") instanceof String) {
 				int empNo=Integer.parseInt((String)req.get("empCheck"));
-				emps.add(empNo);
+				emps.put(empNo, empNo);
 				dao.createEmpChat(session,empNo);
 				//1:N 단체방
 			}else if(req.get("empCheck") instanceof String[]) {
 				String [] employees=(String[])req.get("empCheck");
 				for(String e:employees) {
 					int empNo=Integer.parseInt(e);
-					emps.add(empNo);
+					emps.put(empNo, empNo);
 					dao.createEmpChat(session,empNo);
 				}
 			}
 		}
 		//채팅방에서 회원 초대(중간 테이블 생성)
 		if(req.get("plustempCheck")!=null) {
-			emps.add("success");
 			Map<String, Object>param=new HashMap<>();
+			int roomId=0;
 			//개인 초대
 			if(req.get("plustempCheck") instanceof String) {
 				int empNo=Integer.parseInt((String)req.get("plustempCheck"));
-				int roomId=Integer.parseInt((String)req.get("roomId"));
+				roomId=Integer.parseInt((String)req.get("roomId"));
+				emps.put(empNo, empNo);
 				param.put("empNo", empNo);
 				param.put("roomId",roomId);
 				dao.plusEmpChat(session,param);
@@ -81,12 +82,14 @@ public class ChatRoomService {
 				String [] employees=(String[])req.get("plustempCheck");
 				for(String e:employees) {
 					int empNo=Integer.parseInt(e);
-					int roomId=Integer.parseInt((String)req.get("roomId"));
+					roomId=Integer.parseInt((String)req.get("roomId"));
+					emps.put(empNo, empNo);
 					param.put("empNo", empNo);
 					param.put("roomId",roomId);
 					dao.plusEmpChat(session,param);
 				}
 			}
+			emps.put("roomId", roomId);
 		}
 		return emps;
 	}

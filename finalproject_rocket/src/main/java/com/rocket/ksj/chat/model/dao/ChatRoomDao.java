@@ -41,7 +41,7 @@ public class ChatRoomDao {
 	}
 	//채팅방 나가기(숨기기) ->채팅방에서
 	public int deleteEmpChatRoomById(SqlSession session,Map<String, Object>param) {
-		return session.update("empchat.deleteEmpChatRoomById",param);
+		return session.delete("empchat.deleteEmpChatRoomById",param);
 	}
 	//채팅방 나가기(숨기기) ->채팅 목록에서
 	public int hiderooms(SqlSession session,Map<String, Object> param) {

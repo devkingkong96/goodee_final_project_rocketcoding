@@ -96,7 +96,7 @@
 								</div>
                             </div>
                             <div class="box-body">
-                                    <div class="tab-pane" id="contacts" role="tabpanel">	
+                                    <div class="tab-pane" id="contacts" role="tabpanel">
                                         <div class="chat-box-one-side3" id="empParentDiv">
                                             <c:if test="${not empty emplist }">
 												<c:forEach var="e" items="${emplist }">
@@ -187,14 +187,14 @@ function onConnected(){
 function onMessageReceived(payload){
 	console.log("list 수신 확인");
 	
+	var userno = '${logempNo }';
+	
 	var list=JSON.parse(payload.body);
 	
-	if(list.type==="LISTINVITE"){
-		
-	}
-	
-	if(list.type==="LISTLEAVE"){
-		
+	if(list.type==="CREATEROOM"){
+		list.inviteemps.forEach((emp)=>{
+			console.log("emp직원들 : "+emp);
+		});
 	}
 	
 }
@@ -264,9 +264,9 @@ function onError(){
 			dataType:"json",
 			success:function(res){
 					alert("채팅방 생성 성공");
-					console.log(res);
+					console.log("초대한 멤버 번호 리스트 : "+res);
 						stomp.send('/pub/list/invite',{},JSON.stringify(res));
-					
+						//채팅방 생성 모달 닫기
 						closeModal();
 			},
 			error:function(){

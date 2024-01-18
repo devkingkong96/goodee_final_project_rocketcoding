@@ -77,7 +77,8 @@ public class ChatRoomService {
 //				emps.put(empNo, empNo);
 				param.put("empNo", empNo);
 				param.put("roomId",roomId);
-				dao.plusEmpChat(session,param);
+				int result=dao.plusEmpChat(session,param);
+				log.info("채팅방에서 회원 초대 번호 : {}",result);
 			//여러명 초대
 			}else if(req.get("plustempCheck") instanceof String[]) {
 				String [] employees=(String[])req.get("plustempCheck");
@@ -87,7 +88,8 @@ public class ChatRoomService {
 //					emps.put(empNo, empNo);
 					param.put("empNo", empNo);
 					param.put("roomId",roomId);
-					dao.plusEmpChat(session,param);
+					int result=dao.plusEmpChat(session,param);
+					log.info("채팅방에서 회원들 초대 번호 : {}",result);
 				}
 			}
 //			emps.put("roomId", roomId);

@@ -89,7 +89,7 @@ public class LoggerAspect {
         log.debug("-----------------------------------------------------");
         return obj;
     }
-    @Around("within(com.rocket.pdw..*) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
+    //@Around("within(com.rocket.pdw..*) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
     public Object dwTest(ProceedingJoinPoint pj) throws Throwable {
 
 

@@ -283,7 +283,7 @@
 			</ul>
 					<!-- 인사관리 메뉴  끝 -->
 
-                        <!-- 물류 메뉴-->
+                            <!-- 물류 메뉴-->
                         <li class="treeview">
                             <a href="#">
                                 <i class="icon-Box3"><span class="path1"></span><span class="path2"></span></i>
@@ -347,8 +347,9 @@
                                                     class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>지점별 재고 현황 검색</a>
                                         </li>
-                                        <li><a href="contact_app.html"><i class="icon-Commit"><span
-                                                class="path1"></span><span class="path2"></span></i>재고 수불부 검색</a>
+                                        <li class='<%= request.getRequestURI().contains("searchStockLedger")|| request.getRequestURI().contains("StockLedgerPage") ? "active" : "" %>'>
+                                            <a href="${path}/logistics/stock/searchledger"><i class="icon-Commit"><span
+                                                    class="path1"></span><span class="path2"></span></i>재고 수불부 검색</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -383,7 +384,7 @@
                                 
                                 <li class="treeview">
                                     <a href="#">
-                                        <i class="icon-Commit"><span class="path1"></span><span
+                                        <i	 class="icon-Commit"><span class="path1"></span><span
                                                 class="path2"></span></i>진행중인 문서
                                         <span class="pull-right-container">
 								<i class="fa fa-angle-right pull-right"></i>
@@ -391,22 +392,22 @@
                                     </a>
                                     <ul class="treeview-menu">
 
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/a"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>전체</a></li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/w"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>대기</a>
                                         </li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/v"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>확인</a>
                                         </li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/e"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>예정</a>
                                         </li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/p"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>진행</a>
                                         </li>

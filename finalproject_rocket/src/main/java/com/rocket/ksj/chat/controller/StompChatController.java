@@ -1,7 +1,11 @@
 package com.rocket.ksj.chat.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -20,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rocket.ksj.chat.model.dto.ChatMessage;
 import com.rocket.ksj.chat.model.service.ChatMessageService;
+import com.rocket.ksj.chat.model.service.ChatService;
 import com.rocket.seoj.logistics.model.dto.InventoryAttach;
 import static com.rocket.common.Getrequest.*;
 
@@ -36,6 +41,7 @@ public class StompChatController {
 
 	private final SimpMessagingTemplate template;
 	private final ChatMessageService msgService;
+	private final ChatService chatService;
 	
 	//채팅방 입장
 	@MessageMapping("/chat/enter")
@@ -71,8 +77,46 @@ public class StompChatController {
 		}else {
 			log.info("실패");
 		}
+	}
+	
+	//채팅방에서 직원 초대
+	@MessageMapping("/chat/invite")
+	public void RoomInviteEmployees(Map<String, Object> param) {
+		log.info("방 번호{}",param);
+		int roomId=Integer.parseInt((String)param.get("roomId"));
+		Map<String,Object> responseData=new HashMap();
+		List<Map<String, Object>>result=chatService.selectEmployeeInRoom(roomId);
+		responseData.put("inPerson",result);
+		//log.info("방에 있는 사람들{}",result);
+		//result.add(Map.of("type","ROOMINVITE"));
+		responseData.put("type","ROOMINVITE");
 		
+		log.info("delresult:{}",param.get("delEmps").getClass());
+		List<Object>delresult=new ArrayList<>();
+		//대화방에서 초대된 직원 목록에서 없애기
+		if(param.get("delEmps")!=null) {
+			delresult.add(param.get("delEmps"));
+			responseData.put("delEmps", delresult);
+		}
 		
+		template.convertAndSend("/sub/chat/room/"+roomId,responseData);
+	}
+	
+	//채팅방에서 모달 초대된 직원 목록 빼기
+//	@MessageMapping("/chat/delete")
+//	public void RoomDeleteEmployees(Map<Object,Object> emps) {
+//		log.info("삭제해야되는 직원 목록{}",emps);
+//		int roomId=Integer.parseInt((String)emps.get("roomId"));
+//		emps.remove("roomId");
+//		template.convertAndSend("/sub/chat/room/"+roomId,emps);
+//	}
+	
+	//리스트에서 채팅방 생성
+	@MessageMapping("/list/invite")
+	public void ListInviteEmployees(List<Object>param) {
+		log.info("초대한 리스트 MessageMapping{}",param);
+		
+		template.convertAndSend("/sub/chat/list",param);
 	}
 	
 	}

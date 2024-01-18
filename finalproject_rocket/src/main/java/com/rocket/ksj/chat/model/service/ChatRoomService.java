@@ -1,6 +1,8 @@
 package com.rocket.ksj.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,30 +33,35 @@ public class ChatRoomService {
 	}
 	//채팅방,채팅참여 중간 테이블 생성
 	@Transactional
-	public String createChatRoomAll(HashMap<String, Object>req) {
+	public List<Object> createChatRoomAll(HashMap<String, Object>req) {
+		List<Object>emps=new ArrayList<>();
+		
 		if(req.get("roomName")!=null) {
 			String roomName=(String)req.get("roomName");
 			log.info("방 이름 {}",roomName);
-			//채팅방 생성
+			//채팅방 생성(리스트에서 생성)
 			dao.createChatRoom(session,roomName);
 			
-			//채팅방 생성자의 중간 테이블 생성
+			//채팅방 생성자의 중간 테이블 생성(리스트에서 생성)
 			String logempNoStr=(String)req.get("logempNo");
 			int logempNo=Integer.parseInt(logempNoStr);
+			emps.add(logempNo);
 			log.info("로그인한 회원 번호{}",logempNo);
 			dao.createEmpChat(session, logempNo);
 		}
-		//초대된 회원마다 채팅참여 중간 테이블 생성
+		//초대된 회원마다 채팅참여 중간 테이블 생성(리스트에서 생성)
 		if(req.get("empCheck")!=null) {
 			//1:1 개인방
 			if(req.get("empCheck") instanceof String) {
 				int empNo=Integer.parseInt((String)req.get("empCheck"));
+				emps.add(empNo);
 				dao.createEmpChat(session,empNo);
 				//1:N 단체방
 			}else if(req.get("empCheck") instanceof String[]) {
 				String [] employees=(String[])req.get("empCheck");
 				for(String e:employees) {
 					int empNo=Integer.parseInt(e);
+					emps.add(empNo);
 					dao.createEmpChat(session,empNo);
 				}
 			}
@@ -62,10 +69,12 @@ public class ChatRoomService {
 		//채팅방에서 회원 초대(중간 테이블 생성)
 		if(req.get("plustempCheck")!=null) {
 			Map<String, Object>param=new HashMap<>();
+			int roomId=0;
 			//개인 초대
 			if(req.get("plustempCheck") instanceof String) {
 				int empNo=Integer.parseInt((String)req.get("plustempCheck"));
-				int roomId=Integer.parseInt((String)req.get("roomId"));
+				roomId=Integer.parseInt((String)req.get("roomId"));
+//				emps.put(empNo, empNo);
 				param.put("empNo", empNo);
 				param.put("roomId",roomId);
 				dao.plusEmpChat(session,param);
@@ -74,15 +83,16 @@ public class ChatRoomService {
 				String [] employees=(String[])req.get("plustempCheck");
 				for(String e:employees) {
 					int empNo=Integer.parseInt(e);
-					int roomId=Integer.parseInt((String)req.get("roomId"));
+					roomId=Integer.parseInt((String)req.get("roomId"));
+//					emps.put(empNo, empNo);
 					param.put("empNo", empNo);
 					param.put("roomId",roomId);
 					dao.plusEmpChat(session,param);
 				}
 			}
+//			emps.put("roomId", roomId);
 		}
-		
-		return "success";
+		return emps;
 	}
 	//채팅방,채팅 참여 중간테이블,채팅메시지 삭제
 //	@Transactional

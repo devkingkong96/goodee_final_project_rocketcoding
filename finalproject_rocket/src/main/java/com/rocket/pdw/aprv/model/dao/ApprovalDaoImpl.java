@@ -52,10 +52,13 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	    
 		
 		try {
-		log.info("DOC_CONT{}",reqAll.get("DOC_CONT"));
-		
-		
-		session.insert("approval.insertDocu", reqAll);
+		log.info("DOC_STATCD{}",reqAll.get("DOC_STATCD"));
+		log.info("++++++++++++++++++++++++++++++++++++reqAll{}++++++++++++++++++++++",reqAll);
+		if(reqAll.get("DOC_STATCD").equals(2)) {
+			session.insert("approval.updateDocuBySave",reqAll);
+		}else {
+			session.insert("approval.insertDocu", reqAll);		
+		}
 		 
 //	    //결재자
 //		String[] testArrays  = (String[])reqAll.get("APRV_EMP");
@@ -200,6 +203,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
             return 0;
             
         }
+	}
+
+	@Override
+	public List<Map<String, Object>> cheackSaveFile(SqlSession session, int no) {
+		
+		return session.selectList("approval.cheackSaveFile",no);
 	}
 
 	

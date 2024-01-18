@@ -20,4 +20,7 @@ public interface ApprovalService {
 	int updateAprv(Map<String,Object>reqAll);
 	
 	int rejectAprv(Map<String,Object>reqAll);
+	
+	List<Map<String,Object>> cheackSaveFile (int no);
+	
 }

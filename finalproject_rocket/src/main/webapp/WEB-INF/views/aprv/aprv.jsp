@@ -82,7 +82,7 @@
 														        <c:if test="${doc.APRV_SQ == 0}">
 														            <td id="APRV_EMP">
 														                <c:if test="${doc.APRV_EMP eq user.empNo}">
-														                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" id="targetbtn">
+														                    <button type="button" class="btn btn-primary" id="targetbtn">
 					                                                            결재
 					                                                        </button>
 														                </c:if>
@@ -175,10 +175,10 @@
                     <td>기간</td>
                     <td >
                     <p id="startDate"></p>
-                    	${docu[0]['START_DATE']}
+                    	<fmt:formatDate value="${docu[0]['START_DATE']}" pattern="yyyy-MM-DD"/>
                     
                     <p id="endDate"></p>
-                    	${docu[0]['END_DATE']}
+                    	<fmt:formatDate value="${docu[0]['END_DATE']}" pattern="yyyy-MM-DD"/>
                     </td>
                 </tr>
                 <tr>
@@ -192,7 +192,7 @@
                 </tr>
                 <tr style="height: 500px">
                     <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
-                   	${docu[0]['U_DATE']}
+                   	<fmt:formatDate value="${docu[0]['U_DATE']}" pattern="yyyy-MM-DD"/>
                    	</td> 
                 </tr>
             </tbody>
@@ -330,17 +330,32 @@ function read(){
 
 </script>
 <script>
-//var docu = JSON.parse("${jsonArr}"); 
-//console.log(docu);
+
+document.getElementById("targetbtn").addEventListener("click", function(e) {
+	$.ajax({
+	    type: "POST",
+	    url: `${path}/docu/checkaprvlv`,
+	    data: {
+	        DOC_NO: docNo,
+	        EMP_NO: empNo
+	    },
+	    dataType: "text",
+	    success: function(response){
+	    	console.log(response);
+	    	if(response === "true") {
+	    		$('.bs-example-modal-lg').modal('show');
+	            
+	        } else {
+	        	alert('전 결재자 결재를 안했어요');
+	        	e.preventDefault();
+	            
+	        }
+	    }
 
 
-
-
-
-
-//document.getElementById("targetbtn").addEventListener("click", function() {
+	});
+	 
     
-    //alert('전 결재자 결재를 안했어요');
-//});
+});
 
 </script>

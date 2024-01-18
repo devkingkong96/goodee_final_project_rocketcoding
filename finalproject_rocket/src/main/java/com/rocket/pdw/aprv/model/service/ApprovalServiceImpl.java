@@ -57,6 +57,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return dao.rejectAprv(session,reqAll);
 	}
+	@Override
+	public List<Map<String, Object>> cheackSaveFile(int no) {
+		
+		return dao.cheackSaveFile(session,no);
+	}
 	
 	
 	

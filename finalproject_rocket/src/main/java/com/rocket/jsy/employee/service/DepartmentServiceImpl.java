@@ -24,4 +24,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	public void addDepartment(String depName) {
 		dao.insertDepartment(session, depName);
 	}
+	@Override
+	public List<Map<String,Object>>departmentdetail(String departmentName){
+		return dao.departmentdetail(session, departmentName);
+	}
 }

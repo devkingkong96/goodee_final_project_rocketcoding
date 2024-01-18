@@ -7,4 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 public interface CommuteDao {
 	List<Map<String,Object>>selectCommuteAll(SqlSession session);
+    List<Map<String,Object>> selectEmployeeByCalendar(SqlSession session, String employeeName);
+    Map<String,Object> selectcommuteByName(SqlSession session, String employeeName);
+    List<Map<String,Object>>employeesearch(SqlSession session, String employeeName);
 }

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rocket.jsy.employee.service.DepartmentService;
 
@@ -27,11 +28,19 @@ public class DepartmentController {
 		model.addAttribute("departments",departments);
 		return "employee/departmentlist";
 	}
+	
 	@PostMapping("/department/add")
 	public String addDepartment(@RequestParam String depName) {
 		service.addDepartment(depName);
 		return "redirect:/departmentlist";
 	}
 	
+	@GetMapping("/departmentdetail")
+	@ResponseBody
+	public List<Map<String,Object>> departmentdetail(@RequestParam("depName") String departmentName){
+		List<Map<String,Object>> departmentdetailview = service.departmentdetail(departmentName);
+		System.out.println("부서상세화면 : "+departmentdetailview);
+		return departmentdetailview;
+	}
 	
 }

@@ -16,4 +16,8 @@ public class DepartmentDaoImpl implements DepartmentDao{
 	public void insertDepartment(SqlSession session, String depName) {
 		session.insert("department.insertDepartment", depName);
 	}
+	@Override
+	public List<Map<String,Object>>departmentdetail(SqlSession session, String departmentName){
+		return session.selectList("department.departmentdetail",departmentName);
+	}
 }

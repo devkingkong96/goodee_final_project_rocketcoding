@@ -42,11 +42,11 @@
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane active" id="messages" role="tabpanel">
-									<div class="chat-box-one-side3">
+									<div class="chat-box-one-side3" id="chatroomListDiv">
 									<c:if test="${not empty chatlist }">
 									<c:forEach var="c" items="${chatlist }">
-										<div class="media-list media-list-hover" id="roomParentDiv">
-											<div class="media" id="listroom${c.EMP_CHAT_NO }">
+										<div class="media-list media-list-hover" id="listroom${c.CHATROOM_NO }">
+											<div class="media">
 											  <p class="align-self-center me-0"><img class="avatar avatar-lg" src="${path}/resources/images/avatar/2.jpg" alt="..."></p>
 											  <div class="media-body">
 												<p>
@@ -55,7 +55,7 @@
 												</p>
 												<p>참여 인원 수 : <c:out value="${c.EMP_COUNT }"/></p>
 											  </div>
-											  <input type="checkbox" id="ch${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.EMP_CHAT_NO}"/>
+											  <input type="checkbox" id="ch${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.CHATROOM_NO}"/>
 												<label for="ch${c.CHATROOM_NO }"> </label>
 											</div>
 											
@@ -170,6 +170,8 @@
 
 <script>
 
+var userno = '${logempNo}';
+
 var sockJS=new SockJS("/ws/list");
 var stomp=Stomp.over(sockJS);
 
@@ -193,14 +195,18 @@ function onMessageReceived(payload){
 	
 	if(list.type==="CREATEROOM"){
 		list.inviteemps.forEach((emp)=>{
-			console.log("emp직원들 : "+emp);
+			if(userno==emp){
+				console.log("emp직원들 : "+emp);
+				
+				
+			}
 		});
 	}
 	
 }
 
 function onError(){
-	console.log("통신 에러");
+	alert("대화방 리스트 통신 에러");
 }
 	//체크했을 때 버튼이 활성화하게 하는 함수
 	var empcheck = document.getElementsByName('empCheck');
@@ -256,7 +262,8 @@ function onError(){
 
 	//채팅방 생성
 	document.getElementById('createBtn').addEventListener('click',function(){
-		
+		var result=confirm('방을 생성하시겠습니까?');
+		if(result){
 		$.ajax({
 			type:"POST",
 			url:"${path}/chat/room",
@@ -273,6 +280,7 @@ function onError(){
 				alert("채팅방 생성 실패");
 			}
 		});
+		}
 	});
 	
 	//채팅방 나가기

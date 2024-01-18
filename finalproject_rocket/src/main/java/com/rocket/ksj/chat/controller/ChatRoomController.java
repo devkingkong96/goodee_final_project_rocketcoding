@@ -90,7 +90,6 @@ public class ChatRoomController {
 	//채팅방 중간테이블 나가기 -> 채팅 목록에서
 	@DeleteMapping
 	public ResponseEntity<Object> deleteEmpChatRooms(HttpServletRequest req) {
-		log.info("delete 채팅방 테스트{}");
 		HashMap<String, Object>reqAll=getParameterMap(req);
 		log.info("delete 채팅방 테스트{}",reqAll.get("roomCheck"));
 		

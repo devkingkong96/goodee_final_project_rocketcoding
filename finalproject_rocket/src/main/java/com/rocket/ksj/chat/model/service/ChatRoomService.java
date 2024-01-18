@@ -121,22 +121,27 @@ public class ChatRoomService {
 //	}
 	//채팅방 나가기(숨기기) ->채팅 목록에서
 	@Transactional
-	public String deleteEmpChatRooms(HashMap<String, Object>req) {
+	public String deleteEmpChatRooms(Map<String, Object>req) {
 		Map<String, Object>param=new HashMap<>();
 		if(req.get("roomCheck")!=null) {
 			//방 한개만 나가기
 			if(req.get("roomCheck") instanceof String) {
 				int roomId=Integer.parseInt((String)req.get("roomCheck"));
 				int empNo=Integer.parseInt((String)req.get("logempNo"));
+				log.info("String roomId:{}",roomId);
+				log.info("String empNo:{}",empNo);
 				param.put("roomId", roomId);
 				param.put("empNo", empNo);
 				dao.deleteEmpChatRoomById(session,param);
+			}
 			//여러방 나가기
-			}else if(req.get("roomCheck") instanceof String[]) {
+			if(req.get("roomCheck") instanceof String[]) {
 				String [] rooms=(String[])req.get("roomCheck");
 				for(String room:rooms) {
 					int roomId=Integer.parseInt(room);
 					int empNo=Integer.parseInt((String)req.get("logempNo"));
+					log.info("String[] roomId:{}",roomId);
+					log.info("String[] empNo:{}",empNo);
 					param.put("roomId", roomId);
 					param.put("empNo", empNo);
 					dao.deleteEmpChatRoomById(session,param);

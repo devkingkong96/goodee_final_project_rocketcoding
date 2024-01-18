@@ -22,6 +22,11 @@ public class ChatService {
 	public List<Map<String, Object>>selectEmployeeAll(int roomId){
 		return dao.selectEmployeeAll(session,roomId);
 	}
+	//로그인한 회원 제외한 직원 목록 가져오기
+	public List<Map<String, Object>>selectEmployeeList(int empNo){
+		return dao.selectEmployeeList(session,empNo);
+	}
+	
 	//직원 정보 가져오기
 	public Map<String, Object>selectEmpInfo(int empNo){
 		return dao.selectEmpInfo(session,empNo);

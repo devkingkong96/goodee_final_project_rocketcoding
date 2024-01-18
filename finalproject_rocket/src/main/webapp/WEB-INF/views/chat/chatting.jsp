@@ -277,6 +277,8 @@
   <!-- /.content-wrapper -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/locale/ko.min.js"></script>
   	<script>
   			/* var today=new Date(); */
   			/* var time=today.toLocaleString(); */
@@ -519,6 +521,17 @@
   				/* console.log("보낸 사람 : "+writer);
   				console.log("로그인한 사람 : "+userno); */
   				
+
+  				
+  				
+  				// 결과 출력
+  				dayjs.locale('ko');
+  				var date = dayjs();
+  				var nowDate = date.format("a HH:mm");
+
+  				
+  				var sendAt = nowDate;
+  				
   				
   				if(type==='TALK'){
   				//화면 출력할 태그들 생성하기
@@ -700,6 +713,7 @@
   			
   			/* 채팅메시지 전송 함수 */
   			const sendMsg=()=>{
+  				
 				var msg=document.getElementById('msgText');
   				
   				if(msg.value==""||msg.value==null){

@@ -63,12 +63,12 @@ public class StompChatController {
 		log.info("채팅메시지 발송 {}",message);
 		
 		// LocallDateTime 객체 생성(현재 시간)
-		LocalDateTime now=LocalDateTime.now();
+//		LocalDateTime now=LocalDateTime.now();
 		// LocalDateTime -> Date 변환
-		Date date=Timestamp.valueOf(now);
+//		Date date=Timestamp.valueOf(now);
 		
-		message.setSendAt(date);
-		
+//		message.setSendAt(date);
+//		log.info("메세지 보낸 시간{}",message.getSendAt());
 		//채팅 메시지 저장
 		int result=msgService.insertMessage(message);
 		if(result>0) {

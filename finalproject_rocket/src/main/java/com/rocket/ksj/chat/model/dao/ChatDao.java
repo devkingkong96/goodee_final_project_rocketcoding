@@ -16,6 +16,10 @@ public class ChatDao {
 	public List<Map<String, Object>>selectEmployeeAll(SqlSession session,int roomId){
 		return session.selectList("empchat.selectEmployeeAll",roomId);
 	}
+	//회원 정보 가져오기(DEPT JOIN)
+	public Map<String, Object>selectEmpInfo(SqlSession session,int empNo){
+		return session.selectOne("empchat.selectEmpInfo",empNo);
+	}
 	//회원의 채팅방,중간테이블 가져오기
 	public List<Map<String, Object>> selectChatAll(SqlSession session,int empNo){
 		return session.selectList("empchat.selectChatAll",empNo);

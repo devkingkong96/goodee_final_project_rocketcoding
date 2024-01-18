@@ -80,6 +80,7 @@ public class MypageController {
 
 	    return ResponseEntity.ok(response);
 	}
+	
 	@GetMapping("/myevents")
 	@ResponseBody
 	public List<Map<String, Object>> mycalendar() {

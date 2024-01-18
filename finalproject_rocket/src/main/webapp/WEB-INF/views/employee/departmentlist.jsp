@@ -51,14 +51,14 @@
 							</tr>
 						</thead>
 						<tbody>
-						    <c:forEach var="departments" items="${departments}">
-								<tr class="editable">						          
-						            <td>${departments.DEP_CODE}</td>
-						            <td>${departments.DEP_NAME}</td>
-						        	<td>${departments.DEP_COUNT}</td>
-						        </tr>
-						    </c:forEach>
-						</tbody>			  
+					    <c:forEach var="departments" items="${departments}">
+        					<tr class="editable" data-dep-code="${departments.DEP_CODE}" data-dep-name="${departments.DEP_NAME}">
+					            <td>${departments.DEP_CODE}</td>
+					            <td>${departments.DEP_NAME}</td>
+					            <td>${departments.DEP_COUNT}</td>
+					        </tr>
+					    </c:forEach>
+					</tbody>		  
 					</table>
 					</div>              
 				</div>
@@ -100,11 +100,69 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<!-- 상세화면모달 -->
+<div class="modal fade" id="myModal2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+		<h4 class="modal-title"><strong id="depTitle">부서상세화면</strong></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<div style="max-height: 500px; overflow-y: auto;">
+        <table class="table table-striped-columns">
+            <thead>
+					<tr class="editable">
+						<th>사원번호</th>
+						<th>사원명</th>
+						<th>직급</th>
+					</tr>
+				</thead>
+				<tbody id="detailTableBody">
+    			</tbody>	
+        	</table>
+	    </div>
+	</div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 <script>
 $(document).ready(function() {
 	  $('.box-subtitle').click(function() {
 	    $('#myModal').modal('show');
 	  });
 	});
+</script>
+<script>
+$(document).ready(function() {
+    $('tr.editable').on('click', function() {
+        var depName = $(this).data('dep-name');  // 부서명 가져오기
+
+        $('#depTitle').text(depName + ' 부서상세화면');
+        $.ajax({
+            url: '/departmentdetail', 
+            method: 'get',
+            data: { depName: depName },
+            success: function(data) {
+            	$('#detailTableBody').empty();
+                $.each(data, function(index, item) {
+                    var row = '<tr class="editable" data-dep-code="">';
+                    row += '<td>' + item.EMP_NO + '</td>';
+                    row += '<td>' + item.EMP_NAME + '</td>';
+                    row += '<td>' + item.EMP_LV + '</td>';
+                    row += '</tr>';
+                    $('#detailTableBody').append(row);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+        $('#myModal2').modal('show');
+    });
+});
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

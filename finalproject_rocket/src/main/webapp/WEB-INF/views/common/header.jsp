@@ -269,8 +269,8 @@
 			            <li class='<%= request.getRequestURI().contains("/employeeholidaylist") ? "active" : "" %>'>
 			                <a href="${path}/employeeholidaylist" id="employeeHolidayList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 휴가사용 조회</a>
 			            </li>
-			            <li class='<%= request.getRequestURI().contains("/employeecommutelist") ? "active" : "" %>'>
-			                <a href="${path}/employeecommutelist" id="employeeCommuteList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 근태관리</a>
+			            <li class='<%= request.getRequestURI().contains("/employeecommute") ? "active" : "" %>'>
+			                <a href="${path}/employeecommute" id="employeeCommute"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 근태관리</a>
 			            </li>
 			        </ul>
 			    </li>

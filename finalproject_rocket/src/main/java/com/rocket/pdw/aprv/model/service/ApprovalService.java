@@ -23,4 +23,6 @@ public interface ApprovalService {
 	
 	List<Map<String,Object>> cheackSaveFile (int no);
 	
+	int saveDocu(Map<String,Object>reqAll);
+	
 }

@@ -62,6 +62,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return dao.cheackSaveFile(session,no);
 	}
+	@Override
+	public int saveDocu(Map<String, Object> reqAll) {
+		// TODO Auto-generated method stub
+		return dao.saveDocu(session,reqAll);
+	}
 	
 	
 	

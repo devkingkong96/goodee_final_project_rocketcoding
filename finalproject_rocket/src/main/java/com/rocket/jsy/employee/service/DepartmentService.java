@@ -6,4 +6,5 @@ import java.util.Map;
 public interface DepartmentService {
 	List<Map<String,Object>> selectDepartmentAll();
 	void addDepartment(String depName);
+	List<Map<String,Object>> departmentdetail(String departmentName);
 }

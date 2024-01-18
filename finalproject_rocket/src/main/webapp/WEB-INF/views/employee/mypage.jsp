@@ -26,7 +26,7 @@
 	    height: 100px; /* 높이 설정 */
 	}
 	.custom-font {
-        font-size: 1.2em; /* 이 값을 조절하여 원하는 크기로 설정하세요. */
+        font-size: 1.1em; /* 이 값을 조절하여 원하는 크기로 설정하세요. */
         font-weight: bold; /* 'bold'는 두껍게, 'normal'은 일반적으로 설정합니다. */
     }
     .custom-table {
@@ -108,37 +108,42 @@
 			    <div class="row text-center mt-10 custom-font">
     <div class="col-md-12 custom-font">
         <strong>근태현황</strong>
-        <table class="custom-table custom-font">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">항목</th>
-                    <th scope="col">수치</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>지각</td>
-                    <td>${coomute['지각수']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>출근</td>
-                    <td>${coomute['출근수']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>조퇴</td>
-                    <td>${coomute['조퇴수']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>이번달의 출근 시간</td>
-                    <td>${employee.DWRULES_START}</td>
-                </tr>
-            </tbody>
-        </table>
+		        <table class="custom-table custom-font">
+		  <thead>
+		    <tr>
+		      <th scope="col"></th>
+		      <th scope="col">항목</th>
+		      <th scope="col">수치</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">1</th>
+		      <td>지각</td>
+		      <td>${coomute['지각수']}</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">2</th>
+		      <td>출근</td>
+		      <td>${coomute['출근수']}</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">3</th>
+		      <td>조퇴</td>
+		      <td>${coomute['조퇴수']}</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">4</th>
+		      <td>이번달 출근시간</td>
+		      <td>${employee.DWRULES_START}</td>
+		    </tr>		    
+		    <tr>
+		      <th scope="row">5</th>
+		      <td>남은 연차</td>
+		      <td>${employee.HOMOLY}</td>
+		    </tr>
+		  </tbody>
+		</table>
     </div>
 </div>
                 <hr>

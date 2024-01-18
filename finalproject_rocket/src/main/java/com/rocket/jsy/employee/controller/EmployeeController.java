@@ -46,8 +46,8 @@ public class EmployeeController {
 	        Map<String, Object> employee = service.selectEmployeeByNo(empNo);
 	        Map<String, Object> coomute = mypageservice.selectEmployeeByNo(empNo);
 //	        List<Map<String, Object>> mycalendar = mypageservice.selectEmployeeByCalendar(empNo);
-//	        log.info("Employee: " + employee.toString());
-//	        log.info("Coomute: " + coomute.toString());
+	        log.info("Employee: " + employee.toString());
+	        log.info("Coomute: " + coomute.toString());
 //	        log.info("mycalendar:" + mycalendar.toString());
 	        model.addAttribute("employee", employee);
 	        model.addAttribute("coomute", coomute);
@@ -106,7 +106,6 @@ public class EmployeeController {
 		 updateMap.put("empPw", pw);
 	     int result = service.updateEmployee(updateMap);
 	     return result > 0 ? "success" : "fail";
-	     //리턴값 수정....
 	     
 	 }
 	 

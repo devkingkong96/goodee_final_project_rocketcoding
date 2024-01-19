@@ -106,9 +106,9 @@
 					</h4>
 					<div class="box-footer no-border">
 						 <div class="d-md-flex d-block justify-content-between align-items-center bg-white p-5 rounded10 b-1 overflow-hidden">
-						 		<input type="hidden" name="boardNo" value="${fboard.fboardNo }"/>
-						 		<input type="hidden" name="commentWriter" value="${loginEmp.empNo }"/>
-								<input class="form-control b-0 py-10" type="text" name="commentContent" placeholder="댓글을 달아주세요">
+						 		<input type="hidden" name="fboardNo" value="${fboard.fboardNo }"/>
+						 		<input type="hidden" name="regr_id" value="${loginEmp.empNo }"/>
+								<input class="form-control b-0 py-10" type="text" name="content" placeholder="댓글을 달아주세요">
 								<div class="d-flex justify-content-between align-items-center mt-md-0 mt-30">
 									<button type="submit" class="btn btn-primary">
 										<i class="mdi mdi-send"></i>
@@ -119,12 +119,13 @@
 				</form>
 					  <!--댓글 내용 부분   -->
 					<div id="info__f">
-					  <input type="text" placeholder="댓글 들어올 공간" value="${fboardComment.fbdComment }"/>
-					  <button>수정</button>
+					  <input type="text" placeholder="댓글 들어올 공간" value=""/>
+						<h5>${Comment.fbdComment }</h5>
+					  
 					  <button>삭제</button>
 					</div>  
 					
-				<table class="table table-review" style="padding: 3em;  height: 300px; ">
+				<%-- <table class="table table-review" style="padding: 3em;  height: 300px; ">
 		        <tbody>
 		                <tr style="text-align:center;">
 		                    <th width="0%"></th>
@@ -153,7 +154,7 @@
 					</c:forEach>
 					
 		        </tbody>
-		   	   </table>
+		   	   </table> --%>
 		    
 				</div>
        		</div>
@@ -174,7 +175,7 @@ function fboardDelete(fboardNo) {
 }
 
 
-$(document).on('click','#btnUpdate', function() {
+/* $(document).on('click','#btnUpdate', function() {
     var commentNo = $(this).parent().prev().prev().prev().children().val();
     var fbdComment = $(this).parent().prev().children().val();
     
@@ -193,7 +194,7 @@ $(document).on('click','#btnUpdate', function() {
         }
     });    
 });
-
+ */
 
 </script>
 <!-- Vendor JS -->

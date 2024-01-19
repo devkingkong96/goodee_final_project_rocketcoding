@@ -15,7 +15,7 @@ public interface FboardService {
 
    int increaseViewCount(int fboardNo);
    
-   Map<String, Object> selectFboardDetail(int fboardNo);
+   Fboard selectFboardDetail(int fboardNo);
 
    List<Map<String, Object>> selectFboardComments(int fboardNo);
    

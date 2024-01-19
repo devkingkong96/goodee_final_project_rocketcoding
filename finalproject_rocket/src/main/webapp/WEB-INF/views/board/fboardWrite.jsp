@@ -40,7 +40,7 @@
 								<div class="form-group">
 								  <label class="form-label"></label>
 								  <label class="file">
-									<input type="file" id="file" name="fboardFileOri">
+									<input type="file" id="file" name="upfile">
 								  </label>
 								</div>
 								<div class="form-group">

@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.rocket.psh.board.model.dao.BoardDao;
 import com.rocket.psh.board.model.dto.Fboard;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,10 +24,18 @@ public class FboardServicelmpl implements FboardService {
 		// TODO Auto-generated method stub
 		return dao.selectFboardList(session, map);
 	}
+	
+	@Transactional
 	@Override
 	public int insertFboard(Fboard fboard) {
-		// TODO Auto-generated method stub
-		return dao.insertFboard(session, fboard);
+		int result=dao.insertFboard(session, fboard);
+		if(result>0&&fboard.getFiles().size()>0) {
+			fboard.getFiles().stream().forEach(e->{
+				int fileResult=dao.insertFboardFile(session, e);
+				if(fileResult==0) throw new IllegalArgumentException("첨부파일 업로드 실패!");
+			});
+		}
+		return result; 
 	}
 	@Override
 	public int increaseViewCount(int fboardNo) {
@@ -33,7 +43,7 @@ public class FboardServicelmpl implements FboardService {
 		return dao.increaseViewCount(session,fboardNo);
 	}
 	@Override
-	public Map<String, Object> selectFboardDetail(int fboardNo) {
+	public Fboard selectFboardDetail(int fboardNo) {
 		// TODO Auto-generated method stub
 		return dao.selectFboardDetail(session, fboardNo);
 	}
@@ -53,7 +63,7 @@ public class FboardServicelmpl implements FboardService {
 		return dao.deleteFboard(session, fboardNo);
 	}
 	
-
+	
 	
 			
 }

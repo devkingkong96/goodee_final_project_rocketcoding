@@ -63,12 +63,12 @@ public class StompChatController {
 		log.info("채팅메시지 발송 {}",message);
 		
 		// LocallDateTime 객체 생성(현재 시간)
-		LocalDateTime now=LocalDateTime.now();
+//		LocalDateTime now=LocalDateTime.now();
 		// LocalDateTime -> Date 변환
-		Date date=Timestamp.valueOf(now);
+//		Date date=Timestamp.valueOf(now);
 		
-		message.setSendAt(date);
-		
+//		message.setSendAt(date);
+//		log.info("메세지 보낸 시간{}",message.getSendAt());
 		//채팅 메시지 저장
 		int result=msgService.insertMessage(message);
 		if(result>0) {
@@ -92,31 +92,31 @@ public class StompChatController {
 		responseData.put("type","ROOMINVITE");
 		
 		log.info("delresult:{}",param.get("delEmps").getClass());
-		List<Object>delresult=new ArrayList<>();
 		//대화방에서 초대된 직원 목록에서 없애기
 		if(param.get("delEmps")!=null) {
-			delresult.add(param.get("delEmps"));
-			responseData.put("delEmps", delresult);
+			responseData.put("delEmps", param.get("delEmps"));
 		}
 		
 		template.convertAndSend("/sub/chat/room/"+roomId,responseData);
 	}
 	
 	//채팅방에서 모달 초대된 직원 목록 빼기
-//	@MessageMapping("/chat/delete")
-//	public void RoomDeleteEmployees(Map<Object,Object> emps) {
-//		log.info("삭제해야되는 직원 목록{}",emps);
-//		int roomId=Integer.parseInt((String)emps.get("roomId"));
-//		emps.remove("roomId");
-//		template.convertAndSend("/sub/chat/room/"+roomId,emps);
-//	}
+	@MessageMapping("/chat/leave")
+	public void RoomDeleteEmployees(ChatMessage msg) {
+		log.info("받아온 메시지 정보 : {}",msg);
+		
+		template.convertAndSend("/sub/chat/room/"+msg.getMsgRoomNo(),msg);
+	}
 	
-	//리스트에서 채팅방 생성
+	//리스트에서 채팅방 생성(초대한 멤버들 리스트 갱신 시키기)
 	@MessageMapping("/list/invite")
 	public void ListInviteEmployees(List<Object>param) {
 		log.info("초대한 리스트 MessageMapping{}",param);
+		Map<String, Object>responseData = new HashMap<>();
+		responseData.put("inviteemps",param);
+		responseData.put("type", "CREATEROOM");
 		
-		template.convertAndSend("/sub/chat/list",param);
+		template.convertAndSend("/sub/chat/list",responseData);
 	}
 	
 	}

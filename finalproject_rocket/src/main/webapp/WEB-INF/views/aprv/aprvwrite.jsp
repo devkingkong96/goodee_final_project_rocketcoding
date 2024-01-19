@@ -134,6 +134,7 @@
                                     <input type="hidden" name="START_DATE" value="" id="START_DATE">
                                     <input type="hidden" name="END_DATE" value="" id="END_DATE">
 									<input type="hidden" name="DOC_CONT" value="" id="DOC_CONT"/>
+									<input type="hidden" name="DOC_STATCD" value="" id="DOC_STATCD"/>
 
                                     <div class="box-header">
                                         <h4 class="box-title">제목<br>
@@ -172,7 +173,7 @@
 									    <c:forEach var="IV" items="${inventoryInfo}">
 									        <tr>
 									            <td>${IV.PRD_TITLE}</td>
-									            <td>${IV.PRD_IV_QUANTITY} / ${IV.PRD_STKPRICE}</td>
+									            <td>${IV.PRD_IV_QUANTITY}권 / ${IV.PRD_STKPRICE}원</td>
 									        </tr>
 									    </c:forEach>
 									    <tr>
@@ -180,8 +181,8 @@
 									        <th>도서별 매장내 판매액의 총금액</th>
 									    </tr>
 									    	<tr>
-									    		<td>${inventoryInfo[0].TOTAL_INV_ALLPRD}</td>
-									    		<td>${inventoryInfo[0].TOTAL_STORE_PRICE}</td>
+									    		<td>${inventoryInfo[0].TOTAL_INV_ALLPRD}원</td>
+									    		<td>${inventoryInfo[0].TOTAL_STORE_PRICE}원</td>
 									    	</tr>
 									    <tr style="height: 500px">
 									        <td colspan="2" style="text-align: center;">상기와 같은 이유로 결재 바랍니다.<br><br><br><br><br><br>
@@ -216,6 +217,8 @@
                                     </div> --%>
                                 </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
+                            
+                            <button class="btn btn-primary" id="submitSave">임시저장</button>
                             </div>
                             
                         </div>
@@ -372,42 +375,7 @@
     	document.getElementById("END_DATE").value=endDate;
         } else if (x === "option2") {
             document.getElementById("contentContainer").style.display = "block";
-            //document.getElementById("tagCont").innerHTML = "";
-            <%-- document.getElementById("tagCont").innerHTML = `
-            <table>
-                <thead>
-                <tr>
-                    <th colspan="2"><h1 style="text-align: center;">입출고 내역 결재서 </h1></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>기안자</td>
-                    <td>${user.empName}</td>
-                </tr>
-                <tr>
-                    <td>거래처</td>
-                    <td>거래측 담당자이름</td>
-                </tr>
-                <tr>
-                    <td>lV_TYPE</td>
-                    <td>IV_DATE / IV_MEMO / IV_VAT_TYPE</td>
-                </tr>
-                
-                <tr>
-                    <th>도서명</th>
-                    <th>도서별 입출고 수량 / 도서별 입/출고 단가</th>
-                </tr>
-                <tr>
-                    <td>모든도서 입출고 단가</td>
-                    <td>도서별 매장내 판매액의 총금액</td>
-                </tr>
-                <tr style="height: 500px">
-                    <td colspan="2" style="text-align: center;">상기와 같은 이유로 결재 바랍니다.<br><br><br><br><br><br>
-                    <%=strDate %></td>
-                </tr>
-            </tbody>
-        </table>`; --%>
+            
             document.getElementById("DOC_TAG").value=2;
             var children = document.getElementById("tagCont").children;
             var values = '';
@@ -423,10 +391,7 @@
     }
     
 </script>
-<script>
-	
 
-</script>
 <script>
     //ajax통신
     //modal창 
@@ -631,65 +596,67 @@ $('#submitAll').click(function(e) {
         success: function(response) {
             // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
             console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            if(response==="저장실패"){
+            	alert('저장실패')	
+            }
+            
             alert('등록성공')
             window.location.href = '${path}/'+response;
-        },
-        error:function(error){
-            // AJAX 요청이 실패하면 실행될 콜백 함수
-            console.error(error); // 발생한 에러를 콘솔에 출력
-            alert('전산팀에 문의하세요')
-            
         }
+        
     });
 });
+</script>
+<script type="text/javascript">
+$('#submitSave').click(function(e) {
+    e.preventDefault();
+    console.log(document.getElementById("DOC_TAG").value);
+    if(document.getElementById("DOC_TAG").value == 1){
+    document.getElementById("DOC_CONT").value = document.getElementById("varCont").value;
+    document.getElementById("DOC_STATCD").value = 2;
+    }
+    $.ajax({
+        type: 'POST',
+        url: '${path}/docu/save',
+        data: $('#form1').serialize(),
+       /*  console.log(data);, */
+        dataType:"text",
+        success: function(response) {
+            // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
+            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            if(response==="저장실패"){
+            	alert('저장실패')	
+            }else{
+	            alert('저장성공')
+            }
+            
+            
+        }
+        
+    });
+});
+</script>
+
+<script>
+const saveFile= "${saveFile}";
+document.addEventListener('DOMContentLoaded', (event) => {
+	
+	
+	
+	if(saveFile!="null"){
+		if(confirm('임시저장된 파일이있습니다 이동하시겠습니까?')){
+		
+		window.location.href=`${path}/docu/aprv/savefile`;
+		
+		}
+		
+	}
+
+	
+});
+
 
 </script>
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-<!-- <script>
-
-var myDropzone = new Dropzone("#form2", {
-    url: `${path}/docu/upload`,
-    method: "post",
-    autoProcessQueue: false, //자동으로 보내기 방지
-    paramName: 'files',
-    parallelUploads: 99,
-    maxFilesize: 10, // MB
-    uploadMultiple: true
-    
-});
-Dropzone.options.myDropzone = {
-        autoProcessQueue: false,
-        init: function() {
-            var submitButton = document.querySelector("#submitAll");
-            myDropzone = this;
-
-            submitButton.addEventListener("click", function() {
-            	$('#submitAll').click(function(e) {
-            	    e.preventDefault();
-            	    $.ajax({
-            	        type: 'POST',
-            	        url: '${path}/docu/submit',
-            	        data: $('#form1').serialize(),
-            	        dataType:"json",
-            	        success: function(response) {
-            	            // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
-            	            if(response=='12')
-            	            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
-            	            window.location.href = '${path}/docu/lists/a';
-            	        },
-            	        error:function(error){
-            	            // AJAX 요청이 실패하면 실행될 콜백 함수
-            	            console.error(error); // 발생한 에러를 콘솔에 출력
-            	            alert('망했다')
-            	            
-            	        }
-            	    });
-            	});
-                // If there are files in Dropzone, process them
-                if (myDropzone.getQueuedFiles().length > 0) {
-                    myDropzone.processQueue();
-                }
-            });
-        }
-    };
-</script> -->

@@ -111,7 +111,7 @@
 								  <c:forEach var="msg" items="${messages }">
 								  <div class="col-12">
 								  <c:choose>
-								  <c:when test="${msg.MSG_EMP_NO==empinfo.empNo }">
+								  <c:when test="${msg.MSG_EMP_NO==empinfo.EMP_NO }">
 									  <div class="card d-inline-block mb-3 float-end me-2 bg-info max-w-p80">
 								  </c:when>
 								  <c:otherwise>
@@ -136,7 +136,7 @@
 												<c:when test="${not empty msg.MESSAGE }">
 														<p class="mb-0 text-semi-muted"><c:out value="${msg.MESSAGE }"/></p>
 												</c:when>
-												<c:when test="${not empty msg.MSG_FI_RENAME && msg.MSG_EMP_NO!=empinfo.empNo}">
+												<c:when test="${not empty msg.MSG_FI_RENAME && msg.MSG_EMP_NO!=empinfo.EMP_NO}">
 													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
 													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
 												</c:when>
@@ -186,25 +186,27 @@
 								</div>
                             </div>
                             <div class="box-body">
-                                        <div class="chat-box-one-side3">
-                                            <div class="media-list media-list-hover" id="emplist">
+                            	<div class="tab-pane" id="contacts" role="tabpanel">
+                                        <div class="chat-box-one-side3" id="emplistDiv">
                                             	<c:if test="${not empty emplist }">
 												<c:forEach var="e" items="${emplist }">
+                                            <div class="media-list media-list-hover" id="attendlist${e.EMP_NO }">
                                                 <div class="media py-10 px-0 align-items-center">
                                                   <p class="avatar avatar-lg status-success">
                                                     <img src="${path}/resources/images/avatar/1.jpg" alt="...">
                                                   </p>
                                                   <div class="media-body">
-                                                    <p class="fs-20" id="chatEmpName">
+                                                    <p class="fs-20" id="chatEmpName${e.EMP_NO }">
                                                       <c:out value="${e.EMP_NAME }"/>
                                                     </p>
-                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
+                                                    <p id="chatEmpLv${e.EMP_NO }"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
                                                   </div>
                                                 </div>
-                                                </c:forEach>
-                                                </c:if>
                                               </div>
+                                             </c:forEach>
+                                           </c:if>
                                         </div>
+                                     </div>
                                 </div>
                             </div>
                             
@@ -275,14 +277,18 @@
   <!-- /.content-wrapper -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/locale/ko.min.js"></script>
   	<script>
   			/* var today=new Date(); */
   			/* var time=today.toLocaleString(); */
   			/* console.log(time); */
   	
   			var roomId='${room.CHATROOM_NO }';
-  			var username='${empinfo.empName }';
-  			var userno='${empinfo.empNo }';
+  			var username='${empinfo.EMP_NAME }';
+  			var userno='${empinfo.EMP_NO }';
+  			var userlv='${empinfo.EMP_LV}';
+  			var userdept='${empinfo.DEP_NAME}';
   			
   			/* console.log("로그인한 직원 번호 : "+userno); */
   			
@@ -315,16 +321,85 @@
   				
   				var chat=JSON.parse(payload.body);
   				console.dir(chat.type);
+  				
+  				if(chat.type==="LEAVEROOM"){
+  					var empNo = chat.msgEmpNo;
+  					console.log("empNo:"+empNo);
+  					var parentDiv = document.getElementById('emplistDiv');
+						var delDiv = document.getElementById('attendlist'+empNo);
+						console.log("delDiv:"+delDiv);
+						/* parentDiv.removeChild(delDiv); */
+						
+						if(delDiv){
+							delDiv.remove();
+						}
+						
+						// 방 나간 직원 초대 목록에 추가
+  						var $chatbox = document.createElement('div');
+  						$chatbox.classList.add('media-list', 'media-list-hover');
+  						$chatbox.id = 'emplist' + userno;
+
+  						// 내부 요소들 생성
+
+  						var $media = document.createElement('div');
+  						$media.classList.add('media', 'py-10', 'px-0', 'align-items-center');
+
+  						var $avatar = document.createElement('p');
+  						$avatar.classList.add('avatar', 'avatar-lg', 'status-success');
+
+  						var $avatarImage = document.createElement('img');
+  						$avatarImage.src = '${path}/resources/images/avatar/1.jpg';
+  						$avatarImage.alt = '...';
+
+  						var $mediaBody = document.createElement('div');
+  						$mediaBody.classList.add('media-body');
+
+  						var $empName = document.createElement('p');
+  						$empName.classList.add('fs-20');
+  						$empName.id = 'chatEmpName' + userno;
+  						$empName.textContent = username;
+
+  						var $empLv = document.createElement('p');
+  						$empLv.id = 'chatEmpLv' + userno;
+  						$empLv.textContent = userlv + " / " + username;
+
+  						var $checkbox = document.createElement('input');
+  						$checkbox.type = 'checkbox';
+  						$checkbox.id = 'emp' + userno;
+  						$checkbox.classList.add('filled-in', 'chk-col-primary');
+  						$checkbox.name = 'plustempCheck';
+  						$checkbox.value = userno;
+
+  						var $label = document.createElement('label');
+  						$label.setAttribute('for', 'emp' + userno);
+
+  						// 요소들을 적절한 구조로 추가
+  						$avatar.appendChild($avatarImage);
+  						$mediaBody.appendChild($empName);
+  						$mediaBody.appendChild($empLv);
+  						$media.appendChild($avatar);
+  						$media.appendChild($mediaBody);
+  						$media.appendChild($checkbox);
+  						$media.appendChild($label);
+  						$chatbox.appendChild($media);
+
+  						// 요소를 원하는 위치에 추가
+  						var targetElement = document.getElementById('employeeList');
+  						targetElement.appendChild($chatbox);
+  				}
+  				
   				if(chat.type==="ROOMINVITE"){
-  					document.getElementById('emplist').innerHTML="";
+  					document.getElementById('emplistDiv').innerHTML="";
   					chat.inPerson.forEach(map=>{
   					// 새로운 div 요소 생성
   						var $chatbox = document.createElement('div');
   						$chatbox.classList.add('chat-box-one-side3');
+  						$chatbox.id = 'emplistDiv';
 
   						// 내부 요소들 생성
   						var $mediaList = document.createElement('div');
   						$mediaList.classList.add('media-list', 'media-list-hover');
+  						$mediaList.id = 'attendlist' + map.EMP_NO;
 
   						var $media = document.createElement('div');
   						$media.classList.add('media', 'py-10', 'px-0', 'align-items-center');
@@ -359,12 +434,13 @@
   						$chatbox.appendChild($mediaList);
 
   						// 요소를 원하는 위치에 추가
-  						var targetElement = document.getElementById('emplist');
+  						var targetElement = document.getElementById('emplistDiv');
   						targetElement.appendChild($chatbox); 
   					});
   					
+  					if(!delEmps){
   					chat.delEmps.forEach((emp)=>{
-  						console.log("emp 목록"+emp);
+  						console.dir("emp 목록"+emp);
   						var parentDiv = document.getElementById('inviteEmpList');
   						var delDiv = document.getElementById('emplist'+emp);
   						console.log("delDiv:"+delDiv);
@@ -375,6 +451,7 @@
   						}
   						
   					});
+  					}
   				}
   				//chat.forEach((map)=>{
   				//	console.dir(map);
@@ -443,6 +520,17 @@
   				
   				/* console.log("보낸 사람 : "+writer);
   				console.log("로그인한 사람 : "+userno); */
+  				
+
+  				
+  				
+  				// 결과 출력
+  				dayjs.locale('ko');
+  				var date = dayjs();
+  				var nowDate = date.format("a HH:mm");
+
+  				
+  				var sendAt = nowDate;
   				
   				
   				if(type==='TALK'){
@@ -625,6 +713,7 @@
   			
   			/* 채팅메시지 전송 함수 */
   			const sendMsg=()=>{
+  				
 				var msg=document.getElementById('msgText');
   				
   				if(msg.value==""||msg.value==null){
@@ -783,8 +872,9 @@
 	  				console.log(roomId);
 	  				console.log(userno); */
 	  				var data={
-	  						roomId:roomId,
-	  						userNo:userno
+	  						msgRoomNo:roomId,
+	  						msgEmpNo:userno,
+	  						type:"LEAVEROOM"
 	  				}
 	  				$.ajax({
 	  					url:'${path}/chat/room/'+roomId,
@@ -792,7 +882,9 @@
 	  					data:data,
 	  					success:function(res){
 	  						alert('방을 나가셨습니다.');
+	  						console.log('data값 뭐지? :'+data);
 	  						window.location.replace('${path}/chat/list');
+	  						stomp.send('/pub/chat/leave',{},JSON.stringify(data));
 	  					},
 	  					error:function(error){
 	  						alert(error);

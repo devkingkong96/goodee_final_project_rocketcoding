@@ -81,6 +81,21 @@ public class MypageController {
 	    return ResponseEntity.ok(response);
 	}
 	
+	@PostMapping("/endWork")
+	public ResponseEntity<Map<String, String>> endWork(@RequestParam int empNo) {
+	    mypageservice.endWork(empNo);
+	    log.info("퇴근사원받은 사원번호: {}",empNo);
+
+	    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+	    String currentTime = formatter.format(new Date());
+
+	    Map<String, String> response = new HashMap<>();
+	    response.put("time", currentTime);
+	    response.put("message2", "퇴근 완료했습니다.");
+
+	    return ResponseEntity.ok(response);
+	}
+	
 	@GetMapping("/myevents")
 	@ResponseBody
 	public List<Map<String, Object>> mycalendar() {
@@ -124,21 +139,6 @@ public class MypageController {
 	        log.info("mycalendar:" + mycalendar.toString());
 	    }
 	    return mycalendar;
-	}
-	
-	@PostMapping("/endWork")
-	public ResponseEntity<Map<String, String>> endWork(@RequestParam int empNo) {
-	    mypageservice.endWork(empNo);
-	    log.info("퇴근사원받은 사원번호: {}",empNo);
-
-	    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-	    String currentTime = formatter.format(new Date());
-
-	    Map<String, String> response = new HashMap<>();
-	    response.put("time", currentTime);
-	    response.put("message2", "퇴근 완료했습니다.");
-
-	    return ResponseEntity.ok(response);
 	}
     
 }

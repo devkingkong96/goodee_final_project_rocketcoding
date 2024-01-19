@@ -67,6 +67,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return dao.saveDocu(session,reqAll);
 	}
+	@Override
+	public int deleteSaveFile(int no) {
+		// TODO Auto-generated method stub
+		return dao.deleteSaveFile(session,no);
+	}
+	
 	
 	
 	

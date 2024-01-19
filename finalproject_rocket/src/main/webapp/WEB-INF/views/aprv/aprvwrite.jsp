@@ -639,24 +639,16 @@ $('#submitSave').click(function(e) {
 
 <script>
 const saveFile= "${saveFile}";
+
 document.addEventListener('DOMContentLoaded', (event) => {
-	
-	
-	
-	if(saveFile!="null"){
-		if(confirm('임시저장된 파일이있습니다 이동하시겠습니까?')){
-		
-		window.location.href=`${path}/docu/aprv/savefile`;
-		
-		}
-		
-	}
-
-	
+    if(saveFile!="null") {
+        if(confirm('임시저장된 파일이있습니다 이동하시겠습니까?')) {
+            window.location.href=`${path}/docu/aprv/savefile`;
+        }
+    }
 });
-
-
 </script>
+
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

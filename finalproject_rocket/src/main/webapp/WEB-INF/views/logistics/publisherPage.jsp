@@ -134,50 +134,50 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
         <section class="content">
 
 
-            <!-- 모달 -->
-            <div class="col-lg-4 col-12">
-                <div class="box">
-                    <div class="box-body">
-                        <h4 class="box-title d-block">Large modal</h4>
-                        <button type="button" class="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
-                            Large modal
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col -->
+            <%--            <!-- 모달 -->
+                        <div class="col-lg-4 col-12">
+                            <div class="box">
+                                <div class="box-body">
+                                    <h4 class="box-title d-block">Large modal</h4>
+                                    <button type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
+                                        Large modal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
 
-            <div class="modal fade bs-example-modal-lg" tabindex="-1"
-                 role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-                 style="display: none;">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h4>Overflowing text to show scroll behavior</h4>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl
-                                consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-                                faucibus dolor auctor.</p>
-                            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
-                                commodo cursus magna, vel scelerisque nisl consectetur et. Donec
-                                sed odio dui. Donec ullamcorper nulla non metus auctor
-                                fringilla.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger text-start"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
+                        <div class="modal fade bs-example-modal-lg" tabindex="-1"
+                             role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                             style="display: none;">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Overflowing text to show scroll behavior</h4>
+                                        <p>Praesent commodo cursus magna, vel scelerisque nisl
+                                            consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
+                                            faucibus dolor auctor.</p>
+                                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent
+                                            commodo cursus magna, vel scelerisque nisl consectetur et. Donec
+                                            sed odio dui. Donec ullamcorper nulla non metus auctor
+                                            fringilla.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger text-start"
+                                                data-bs-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>--%>
 
             <!-- Content Header (Page header) -->
             <div class="content-header" style="margin-bottom:10px;">
@@ -187,7 +187,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#"> <i
+                                    <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
                                     <li class="breadcrumb-item" aria-current="page">출판사 목록</li>
                                     <li class="breadcrumb-item active" aria-current="page">출판사
@@ -1155,6 +1155,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
+
+
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
@@ -1180,6 +1183,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             } else {
                                 fetch("
+
+
+
 
 
 
@@ -1328,4 +1334,60 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 </div>
 <script src="${path }/resources/js/pages/validation.js"></script>
 <script src="${path }/resources/js/pages/form-validation.js"></script>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<%--
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>--%>
+<footer class="main-footer">
+    &copy;
+    <script>document.write(new Date().getFullYear())</script>
+    All Rights Reserved.
+</footer>
+<!-- Vendor JS -->
+<script src="${path}/resources/js/vendors.min.js"></script>
+<script src="${path}/resources/js/pages/chat-popup.js"></script>
+<script src="${path}/resources/assets/icons/feather-icons/feather.min.js"></script>
+<script src="${path}/resources/assets/vendor_components/datatable/datatables.min.js"></script>
+<script src="${path }/resources/assets/vendor_components/tiny-editable/mindmup-editabletable.js"></script>
+<script src="${path }/resources/assets/vendor_components/tiny-editable/numeric-input-example.js"></script>
+<script src="${path }/resources/assets/vendor_components/jquery-ui/jquery-ui.js"></script>
+<script src="${path }/resources/assets/vendor_components/dropzone/dropzone.js"></script>
+
+<script src="${path}/resources/assets/vendor_components/moment/min/moment.min.js"></script>
+<script src="${path}/resources/assets/vendor_components/fullcalendar/fullcalendar.js"></script>
+
+<script src="${path}/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+<script src="${path}/resources/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+<script src="${path}/resources/assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+<script src="${path}/resources/assets/vendor_components/select2/dist/js/select2.full.js"></script>
+<script src="${path}/resources/assets/vendor_plugins/input-mask/jquery.inputmask.js"></script>
+<script src="${path}/resources/assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="${path}/resources/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="${path}/resources/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="${path}/resources/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="${path}/resources/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<script src="${path}/resources/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script src="${path}/resources/assets/vendor_plugins/iCheck/icheck.min.js"></script>
+
+
+<!-- CRMi App -->
+<script src="${path}/resources/js/template.js"></script>
+<script src="${path}/resources/js/pages/calendar.js"></script>
+<script src="${path}/resources/js/pages/editor.js"></script>
+<script src="${path}/resources/js/pages/data-table.js"></script>
+<script src="${path }/resources/js/pages/editable-tables.js"></script>
+
+
+<script src="${path}/resources/js/jquery.smartmenus.js"></script>
+<script src="${path}/resources/js/menus.js"></script>
+<script src="${path}/resources/js/pages/extra_taskboard.js"></script>
+<script src="${path}/resources/js/pages/advanced-form-element.js"></script>
+
+<%-- <script src="${path}/resources/assets/vendor_components/ckeditor/ckeditor.js"></script> --%>
+
+
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+
+
+</body>
+</html>

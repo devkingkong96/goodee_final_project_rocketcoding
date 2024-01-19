@@ -32,7 +32,6 @@
 			  <div class="box">
 				<div class="box-header with-border">
 				  <h3 class="box-title">사원별휴가사용조회</h3>
-				  <h6 class="box-subtitle">휴가일수조회</h6>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -53,8 +52,8 @@
 				            <tr>
 				                <td>${employees.EMP_NO}</td>
 				                <td>${employees.EMP_NAME}</td>
-				                <td>${employees.DOC_NO}</td>
 				                <td>${employees.DOC_TITLE}</td>
+				                <td>${employees.DOC_CONT}</td>
 								<td>
 								<fmt:formatDate value="${employees.START_DATE}" pattern="yyyy-MM-dd" /> ~ 
 								<fmt:formatDate value="${employees.END_DATE}" pattern="yyyy-MM-dd" />
@@ -82,9 +81,6 @@
 			<!-- /.col -->
 		  </div>
 		  <!-- /.row -->
-				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary w-100 mb-2">휴가항목등록</button>
-				</div>
       </section>
    </div>
 </div>

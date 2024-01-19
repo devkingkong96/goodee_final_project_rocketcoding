@@ -15,209 +15,14 @@
     String formattedNow = now.format(formatter);
 %>
 
-
-<%--<script>
-    $(document).ready(
-        function () {
-            //Only needed for the filename of export files.
-            //Normally set in the title tag of your page.
-            /*document.title = 'Simple DataTable';*/
-            // DataTable initialisation
-            // var data = [
-            // <c:forEach var="iv" items="${inventories}" varStatus="status">
-            // {
-            //     "IV_ID": "${iv.IV_ID}",
-            //    "IV_TYPE": " ${iv.IV_TYPE}",
-            //    "QUANTITY": "${iv.QUANTITY != null ? iv.QUANTITY : '수량'}",
-            //    "IV_DATE": "${iv.IV_DATE}",
-            //    "CONFIRM_YN": "${iv.CONFIRM_YN != null ? iv.CONFIRM_YN : '결재여부'}",
-            //    "SEND_BRANCH_NAME": "${iv.SEND_BRANCH_NAME}",
-            //    "SEND_EMP_NAME": " ${iv.SEND_EMP_NAME}",
-            //    "TOTAL_AMOUNT": "${iv.TOTAL_AMOUNT != null ? iv.TOTAL_AMOUNT : '금액합계'}",
-            //     "IV_VAT_TYPE": "${iv.IV_VAT_TYPE}",
-            //    "IV_MEMO": "<c:out value='${iv.IV_MEMO}'/>",
-            //    "deleteLink": '<a href="${path} / inventory / delete ? iv_id =${iv.IV_ID}">삭제</a>'
-            // }
-            //  <c:if test="${!status.last}">, </c:if>
-            //   </c:forEach>
-            //];
-
-            $('#example1').DataTable(
-                {
-                    "processing": true,
-                    "serverSide": true,
-                    "destroy": true,
-                    "dateFormat": 'YYYY-MM-DD HH:mm:ss',
-                    "ajax": {
-                        "url": "${path }/logistics/inventories",
-                        "type": "GET",
-                        "dataSrc": function (json) {
-                            console.log("Received JSON:", json);
-                            var data = json.data;
-                            return data;
-                        }
-                    },
-                    "columns": [
-                        {title: "입/출고 코드", "data": "IV_ID"},
-                        {title: "타입", "data": "IV_TYPE"},
-                        {
-                            /*                    title: "수량", "data": "QUANTITY"*/
-                            title: "수량",
-                            "data": null,
-                            "defaultContent": "수량",
-                            "render": function (data, type, row, meta) {
-                                return '임의의 값 또는 HTML 요소';
-                            }
-                        },
-                        {title: "게시일", "data": "IV_DATE"},
-                        {
-                            title: "결재여부",/* "data": "CONFIRM_YN"*/
-                            "data": null,
-                            "defaultContent": "결재여부",
-                            "render": function (data, type, row, meta) {
-                                return '임의의 값 또는 HTML 요소';
-                            }
-                        },
-                        {title: "거래처", "data": "SEND_BRANCH_NAME"},
-                        {title: "담당자", "data": "SEND_EMP_NAME"},
-                        {
-                            /* title: "금액합계", "data": "TOTAL_AMOUNT" */
-                            title: "금액합계",
-                            "data": null,
-                            "defaultContent": "금액합계",
-                            "render": function (data, type, row, meta) {
-                                return '임의의 값 또는 HTML 요소';
-                            }
-                        },
-                        {"data": "IV_VAT_TYPE"},
-                        {"data": "IV_MEMO"},
-                        {
-                            /*                      title: "금액합계", "data": "TOTAL_AMOUNT"*/
-                            title: "삭제",
-                            "data": null,
-                            "defaultContent": "삭제",
-                            "render": function (data, type, row, meta) {
-                                return '<a href="${path}/inventory/delete?iv_id=${iv.IV_ID}">삭제</a>';
-                            }
-                        }
-                        /*                                   {
-                                                               title: "적요",
-                                                               "data": "deleteLink", "render": function (data) {
-                                                                   return data;
-                                                               }
-                                                           }*/
-                    ],
-                    "dom": '<"dt-buttons"Bfli>rtp',
-                    "paging": true,
-                    "autoWidth": true,
-                    "fixedHeader": true,
-                    // 기타 DataTables 설정
-                    "drawCallback": function (settings) {
-                        // DataTables가 다시 그려질 때마다 실행됩니다.
-                        $('#example1').editableTableWidget();
-
-                    },
-                    "buttons": [{
-                        extend: 'colvis',
-                        text: '일부 컬럼 보기'
-
-                    }, {
-
-                        extend: 'copyHtml5',
-                        text: '클립보드에 복사',
-                        exportOptions: {
-                            columns: ':visible'
-
-                        }
-                    }, {
-                        extend: 'csvHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }, {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }, {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }, {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }
-
-                    ],
-                    "lengthMenu": [[10, 25, 50, 100, -1],
-                        [10, 25, 50, 100, "All"]],
-                    "language": {
-                        "lengthMenu": "표시할 항목 수: _MENU_",
-                        "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
-                        "search": "검색:",
-                        "paginate": {
-                            "first": "처음",
-                            "last": "마지막",
-                            "next": "다음",
-                            "previous": "이전",
-                            "emptyTable": "데이터가 없어요.",
-                            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-                            // "info": "현재 _START_ - _END_ / _TOTAL_건",
-                            "infoEmpty": "데이터 없음",
-                            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-                            // "search": "에서 검색: ",
-                            "zeroRecords": "일치하는 데이터가 없어요.",
-                            "loadingRecords": "로딩중...",
-                            "processing": "잠시만 기다려 주세요..."
-                            // "paginate": {
-                            //     "next": "다음",
-                            //     "previous": "이전"
-
-                            // },
-
-                        },
-
-                    }
-
-
-                });
-
-            // table.on('init', function() {
-            //     $(".dataTables_length").after("<br>"); // .dataTables_length 뒤에 <br> 추가
-            // });
-        });
-</script>--%>
 <%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param name="title" value="입/출고 등록"/>
 </jsp:include>
-<%-- <%
-    Logger logger = LogManager.getLogger("InventoryController");
-    logger.info("Logging from JSP page");
-%> --%>
 
-<%--<jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param name="title" value=""/>
-</jsp:include>--%>
 <script type="text/javascript"
         src="${path }/resources/assets/vendor_components/moment/moment.js"></script>
 
-<%--<script type="text/javascript"
-        src="${path }/resources/assets/vendor_components/datatable/datatables.editor.min.js"></script>--%>
-
-<%--<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">--%>
-<%--<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">--%>
-<%-- <script src="${path }/resources/js/pdfmake.min.js"></script>
-<script src="${path }/resources/js/vfs_fonts.js"></script> --%>
-<%--<link rel="stylesheet"
-      href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">--%>
-<%--
-<script
-        src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
---%>
 </head>
 
 <!-- extract 버튼 가져오기 -->
@@ -271,17 +76,6 @@
         justify-content: flex-end;
     }
 
-    /*    .box-body > div, .box-body form > div {
-                margin: 20px; !* 각 요소의 하단에 20px 마진 추가 *!
-            }
-
-            .input-group.mb-3 {
-                margin: 20px; !* input-group 클래스가 적용된 요소에도 마진 추가 *!
-            }
-
-            .custom-file, .form-control {
-                margin: 20px; !* custom-file과 form-control 클래스가 적용된 요소에도 마진 추가 *!
-            }*/
     .col-lg-6 col-6.connectedSortable div {
         margin-bottom: 20px;
         /*        margin-right: 20px;
@@ -309,17 +103,6 @@
         margin-left: 50px;
     }
 
-    /*    .section-margin {
-            margin-left: 20px;
-            !*margin: 50px;*!
-            !*margin-top: -10px;*!
-
-        }*/
-
-    /*    div {
-            margin: 10px;
-        }*/
-
     textarea.form-control {
         width: 200px;
         height: 150px;
@@ -330,9 +113,7 @@
         vertical-align: middle;
         position: relative;
         top: 10px;
-
     }
-
 </style>
 <script>
     // alert("script");
@@ -369,7 +150,6 @@
             placeholder: "도서를 선택하세요",
             allowClear: true
         });
-
 
         $('#example1').DataTable({
 
@@ -608,24 +388,6 @@
             var rowData = table.row(rowIndex).data();
             rowData[2] = '<label class="form-label" style="display:none;">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option>' + selectedText + '</option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>';
             console.log("rowData[2]: " + rowData[2]);
-            /*            var rowData = table.row(0)[2];
-                        console.log("rowData: " + rowData);*/
-            // console.log("rowData[2] : " + rowData[2]);
-            // rowData = selectedBook;
-
-            /*            var cell = $(e.target);
-                        var columnIdx = cell.index();
-                        var rowIdx = cell.closest('tr').index();
-                        // var table = $('#example1').DataTable();
-                        var data = table.row(rowIdx).data();
-
-
-                        data[columnIdx] = newValue; // 데이터 배열 업데이트
-
-                        /!*            // 검색 색인 업데이트 없이 데이터만 업데이트
-                                    table.row(rowIdx).data(data);*!/
-                        table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트*/
-
 
             var selectedValue = $(this).val(); // 선택된 값 가져오기
             var selectId = selectedValue; // 새로운 ID 생성
@@ -763,20 +525,12 @@
                         dataTable.row(rowIndex).remove().draw(); // 행 삭제 및 테이블 다시 그리기
                         /*         dataTable.row(0).data(currentData[0]).draw();
                                  rowselect2 = row.find('.select2');*/
-
-
                     });
 
                     justones = true;
-
                 }
-
             });
-
-
         });
-
-
     });
 
 </script>
@@ -834,15 +588,14 @@
             <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h4 class="page-title">입/출고 등록</h4>
+                        <h4 class="page-title">지점별 재고 현황 검색</h4>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
-                                    <li class="breadcrumb-item" aria-current="page">입/출고 관리</li>
-                                    <li class="breadcrumb-item active" aria-current="page">입/출고
-                                        등록
+                                    <li class="breadcrumb-item" aria-current="page">물류 관리</li>
+                                    <li class="breadcrumb-item active" aria-current="page">지점별 재고 현황 검색
                                     </li>
                                 </ol>
                             </nav>
@@ -850,16 +603,19 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-lg-12 col-12">
+                <div class="col-lg-6 col-12">
                     <div class=" connectedSortable">
-                        <form name="insertinventory" id="insertinventory"
-                        <%-- method="post"--%> enctype="multipart/form-data">
+                        <form name="searchdaybystock" id="searchdaybystock" method="get"
+                              action="${path}/logistics/stock/branchbyheigt"
+                        <%-- method="post"--%> >
                             <div class="box">
                                 <div class="box-header with-border">
-                                    <h4 class="box-title"><i class="ti-agenda"></i> 입/출고 등록</h4>
+                                    <h4 class="box-title"><%--<i class="ti-agenda"></i>--%><strong> 지점별 재고 현황
+                                        검색</strong>
+                                    </h4>
 
+                                    <h6 class="subtitle">검색 기준 항목을 선택 하세요</h6>
                                     <ul class="box-controls pull-right">
                                         <li><a class="box-btn-close" href="#"></a></li>
                                         <li><a class="box-btn-slide" href="#"></a></li>
@@ -870,72 +626,141 @@
                                 <div class="box-body p-12"> <%--action="${path }/logistics/write"--%>
 
 
+                                    <%--    <div class="col-6
+                                            " style="margin-bottom: 20px;">
+                                            <div class="col-12" style="margin-bottom: 5px;">
+                                                <label class="form-label" style="margin:5px;">
+                                                    <i class="si-note si"></i>
+                                                    기안 종류</label>
+                                            </div>
+                                            <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고"
+                                                   class="with-gap radio-col-primary">
+                                            <label for="ivType_Option_1">입고</label>
+                                            <input name="ivType" type="radio" id="ivType_Option_2" value="출고"
+                                                   class="with-gap radio-col-primary">
+                                            <label for="ivType_Option_2">출고</label>
+                                        </div>--%>
+
                                     <div class="col-6
                                         " style="margin-bottom: 20px;">
                                         <div class="col-12" style="margin-bottom: 5px;">
                                             <label class="form-label" style="margin:5px;">
                                                 <i class="si-note si"></i>
-                                                기안 종류</label>
+                                                타입</label>
                                         </div>
-                                        <input name="ivType" type="radio" id="ivType_Option_1" checked value="입고"
+                                        <input name="tableType" type="radio" id="ivType_Option_1" checked
+                                               value="product"
                                                class="with-gap radio-col-primary">
-                                        <label for="ivType_Option_1">입고</label>
-                                        <input name="ivType" type="radio" id="ivType_Option_2" value="출고"
+                                        <label for="ivType_Option_1">종(도서명 기준)</label>
+                                        <input name="tableType" type="radio" id="ivType_Option_2" value="branch"
                                                class="with-gap radio-col-primary">
-                                        <label for="ivType_Option_2">출고</label>
+                                        <label for="ivType_Option_2">횡(지점 기준)</label>
                                     </div>
-
-                                    <div class="col-lg-2 col-5">
-                                        <label class="form-label" style="margin:5px;"><i class="si-calendar si"
-                                                                                         style="margin-right:10px;"></i>
-                                            요청 기한</label>
-                                        <input class="form-control" name="ivDeadline" type="datetime-local"
+                                    <div class="col-lg-5 col-12">
+                                        <label class="form-label" style="margin:5px;"
+                                               for="stkDate"><i
+                                                class="si-calendar si"
+                                                style="margin-right:10px;"></i>
+                                            기준 날짜</label>
+                                        <input class="form-control" id="stkDate" name="stkDate"
+                                               type="date"
                                                id="example-datetime-local-input" required>
 
                                     </div>
+                                    <script>
+                                        // 오늘 날짜를 가져오는 JavaScript 코드
+                                        var today = new Date();
 
-                                    <%--                <select class="chooseBook form-control select2"
-                                                            data-placeholder="도서를 선택하세요" style="width: 100%;">
-                                                        <option></option>
-                                                        <c:forEach var="entry" items="${prdTitleToIdMap }">
-                                                            <c:if test="${entry.key != null}">
-                                                                <option value="${entry.value}">${entry.key}</option>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </select>--%>
-                                    <div class="row">
+                                        // "YYYY-MM-DD" 형식으로 오늘 날짜를 문자열로 변환
+                                        var formattedDate = today.toISOString().slice(0, 10);
 
-                                        <div class="col-lg-2 col-3" style="margin:5px; margin-top:20px" ;><label
-                                                class=" form-label">
-                                            <i class="si-organization si" style="margin-right:10px;"></i>거래처</label>
-                                            <%--               <select
-                                                                   class="form-control select2" name="recieveBrcId" multiple="multiple"
-                                                                   data-placeholder="Select a State" style="width: 100%;">--%>
-                                            <select
-                                                    class="chooseBrc form-control select2" name="recieveBrcId"
-                                                    data-placeholder="거래처를 선택하세요" style="width: 100%;">
-                                                <option></option>
-                                                <c:forEach var="entry" items="${branchList }">
+                                        // 오늘 날짜를 input 요소에 설정
+                                        document.getElementById("stkDate").value = formattedDate;
+                                    </script>
+                                    <%--                              <div class="col-lg-2 col-5">
+                                                                      <label class="form-label" style="margin:5px;"><i class="si-calendar si"
+                                                                                                                       style="margin-right:10px;"></i>
+                                                                          요청 기한</label>
+                                                                      <input class="form-control" name="ivDeadline" type="datetime-local"
+                                                                             id="example-datetime-local-input" required>
+                                                                  </div>--%>
 
-                                                    <option value="${entry.BRANCH_ID}">${entry.BRANCH_NAME}</option>
+                                    <%--                                    <div class="row">--%>
+                                    <input type="hidden" name="branchId" value=""/>
+                                    <input type="hidden" name="prdId" value=""/>
+                                    <div class="col-lg-5 col-12" style="margin:5px; margin-top:20px" ;><label
+                                            class=" form-label">
+                                        <i class="si-organization si" style="margin-right:10px;"></i>지점</label>
+                                        <%--               <select
+                                                               class="form-control select2" name="recieveBrcId" multiple="multiple"
+                                                               data-placeholder="Select a State" style="width: 100%;">--%>
+                                        <select
+                                                class="chooseBrc form-control select2" name="branchId"
+                                                data-placeholder="지점" style="width: 100%;" multiple="multiple">
+                                            <option></option>
+                                            <c:forEach var="entry" items="${branchList }">
 
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <%--                                        ${empListByemployeeId }--%>
+                                                <option value="${entry.BRANCH_ID}">${entry.BRANCH_NAME}</option>
 
-
-                                        <div class="col-lg-2 col-3" style="margin:5px; margin-top:20px;">
-                                            <label class="form-label"><i class="si-user si"></i>
-                                                거래처 측 담당자</label>
-                                            <%--    <select
-                                                        class="form-control select2" name="recieveEmpId" multiple="multiple"
-                                                        data-placeholder="Select a State" style="width: 100%;">--%>
-                                            <select class="chooseRecieveEmp form-control select2" name="recieveEmpId"
-                                                    data-placeholder="지점을 선택하세요" style="width: 100%;">
-                                            </select>
-                                        </div>
+                                            </c:forEach>
+                                        </select>
                                     </div>
+                                    <%--                                        ${empListByemployeeId }--%>
+
+                                    <div class="col-lg-5 col-12" style="margin:5px; margin-top:20px;">
+                                        <label class="form-label"><i class="si-user si"></i>
+                                            품목</label>
+                                        <%--    <select
+                                                    class="form-control select2" name="recieveEmpId" multiple="multiple"
+                                                    data-placeholder="Select a State" style="width: 100%;">--%>
+                                        <select class="chooseRecieveEmp form-control select2" name="prdId"
+                                                data-placeholder="품목" style="width: 100%;" multiple="multiple">
+                                            <option></option>
+                                            <c:forEach var="entry" items="${productList }">
+
+                                                <option value="${entry.PRD_ID}">${entry.PRD_TITLE}</option>
+
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+
+
+                                            // 폼 제출 이벤트 핸들러
+                                            document.getElementById("searchdaybystock").addEventListener("submit", function () {
+                                                var branchSelect = document.querySelector('.chooseBrc');
+                                                var prdSelect = document.querySelector('.chooseRecieveEmp');
+
+                                                // 지점 선택 필드에서 선택된 값이 있는 경우 숨겨진 필드를 비활성화
+                                                if (branchSelect.value) {
+                                                    document.querySelector('input[name="branchId"]').disabled = true;
+                                                }
+
+                                                // 품목 선택 필드에서 선택된 값이 있는 경우 숨겨진 필드를 비활성화
+                                                if (prdSelect.value) {
+                                                    document.querySelector('input[name="prdId"]').disabled = true;
+                                                }
+                                            });
+
+
+                                            $('#searchdaybystock').submit(function () {
+                                                if (!$('.chooseBrc').val()) {
+                                                    $('<input>').attr({
+                                                        type: 'hidden',
+                                                        name: 'branchId',
+                                                        value: ''
+                                                    }).appendTo('#searchdaybystock');
+                                                    $('<input>').attr({
+                                                        type: 'hidden',
+                                                        name: 'prdId',
+                                                        value: ''
+                                                    }).appendTo('#searchdaybystock');
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                    <%--                                    </div>--%>
 
                                     <%--   <div class="col-lg-4 col-5" style="margin:5px; margin-top:20px" ;><label
                                                class=" form-label">
@@ -959,214 +784,114 @@
                                                             <input name="file" type="file" multiple/>
                                                         </div>
                                                     </div>--%>
+                                    <%--                              <div class="row">
+                                                                      <div style="margin-top: 30px;">
+                                                                          <div class="col-12" style="margin:5px;"><i class="si-calculator si"
+                                                                                                                     style="margin-right:10px;"></i>
+                                                                              부가세
+                                                                              포함
+                                                                              여부
+                                                                          </div>
+                                                                          <input name="ivVatType" type="radio"
+                                                                                 id="vat_Option_1"
+                                                                                 checked value="Y" class="with-gap radio-col-primary">
+                                                                          <label for="vat_Option_1">포함</label>
+                                                                          <input name="ivVatType" type="radio" id="vat_Option_2" value="N"
+                                                                                 class="with-gap radio-col-primary">
+                                                                          <label for="vat_Option_2">제외</label>
+                                                                      </div>
+
+                                                                      <div id="file-container">
+                                                                          <div class="input-group mb-3"
+                                                                               style="padding: 0px; margin-top: 10px; margin-left: -10px;">
+                                                                              <div class="input-group-prepend" style="padding: 0px; ">
+                                                                                  <button type="button"
+                                                                                          class="waves-effect waves-light btn btn-info-light btn-flat mb-3"
+                                                                                          onclick="fn_addFileForm();" style="margin:10px;">첨부파일 추가
+                                                                                  </button>
+                                                                                  <button type="button"
+                                                                                          class="waves-effect waves-light btn btn-danger-light btn-flat mb-3"
+                                                                                          onclick="fn_deleteFileForm();" style="margin:10px;">첨부파일 삭제
+                                                                                  </button>
+                                                                              </div>
+                                                                          </div>
+                                                                          <div id="basicFileForm" class="input-group mb-3"
+                                                                               style="padding: 0; margin-top:-20px;">
+                                                                              <div>
+                                                                                  <div>
+                                                                                  <span class="input-group-text1"><i
+                                                                                          class="fa fa-fw fa-file-o"
+                                                                                          style="margin-right:10px;"></i> 첨부파일 1</span>
+                                                                                  </div>
+                                                                                  <input type="file" class="custom-file-input" name="upFile"
+                                                                                         id="upFile1" style="display: none;"
+                                                                                         onchange="changeFileFunc(event);">
+                                                                                  <label
+                                                                                          class="custom-file-label waves-effect waves-light btn btn-primary-light btn-flat mb-3"
+                                                                                          for="upFile1" style="margin:10px;">파일을
+                                                                                      선택하세요</label>
+
+                                                                                  &lt;%&ndash;                                                    <div name="fileButton"></div>&ndash;%&gt;
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div class="col-lg-2 col-5">
+                                                                              <label>
+                                                                                  <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"
+                                                                                             placeholder="적요"></textarea> -->
+
+                                                                                  <textarea class="col-lg-2 col-5 form-control" name="ivMemo"
+                                                                                            placeholder="&#128221;적요"></textarea>
+                                                                              </label>
+                                                                          </div>
+                                                                      </div>
+                                                                      <br/>
+
+                                                                  </div>--%>
                                     <div class="row">
-                                        <div style="margin-top: 30px;">
-                                            <div class="col-12" style="margin:5px;"><i class="si-calculator si"
-                                                                                       style="margin-right:10px;"></i>
-                                                부가세
-                                                포함
-                                                여부
-                                            </div>
-                                            <input name="ivVatType" type="radio"
-                                                   id="vat_Option_1"
-                                                   checked value="Y" class="with-gap radio-col-primary">
-                                            <label for="vat_Option_1">포함</label>
-                                            <input name="ivVatType" type="radio" id="vat_Option_2" value="N"
-                                                   class="with-gap radio-col-primary">
-                                            <label for="vat_Option_2">제외</label>
-                                        </div>
-
-                                        <div id="file-container">
-                                            <div class="input-group mb-3"
-                                                 style="padding: 0px; margin-top: 10px; margin-left: -10px;">
-                                                <div class="input-group-prepend" style="padding: 0px; ">
-                                                    <button type="button"
-                                                            class="waves-effect waves-light btn btn-info-light btn-flat mb-3"
-                                                            onclick="fn_addFileForm();" style="margin:10px;">첨부파일 추가
-                                                    </button>
-                                                    <button type="button"
-                                                            class="waves-effect waves-light btn btn-danger-light btn-flat mb-3"
-                                                            onclick="fn_deleteFileForm();" style="margin:10px;">첨부파일 삭제
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div id="basicFileForm" class="input-group mb-3"
-                                                 style="padding: 0; margin-top:-20px;">
-                                                <div>
-                                                    <div>
-                                                    <span class="input-group-text1"><i
-                                                            class="fa fa-fw fa-file-o"
-                                                            style="margin-right:10px;"></i> 첨부파일 1</span>
-                                                    </div>
-                                                    <input type="file" class="custom-file-input" name="upFile"
-                                                           id="upFile1" style="display: none;"
-                                                           onchange="changeFileFunc(event);">
-                                                    <label
-                                                            class="custom-file-label waves-effect waves-light btn btn-primary-light btn-flat mb-3"
-                                                            for="upFile1" style="margin:10px;">파일을
-                                                        선택하세요</label>
-
-                                                    <%--                                                    <div name="fileButton"></div>--%>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-2 col-5">
-                                                <label>
-                                                    <!--  <textarea id="editorElementId" class="form-control" name="iv_memo"
-                                                               placeholder="적요"></textarea> -->
-
-                                                    <textarea class="col-lg-2 col-5 form-control" name="ivMemo"
-                                                              placeholder="&#128221;적요"></textarea>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <div class="col-12" style="margin-top:10px; align-items: flex-end">
+                                        <div class="col-12"
+                                             style="margin-top:30px; margin-left:270px; align-items: flex-end; margin-bottom:50px;">
                                             <%--  <input type="hidden" id="tableData" name="tableData" value="">--%>
-                                            <input type="hidden" id="ivIsdel" name="ivIsdel" value="N">
-                                            <input type="hidden" id="sendBrcId" name="sendBrcId" value="1">
+                                            <%--                                   <input type="hidden" id="ivIsdel" name="ivIsdel" value="N">
+                                                                               <input type="hidden" id="sendBrcId" name="sendBrcId" value="1">--%>
                                             <!-- 받는 담당 직원도 넣어주면 좋은데 아직은 필요없는 느낌 -->
                                             <!-- TODO docNo는 지금 안보낼거임-->
                                             <%--                                            <input type="hidden" id="docNo" name="docNo" value="null">--%>
-                                            <button type="submit" class="btn btn-primary submitinventory">
-                                                <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
+                                            <button type="submit" class="btn btn-primary submitdaybystock">
+                                                <i class="ti-save-alt" style="margin-right:10px;"></i> 검색
                                             </button>
                                         </div>
-                                        <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
                                     </div>
+                                    <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
                         </form>
-                    </div>
-                </div>
 
-                <div class="col-lg-12 col-12">
-                    <div class=" box box-table">
-                        <div class="box-header">
-                            <h4 class="box-title">
-                                <!-- 입/출고 --> <strong>입/출고 상품 등록</strong>
-                            </h4>
-                            <h6 class="subtitle">입/출고 할 상품을 등록하세요</h6>
-                        </div>
-
-                        <div class="box-body ">
-                            <div class="table-responsive">
-                                <!-- 	<table border="0" cellspacing="5" cellpadding="5">
-                                        <tbody>
-                                            <tr>
-                                                <td>Minimum date:</td>
-                                                <td><input type="text" id="min" name="min"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Maximum date:</td>
-                                                <td><input type="text" id="max" name="max"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table> -->
-
-                                <table id="example1"
-                                       class="table table-striped">
-                                    <thead>
-                                    <tr class="bt-5 border-primary">
-                                        <th>
-                                            추가
-                                        </th>
-
-                                        <th>품목 코드</th>
-                                        <th>도서명</th>
-                                        <th>총 수량</th>
-                                        <th>단가</th>
-                                        <th>공급액</th>
-                                        <th>적요</th>
-                                        <th>삭제</th>
-                                    </thead>
-
-                                    <tbody>
-                                    <%--	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">--%>
-                                    <%--         <c:forEach var="iv" items="${inventories }">--%>
-                                    <tr class="bt-5 border-primary">
-                                        <td name="dontedit">
-                                            <%--<form action="${path}/logistics/inventory/List/delete" method="post">--%>
-                                            <%--<input type="hidden" name="iv_id" value="${iv.IV_ID}">--%>
-                                            <button type="button" id="1plusButton"
-                                                    class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5">
-                                            </button>
-                                            <%-- </form>--%>
-                                        </td>
-
-                                        <td name="dontedit" class="prdId"></td>
-                                        <td name="dontedit" data-column-name="SEND_BRC_ID"
-                                            data-parent-column="BRANCH_NAME"
-                                            data-table-name="BRANCH">
-                                            <label class="form-label" style="display:none;">도서 선택</label>
-                                            <select class="chooseBook form-control select2"
-                                                    data-placeholder="도서를 선택하세요" style="width: 100%;">
-                                                <option></option>
-                                                <c:forEach var="entry" items="${selectAllProduct }">
-                                                    <c:if test="${entry.PRD_ID != null}">
-                                                        <option value="${entry.PRD_ID}">${entry.PRD_TITLE}</option>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </select>
-
-                                        </td>
-
-                                        <td class="prdIvQuantity"><%--${iv.SEND_EMP_NAME}--%>최소 1 입력
-                                        </td>
-                                        <td name="dontedit" class="prd_price"></td>
-                                        <td name="dontedit" class="price_inout" data-column-name="IV_VAT_TYPE"
-                                            data-parent-column="IV_VAT_TYPE"
-                                            data-table-name="INVENTORY"><%--${iv.IV_VAT_TYPE}--%></td>
-                                        <td class="prdIvMemo">메모 입력<%--${iv.IV_MEMO}--%></td>
-                                        <td name="dontedit">
-                                            <script>
-
-                                                $('#example1 tbody').on('click', '#delButton', function () {
-
-                                                    var row = $(this).closest('tr');
-                                                    var table = $('#example1').DataTable();
-
-                                                    if (confirm('정말로 삭제 하시겠습니까?')) {
-
-                                                        table.row(row).remove().draw(); // 해당 행 삭제
-                                                    }
-
-                                                });
-                                                /*                             let row = table.row($(this).parents('tr'));
-                                                                             $('#example1 tbody').on('click', 'button.delbutton', function () {
-
-                                                                                 table.row($(this).parents('tr'))
-                                                                                     .remove
-                                                                                     .draw();
-                                                                             });*/
-
-
-                                            </script>
-                                            <button type="button"
-                                            <%--onclick="confirmDeletion()"--%> id="delButton"
-                                                    class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">
-                                                삭제
-                                            </button>
-                                            <%--            {
-                                                        data: null,
-                                                        className: 'dt-center editor-edit',
-                                                        defaultContent: '<i class="fa fa-pencil"/>',
-                                                        orderable: false
-                                                        },
-                                                        {
-                                                        data: null,
-                                                        className: 'dt-center editor-delete',
-                                                        defaultContent: '<i class="fa fa-trash"/>',
-                                                        orderable: false
-                                                        }--%>
-                                        </td>
-
-                                    </tr>
-                                    <%--          </c:forEach>--%>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
                         <script>
+
+
+                            document.addEventListener("DOMContentLoaded", function () {
+                                // 페이지가 로드될 때 실행할 코드
+
+                                // 라디오 버튼 요소 가져오기
+                                var radioButtons = document.querySelectorAll('input[name="tableType"]');
+
+                                // 폼 요소 가져오기
+                                var form = document.getElementById('searchdaybystock');
+
+                                // 라디오 버튼에 이벤트 리스너 추가
+                                radioButtons.forEach(function (radioButton) {
+                                    radioButton.addEventListener("change", function () {
+                                        var selectedType = document.querySelector('input[name="tableType"]:checked').value;
+
+                                        if (selectedType === 'branch') {
+                                            form.action = "${path}/logistics/stock/branchby";
+                                        } else if (selectedType === 'product') {
+                                            form.action = "${path}/logistics/stock/branchbyheigt";
+                                        }
+                                    });
+                                });
+                            });
+
+
                             /*                 $('#insertinventory').on('submit', function (e) {
                                                  e.preventDefault(); // 기본 submit 동작 방지
 
@@ -1194,17 +919,17 @@
                                                  });
                                              });*/
 
-                            const saveButton = document.querySelector('.submitinventory');
+                            /*  const saveButton = document.querySelector('.submitdaybystock');
 
-                            // 이벤트 리스너 추가
-                            saveButton.addEventListener('click', function (event) {
+                              // 이벤트 리스너 추가
+                              saveButton.addEventListener('click', function (event) {
 
-                                event.preventDefault(); // 기본 동작 방지
-                                // alert("무야호");
-                                insertInventory();
-                                // alert(a);
-                                // console.log(a);// insertInventory 함수 호출
-                            });
+                                  event.preventDefault(); // 기본 동작 방지
+                                  // alert("무야호");
+                                  searchdaybystock();
+                                  // alert(a);
+                                  // console.log(a);// insertInventory 함수 호출
+                              });*/
 
                             /*        function getCellValue(rowIndex, columnIndex) {
                                         var table = document.querySelector('#example1 tbody tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + columnIndex + ')');
@@ -1217,15 +942,18 @@
                                     }*/
 
 
-                            function insertInventory() {
-                                var table = $('#example1').DataTable();
+                            function searchdaybystock() {
+                                // var table = $('#example1').DataTable();
 
 
                                 // alert("tableData : " + tableData[0]['prdId']);
                                 /*            var tableData = table.rows().data().toArray();
                                             console.log("데이터 테이블 데이터: ", tableData);*/
 
-                                const form = document.querySelector("#insertinventory");
+                                // const form = document.querySelector("#searchdaybystock");
+
+                                // var serializedData = $("#searchdaybystock").serialize();
+
                                 /*                        let formData = new FormData(form);
                                                         let entries = formData.entries();
                                                         console.log(entries);
@@ -1233,187 +961,187 @@
                                                             console.log(pair[0] + " : " + pair[1]);
                                                         }*/
 
-                                var formData = new FormData(form); // 폼 요소를 기반으로 FormData 객체 생성
+                                // var formData = new FormData(form); // 폼 요소를 기반으로 FormData 객체 생성
                                 // 'ivDeadline' 필드의 값을 가져온다
-                                var ivDeadlineValue = formData.get('ivDeadline');
+                                /*       var ivDeadlineValue = formData.get('ivDeadline');
 
 
-                                var ivDeadline = document.getElementById('example-datetime-local-input').value;
-                                if (!ivDeadline) {
-                                    alert('요청 기한을 입력해주세요.');
-                                    return; // 함수 실행을 중단합니다.
-                                }
-                                if (!document.querySelector('select[name="recieveEmpId"]').value) {
-                                    alert('거래처와 직원을 선택해 주세요');
-                                    return; // 함수 실행을 중단합니다.
-                                }
+                                       var ivDeadline = document.getElementById('example-datetime-local-input').value;
+                                       if (!ivDeadline) {
+                                           alert('요청 기한을 입력해주세요.');
+                                           return; // 함수 실행을 중단합니다.
+                                       }
+                                       if (!document.querySelector('select[name="recieveEmpId"]').value) {
+                                           alert('거래처와 직원을 선택해 주세요');
+                                           return; // 함수 실행을 중단합니다.
+                                       }
+       */
+                                /*                      function getAllRowData() {
+                                                          var table = $('#example1').DataTable();
+                                                          var rowDataArray = [];
+                                                          choosePrdCount2 = 0;
+                                                          table.rows().every(function (index) {
+                                                              var rowData = {}; // 각 행의 데이터를 담을 객체 초기화
+                                                              var row = this.data(); // 현재 행의 데이터 가져오기
 
-                                function getAllRowData() {
-                                    var table = $('#example1').DataTable();
-                                    var rowDataArray = [];
-                                    choosePrdCount2 = 0;
-                                    table.rows().every(function (index) {
-                                        var rowData = {}; // 각 행의 데이터를 담을 객체 초기화
-                                        var row = this.data(); // 현재 행의 데이터 가져오기
+                                                              // 열 이름 배열 가져오기
+                                                              var list = [];
+                                                              var columnNames = table.columns().header().toArray();
+                                                              // var cellValue;
+                                                              /!*                // 각 열 순회
+                                                                              var rowNode = this.node(); // 현재 행의 DOM 요소 가져오기
 
-                                        // 열 이름 배열 가져오기
-                                        var list = [];
-                                        var columnNames = table.columns().header().toArray();
-                                        // var cellValue;
-                                        /*                // 각 열 순회
-                                                        var rowNode = this.node(); // 현재 행의 DOM 요소 가져오기
+                                                                              // 2번째 열의 데이터를 가져오기
+                                                                              var secondCellData = rowNode.querySelector('td:nth-child(2)').textContent;*!/
 
-                                                        // 2번째 열의 데이터를 가져오기
-                                                        var secondCellData = rowNode.querySelector('td:nth-child(2)').textContent;*/
+                                                              var choosePrdCount = 0;
+                                                              for (var i = 0; i < columnNames.length; i++) {
 
-                                        var choosePrdCount = 0;
-                                        for (var i = 0; i < columnNames.length; i++) {
+                                                                  var columnName = columnNames[i].innerText; // 열 이름 가져오기
+                                                                  if (i === 1) {
 
-                                            var columnName = columnNames[i].innerText; // 열 이름 가져오기
-                                            if (i === 1) {
+                                                                      // cellValue = row[i];
 
-                                                // cellValue = row[i];
-
-                                                /*                   var prdIdElement = document.querySelector('#example1 td.prdId');
-                                                                   if (prdIdElement) {
-                                                                       var prdIdValue = prdIdElement.textContent;
-                                                                       alert(prdIdValue);
-                                                                   } else {
-                                                                       alert("요소를 찾을 수 없습니다.");
-                                                                   }*/
-
-
-                                                // alert(document.querySelector('#example1 td.prdId'));
-                                                rowData["prdId"] = document.querySelectorAll('#example1 td.prdId')[index].textContent;
-                                                if (rowData["prdId"] === "" && choosePrdCount == 0) {
-
-                                                    alert("상품을 선택해주세요 : " + index);
-                                                    return;
-                                                }
-
-                                                // rowData["prdId"] = document.querySelector('#example1 td.prdId').textContent;
-                                                /*       list.push(rowData["prdId"]);*/
-                                                console.log("rowData[prdId] : " + rowData["prdId"]);
-
-                                            } else if (i === 3) {
-                                                cellValue = row[i];
-
-                                                console.log("Before setting prdIvQuantity: " + rowData["prdIvQuantity"]);
-                                                // rowData["prdIvQuantity"] = 3;
-                                                rowData["prdIvQuantity"] = document.querySelectorAll('#example1 td.prdIvQuantity')[index].textContent;
-
-                                                if (rowData["prdIvQuantity"].includes("최소 1 입력") && choosePrdCount == 0) {
-                                                    alert("도서/수량을 입력 해주세요");
-                                                    return;
-                                                } else if (isNaN(rowData["prdIvQuantity"]) && choosePrdCount == 0) {
-                                                    alert("도서의 수량은 숫자만 입력 가능합니다.");
-                                                    return;
-                                                }
+                                                                      /!*                   var prdIdElement = document.querySelector('#example1 td.prdId');
+                                                                                         if (prdIdElement) {
+                                                                                             var prdIdValue = prdIdElement.textContent;
+                                                                                             alert(prdIdValue);
+                                                                                         } else {
+                                                                                             alert("요소를 찾을 수 없습니다.");
+                                                                                         }*!/
 
 
-                                                // rowData["prdIvQuantity"] = document.querySelector('#example1 td.prdIvQuantity').textContent;
-                                                console.log("After setting prdIvQuantity: " + rowData["prdIvQuantity"]);
+                                                                      // alert(document.querySelector('#example1 td.prdId'));
+                                                                      rowData["prdId"] = document.querySelectorAll('#example1 td.prdId')[index].textContent;
+                                                                      if (rowData["prdId"] === "" && choosePrdCount == 0) {
 
-                                                /*              list.push(rowData["prdIvQuantity"]);*/
-                                                // console.log("rowData[prdIvQuantity] : " + rowData["prdIvQuantity"]);
+                                                                          alert("상품을 선택해주세요 : " + index);
+                                                                          return;
+                                                                      }
 
-                                            } else if (i === 6) {
-                                                cellValue = row[i];
-                                                rowData["prdIvMemo"] = document.querySelectorAll('#example1 td.prdIvMemo')[index].textContent;
-                                                if (rowData["prdIvMemo"].includes("메모 입력")) {
-                                                    rowData["prdIvMemo"] = null;
-                                                }
+                                                                      // rowData["prdId"] = document.querySelector('#example1 td.prdId').textContent;
+                                                                      /!*       list.push(rowData["prdId"]);*!/
+                                                                      console.log("rowData[prdId] : " + rowData["prdId"]);
+
+                                                                  } else if (i === 3) {
+                                                                      cellValue = row[i];
+
+                                                                      console.log("Before setting prdIvQuantity: " + rowData["prdIvQuantity"]);
+                                                                      // rowData["prdIvQuantity"] = 3;
+                                                                      rowData["prdIvQuantity"] = document.querySelectorAll('#example1 td.prdIvQuantity')[index].textContent;
+
+                                                                      if (rowData["prdIvQuantity"].includes("최소 1 입력") && choosePrdCount == 0) {
+                                                                          alert("도서/수량을 입력 해주세요");
+                                                                          return;
+                                                                      } else if (isNaN(rowData["prdIvQuantity"]) && choosePrdCount == 0) {
+                                                                          alert("도서의 수량은 숫자만 입력 가능합니다.");
+                                                                          return;
+                                                                      }
 
 
-                                                // rowData["prdIvMemo"] = document.querySelector('#example1 td.prdIvMemo').textContent;
-                                                /*                 list.push(rowData["prdIvMemo"]);*/
-                                                console.log("rowData[prdIvMemo] : " + rowData["prdIvMemo"]);
-                                            }
-                                            choosePrdCount++;
-                                        }
-                                        choosePrdCount2++;
+                                                                      // rowData["prdIvQuantity"] = document.querySelector('#example1 td.prdIvQuantity').textContent;
+                                                                      console.log("After setting prdIvQuantity: " + rowData["prdIvQuantity"]);
 
-                                        /*  for (var i = 0; i < columnNames.length; i++) {
-                                              var columnName = columnNames[i].innerText; // 열 이름 가져오기
-                                              if (i === 2) {
-                                                  columneNametoHtml = columnNames[i].innerHTML;
+                                                                      /!*              list.push(rowData["prdIvQuantity"]);*!/
+                                                                      // console.log("rowData[prdIvQuantity] : " + rowData["prdIvQuantity"]);
 
-                                                  var Value = columneNametoHtml.find('.chooseBook').attr('id');
-                                                  console.log("row[i]의 도서 태그 id : : " + cellValue);
-                                                  cellvalue = Value;
-                                                  rowData[columnName] = columnName;
-                                              } else {
-                                                  cellValue = row[i]; // 현재 열의 값을 가져오기
-                                                  rowData[columnName] = cellValue;
-                                              }
-                                              // cellValue = row[i];
+                                                                  } else if (i === 6) {
+                                                                      cellValue = row[i];
+                                                                      rowData["prdIvMemo"] = document.querySelectorAll('#example1 td.prdIvMemo')[index].textContent;
+                                                                      if (rowData["prdIvMemo"].includes("메모 입력")) {
+                                                                          rowData["prdIvMemo"] = null;
+                                                                      }
 
-                                              // 객체에 열 이름을 키로, 해당 열의 값을 값으로 추가
-                                              // rowData[columnName] = cellValue;
-                                              console.log("rowData[columnName] : " + rowData[columnName]);
-                                          }*/
 
-                                        // 행 데이터 배열에 추가
-                                        var keys = Object.keys(rowData);
+                                                                      // rowData["prdIvMemo"] = document.querySelector('#example1 td.prdIvMemo').textContent;
+                                                                      /!*                 list.push(rowData["prdIvMemo"]);*!/
+                                                                      console.log("rowData[prdIvMemo] : " + rowData["prdIvMemo"]);
+                                                                  }
+                                                                  choosePrdCount++;
+                                                              }
+                                                              choosePrdCount2++;
 
-                                        // 키 배열의 길이를 통해 속성의 개수 확인
-                                        var numberOfProperties = keys.length;
+                                                              /!*  for (var i = 0; i < columnNames.length; i++) {
+                                                                    var columnName = columnNames[i].innerText; // 열 이름 가져오기
+                                                                    if (i === 2) {
+                                                                        columneNametoHtml = columnNames[i].innerHTML;
 
-                                        console.log("rowData에는 총 " + numberOfProperties + "개의 속성이 있습니다.");
-                                        rowDataArray.push(rowData);
-                                        console.log("rowData[prdIvQuantity]" + rowData["prdIvQuantity"])
-                                        // 겉데이터1[속데이터[prdid]]
-                                    });
-                                    console.log("야!!!!!!!!!!!!!!!!!!!!!!!!" + rowDataArray.length);
-                                    return rowDataArray;
-                                }
+                                                                        var Value = columneNametoHtml.find('.chooseBook').attr('id');
+                                                                        console.log("row[i]의 도서 태그 id : : " + cellValue);
+                                                                        cellvalue = Value;
+                                                                        rowData[columnName] = columnName;
+                                                                    } else {
+                                                                        cellValue = row[i]; // 현재 열의 값을 가져오기
+                                                                        rowData[columnName] = cellValue;
+                                                                    }
+                                                                    // cellValue = row[i];
 
-                                var prdInventory = getAllRowData();
+                                                                    // 객체에 열 이름을 키로, 해당 열의 값을 값으로 추가
+                                                                    // rowData[columnName] = cellValue;
+                                                                    console.log("rowData[columnName] : " + rowData[columnName]);
+                                                                }*!/
+
+                                                              // 행 데이터 배열에 추가
+                                                              var keys = Object.keys(rowData);
+
+                                                              // 키 배열의 길이를 통해 속성의 개수 확인
+                                                              var numberOfProperties = keys.length;
+
+                                                              console.log("rowData에는 총 " + numberOfProperties + "개의 속성이 있습니다.");
+                                                              rowDataArray.push(rowData);
+                                                              console.log("rowData[prdIvQuantity]" + rowData["prdIvQuantity"])
+                                                              // 겉데이터1[속데이터[prdid]]
+                                                          });
+                                                          console.log("야!!!!!!!!!!!!!!!!!!!!!!!!" + rowDataArray.length);
+                                                          return rowDataArray;
+                                                      }
+
+                                                      var prdInventory = getAllRowData();*/
 
                                 /*            if (prdInventory.length === 0 ) {
                                                 alert("상품을 선택해주세요");
                                                 return;
                                             }*/
 
-                                if (prdInventory.length === 0) {
-                                    // alert("상품을 선택해주세요");
-                                    // alert("1");
-                                    return;
-                                }
+                                /*      if (prdInventory.length === 0) {
+                                          // alert("상품을 선택해주세요");
+                                          // alert("1");
+                                          return;
+                                      }
 
-                                for (var i = 0; i < prdInventory.length; i++) {
-                                    if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력") && choosePrdCount2 >= 0) {
-                                        prdInventory.splice(i, 1);
-                                        alert("도서의 수량을 입력하거나 사용하지 않는 도서를 삭제 해주세요.");
-                                        // alert("3");
+                                      for (var i = 0; i < prdInventory.length; i++) {
+                                          if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력") && choosePrdCount2 >= 0) {
+                                              prdInventory.splice(i, 1);
+                                              alert("도서의 수량을 입력하거나 사용하지 않는 도서를 삭제 해주세요.");
+                                              // alert("3");
 
-                                        return;
-                                    } else if (isNaN(prdInventory[i]["prdIvQuantity"]) && choosePrdCount2 >= 0) {
-                                        prdInventory.splice(i, 1);
-                                        alert("도서의 수량은 숫자만 입력 가능합니다.");
-                                        // alert("4");
-                                        return;
-                                    } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
-                                        prdInventory.splice(i, 1);
-                                        // alert("도서/수량을 입력 해주세요");
-                                        // alert("3");
+                                              return;
+                                          } else if (isNaN(prdInventory[i]["prdIvQuantity"]) && choosePrdCount2 >= 0) {
+                                              prdInventory.splice(i, 1);
+                                              alert("도서의 수량은 숫자만 입력 가능합니다.");
+                                              // alert("4");
+                                              return;
+                                          } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
+                                              prdInventory.splice(i, 1);
+                                              // alert("도서/수량을 입력 해주세요");
+                                              // alert("3");
 
-                                        break;
-                                    }
+                                              break;
+                                          }
 
-                                    if (isNaN(prdInventory[i]["prdIvQuantity"])) {
-                                        prdInventory.splice(i, 1);
-                                        // alert("도서의 수량은 숫자만 입력 가능합니다.");
-                                        // alert("4");
-                                        break;
-                                    } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
-                                        prdInventory.splice(i, 1);
-                                        // alert("도서/수량을 입력 해주세요");
-                                        // alert("3");
+                                          if (isNaN(prdInventory[i]["prdIvQuantity"])) {
+                                              prdInventory.splice(i, 1);
+                                              // alert("도서의 수량은 숫자만 입력 가능합니다.");
+                                              // alert("4");
+                                              break;
+                                          } else if (prdInventory[i]["prdIvQuantity"].includes("최소 1 입력")) {
+                                              prdInventory.splice(i, 1);
+                                              // alert("도서/수량을 입력 해주세요");
+                                              // alert("3");
 
-                                        break;
-                                    }
-                                }
+                                              break;
+                                          }
+                                      }*/
 
 
                                 /*  for (var item in prdInventory) {
@@ -1428,8 +1156,8 @@
                                   }*/
 
 
-                                var jsonData = JSON.stringify(prdInventory);
-                                formData.append('prdInventory', jsonData);
+                                /*       var jsonData = JSON.stringify(prdInventory);
+                                       formData.append('prdInventory', jsonData);*/
 
                                 /* for (var i = 0; i < prdInventory.length; i++) {
                                      var item = prdInventory[i];
@@ -1540,24 +1268,24 @@
                                             }*/
 
                                 // 콘솔에 출력한다
-                                console.log('ivDeadline:', ivDeadlineValue);
-                                console.log(formData);
+                                /*     console.log('ivDeadline:', ivDeadlineValue);
+                                     console.log(formData);
 
-                                // formData.append('tableData', tableData);
-                                // 파일을 FormData 객체에 추가
+                                     // formData.append('tableData', tableData);
+                                     // 파일을 FormData 객체에 추가
 
 
-                                var fileInputs = document.querySelectorAll('input[name=upFile]');
-                                fileInputs.forEach(function (input) {
-                                    var files = input.files;
-                                    if (files.length > 0) {
-                                        for (var i = 0; i < files.length; i++) {
-                                            table.draw();
-                                            formData.append('files', files[i]);
-                                            // alert(files[i]);
-                                        }
-                                    }
-                                });
+                                     var fileInputs = document.querySelectorAll('input[name=upFile]');
+                                     fileInputs.forEach(function (input) {
+                                         var files = input.files;
+                                         if (files.length > 0) {
+                                             for (var i = 0; i < files.length; i++) {
+                                                 table.draw();
+                                                 formData.append('files', files[i]);
+                                                 // alert(files[i]);
+                                             }
+                                         }
+                                     });*/
 
 
                                 /*            var files = document.querySelector('input[name=upFile]').files;
@@ -1565,7 +1293,7 @@
                                             for (var i = 0; i < files.length; i++) {
                                                 formData.append('files', files[i]);
                                             }*/
-                                console.log("formdata files: " + formData.get('files'));
+                                /*    console.log("formdata files: " + formData.get('files'));*/
                                 /*// 첫 번째 파일 입력 필드 처리
                                                         var upFile1 = document.querySelector('input[name="upFile1"]').files;
                                                         if (upFile1.length > 0) {
@@ -1583,48 +1311,162 @@
 
                                 // evt = new Event('click');
 
-                                if (formData.get('files')) {
-                                    fetch("${path}/logistics/inventory/endwrite", {
-                                        method: "POST",
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            /*             "Content-Type": "multipart/form-data",*/
-                                        },
-                                        body: formData
-                                        /*                 tableData: JSON.stringify(tableData)*/
+                                // if (formData.get('files')) {
 
+                                /*                                var serializedData = $("#searchdaybystock").serialize();
+
+                                                                fetch(`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                ${path}/logistics/stock/daybystock?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                ${serializedData}`, {
+                                    method: "GET",
+                                    headers: {
+                                        /!*             "Content-Type": "multipart/form-data",*!/
+                                    }
+                                    /!*                 tableData: JSON.stringify(tableData)*!/
+
+                                }).then(response => {
+                                    if (response.ok) {
+                                        return response.json(); // 응답 데이터를 JSON으로 파싱
+                                    } else {
+                                        throw new Error('Request failed'); // 응답이 실패할 경우 에러 처리
+                                    }
+                                })
+                                    .then(data => {
+                                        // 성공적으로 데이터를 받아온 경우 처리
+                                        console.log(data);
+                                    })
+                                    .catch(error => {
+                                        console.error(error);
+                                        alert('Error: ' + error.message); // 오류 발생 시 alert 창에 표시
+                                    });*/
+
+
+                                /*                .then(response => response.json())*/
+                                /* .then(data => alert(data))*/
+
+                                /*                      .then((res) => {
+                                                      if (res.ok) {
+                                                          return res.text();
+                                                      } else {
+                                                          throw new Error("HTTP error");
+                                                      }
+                                                  })*/
+                                /*.then((text) => {
+                                alert(text);
+                                active.text(text).trigger(evt, text);
+                            }).catch((error) => {
+                                alert(error);
+                                /!*active.html(originalContent);*!/
+                            })*/
+                                /*} else {
+                                    fetch("
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                ${path}/logistics/stock/daybystock", {
+                                        method: "GET",
+                                        headers: {
+                                            /!*             "Content-Type": "multipart/form-data",*!/
+                                        },
+                                        body: formData,
+                                        /!*                 tableData: JSON.stringify(tableData)*!/
+                                        processData: false,
+                                        contentType: false,
                                     }).then(response => {
                                         if (response.ok) {
-                                            return response.message(); // 응답이 성공적일 때 텍스트 추출
+                                            return response.json(); // JSON 응답을 파싱
+                                            // return response.message(); // 응답이 성공적일 때 텍스트 추출
                                         } else {
                                             throw new Error('Request failed'); // 응답이 실패할 경우 에러 처리
                                         }
                                     })
-
+                                        .then(data => {
+                                            if (data.status.toString() === "success") {
+                                                alert(data.message); // "입고 등록 성공" 메시지를 표시
+                                            } else {
+                                                alert('입고 등록 실패'); // "입고 등록 실패" 메시지를 표시
+                                            }
+                                        })
                                         .catch(error => {
                                             console.error(error);
-                                            alert('Error: ' + error.message); // 오류 발생 시 alert 창에 표시
+                                            alert('Error: ' + error.message); // 오류 발생 시 에러 메시지를 표시
                                         });
-
-                                } else {
-                                    fetch("${path}/logistics/inventory/endwrite", {
-                                        method: "POST",
-                                        headers: {
-
-                                            /*             "Content-Type": "multipart/form-data",*/
-                                        },
-                                        body: formData,
-                                        /*                 tableData: JSON.stringify(tableData)*/
-                                        processData: false,
-                                        contentType: false,
-                                    }).then(response => {
-                                        if (response.redirected) {
-                                            window.location.href = response.url;
-                                        }
-                                    })
-                                        .catch(error => console.error('Error:', error));
-
-                                }
+                                }*/
                             }
 
                             /*
@@ -1689,78 +1531,6 @@
 
 
                         </script>
-                        <%--					<script>
-                                    // Dropzone 설정
-                                    Dropzone.options.myDropzone = {
-                                        url: "${path}/board/insertBoard.do",
-                                        autoProcessQueue: false, // 자동 처리 비활성화
-                                        init: function () {
-                                            var myDropzone = this;
-
-                                            // 폼 제출 핸들러
-                                            document.getElementsByName("boardFrm")[0].addEventListener('submit', function (e) {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-
-                                                // 모든 파일을 처리 큐에 추가
-                                                myDropzone.files.forEach(function (file) {
-                                                    myDropzone.enqueueFile(file);
-                                                });
-
-                                                // 파일 처리 완료 후 폼 데이터 전송
-                                                myDropzone.on("queuecomplete", function () {
-                                                    // 폼 데이터를 AJAX를 통해 전송
-                                                    // 폼 데이터 추가 로직...
-                                                });
-                                            });
-                                        }
-                                    };
-                                </script>--%>
-                        <script>
-                            const adddelFunction = (function () {
-                                let count = 2;
-                                const addFile = () => {
-                                    if (count <= 5) {
-
-                                        const fileForm = $("#basicFileForm").clone(true);
-                                        fileForm.find("span.input-group-text1").html('<i class="fa fa-fw fa-file-o" style="margin-right:10px;"></i> 첨부파일 ' + count);
-                                        fileForm.find("label.custom-file-label").text("파일을 선택하세요")
-                                            .attr("for", "upFile" + count);
-                                        fileForm.find("input[type=file]").attr("id", "upFile" + count).val("").change(changeFileFunc);
-                                        $("textarea[name=ivMemo]").before(fileForm);
-                                        count++;
-
-                                    } else {
-                                        alert("첨부파일은 5개까지 가능합니다.");
-                                    }
-                                };
-                                const delFile = () => {
-                                    if (count != 2) {
-                                        $("textarea[name=ivMemo]").prev().remove();
-                                        count--;
-                                    }
-                                };
-                                return [addFile, delFile];
-                            })();
-
-                            const fn_addFileForm = adddelFunction[0];
-                            const fn_deleteFileForm = adddelFunction[1];
-
-                            /*                           $("#basicFileForm").on("change", "input[type='file'][name='upFile']", function (e) {
-                                                           const fileName = e.target.files[0].name;
-                                                           console.log(e.target);
-                                                           $(e.target).next(".custom-file-label").text(fileName);
-                                                       });*/
-                            //
-                            // $("#fileInputContainer").on("change", "input[name=upFile]", function (e) {
-                            //     const fileName = e.target.files[0].name;
-                            //     $(e.target).next(".custom-file-label").text(fileName);
-                            // });
-                            const changeFileFunc = e => {
-                                const fileName = e.target.files[0].name;
-                                $(e.target).next(".custom-file-label").text(fileName);
-                            };
-                        </script>
                     </div>
                 </div>
 
@@ -1818,11 +1588,9 @@
 
 <%-- <script src="${path}/resources/assets/vendor_components/ckeditor/ckeditor.js"></script> --%>
 
-
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
-
 
 </body>
 </html>

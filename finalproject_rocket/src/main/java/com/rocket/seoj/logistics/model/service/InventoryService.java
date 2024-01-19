@@ -1,21 +1,19 @@
 package com.rocket.seoj.logistics.model.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.rocket.seoj.logistics.model.dao.InventoryDao;
 import com.rocket.seoj.logistics.model.dto.Inventory;
 import com.rocket.seoj.logistics.model.dto.InventoryAttach;
 import com.rocket.seoj.logistics.model.dto.PrdInventory;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rocket.seoj.logistics.model.dao.InventoryDao;
-
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -131,5 +129,20 @@ public class InventoryService {
     @Transactional
     public List<Map<String, Object>> branchempinfo(long branchId) {
         return dao.branchempinfo(session, branchId);
+    }
+
+    @Transactional
+    public List<Map<String, Object>> getEmpListByemployeeId(long branchId) {
+        return dao.getEmpListByemployeeId(session, branchId);
+    }
+
+    @Transactional
+    public List<Map<String, Object>> selectAllProduct() {
+        return dao.selectAllProduct(session);
+    }
+
+    @Transactional
+    public ArrayList<Map<String, Object>> getInventoryInfoForCreateDocument(long generateId) {
+        return dao.getInventoryInfoForCreateDocument(session, generateId);
     }
 }

@@ -268,7 +268,9 @@ $(document).ready(function() {
 
 		$('#modal-modify #empNo').val(empNo).prop('readOnly', true); // 사원번호
 		$('#modal-modify #empName').val(empName); // 사원이름
-		$('#modal-modify #employees').val(depName); // 부서명
+		 $('#modal-modify #depCode option').filter(function() { // 부서명
+	            return $(this).text() === depName;
+	        }).prop('selected', true);
 		$('#modal-modify #empLv').val(empLv); // 직위/직급
 		$('#modal-modify #empEmail').val(empEmail); // 이메일
 		$('#modal-modify #empEnDate').val(empEnDate).prop('disabled', true); 
@@ -284,17 +286,24 @@ $(document).ready(function() {
 	    var formData = $("#employeeupdateForm").serialize(); 
 
 	    $.ajax({
-	      type: "POST",
-	      url: "/employeeupdate",
-	      data: formData,
-	      success: function(response){
-	        alert("수정이 완료되었습니다.");
-	        $('#modal-modify').modal('hide'); 
-	        location.reload(); 
-	      },
-	      error: function(jqXHR, textStatus, errorThrown){
-	        alert("수정에 실패하였습니다. 오류 내용: " + errorThrown);
-	      }
+	        type: "POST",
+	        url: "/employeeupdate",
+	        data: formData,
+	        success: function(response){
+	          alert("수정이 완료되었습니다.");
+	          $('#modal-modify').modal('hide'); 
+	          var row = $('table tbody .editable').filter(function() {
+	            return $(this).find('td:eq(0)').text() === $('#modal-modify #empNo').val();
+	          });
+	          row.find('td:eq(1)').text($('#modal-modify #empName').val());
+	          row.find('td:eq(2)').text($('#modal-modify #depCode option:selected').text());
+	          row.find('td:eq(3)').text($('#modal-modify #empLv').val());
+	          row.find('td:eq(4)').text($('#modal-modify #empEmail').val());
+	          row.find('td:eq(6)').text($('#modal-modify #empFication option:selected').text());
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+	          alert("수정에 실패하였습니다. 오류 내용: " + errorThrown);
+	        }
 	    });
 	  });
 	});

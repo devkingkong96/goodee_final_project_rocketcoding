@@ -16,7 +16,7 @@ public class ChatRoomDao {
 		return session.selectOne("empchat.checkEmpChatByNo",no);
 	}
 	//ID로 특정 채팅방 정보 가져오기
-	public ChatRoom selectRoomById(SqlSession session,int roomNo){
+	public Map<String, Object> selectRoomById(SqlSession session,int roomNo){
 		return session.selectOne("chatroom.selectRoomById",roomNo);
 	}
 	//채팅방 이름으로 채팅방 생성
@@ -38,5 +38,17 @@ public class ChatRoomDao {
 	//채팅방 번호로 채팅메시지 삭제
 	public int deleteMessageByNo(SqlSession session,int roomNo) {
 		return session.delete("chatmessage.deleteMessageByNo",roomNo);
+	}
+	//채팅방 나가기(숨기기) ->채팅방에서
+	public int deleteEmpChatRoomById(SqlSession session,Map<String, Object>param) {
+		return session.delete("empchat.deleteEmpChatRoomById",param);
+	}
+	//채팅방 나가기(숨기기) ->채팅 목록에서
+	public int hiderooms(SqlSession session,Map<String, Object> param) {
+		return session.update("empchat.hideRoomById",param);
+	}
+	//채팅방에서 직원 초대하기 ->채팅방에서
+	public int plusEmpChat(SqlSession session,Map<String, Object> param) {
+		return session.insert("empchat.plusEmpChat",param);
 	}
 }

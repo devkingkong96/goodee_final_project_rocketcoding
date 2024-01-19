@@ -1,11 +1,18 @@
 package com.rocket.pdw.aprv.controller;
 
+import static com.rocket.common.Getrequest.getParameterMap;
+
 import java.math.BigDecimal;
+import java.sql.Clob;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,9 +27,9 @@ import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.pdw.aprv.model.service.ApprovalService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static com.rocket.common.Getrequest.getParameterMap;
 
 @RequestMapping("/docu")
 @Controller
@@ -32,6 +38,7 @@ import static com.rocket.common.Getrequest.getParameterMap;
 public class AprvController {
 
 	private final ApprovalService service;
+	
 
 	// 로그인한 사원이 갖고있는 문서리스트
 	private List<Map<String, Object>> getAprvListByEmpNo() {
@@ -39,6 +46,7 @@ public class AprvController {
 		int no = e.getEmpNo();
 		return service.selectAprvList(no);
 	}
+	
 
 	// 진행중인 전체 문서
 	// map.get("DOC_STATCD").equals(BigDecimal.ZERO) 문서상태가 0
@@ -89,7 +97,8 @@ public class AprvController {
 	public String v(Model m) {
 		List<Map<String, Object>> vlist = getAprvListByEmpNo().stream()
 				.filter(map -> map.get("APRV_LV").equals(BigDecimal.valueOf(99))
-						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO))
+						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO)
+						&& !map.get("APRV_SQ").equals(BigDecimal.ONE))
 				.collect(Collectors.toList());
 
 		m.addAttribute("lists", vlist);
@@ -127,7 +136,7 @@ public class AprvController {
 	@GetMapping("/lists/p")
 	public String p(Model m) {
 		List<Map<String, Object>> plist = getAprvListByEmpNo().stream()
-				.filter(map -> map.get("APRV_SQ").equals(BigDecimal.valueOf(1))
+				.filter(map -> map.get("APRV_SQ").equals(BigDecimal.ONE)
 						&& map.get("DOC_STATCD").equals(BigDecimal.ZERO))
 				.collect(Collectors.toList());
 
@@ -192,17 +201,106 @@ public class AprvController {
 	// ==============================================select list
 	// ==================================================================
 
-	@GetMapping("/insertaprv")
-	public String insertAprvView(Model m) {
-		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int no = e.getEmpNo();
+	
+	  @RequestMapping("/insertaprv")
+	    public String insertAprvView(@RequestParam(value = "startDate", required = false) String startDate, 
+									 @RequestParam(value = "endDate", required = false) String endDate,
+										Model m, 
+										HttpSession session) {
+		  	
+	        Employee e = (Employee)SecurityContextHolder
+	                .getContext()
+	                .getAuthentication()
+	                .getPrincipal();
+	        int no = e.getEmpNo();
+	        
+	        List<Map<String,Object>> saveFile = service.cheackSaveFile(no);
+	        log.info("+++++++++++saveFile++++++++++++{}",saveFile);
+	        if(saveFile.size()>0) {
+	        	m.addAttribute("saveFile", saveFile);
+	        	
+	        }else {
+	        	m.addAttribute("saveFile", "null");
+	        }
+	       
+	        
+	        	
+	        
+	        ArrayList<Map<String, Object>> inventoryInfo = (ArrayList<Map<String, Object>>)session.getAttribute(
+	                "inventoryInfo");
+	      
+
+	        m.addAttribute("inventoryInfo", inventoryInfo);
+
+	/*        log.error(inventoryInfo == null ? "inventoryInfo is null" : "inventoryInfo is not null");
+	        if (inventoryInfo != null) {
+	            for (Map<String, Object> map : inventoryInfo) {
+	                // 각 맵의 모든 키-값 쌍에 대해 반복
+	                for (Map.Entry<String, Object> entry : map.entrySet()) {
+	                    // 로그 출력
+	                    log.error("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+	                }
+	            }
+	        }*/
+	       
+//	        session.removeAttribute("inventoryInfo");
+
+
+	        List<Map<String, Object>> employee = service.selectEmployee(no);
+	        
+
+
+	        m.addAttribute("inventoryInfo", inventoryInfo);
+	        m.addAttribute("user", e);
+	        m.addAttribute("dept", employee
+	                .get(0)
+	                .get("DEP_NAME"));
+	        m.addAttribute("startDate", startDate);
+		       m.addAttribute("endDate", endDate);
+	        
+	        return "aprv/aprvwrite";
+	    }
+	@GetMapping("/aprv/savefile")
+	public String saveFileurl(Model m){
+		Employee e = (Employee)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        int no = e.getEmpNo();
+		
+		List<Map<String,Object>> saveFile = service.cheackSaveFile(no);
+		log.info("=========saveFile========{}",saveFile);
+		
+		
+		
+		Clob text = (Clob)saveFile.get(0).get("DOC_CONT");
+		String textData = "";
+		try {
+		    String clobContent = text.getSubString(1, (int) text.length());
+		    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+		        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+		        for (String content : contentArray) {
+		            textData += content.trim();
+		        }
+		    } else {
+		        textData += clobContent;
+		    }
+		} catch (Exception e1) {
+		    e1.printStackTrace();
+		}
+		
+		
+		
+		
 		List<Map<String, Object>> employee = service.selectEmployee(no);
-
+		m.addAttribute("dept", employee
+                .get(0)
+                .get("DEP_NAME"));
+		m.addAttribute("saveFile", saveFile);
 		m.addAttribute("user", e);
-		m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
-		return "aprv/aprvwrite";
+		m.addAttribute("textData", textData);
+		return "aprv/aprvsavefile";
 	}
-
 	@GetMapping("/checkDept")
 	@ResponseBody
 	public List<Map<String, Object>> findName(@RequestParam(value = "DEP_CODE", defaultValue = "1") Integer depCode) {
@@ -213,18 +311,49 @@ public class AprvController {
 	///작업중!!	
 	@PostMapping("/submit") 
 	@ResponseBody
-	public String submitDocu(HttpServletRequest req) {
+	public ResponseEntity<?> submitDocu(HttpServletRequest req) {
 		HashMap<String, Object> reqAll = getParameterMap(req);
   	
 		log.info("reqAll{}",reqAll);
 		
 		int result = service.insertAprvDocu(reqAll);
-		//test중.........................................................
-		log.info("===================================================={}",result);
+		
+		log.info("====================================================등록됬나여 {}",result);
 		if(result>0) {
-			return "12";	
+			if(reqAll.get("DOC_TAG").equals("1")) {
+				
+				return ResponseEntity.ok("mypage");	
+			}else {
+				
+				return ResponseEntity.ok("logistics/inventory/list");
+			}
 		}
-		else return "34";
+		else 
+			
+			return ResponseEntity.ok("저장실패");
+	}
+	@PostMapping("/save") 
+	@ResponseBody
+	public ResponseEntity<?> saveDocu(HttpServletRequest req) {
+		HashMap<String, Object> reqAll = getParameterMap(req);
+  	
+		log.info("reqAll{}",reqAll);
+		
+		int result = service.saveDocu(reqAll);
+		
+		log.info("====================================================등록됬나여 {}",result);
+		if(result>0) {
+			if(reqAll.get("DOC_TAG").equals("1")) {
+				
+				return ResponseEntity.ok("mypage");	
+			}else {
+				
+				return ResponseEntity.ok("logistics/inventory/list");
+			}
+		}
+		else 
+			
+			return ResponseEntity.ok("저장실패");
 	}
 	@GetMapping("/aprv/{docNo}")
 	public String aprvDocu(@PathVariable int docNo,Model m) {
@@ -232,38 +361,110 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		log.info("aprvDocu : {} ",aprvDocu);
+		//log.info("===========aprvDocu : {} ",aprvDocu);
 		
-		m.addAttribute("user", e);
+		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
+		String textData = "";
+		try {
+		    String clobContent = text.getSubString(1, (int) text.length());
+		    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+		        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+		        for (String content : contentArray) {
+		            textData += content.trim();
+		        }
+		    } else {
+		        textData += clobContent;
+		    }
+		} catch (Exception e1) {
+		    e1.printStackTrace();
+		}
+		
+		
+		  
+	       
+	    m.addAttribute("user", e);
+	    
 		m.addAttribute("docNo", docNo);
 		m.addAttribute("docu", aprvDocu);
+		m.addAttribute("textData", textData);
+		
+		
 		return "aprv/aprv";
 	}
+	
+
 	//updateaprv
 	@PostMapping("/updateaprv")
 	@ResponseBody
-	public void updateAprv(HttpServletRequest req) {
+	public ResponseEntity<?> updateAprv(HttpServletRequest req) {
 		
 		
 		HashMap<String, Object> reqAll = getParameterMap(req);	
 		
 		
+		int result = service.updateAprv(reqAll);
 		
-		log.info("===========updateAprv reqAll{}",reqAll);
-		System.out.println(reqAll.get("DOC_NO"));
-		// 결재시 전결재자가 결재를 안했다면 ? -> js에서 comfirm알람띄우기 
-		// 결재시 결재자가 마지막결재자라면 ? -> approval에서   APRV_LV.size aprv_lv != 99;
-		 String str = (String)reqAll.get("DOC_NO");
-		 int docNo= Integer.valueOf(str);
-		 List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		 int noReaderCount=aprvDocu.stream().filter(map-> !map.get("APRV_LV").equals(BigDecimal.valueOf(99))).toList().size();
-		 List<Map<String,Object>>lastAprv = aprvDocu.stream().filter(map-> map.get("APRV_LV").equals(BigDecimal.valueOf(noReaderCount))).toList();
-		 System.out.println("{마지막결재자입니다} : "+lastAprv); 
 		
-		 
+		
+		
+			
+		if (result > 0) {
+			return ResponseEntity.ok().body("결재 성공");
+
+		} else {
+			return ResponseEntity.ok().body("결재 실패");
+
+		}
 
 
 	}
-	  
+	@PostMapping("/rejectAprv")
+	@ResponseBody
+	public ResponseEntity<?> rejectAprv(HttpServletRequest req) {
+		
+		HashMap<String, Object> reqAll = getParameterMap(req);
+		
+		int result = service.rejectAprv(reqAll);
+		
+		if (result > 0) {
+			return ResponseEntity.ok().body("반려 성공");
+
+		} else {
+			return ResponseEntity.ok().body("반려 실패");
+
+		}
+		
+		
+	}
+	@PostMapping("/checkaprvlv")
+	@ResponseBody
+	public boolean checkAprvLv(HttpServletRequest req) {
+		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		HashMap<String,Object> reqAll= getParameterMap(req);
+		System.out.println((reqAll.get("DOC_NO").getClass()));
+		
+		int docNo = Integer.parseInt((String)reqAll.get("DOC_NO")); 
+		
+		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		
+		List<Map<String,Object>> myDocu= aprvDocu.stream().filter(aprv -> aprv.get("APRV_EMP").equals(BigDecimal.valueOf(e.getEmpNo()))).collect(Collectors.toList());
+		
+		BigDecimal myLv = (BigDecimal) myDocu.get(0).get("APRV_LV");
+		
+		
+		BigDecimal nowLv = myLv.subtract(BigDecimal.ONE);
+		
+		
+		List<Map<String,Object>> preAprv=aprvDocu.stream().filter(aprv-> aprv.get("APRV_LV").equals(nowLv)).toList();
+		
+		
+		boolean result = 
+                ((BigDecimal) preAprv.get(0).get("APRV_SQ")).compareTo(BigDecimal.ONE) == 0;
+		
+		
+		return result;
+	}
+	
 
 }

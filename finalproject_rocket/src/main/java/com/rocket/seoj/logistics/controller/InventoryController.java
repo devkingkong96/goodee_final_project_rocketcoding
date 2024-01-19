@@ -38,7 +38,7 @@ import java.util.*;
  * @version 2023-12-25
  */
 @Controller
-@RequestMapping("/logistics")
+/*@RequestMapping("/logistics")*/
 @RequiredArgsConstructor
 @Slf4j
 public class InventoryController {
@@ -75,7 +75,7 @@ public class InventoryController {
         }
     };
 
-    @PostMapping("/inventory/list/tableupdate")
+    @PostMapping("/logistics/inventory/list/tableupdate")
     public ResponseEntity<?> updateTable(SQLException ex,
                                          @RequestParam("id") long id,
                                          @RequestParam("columnName") String columnName,
@@ -123,7 +123,7 @@ public class InventoryController {
 
     }
 
-    @RequestMapping("inventory/write/branchempinfo")
+    @RequestMapping("/logistics/inventory/write/branchempinfo")
     public ResponseEntity<?> branchempinfo(@RequestParam("branchId") long branchId) {
         List<Map<String, Object>> empInfoBybrc = service.branchempinfo(branchId);
 
@@ -138,7 +138,7 @@ public class InventoryController {
     }
 
 
-    @RequestMapping("inventory/write/prdinfo")
+    @RequestMapping("/logistics/inventory/write/prdinfo")
     public ResponseEntity<?> prdinfo(@RequestParam("prdId") long id) {
         Map<String, Object> prdInfo = service.getProductInfo(id);
 
@@ -164,18 +164,22 @@ public class InventoryController {
         }
     }
 
-    @PostMapping("inventory/endwrite")
-    public ResponseEntity<?> endWriteInventory(@RequestParam(name = "files", required = false) MultipartFile[] upFile,
+    @PostMapping("/logistics/inventory/endwrite")
+    public String endWriteInventory(@RequestParam(name = "files", required = false) MultipartFile[] upFile,
 //                                               List<PrdInventory> prdInventory,
-                                               @RequestParam("prdInventory") String prdInventory,
+                                    @RequestParam("prdInventory") String prdInventory,
 //                                               @ModelAttribute PrdInventoryWrapper prdInventory,
 //                                               @RequestBody List<PrdInventory> prdInventory,
 //                                               @RequestParam("tableData") String tableData,
-                                               Inventory inv,
-                                               InventoryFileWrapper invAttach,
-                                               Model model,
-                                               HttpSession session,
-                                               @ModelAttribute Inventory formData
+                                    Inventory inv,
+                                    InventoryFileWrapper invAttach,
+                                    Model model,
+                                    HttpSession session,
+                                    @ModelAttribute Inventory formData,
+//                                               @RequestParam("aprvEmp") String aprvEmpList,
+                                    @RequestParam(name = "inventoryInfoForCreateDocument", required = false) ArrayList<Map<String, Object>> inventoryInfoForCreateDocument
+            /*, RedirectAttributes redirectAttributes*/
+
 //                                               @RequestParam("formData") Object formData,
     ) {
 
@@ -187,7 +191,7 @@ public class InventoryController {
 
 
 //        log.debug("tableData: " + tableData[0]['prdId']);
-        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ말미ㅏㅇ미ㅏ이마임이ㅏㅁ라");
+//        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ" + aprvEmpList);
         List<PrdInventory> prdInventoryList = convertJsonToPrdInventoryList(prdInventory);
 
         String path = session
@@ -210,8 +214,10 @@ public class InventoryController {
                 .getClass()
                 .getName());
 */
+        formData.setSendEmpId(loginemp.getEmpNo());
         long generatedId = service.insertInventory(formData);
         log.debug("generatedId: " + generatedId);
+
 
         List<InventoryAttach> fileList = new ArrayList<>();
 
@@ -267,13 +273,15 @@ public class InventoryController {
             result2 = service.insertInventoryAttach(fileList);
             log.debug(String.valueOf(result2));
         }
-        for (Integer result : result2) {
-            if (result == 0) {
-                return ResponseEntity
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Map.of("message", "실패 : 파일 추가 실패", "status", "error"));
+/*        if (result2 != null) {
+            for (Integer result : result2) {
+                if (result == 0) {
+                    return ResponseEntity
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("message", "실패 : 파일 추가 실패", "status", "error"));
+                }
             }
-        }
+        }*/
 
 //        List<PrdInventory> prdInventoryList = prdInventory.getPrdInventory();
 
@@ -282,25 +290,37 @@ public class InventoryController {
         }
 
         List<Integer> result3 = service.insertPrdInventory(prdInventoryList);
-        for (Integer result : result3) {
+/*        for (Integer result : result3) {
             if (result == 0) {
                 return ResponseEntity
                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(Map.of("message", "실패 : 상품_입출고 추가 실패", "status", "error"));
             }
-        }
+        }*/
 
 
 //        result2.forEach(insertInventoryAttachResult -> log.debug("결과: " + insertInventoryAttachResult));
 
 
         if (generatedId > 0) {
-            return ResponseEntity.ok("입고 등록 성공");
-        } else {
-            return ResponseEntity
-                    .badRequest()
-                    .body("입고 등록 실패");
+
+            Map<String, Object> paramMap = new HashMap<>();
+
+            paramMap.put("empNo", loginemp.getEmpNo()); // 첫 번째 파라미터
+
+            inventoryInfoForCreateDocument = service.getInventoryInfoForCreateDocument(generatedId);
+
+/*
+            model.addAttribute("inventoryInfo", inventoryInfoForCreateDocument);
+            redirectAttributes.addFlashAttribute("inventoryInfo", inventoryInfoForCreateDocument);*/
+            session.setAttribute("inventoryInfo", inventoryInfoForCreateDocument);
+
+
+            return "redirect:/docu/insertaprv";
+
         }
+        return "redirect:/docu/insertaprv";
+        /*    return ResponseEntity.ok(Map.of("url", "aprv/aprvwrite"));*/
 //        return ResponseEntity.ok(tableData);
     }
 
@@ -314,7 +334,7 @@ public class InventoryController {
         }
     }
 
-    @RequestMapping("inventory/write")
+    @RequestMapping("/logistics/inventory/write")
     public String inventoryWrite(Model model) {
 		/*		List<Map> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);*/
@@ -325,10 +345,11 @@ public class InventoryController {
                 .getPrincipal();
         model.addAttribute("loginemp", loginemp);
 
-
+        List<Map<String, Object>> empListByemployeeId = service.getEmpListByemployeeId(loginemp.getBranchId());
         List<Map<String, Object>> branchList = service.selectAllBranch();
         System.out.println(branchList.size());
         List<Map<String, Object>> writeInventoryItem = service.selectWriteInventory();
+        List<Map<String, Object>> selectAllProduct = service.selectAllProduct();
 
         Map<Object, Object> prdTitleToIdMap = new HashMap<>(); // PRD_TITLE을 키로, PRD_ID를 값으로 하는 맵
         Set<Object> prdTitles = new HashSet<>(); // 중복 제거를 위한 Set
@@ -339,8 +360,8 @@ public class InventoryController {
             if (title != null && prdTitles.add(title)) {
                 prdTitleToIdMap.put(title, id);
             }
-        }
 
+        }
 
         ObjectMapper prdTitleToJson = new ObjectMapper();
 
@@ -351,13 +372,16 @@ public class InventoryController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+        model.addAttribute("selectAllProduct", selectAllProduct);
+        model.addAttribute("empListByemployeeId", empListByemployeeId);
         model.addAttribute("branchList", branchList);
         model.addAttribute("prdTitleToIdMap", prdTitleToIdMap);
         model.addAttribute("writeInventoryItem", writeInventoryItem);
+
         return "logistics/inventoryWrite";
     }
 
-    @RequestMapping("inventory/list")
+    @RequestMapping("/logistics/inventory/list")
     public String selectAllInventories(Model model) {
 		/*		List<Map> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);*/
@@ -389,7 +413,7 @@ public class InventoryController {
         return "logistics/inventoryList";
     }
 
-    @PostMapping("inventory/list/delete")
+    @PostMapping("/logistics/inventory/list/delete")
     public ResponseEntity<?> deleteInventoryAndAttachments(@RequestParam("iv_id") Long inventoryId) {
         log.debug("딜리트: " + inventoryId);
         boolean deletionSuccess = service.deleteInventoryAndAttachmentAndPrdIv(inventoryId);

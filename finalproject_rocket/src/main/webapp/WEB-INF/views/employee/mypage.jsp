@@ -148,6 +148,17 @@
 </div>
                 <hr>
                 <div class="row text-center mt-10">
+                <div class="row justify-content-center mt-4">
+				<div class="col-lg-3 col-12">
+					<button class="btn btn-primary holiday plus" data-bs-toggle="modal" data-bs-target="#modal-default">휴가신청</button>
+				</div>
+				<div class="col-lg-3 col-12">
+					<button type="button" class="btn btn-primary startWorkBtn w-100 mb-2" id="startWork">출근등록</button>
+				</div>
+				<div class="col-lg-3 col-12">
+					<button class="btn btn-primary endWorkBtn w-100 mb-2" id="endWork">퇴근등록</button>
+				</div>
+			</div>
                     <div class="col-md-12">
                         <div class="clock-container">
                             <span id="current-time"></span>
@@ -165,17 +176,7 @@
         </div>
     </div>
 </div> 
-			<div class="row justify-content-center mt-4">
-				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary holiday plus" data-bs-toggle="modal" data-bs-target="#modal-default">휴가신청</button>
-				</div>
-				<div class="col-lg-3 col-12">
-					<button type="button" class="btn btn-primary startWorkBtn w-100 mb-2" id="startWork">출근등록</button>
-				</div>
-				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary endWorkBtn w-100 mb-2" id="endWork">퇴근등록</button>
-				</div>
-			</div>
+			
 		<!-- /.content -->
 		<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -235,8 +236,6 @@ document.getElementById('endWork').addEventListener('click',function(){
         alert("오늘은 이미 퇴근 등록을 하셨습니다.");
     }
 });
-
-
 function sendData(url) {
     var empNo = getEmpNoFromSession();
     $.ajax({
@@ -260,7 +259,8 @@ function sendData(url) {
             console.error(error);
         }
     });
-};
+}; 
+
 function updateClock() {
     var now = new Date(); 
     var hours = now.getHours().toString().padStart(2, '0'); 

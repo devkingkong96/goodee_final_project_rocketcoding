@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.psh.board.model.dto.Fboard;
 import com.rocket.psh.board.model.dto.FboardFile;
+import com.rocket.psh.board.model.service.FboardCommentService;
 import com.rocket.psh.board.model.service.FboardService;
 
 import jakarta.servlet.http.HttpSession;
@@ -37,6 +39,9 @@ public class BoardController {
 	
 	
 	  private final FboardService service;
+	  private final FboardCommentService commService;
+		
+	
 	
 	  // 게시물 목록 조회
 	    @GetMapping("/fboardlist.do")
@@ -206,30 +211,35 @@ public class BoardController {
 	        }
 	        return mv;
 	    }
-
-	    
-	    //게시판 목록으로 
-//		@GetMapping("/board/fboardWrite")
-//	    public String fboardWrite() {
-//	        
-//	        return "fboardWrite";
-//	    }
 	   
-	    
-	    //@PostMapping("/comment/insertComment.do")
-	   /* public String insertComment(@RequestParam Map param, RedirectAttributes redirectAttributes) {
-	        log.debug("{}", param);
-	        
+	    //댓글  
+	    @PostMapping("/comment/insertComment.do")
+	    public ModelAndView insertComment(@RequestParam("fboardNo") int fboardNo, 
+	                                      @RequestParam("regr_id") String regr_id, 
+	                                      @RequestParam("content") String content) {
+	        ModelAndView mav = new ModelAndView();
+
 	        try {
-	            int commentNo = FboardCommentService.insertComment(param);
-	            redirectAttributes.addFlashAttribute("message", "댓글이 성공적으로 추가되었습니다.");
-	            redirectAttributes.addFlashAttribute("commentNo", commentNo);
+	            Map<String, Object> param = new HashMap<>();
+	            param.put("fboardNo", fboardNo);
+	            param.put("empNo", regr_id);
+	            param.put("fbdComment", content);
+
+	            try {
+	                fboardNo = commService.insertComment(param);
+	                mav.addObject("message", "댓글이 성공적으로 추가되었습니다.");
+	            } catch (Exception e) {
+	                mav.addObject("message", "댓글 추가 중 오류가 발생하였습니다.");
+	                e.printStackTrace();
+	            }
 	        } catch (Exception e) {
+	            mav.addObject("message", "댓글 추가 중 오류가 발생하였습니다.");
 	            log.error("댓글 추가 중 오류 발생", e);
-	            redirectAttributes.addFlashAttribute("message", "댓글 추가 중 오류가 발생하였습니다.");
 	        }
-	        
-	        return "redirect:/board/fboardlist.do";
-	    }*/
+
+	        mav.setViewName("redirect:/board/fboardView");
+	        return mav;
+	    }
+
 	    
 }

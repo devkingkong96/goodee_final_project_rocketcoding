@@ -18,5 +18,6 @@ public interface ApprovalDao {
 	List<Map<String,Object>>cheackSaveFile(SqlSession session,int no);
 	int saveDocu(SqlSession session, Map<String,Object>reqAll);
 	int deleteSaveFile(SqlSession session, int no);
-	
+	List<Map<String,Object>>selectSaveList(SqlSession session,int no);
+	int countSaveList(SqlSession session, int no);
 }

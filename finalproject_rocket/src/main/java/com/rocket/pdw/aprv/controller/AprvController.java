@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -341,6 +342,10 @@ public class AprvController {
 		
 		int result = service.saveDocu(reqAll);
 		
+		if(ObjectUtils.isEmpty(reqAll.get("DOC_CONT")) || ObjectUtils.isEmpty(reqAll.get("DOC_CONT"))) {
+			return ResponseEntity.badRequest().body("값이 비었습니다");
+		}
+		
 		log.info("====================================================등록됬나여 {}",result);
 		if(result>0) {
 			if(reqAll.get("DOC_TAG").equals("1")) {
@@ -464,7 +469,18 @@ public class AprvController {
 		
 		
 		return result;
+		
+		
 	}
-	
+	@PostMapping("/delete")
+	public void deleteSaveFile() {
+		Employee e = (Employee) SecurityContextHolder
+						.getContext().getAuthentication().getPrincipal();
+		int no = e.getEmpNo();
+		
+		service.deleteSaveFile(no);
+		
+		
+	}
 
 }

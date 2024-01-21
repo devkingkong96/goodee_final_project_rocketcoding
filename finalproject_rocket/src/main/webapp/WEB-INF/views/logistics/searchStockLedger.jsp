@@ -17,7 +17,7 @@
 
 <%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param name="title" value="입/출고 등록"/>
+    <jsp:param name="title" value="재고 수불부 검색"/>
 </jsp:include>
 
 <script type="text/javascript"
@@ -588,14 +588,14 @@
             <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h4 class="page-title">지점별 재고 현황 검색</h4>
+                        <h4 class="page-title">재고 수불부 검색</h4>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
-                                    <li class="breadcrumb-item" aria-current="page">물류 관리</li>
-                                    <li class="breadcrumb-item active" aria-current="page">지점별 재고 현황 검색
+                                    <li class="breadcrumb-item" aria-current="page">재고 관리</li>
+                                    <li class="breadcrumb-item active" aria-current="page">재고 수불부 검색
                                     </li>
                                 </ol>
                             </nav>
@@ -611,7 +611,7 @@
                         <%-- method="post"--%> >
                             <div class="box">
                                 <div class="box-header with-border">
-                                    <h4 class="box-title"><%--<i class="ti-agenda"></i>--%><strong> 지점별 재고 현황
+                                    <h4 class="box-title"><%--<i class="ti-agenda"></i>--%><strong> 재고 수불부
                                         검색</strong>
                                     </h4>
 
@@ -641,66 +641,95 @@
                                             <label for="ivType_Option_2">출고</label>
                                         </div>--%>
 
-                 <%--                   <div class="col-6
-                                        " style="margin-bottom: 20px;">
-                                        <div class="col-12" style="margin-bottom: 5px;">
-                                            <label class="form-label" style="margin:5px;">
-                                                <i class="si-note si"></i>
-                                                타입</label>
-                                        </div>
-                                        <input name="tableType" type="radio" id="ivType_Option_1" checked
-                                               value="product"
-                                               class="with-gap radio-col-primary">
-                                        <label for="ivType_Option_1">종(도서명 기준)</label>
-                                        <input name="tableType" type="radio" id="ivType_Option_2" value="branch"
-                                               class="with-gap radio-col-primary">
-                                        <label for="ivType_Option_2">횡(지점 기준)</label>
-                                    </div>--%>
+                                    <%--                   <div class="col-6
+                                                           " style="margin-bottom: 20px;">
+                                                           <div class="col-12" style="margin-bottom: 5px;">
+                                                               <label class="form-label" style="margin:5px;">
+                                                                   <i class="si-note si"></i>
+                                                                   타입</label>
+                                                           </div>
+                                                           <input name="tableType" type="radio" id="ivType_Option_1" checked
+                                                                  value="product"
+                                                                  class="with-gap radio-col-primary">
+                                                           <label for="ivType_Option_1">종(도서명 기준)</label>
+                                                           <input name="tableType" type="radio" id="ivType_Option_2" value="branch"
+                                                                  class="with-gap radio-col-primary">
+                                                           <label for="ivType_Option_2">횡(지점 기준)</label>
+                                                       </div>--%>
+
+                                    <!-- hidden 필드를 사용하여 JavaScript 변수 값을 전달받을 준비 -->
+                                    <input type="hidden" id="start-date-hidden" name="start-date-hidden" value="">
+                                    <input type="hidden" id="end-date-hidden" name="end-date-hidden" value="">
 
 
                                     <div class="form-group">
                                         <label class="form-label" style="margin:5px;">
                                             <i class="si-calendar si"></i>
                                             기간 설정</label>
-<%--                                        <label class="form-label">Date range button:</label>--%>
+                                        <%--                                        <label class="form-label">Date range button:</label>--%>
 
                                         <div class="input-group">
-                                            <button type="button" class="waves-effect waves-light btn btn-flat btn-light mb-5 pull-right" id="daterange-btn">
-						<span>
-						  <i class="fa fa-calendar"></i> 기간을 선택 해 주세요
-						</span>
+                                            <button type="button"
+                                                    class="waves-effect waves-light btn btn-flat btn-light mb-5 pull-right"
+                                                    id="daterange-btn">
+                                                    <span>
+
+                                                        <%--       <i class="fa fa-calendar"></i> 기간을 선택 해 주세요--%>
+                                                    </span>
                                                 <i class="fa fa-caret-down"></i>
                                             </button>
                                         </div>
                                     </div>
 
-                                   <%-- <div class="col-lg-5 col-12">
-                                        <label class="form-label" style="margin:5px;" name="daterange"
-                                               for="stkDate"><i
-                                                class="si-calendar si"
-                                                style="margin-right:10px;"></i>
-                                            기준 날짜</label>
-                                        <input class="form-control" id="stkDate" name="stkDate"
-                                               type="date"
-                                               id="example-datetime-local-input" required>
-
-                                        <input type="hidden" id="startDate" name="startDate">
-                                        <input type="hidden" id="endDate" name="endDate">
-
-
-
-                                    </div>
                                     <script>
-                                        // 오늘 날짜를 가져오는 JavaScript 코드
-                                        var today = new Date();
+                                        var startDateString2 = moment().subtract(3, 'months').format('YYYY년 MM월 DD일');
+                                        var endDateString2 = moment().format('YYYY년 MM월 DD일');
 
-                                        // "YYYY-MM-DD" 형식으로 오늘 날짜를 문자열로 변환
-                                        var formattedDate = today.toISOString().slice(0, 10);
+                                        var startDateString3 = moment().subtract(3, 'months').format('YYYY-MM-DD');  // 또는 다른 원하는 형식으로 변환 가능
+                                        var endDateString3 = moment().format('YYYY-MM-DD');
+                                        $('#daterange-btn span').html(startDateString2 + ' - ' + endDateString2);
 
-                                        // 오늘 날짜를 input 요소에 설정
-                                        document.getElementById("stkDate").value = formattedDate;
-                                    </script>--%>
+                                        // hidden 필드에서 값을 가져와서 화면에 표시
+                                        var startDateHidden = document.getElementById('start-date-hidden').value;
+                                        var endDateHidden = document.getElementById('end-date-hidden').value;
 
+
+                                        // 선택된 날짜로 버튼 텍스트 업데이트
+                                        /*                         var formattedDate = startDate + ' - ' + endDate;*/
+                                        //
+                                        //
+                                        // $('#daterange-btn span').html(formattedDate);
+
+                                        // $('#daterange-btn span').html(startDateString2 + " - " + endDateString2);
+                                        $('#start-date-hidden').val(startDateString3);
+                                        $('#end-date-hidden').val(endDateString3);
+                                    </script>
+                                    <%-- <div class="col-lg-5 col-12">
+                                         <label class="form-label" style="margin:5px;" name="daterange"
+                                                for="stkDate"><i
+                                                 class="si-calendar si"
+                                                 style="margin-right:10px;"></i>
+                                             기준 날짜</label>
+                                         <input class="form-control" id="stkDate" name="stkDate"
+                                                type="date"
+                                                id="example-datetime-local-input" required>
+
+                                         <input type="hidden" id="startDate" name="startDate">
+                                         <input type="hidden" id="endDate" name="endDate">
+
+
+
+                                     </div>
+                                     <script>
+                                         // 오늘 날짜를 가져오는 JavaScript 코드
+                                         var today = new Date();
+
+                                         // "YYYY-MM-DD" 형식으로 오늘 날짜를 문자열로 변환
+                                         var formattedDate = today.toISOString().slice(0, 10);
+
+                                         // 오늘 날짜를 input 요소에 설정
+                                         document.getElementById("stkDate").value = formattedDate;
+                                     </script>--%>
 
 
                                     <%--                              <div class="col-lg-2 col-5">
@@ -734,7 +763,7 @@
                                     <%--                                        ${empListByemployeeId }--%>
 
                                     <div class="col-lg-5 col-12" style="margin:5px; margin-top:20px;">
-                                        <label class="form-label"><i class="si-user si"></i>
+                                        <label class="form-label"><i class="ti-package"></i>
                                             품목</label>
                                         <%--    <select
                                                     class="form-control select2" name="recieveEmpId" multiple="multiple"
@@ -1380,7 +1409,79 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 ${path}/logistics/stock/daybystock?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1448,6 +1549,42 @@
                             })*/
                                 /*} else {
                                     fetch("
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

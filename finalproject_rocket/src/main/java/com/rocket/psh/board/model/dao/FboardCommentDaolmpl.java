@@ -2,13 +2,15 @@ package com.rocket.psh.board.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-	public class FboardCommentDaolmpl implements FboardCommentDao {
+public class FboardCommentDaolmpl implements FboardCommentDao {
 		
 		private SqlSessionFactory sqlSessionFactory;
 	
@@ -28,17 +30,24 @@ import org.springframework.stereotype.Repository;
 	    }
 	
 	    // 댓글 추가
-	    public int insertComment(HashMap<String, Object> commentData) {
-	        try (SqlSession session = sqlSessionFactory.openSession()) {
-	            int result = session.insert("insertComment", commentData);
-	            session.commit();
-	            return result;
-	        }
-	    }
-	//    //댓글 추가 
-	//    public int insertComment(Map param) {
-	//        return commentMapper.insertComment(param);
-	//    }
+		/*
+		 * public int insertComment(HashMap<String, Object> commentData) { try
+		 * (SqlSession session = sqlSessionFactory.openSession()) { int result =
+		 * session.insert("insertComment", commentData); session.commit(); return
+		 * result; } }
+		 */
+	    //댓글 추가 
+//	    public int (Map param) {
+//	        return commentMapper.insertComment(param);
+//	    }
+	    
+
+		public int insertComment(Map<String, Object> reqAll) {
+			//임시저장하기	
+			 try (SqlSession session = sqlSessionFactory.openSession()) {
+		            return session.insert("insertComment", reqAll);
+		        }
+		}
 	
 	    // 댓글 수정
 	    public int updateComment(HashMap<String, Object> commentData) {

@@ -2,9 +2,11 @@ package com.rocket.pdw.aprv.model.dao;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -44,28 +46,45 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		return session.selectList("approval.selectEmployee", no);
 	}
 	//document, approval insert
+	
 	@Override
 	@Transactional
 	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
 	    
 		
 		try {
-		
-		int docu = session.insert("approval.insertDocu", reqAll);
-		 
-	    
-		String[] testArrays  = (String[])reqAll.get("APRV_EMP");	
-		String[] testArrays2 = (String[])reqAll.get("APRV_SQ");
-		
-		int [] aprvEmpArrays = new int[testArrays.length];
-		for(int i=0;i<testArrays.length;i++) {
-			aprvEmpArrays[i]=Integer.parseInt(testArrays[i]);
+		//임시저장된거 다시 저장하기	
+		if(reqAll.containsKey("DOC_STATCD")) {
+			session.insert("approval.updateDocuBySave",reqAll);
+		}else {
+			session.insert("approval.insertDocu", reqAll);		
 		}
-		
-		int [] aprvSQArrays=new int[testArrays2.length];
-		for(int i=0;i<testArrays2.length;i++) {
-			aprvSQArrays[i]=Integer.parseInt(testArrays2[i]);
-	    }
+		 
+			
+		Object aprvEmpObj = reqAll.get("APRV_EMP");
+		List<Integer> empArrays = new ArrayList<>();
+		if (aprvEmpObj instanceof String) {
+		    
+		    empArrays.add(Integer.parseInt((String)aprvEmpObj));
+		} else if (aprvEmpObj instanceof String[]) {
+		    empArrays = Arrays.stream((String[])aprvEmpObj)
+		                       .map(Integer::parseInt)
+		                       .collect(Collectors.toList());
+		}
+		//참조자
+		Object aprvSQObj = reqAll.get("APRV_SQ");
+		List<Integer> sqArrays = new ArrayList<>();
+		if (aprvSQObj instanceof String) {
+		    sqArrays.add(Integer.parseInt((String)aprvSQObj));
+		} else if (aprvSQObj instanceof String[]) {
+		    sqArrays = Arrays.stream((String[])aprvSQObj)
+		                        .map(Integer::parseInt)
+		                        .collect(Collectors.toList());
+		}
+
+
+		int[] aprvEmpArrays = empArrays.stream().mapToInt(Integer::intValue).toArray();
+		int[] aprvSQArrays = sqArrays.stream().mapToInt(Integer::intValue).toArray();
 		
 
 		int count=1;
@@ -75,13 +94,15 @@ public class ApprovalDaoImpl implements ApprovalDao{
 				aprv.put("APRV_SQ", 1);
 			  	aprv.put("APRV_LV", count++);
 			  	aprv.put("APRV_EMP",aprvEmpArrays[i]);
+			  	aprv.put("DOC_NO", reqAll.get("DOC_NO"));
 			  	
 			  	session.insert("approval.fistAprv",aprv);
 			  	
 			  }else {
 			  	aprv.put("APRV_SQ", 0);
 			  	aprv.put("APRV_LV", count++);
-			  	aprv.put("APRV_EMP", aprvEmpArrays[i]);
+			  	aprv.put("APRV_EMP", empArrays.get(i));
+			  	aprv.put("DOC_NO", reqAll.get("DOC_NO"));
 			  	
 			  	session.insert("approval.insertAprv", aprv);
 			  }
@@ -91,7 +112,8 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			  Map<String,Object> aprv = new HashMap<String,Object>();
 			  	aprv.put("APRV_SQ", 0);
 			  	aprv.put("APRV_LV", 99);
-			  	aprv.put("APRV_EMP", aprvSQArrays[i]);
+			  	aprv.put("APRV_EMP", sqArrays.get(i));
+			  	aprv.put("DOC_NO", reqAll.get("DOC_NO"));
 			  	session.insert("approval.insertAprv", aprv);
 		  }
 		  return 1; 
@@ -100,6 +122,14 @@ public class ApprovalDaoImpl implements ApprovalDao{
 				e.printStackTrace();
 		  return 0;
 		}		
+	}
+
+	@Override
+	@Transactional
+	public int saveDocu(SqlSession session, Map<String, Object> reqAll) {
+		//임시저장하기	
+		
+		return session.insert("approval.savedocu",reqAll);
 	}
 
 	@Override
@@ -158,6 +188,20 @@ public class ApprovalDaoImpl implements ApprovalDao{
             
         }
 	}
+
+	@Override
+	public List<Map<String, Object>> cheackSaveFile(SqlSession session, int no) {
+		
+		return session.selectList("approval.cheackSaveFile",no);
+	}
+
+	@Override
+	public int deleteSaveFile(SqlSession session, int no) {
+		
+		return session.delete("approval.deleteSaveFile",no);
+	}
+	
+	
 
 	
 	

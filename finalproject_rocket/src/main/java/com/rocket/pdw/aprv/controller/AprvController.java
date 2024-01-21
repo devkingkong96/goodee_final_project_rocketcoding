@@ -4,17 +4,19 @@ import static com.rocket.common.Getrequest.getParameterMap;
 
 import java.math.BigDecimal;
 import java.sql.Clob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AprvController {
 
 	private final ApprovalService service;
-	private static final String UPLOAD_DIR = "/src/main/resources/docu/uploads";
+	
 
 	// 로그인한 사원이 갖고있는 문서리스트
 	private List<Map<String, Object>> getAprvListByEmpNo() {
@@ -45,6 +47,7 @@ public class AprvController {
 		int no = e.getEmpNo();
 		return service.selectAprvList(no);
 	}
+	
 
 	// 진행중인 전체 문서
 	// map.get("DOC_STATCD").equals(BigDecimal.ZERO) 문서상태가 0
@@ -205,13 +208,25 @@ public class AprvController {
 									 @RequestParam(value = "endDate", required = false) String endDate,
 										Model m, 
 										HttpSession session) {
-
+		  	
 	        Employee e = (Employee)SecurityContextHolder
 	                .getContext()
 	                .getAuthentication()
 	                .getPrincipal();
 	        int no = e.getEmpNo();
-	      
+	        
+	        List<Map<String,Object>> saveFile = service.cheackSaveFile(no);
+	        log.info("+++++++++++saveFile++++++++++++{}",saveFile);
+	        if(saveFile.size()>0) {
+	        	m.addAttribute("saveFile", saveFile);
+	        	
+	        }else {
+	        	m.addAttribute("saveFile", "null");
+	        }
+	       
+	        
+	        	
+	        
 	        ArrayList<Map<String, Object>> inventoryInfo = (ArrayList<Map<String, Object>>)session.getAttribute(
 	                "inventoryInfo");
 	      
@@ -233,8 +248,7 @@ public class AprvController {
 
 
 	        List<Map<String, Object>> employee = service.selectEmployee(no);
-	        //참조자 한명 오류 해결할것
-	        //=====데이터주삼========
+	        
 
 
 	        m.addAttribute("inventoryInfo", inventoryInfo);
@@ -247,7 +261,47 @@ public class AprvController {
 	        
 	        return "aprv/aprvwrite";
 	    }
-
+	@GetMapping("/aprv/savefile")
+	public String saveFileurl(Model m){
+		Employee e = (Employee)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        int no = e.getEmpNo();
+		
+		List<Map<String,Object>> saveFile = service.cheackSaveFile(no);
+		log.info("=========saveFile========{}",saveFile);
+		
+		
+		
+		Clob text = (Clob)saveFile.get(0).get("DOC_CONT");
+		String textData = "";
+		try {
+		    String clobContent = text.getSubString(1, (int) text.length());
+		    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+		        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+		        for (String content : contentArray) {
+		            textData += content.trim();
+		        }
+		    } else {
+		        textData += clobContent;
+		    }
+		} catch (Exception e1) {
+		    e1.printStackTrace();
+		}
+		
+		
+		
+		
+		List<Map<String, Object>> employee = service.selectEmployee(no);
+		m.addAttribute("dept", employee
+                .get(0)
+                .get("DEP_NAME"));
+		m.addAttribute("saveFile", saveFile);
+		m.addAttribute("user", e);
+		m.addAttribute("textData", textData);
+		return "aprv/aprvsavefile";
+	}
 	@GetMapping("/checkDept")
 	@ResponseBody
 	public List<Map<String, Object>> findName(@RequestParam(value = "DEP_CODE", defaultValue = "1") Integer depCode) {
@@ -272,7 +326,34 @@ public class AprvController {
 				return ResponseEntity.ok("mypage");	
 			}else {
 				
-				return ResponseEntity.ok("inventory");
+				return ResponseEntity.ok("logistics/inventory/list");
+			}
+		}
+		else 
+			
+			return ResponseEntity.ok("저장실패");
+	}
+	@PostMapping("/save") 
+	@ResponseBody
+	public ResponseEntity<?> saveDocu(HttpServletRequest req) {
+		HashMap<String, Object> reqAll = getParameterMap(req);
+  	
+		log.info("reqAll{}",reqAll);
+		
+		int result = service.saveDocu(reqAll);
+		
+		if(ObjectUtils.isEmpty(reqAll.get("DOC_CONT")) || ObjectUtils.isEmpty(reqAll.get("DOC_CONT"))) {
+			return ResponseEntity.badRequest().body("값이 비었습니다");
+		}
+		
+		log.info("====================================================등록됬나여 {}",result);
+		if(result>0) {
+			if(reqAll.get("DOC_TAG").equals("1")) {
+				
+				return ResponseEntity.ok("mypage");	
+			}else {
+				
+				return ResponseEntity.ok("logistics/inventory/list");
 			}
 		}
 		else 
@@ -285,28 +366,38 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		log.info("===========aprvDocu : {} ",aprvDocu);
+		//log.info("===========aprvDocu : {} ",aprvDocu);
 		
 		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
-		String textdata = null;
+		String textData = "";
 		try {
-			textdata = text.getSubString(1, (int) text.length());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		    String clobContent = text.getSubString(1, (int) text.length());
+		    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+		        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+		        for (String content : contentArray) {
+		            textData += content.trim();
+		        }
+		    } else {
+		        textData += clobContent;
+		    }
+		} catch (Exception e1) {
+		    e1.printStackTrace();
 		}
 		
-		//List<Map<String, Object>> employee = service.selectEmployee((int)aprvDocu.get(0).get("APRV_EMP"));
-	    //log.info("기안자 정보를 가져오기  : {}",employee);   
+		
+		  
 	       
 	    m.addAttribute("user", e);
-	    //m.addAttribute("dept", employee.get(0).get("DEP_NAME"));
+	    
 		m.addAttribute("docNo", docNo);
 		m.addAttribute("docu", aprvDocu);
-		m.addAttribute("textdata", textdata);
+		m.addAttribute("textData", textData);
+		
 		
 		return "aprv/aprv";
 	}
+	
+
 	//updateaprv
 	@PostMapping("/updateaprv")
 	@ResponseBody
@@ -318,9 +409,9 @@ public class AprvController {
 		
 		int result = service.updateAprv(reqAll);
 		
-		log.info("======================reqAll{}",reqAll);
 		
-		//reqAll.get("APRV_LV").equals(BigDecimal.valueOf(99));
+		
+		
 			
 		if (result > 0) {
 			return ResponseEntity.ok().body("결재 성공");
@@ -350,19 +441,46 @@ public class AprvController {
 		
 		
 	}
-	/*
-	 * @PostMapping("/upload") public String uploadfiles(@RequestParam("files")
-	 * MultipartFile [] files,HttpSession session) { try {
-	 * 
-	 * String path =
-	 * session.getServletContext().getRealPath("/resources/upload/chatfile");
-	 * 
-	 * for (MultipartFile file : files) { byte[] bytes = file.getBytes(); Path path
-	 * = Paths.get(UPLOAD_DIR + file.getOriginalFilename()); Files.write(path,
-	 * bytes); }
-	 * 
-	 * return "Files uploaded successfully"; } catch (Exception e) { return
-	 * "Failed to upload files: " + e.getMessage(); } }
-	 */
+	@PostMapping("/checkaprvlv")
+	@ResponseBody
+	public boolean checkAprvLv(HttpServletRequest req) {
+		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		HashMap<String,Object> reqAll= getParameterMap(req);
+		System.out.println((reqAll.get("DOC_NO").getClass()));
+		
+		int docNo = Integer.parseInt((String)reqAll.get("DOC_NO")); 
+		
+		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		
+		List<Map<String,Object>> myDocu= aprvDocu.stream().filter(aprv -> aprv.get("APRV_EMP").equals(BigDecimal.valueOf(e.getEmpNo()))).collect(Collectors.toList());
+		
+		BigDecimal myLv = (BigDecimal) myDocu.get(0).get("APRV_LV");
+		
+		
+		BigDecimal nowLv = myLv.subtract(BigDecimal.ONE);
+		
+		
+		List<Map<String,Object>> preAprv=aprvDocu.stream().filter(aprv-> aprv.get("APRV_LV").equals(nowLv)).toList();
+		
+		
+		boolean result = 
+                ((BigDecimal) preAprv.get(0).get("APRV_SQ")).compareTo(BigDecimal.ONE) == 0;
+		
+		
+		return result;
+		
+		
+	}
+	@PostMapping("/delete")
+	public void deleteSaveFile() {
+		Employee e = (Employee) SecurityContextHolder
+						.getContext().getAuthentication().getPrincipal();
+		int no = e.getEmpNo();
+		
+		service.deleteSaveFile(no);
+		
+		
+	}
 
 }

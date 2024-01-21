@@ -42,10 +42,10 @@
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane active" id="messages" role="tabpanel">
-									<div class="chat-box-one-side3">
-										<div class="media-list media-list-hover">
-											<c:if test="${not empty chatlist }">
-											<c:forEach var="c" items="${chatlist }">
+									<div class="chat-box-one-side3" id="chatroomListDiv">
+									<c:if test="${not empty chatlist }">
+									<c:forEach var="c" items="${chatlist }">
+										<div class="media-list media-list-hover" id="listroom${c.CHATROOM_NO }">
 											<div class="media">
 											  <p class="align-self-center me-0"><img class="avatar avatar-lg" src="${path}/resources/images/avatar/2.jpg" alt="..."></p>
 											  <div class="media-body">
@@ -58,10 +58,10 @@
 											  <input type="checkbox" id="ch${c.CHATROOM_NO }" class="filled-in chk-col-danger" name="roomCheck" value="${c.CHATROOM_NO}"/>
 												<label for="ch${c.CHATROOM_NO }"> </label>
 											</div>
-											</c:forEach>
-											</c:if>
 											
 											</div>
+											</c:forEach>
+											</c:if>
 											
 										</div>
 									</div>
@@ -96,29 +96,29 @@
 								</div>
                             </div>
                             <div class="box-body">
-                                    <div class="tab-pane" id="contacts" role="tabpanel">	
-                                        <div class="chat-box-one-side3">
-                                            <div class="media-list media-list-hover">
-                                            	<c:if test="${not empty emplist }">
+                                    <div class="tab-pane" id="contacts" role="tabpanel">
+                                        <div class="chat-box-one-side3" id="empParentDiv">
+                                            <c:if test="${not empty emplist }">
 												<c:forEach var="e" items="${emplist }">
-                                                <div class="media py-10 px-0 align-items-center">
-                                                  <p class="avatar avatar-lg status-success">
-                                                    <img src="${path}/resources/images/avatar/1.jpg" alt="...">
-                                                  </p>
-                                                  <div class="media-body">
-                                                    <p class="fs-20" id="chatEmpName">
-                                                      <c:out value="${e.EMP_NAME }"/>
-                                                    </p>
-                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
-                                                  </div>
-                                                  
-                                                  	<input type="checkbox" id="emp${e.EMP_NO }" class="filled-in chk-col-primary" name="empCheck" value="${e.EMP_NO}"/>
-													<label for="emp${e.EMP_NO }"> </label>
-                                                  
-                                                </div>
-                                                </c:forEach>
-                                                </c:if>
-                                              </div>
+	                                              <div class="media-list media-list-hover" id="empslist${e.EMP_NO }">
+	                                                <div class="media py-10 px-0 align-items-center">
+	                                                  <p class="avatar avatar-lg status-success">
+	                                                    <img src="${path}/resources/images/avatar/1.jpg" alt="...">
+	                                                  </p>
+	                                                  <div class="media-body">
+	                                                    <p class="fs-20" id="chatEmpName">
+	                                                      <c:out value="${e.EMP_NAME }"/>
+	                                                    </p>
+	                                                    <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
+	                                                  </div>
+	                                                  
+	                                                  	<input type="checkbox" id="emp${e.EMP_NO }" class="filled-in chk-col-primary" name="empCheck" value="${e.EMP_NO}"/>
+														<label for="emp${e.EMP_NO }"> </label>
+	                                                  
+	                                                </div>
+	                                              </div>
+                                             </c:forEach>
+                                           </c:if>
                                         </div>
                                     </div>
                                 </div>
@@ -163,10 +163,14 @@
   </div>
 </form>
   <!-- /.modal -->
+  
+  
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+
+var userno = '${logempNo}';
 
 var sockJS=new SockJS("/ws/list");
 var stomp=Stomp.over(sockJS);
@@ -179,10 +183,30 @@ function onConnected(){
 	console.log("stomp 연결 성공");
 	
 	//subscribe(path,callback)으로 메세지 받기 가능
-
+	stomp.subscribe("/sub/chat/list",onMessageReceived);
 }
+
+function onMessageReceived(payload){
+	console.log("list 수신 확인");
+	
+	var userno = '${logempNo }';
+	
+	var list=JSON.parse(payload.body);
+	
+	if(list.type==="CREATEROOM"){
+		list.inviteemps.forEach((emp)=>{
+			if(userno==emp){
+				console.log("emp직원들 : "+emp);
+				
+				
+			}
+		});
+	}
+	
+}
+
 function onError(){
-	console.log("에러");
+	alert("대화방 리스트 통신 에러");
 }
 	//체크했을 때 버튼이 활성화하게 하는 함수
 	var empcheck = document.getElementsByName('empCheck');
@@ -228,61 +252,71 @@ function onError(){
 			createbtn.disabled = true;
 		}
 	});
-		
+	
+	//채팅방 생성 모달 끄기
+	function closeModal() {
+		  var modal = document.getElementById('modal-default');
+		  var bootstrapModal = bootstrap.Modal.getInstance(modal);
+		  bootstrapModal.hide();
+		}
 
 	//채팅방 생성
 	document.getElementById('createBtn').addEventListener('click',function(){
-		
+		var result=confirm('방을 생성하시겠습니까?');
+		if(result){
 		$.ajax({
 			type:"POST",
 			url:"${path}/chat/room",
 			data:$("#Roomfrm").serialize(),
 			dataType:"json",
 			success:function(res){
-				if(res==='success'){
 					alert("채팅방 생성 성공");
-					location.reload();
-				}
+					console.log("초대한 멤버 번호 리스트 : "+res);
+						stomp.send('/pub/list/invite',{},JSON.stringify(res));
+						//채팅방 생성 모달 닫기
+						closeModal();
 			},
 			error:function(){
 				alert("채팅방 생성 실패");
-				location.reload();
 			}
 		});
+		}
 	});
+	
 	//채팅방 나가기
 	document.getElementById('chatRoomDelete').addEventListener('click',function(){
 		var checkboxes = document.getElementsByName('roomCheck');
-		var checked = false;
 
-		for (var i = 0; i < checkboxes.length; i++) {
-		  if (checkboxes[i].checked) {
-		    checked = true;
-		    break;
-		  }
-		}
-
-		if (!checked) {
-		  alert('채팅방을 선택해주세요.');
-		  return;
-		}
-		
 		if(confirm("채팅방을 나가시겠습니까?")){
+			var delUserRoom = document.querySelectorAll('input[name="roomCheck"]:checked');
+			var rooms=[];
+			delUserRoom.forEach(function(room){
+				rooms.push(room.value);
+			});
+			
 			$.ajax({
 				type:"DELETE",
 				url:"${path}/chat/room",
 				data:$("#Roomfrm").serialize(),
-				success:function(){
+				success:function(res){
 					alert("방 나가기 성공");
-					location.reload();
+					var parendDiv = document.getElementById('roomParentDiv');
+					console.log("parendDiv"+parendDiv);
+					console.log("rooms"+rooms);
+					
+						rooms.forEach(function(room){
+							var childDiv = document.getElementById('listroom'+room);
+							console.log("childDiv:"+childDiv);
+							childDiv.parentNode.removeChild(childDiv);
+							})
+					
 				},
 				error:function(){
 					alert("방 나가기 실패");
-					location.reload();
 				}
 			});
 		}else{
-			return
+			return;
 		}
 	});
 	

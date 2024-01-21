@@ -269,8 +269,8 @@
 			            <li class='<%= request.getRequestURI().contains("/employeeholidaylist") ? "active" : "" %>'>
 			                <a href="${path}/employeeholidaylist" id="employeeHolidayList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 휴가사용 조회</a>
 			            </li>
-			            <li class='<%= request.getRequestURI().contains("/employeecommutelist") ? "active" : "" %>'>
-			                <a href="${path}/employeecommutelist" id="employeeCommuteList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 근태관리</a>
+			            <li class='<%= request.getRequestURI().contains("/employeecommute") ? "active" : "" %>'>
+			                <a href="${path}/employeecommute" id="employeeCommute"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 근태관리</a>
 			            </li>
 			        </ul>
 			    </li>
@@ -384,7 +384,7 @@
                                 
                                 <li class="treeview">
                                     <a href="#">
-                                        <i class="icon-Commit"><span class="path1"></span><span
+                                        <i	 class="icon-Commit"><span class="path1"></span><span
                                                 class="path2"></span></i>진행중인 문서
                                         <span class="pull-right-container">
 								<i class="fa fa-angle-right pull-right"></i>
@@ -392,22 +392,22 @@
                                     </a>
                                     <ul class="treeview-menu">
 
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/a"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>전체</a></li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/w"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>대기</a>
                                         </li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/v"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>확인</a>
                                         </li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/e"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>예정</a>
                                         </li>
-                                        <li>
+                                        <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/p"><i class="icon-Commit"><span
                                                     class="path1"></span><span class="path2"></span></i>진행</a>
                                         </li>

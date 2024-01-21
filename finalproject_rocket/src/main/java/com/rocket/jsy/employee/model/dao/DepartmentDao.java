@@ -8,5 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 public interface DepartmentDao {
 	List<Map<String,Object>>selectDepartmentAll(SqlSession session);
 	void insertDepartment(SqlSession session, String depName);
+	List<Map<String,Object>>departmentdetail(SqlSession session, String departmentName);
 }
 

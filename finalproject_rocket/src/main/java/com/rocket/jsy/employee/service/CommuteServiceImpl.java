@@ -21,4 +21,19 @@ public class CommuteServiceImpl implements CommuteService{
 	public List<Map<String, Object>> selectCommuteAll() {
 		return dao.selectCommuteAll(session);
 	}
+	
+	@Override
+    public List<Map<String, Object>> selectEmployeeByCalendar(String employeeName) {
+        return dao.selectEmployeeByCalendar(session, employeeName);
+    }
+	
+	@Override
+	public Map<String, Object> selectcommuteByName(String employeeName){
+		return dao.selectcommuteByName(session, employeeName);
+	}
+	
+	@Override
+	public List<Map<String, Object>> employeesearch(String employeeName){
+		return dao.employeesearch(session, employeeName);
+	}
 }

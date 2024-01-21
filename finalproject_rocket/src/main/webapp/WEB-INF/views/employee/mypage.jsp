@@ -26,7 +26,7 @@
 	    height: 100px; /* 높이 설정 */
 	}
 	.custom-font {
-        font-size: 1.2em; /* 이 값을 조절하여 원하는 크기로 설정하세요. */
+        font-size: 1.1em; /* 이 값을 조절하여 원하는 크기로 설정하세요. */
         font-weight: bold; /* 'bold'는 두껍게, 'normal'은 일반적으로 설정합니다. */
     }
     .custom-table {
@@ -108,41 +108,57 @@
 			    <div class="row text-center mt-10 custom-font">
     <div class="col-md-12 custom-font">
         <strong>근태현황</strong>
-        <table class="custom-table custom-font">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">항목</th>
-                    <th scope="col">수치</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>지각</td>
-                    <td>${coomute['지각수']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>출근</td>
-                    <td>${coomute['출근수']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>조퇴</td>
-                    <td>${coomute['조퇴수']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>이번달의 출근 시간</td>
-                    <td>${employee.DWRULES_START}</td>
-                </tr>
-            </tbody>
-        </table>
+		        <table class="custom-table custom-font">
+		  <thead>
+		    <tr>
+		      <th scope="col"></th>
+		      <th scope="col">항목</th>
+		      <th scope="col">수치</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">1</th>
+		      <td>지각</td>
+		      <td>${coomute['지각수']}</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">2</th>
+		      <td>출근</td>
+		      <td>${coomute['출근수']}</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">3</th>
+		      <td>조퇴</td>
+		      <td>${coomute['조퇴수']}</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">4</th>
+		      <td>이번달 출근시간</td>
+		      <td>${employee.DWRULES_START}</td>
+		    </tr>		    
+		    <tr>
+		      <th scope="row">5</th>
+		      <td>남은 연차</td>
+		      <td>${employee.HOMOLY}</td>
+		    </tr>
+		  </tbody>
+		</table>
     </div>
 </div>
                 <hr>
                 <div class="row text-center mt-10">
+                <div class="row justify-content-center mt-4">
+				<div class="col-lg-3 col-12">
+					<button class="btn btn-primary holiday plus" data-bs-toggle="modal" data-bs-target="#modal-default">휴가신청</button>
+				</div>
+				<div class="col-lg-3 col-12">
+					<button type="button" class="btn btn-primary startWorkBtn w-100 mb-2" id="startWork">출근등록</button>
+				</div>
+				<div class="col-lg-3 col-12">
+					<button class="btn btn-primary endWorkBtn w-100 mb-2" id="endWork">퇴근등록</button>
+				</div>
+			</div>
                     <div class="col-md-12">
                         <div class="clock-container">
                             <span id="current-time"></span>
@@ -160,17 +176,7 @@
         </div>
     </div>
 </div> 
-			<div class="row justify-content-center mt-4">
-				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary holiday plus" data-bs-toggle="modal" data-bs-target="#modal-default">휴가신청</button>
-				</div>
-				<div class="col-lg-3 col-12">
-					<button type="button" class="btn btn-primary startWorkBtn w-100 mb-2" id="startWork">출근등록</button>
-				</div>
-				<div class="col-lg-3 col-12">
-					<button class="btn btn-primary endWorkBtn w-100 mb-2" id="endWork">퇴근등록</button>
-				</div>
-			</div>
+			
 		<!-- /.content -->
 		<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -230,8 +236,6 @@ document.getElementById('endWork').addEventListener('click',function(){
         alert("오늘은 이미 퇴근 등록을 하셨습니다.");
     }
 });
-
-
 function sendData(url) {
     var empNo = getEmpNoFromSession();
     $.ajax({
@@ -255,7 +259,8 @@ function sendData(url) {
             console.error(error);
         }
     });
-};
+}; 
+
 function updateClock() {
     var now = new Date(); 
     var hours = now.getHours().toString().padStart(2, '0'); 

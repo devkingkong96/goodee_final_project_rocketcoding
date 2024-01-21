@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.FboardFile;
 
 import jakarta.transaction.Transactional;
 
@@ -15,20 +16,25 @@ import jakarta.transaction.Transactional;
 
 public class BoardDaolmpl implements BoardDao {
 	
-	@Transactional
 	@Override
 	public int insertFboard(SqlSession session, Fboard fboard) {
 		// TODO Auto-generated method stub
 		return session.insert("fboard.insertFboard", fboard);
 	}
+	
+	@Override
+	public int insertFboardFile(SqlSession session, FboardFile ff) {
+		// TODO Auto-generated method stub
+		return session.insert("fboard.insertFboardFile", ff);
+	}
 
 	@Override
-	public Map<String, Object> selectFboardDetail(SqlSession session, int fboardNo) {
+	public Fboard selectFboardDetail(SqlSession session, int fboardNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("fboard.selectFboardDetail", fboardNo);
 	}
 	
-
+	
 	@Override
 	public List<Map<String, Object>> selectFboardList(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
@@ -51,14 +57,14 @@ public class BoardDaolmpl implements BoardDao {
 		return session.selectList("fboard.selectFboardComments",fboardNo);
 	}
 
-    @Override
+	@Override
     public int updateFboard(SqlSession session, Map<String, Object> map) {
-        return session.update("com.rocket.psh.board.mapper.BoardMapper.updateFboard", map);
+        return session.update("fboard.updateFboard", map);
     }
-    
+
     @Override
     public int deleteFboard(SqlSession session, int fboardNo) {
-        return session.delete("com.rocket.psh.board.mapper.BoardMapper.deleteFboard", fboardNo);
+        return session.delete("fboard.deleteFboard", fboardNo);
     }
 
 }

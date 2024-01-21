@@ -46,13 +46,12 @@ public class ChatRoomController {
 	//채팅방 생성
 	@PostMapping
 	@ResponseBody
-	public String chatCreateRoom(HttpServletRequest request) {
+	public List<Object> chatCreateRoom(HttpServletRequest request) {
 		HashMap<String, Object>reqAll=getParameterMap(request);
 		
-		String result=roomService.createChatRoomAll(reqAll);
+		List<Object> result=roomService.createChatRoomAll(reqAll);
 		
-		String jsonString=gson.toJson(result);
-		return jsonString;
+		return result;
 	}
 	
 	//채팅방 입장
@@ -62,7 +61,9 @@ public class ChatRoomController {
 		List<Map<String, Object>>emplistAll=chatService.selectEmployeeAll(roomId);
 		log.info("roomId : {}",roomId);
 		//로그인한 직원 정보 가져오기
-		Employee empinfo=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Employee emp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int empNo=emp.getEmpNo();
+		Map<String, Object>empinfo=chatService.selectEmpInfo(empNo);
 		//해당 채팅방의 정보 가져오기
 		Map<String, Object> room=roomService.selectRoomById(roomId);
 		//채팅방 참여한 직원 정보 가져오기
@@ -89,7 +90,6 @@ public class ChatRoomController {
 	//채팅방 중간테이블 나가기 -> 채팅 목록에서
 	@DeleteMapping
 	public ResponseEntity<Object> deleteEmpChatRooms(HttpServletRequest req) {
-		log.info("delete 채팅방 테스트{}");
 		HashMap<String, Object>reqAll=getParameterMap(req);
 		log.info("delete 채팅방 테스트{}",reqAll.get("roomCheck"));
 		
@@ -103,14 +103,14 @@ public class ChatRoomController {
 	}
 	
 	//채팅방 중간테이블 나가기 -> 채팅방안에서
-	@RequestMapping(value = "/{roomId}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> deleteEmpChatRoom(@PathVariable int roomId,int userNo) {
-		log.info("roomId {}",roomId);
-		log.info("empNo {}",userNo);
+	@RequestMapping(value = "/{msgRoomNo}", method = RequestMethod.PUT)
+	public ResponseEntity<Object> deleteEmpChatRoom(@PathVariable int msgRoomNo,int msgEmpNo) {
+		log.info("roomId {}",msgRoomNo);
+		log.info("empNo {}",msgEmpNo);
 		
 		Map<String, Object> param=new HashMap<>();
-		param.put("roomId", roomId);
-		param.put("empNo", userNo);
+		param.put("roomId", msgRoomNo);
+		param.put("empNo", msgEmpNo);
 		
 		int result=roomService.deleteEmpChatRoomById(param);
 		if(result>0) {

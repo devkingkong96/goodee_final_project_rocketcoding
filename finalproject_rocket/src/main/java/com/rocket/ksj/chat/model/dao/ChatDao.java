@@ -44,5 +44,12 @@ public class ChatDao {
 	public List<Map<String, Object>>modalSearch(SqlSession session,Map<String, Object> param){
 		return session.selectList("chatroom.modalSearch",param);
 	}
-	
+	//ajax 채팅리스트 채팅방 목록 검색
+	public List<Map<String, Object>>roomListSearch(SqlSession session,Map<String, Object> param){
+		return session.selectList("empchat.roomListSearch",param);
+	}
+	//ajax 채팅리스트 직원 목록 검색
+	public List<Map<String, Object>>empListSearch(SqlSession session,Map<String, Object> param){
+		return session.selectList("empchat.empListSearch",param);
+	}
 }

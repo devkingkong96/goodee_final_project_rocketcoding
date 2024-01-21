@@ -68,8 +68,10 @@ public class ChatRoomController {
 		Map<String, Object> room=roomService.selectRoomById(roomId);
 		//채팅방 참여한 직원 정보 가져오기
 		List<Map<String, Object>>emplist=chatService.selectEmployeeInRoom(roomId);
+		//채팅방 인원수 가져오기
+		int num=roomService.numberOfChatRoom(roomId);
 		
-//		//해당 채팅방의 채팅내역들 가져오기
+		//해당 채팅방의 채팅내역들 가져오기
 		List<Map<String, Object>>messages=msgService.selectChatMessageByNo(roomId);
 		
 		log.info("직원 정보{}",empinfo);
@@ -83,6 +85,7 @@ public class ChatRoomController {
 		m.addAttribute("messages",messages);
 		m.addAttribute("emplist",emplist);
 		m.addAttribute("emplistAll",emplistAll);
+		m.addAttribute("num",num);
 		
 		return "chat/chatting";
 	}

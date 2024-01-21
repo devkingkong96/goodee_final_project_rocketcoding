@@ -91,7 +91,7 @@ public class StompChatController {
 		//result.add(Map.of("type","ROOMINVITE"));
 		responseData.put("type","ROOMINVITE");
 		
-		log.info("delresult:{}",param.get("delEmps").getClass());
+		log.info("delresult:{}",param.get("delEmps"));
 		//대화방에서 초대된 직원 목록에서 없애기
 		if(param.get("delEmps")!=null) {
 			responseData.put("delEmps", param.get("delEmps"));

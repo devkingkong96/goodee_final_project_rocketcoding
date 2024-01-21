@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +39,14 @@ public class CommuteController {
 		model.addAttribute("");
 		return "employee/employeecommute";
 	}
+	@GetMapping("/employeesearch")
+	@ResponseBody
+	public List<Map<String, Object>> employeesearch(@RequestParam("employeeName") String employeeName){
+		List<Map<String, Object>> employeename = service.employeesearch(employeeName);
+		System.out.println("키업 : "+employeename);
+		return employeename;
+	}
+	
 	@GetMapping("/employeeCalendar")
 	@ResponseBody
 	public Map<String, Object> commuteemployee(@RequestParam("employeeName") String employeeName) {
@@ -46,13 +55,6 @@ public class CommuteController {
 	    return byname;
 	}
 	
-	@GetMapping("/employeesearch")
-	@ResponseBody
-	public List<Map<String, Object>> employeesearch(@RequestParam("employeeName") String employeeName){
-		List<Map<String, Object>> employeename = service.employeesearch(employeeName);
-		System.out.println("키업 : "+employeename);
-		return employeename;
-	}
 	
 	@GetMapping("/myevents/{empName}")
 	@ResponseBody
@@ -65,13 +67,14 @@ public class CommuteController {
 	    for(Map<String, Object> event : mycalendar) {
 	        Object endDateObj = event.get("END_DAY");
 	        Object startDateObj = event.get("START_DAY");
-	        
+	     //it (endDateObj != null 이것보단) 
+	     //ObjectUtils.isEmpty(byname) 이걸로 값을 체크 map 도 되고 배열도 되고 
 	        if (endDateObj != null) {
 	            try {
 	                Date endDate = inputFormat.parse(endDateObj.toString());
 	                String formattedEndDate = outputFormat.format(endDate);
 	                event.put("END_DAY", formattedEndDate);
-	            } catch (ParseException e) {
+	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }
 	        } else {
@@ -83,7 +86,7 @@ public class CommuteController {
 	                Date startDate = inputFormat.parse(startDateObj.toString());
 	                String formattedStartDate = outputFormat.format(startDate);
 	                event.put("START_DAY", formattedStartDate);
-	            } catch (ParseException e) {
+	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }
 	        } else {

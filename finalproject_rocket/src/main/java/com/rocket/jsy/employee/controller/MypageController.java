@@ -3,6 +3,7 @@ package com.rocket.jsy.employee.controller;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -73,12 +74,14 @@ public class MypageController {
 
 	    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 	    String currentTime = formatter.format(new Date());
-
+	    
+	    //LocalDateTime
 	    Map<String, String> response = new HashMap<>();
 	    response.put("time", currentTime);
 	    response.put("message", "출근 완료했습니다.");
 
 	    return ResponseEntity.ok(response);
+	    //서버가 터졌을때도 ok여서 문제가 있을 수 있다.
 	}
 	
 	@PostMapping("/endWork")
@@ -111,7 +114,8 @@ public class MypageController {
 	        for(Map<String, Object> event : mycalendar) {
 	            Object endDateObj = event.get("END_DAY");
 	            Object startDateObj = event.get("START_DAY");
-	            
+	            //it (endDateObj != null 이것보단) 
+	   	     	//ObjectUtils.isEmpty(byname) 이걸로 값을 체크 map 도 되고 배열도 되고 
 	            if (endDateObj != null) {
 	                try {
 	                    Date endDate = inputFormat.parse(endDateObj.toString());

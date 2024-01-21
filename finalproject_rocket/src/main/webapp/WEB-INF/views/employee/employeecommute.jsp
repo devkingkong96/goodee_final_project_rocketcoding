@@ -229,7 +229,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/employeeCalendar',
             method: 'get',
-            data: dataToSend,
+            data: dataToSend,/*  */
             success: function(byname) {
                 console.log(byname);
                 $('#empName').text(byname['EMP_NAME']);

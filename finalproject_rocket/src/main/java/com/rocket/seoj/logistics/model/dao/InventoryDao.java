@@ -23,8 +23,8 @@ import java.util.Map;
 @Slf4j
 public class InventoryDao {
 
-    public List<Map<String, Object>> selectAllInventories(SqlSession session) {
-        return session.selectList("inventory.selectAllInventories");
+    public List<Map<String, Object>> selectAllInventories(SqlSession session, int branchId) {
+        return session.selectList("inventory.selectAllInventories", branchId);
     }
 
     public int updateColumn(SqlSession session,
@@ -118,8 +118,8 @@ public class InventoryDao {
         return session.selectList("branch.branchempinfo", branchId);
     }
 
-    public List<Map<String, Object>> getEmpListByemployeeId(SqlSession session, long branchId) {
-        return session.selectList("inventory.employeeListInBranch", branchId);
+    public List<Map<String, Object>> getEmpListByemployeeId(SqlSession session) {
+        return session.selectList("inventory.employeeListInBranch");
     }
 
     public List<Map<String, Object>> selectAllProduct(SqlSession session) {

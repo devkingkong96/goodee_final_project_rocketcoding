@@ -205,7 +205,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                     <div class=" connectedSortable">
                         <form name="insertpublisher" id="insertpublisher"
                         <%-- method="post"--%> enctype="multipart/form-data">
-                            <div class="box">
+                            <div class="box box-slided-up">
                                 <div class="box-header with-border">
                                     <h4 class="box-title"><i class="ti-agenda"></i> 출판사 등록</h4>
 
@@ -349,6 +349,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                 <div class="col-lg-12 col-12">
                     <script>
+
 
                         function getCurrentDateTime() {
                             var now = new Date();
@@ -1158,6 +1159,13 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
+
+
+
+
+
+
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
@@ -1183,6 +1191,13 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             } else {
                                 fetch("
+
+
+
+
+
+
+
 
 
 
@@ -1313,6 +1328,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                                 });
                                                         }
                                                     }
+
                                                 </script>
 
 

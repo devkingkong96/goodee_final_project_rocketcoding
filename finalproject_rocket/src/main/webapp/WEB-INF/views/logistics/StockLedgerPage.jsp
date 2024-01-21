@@ -137,6 +137,11 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
     /*.table-striped tbody tr:nth-of-type(odd) {*/
     /*    background-color: #FFFFFF;*/
     /*}*/
+
+    th, td {
+        border-left: 1px solid #E5E5E5;
+        border-right: 1px solid #E5E5E5;
+    }
 </style>
 
 
@@ -196,7 +201,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
             <div class="content-header" style="margin-bottom:10px;">
                 <div class="d-flex align-items-center">
                     <div class="me-auto">
-                        <h5 class="page-title">배고 수불부</h5>
+                        <%--                        ${branchIdListSize}--%>
+                        <%--                        ${prdIdListSize}--%>
+                        <h5 class="page-title">재고 수불부</h5>
                         <div class="d-inline-block align-items-center">
                             <nav>
                                 <ol class="breadcrumb">
@@ -545,7 +552,19 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                        </form>
                                    </div>
                                </div>--%>
-
+                <%--                    <!-- Main content -->
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-12">
+                                                <div class="box">
+                                                    <div class="box-body">
+                                                        <h4 class="box-title">Line Chart</h4>
+                                                        <div id="line-chart"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>--%>
                 <div class="col-lg-12 col-12">
                     <%--                    <input type="hidden" id="branch-names" name="branch-names" value=
                                         <c:forEach var="branch" items="${branchNameUniqueList}">
@@ -610,165 +629,179 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                             $(".bottom").html("여기는 테이블 아래쪽에 표시될 텍스트입니다.");
 
                             /*
-                                                   $("#targetElement").html(serverData);*/
+                               $("#targetElement").html(serverData);*/
+                            /*   $("[id^=datatable-]").each(function () {
+                                       // 현재 테이블을 Datatable로 초기화
+                                       $(this).DataTable({
+                                           "dom": '<"top">Bflirtp<"bottom">',
+                                           "autoWidth": true,
+                                           "drawCallback": function (settings) {
 
-                            $('#example1').DataTable({
-                                // 기본 DataTables 설정
-                                "paging": false,
-                                "lengthChange": true,
-                                "searching": false,
-                                "info": true,
-                                ordering: true,
-                                order: [[0, "desc"]],
-                                // "editable": true,
-                                "responsive": true,
-                                /*    "dateFormat": 'YYYY-MM-DD HH:mm', */
-                                "dom": '<"top">Bflirtp<"bottom">',
-                                // "dom": 'Bflir<"branch-names">tp',
-                                // dom: '<"top"i>rt<"<"tableInfo">"flp><"clear">',
-                                "autoWidth": false,
-                                "fixedHeader": true,
-                                "drawCallback": function (settings) {
-                                    // DataTables가 다시 그려질 때마다 실행됩니다.
-                                    $('#example1').editableTableWidget();
-                                },
+                                               $('#example1').editableTableWidget();
+                                           },
+                                           ordering: true
+                                       });
+                                   });*/
+                            $("[id^=datatable-]").each(function () {
+                                $(this).DataTable({
+                                    // 기본 DataTables 설정
+                                    "paging": false,
+                                    "lengthChange": false,
+                                    "searching": false,
+                                    "info": false,
+                                    /* ordering: true,
+                                     order: [[0, "desc"]],*/
+                                    // "editable": true,
+                                    "responsive": true,
+                                    /*    "dateFormat": 'YYYY-MM-DD HH:mm', */
+                                    "dom": '<"top">Bflirtp<"bottom">',
+                                    // "dom": 'Bflir<"branch-names">tp',
+                                    // dom: '<"top"i>rt<"<"tableInfo">"flp><"clear">',
+                                    "autoWidth": false,
+                                    "width": "80%",
+                                    "fixedHeader": true,
+                                    "drawCallback": function (settings) {
 
-                                columnDefs: [
-                                    {targets: '_all', editable: true, orderable: true},
-                                    /*                         {
-                                                                 targets: 5,
-                                                                 /!* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 *!/
-                                                                 render: function (data, type, row) {
-                                                                     if (type === 'display' || type === 'filter') {
-                                                                         var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
-                                                                         return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
-                                                                     }
-                                                                     /!*                          if (type === 'sort') {
-                                                                                                // 정렬을 위해 원본 데이터 형식 사용
-                                                                                                return data;
-                                                                                              }   *!/
-                                                                     return data;
-                                                                 },
-                                                             }*/
-                                ],
-
-                                /*    "ordering": [[0, 'desc']],*/
-                                // 수정 불가능한 행 설정
-                                /*                    createdRow: function (row, data, dataIndex) {
-                                                        if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
-                                                            $(row).addClass('not-editable');
-                                                        }
-                                                    },*/
-                                "buttons": [{
-                                    extend: 'colvis',
-                                    text: '일부 컬럼 보기'
-                                }, {
-                                    extend: 'colvisRestore',
-                                    text: '컬럼 복원'
-                                }, {
-                                    extend: 'copyHtml5',
-                                    /*            exportData: {decodeEntities: true}, */
-                                    text: '클립보드에 복사',
-                                    messageTop: uniqueBranchNames,
-                                    messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        rows: ':visible',
-                                        encoding: 'UTF-8'
-                                    }
-                                }, {
-                                    extend: 'csvHtml5',
-                                    /*                 exportData: {decodeEntities: true}, */
-                                    title: '재고현황 ' + uniqueBottomMessage,
-                                    messageTop: uniqueBranchNames,
-                                    /*                      messageBottom: '생성 시각 : ' + getCurrentDateTime(),*/
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        rows: ':visible',
-                                        encoding: 'UTF-8'
-                                    }
-                                }, {
-                                    extend: 'excelHtml5',
-                                    title: '재고현황 ' + uniqueBottomMessage,
-                                    /*                 exportData: {decodeEntities: true}, */
-                                    messageTop: uniqueBranchNames,
-
-                                    messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        rows: ':visible',
-                                        encoding: 'UTF-8',
-
-                                    }
-                                }, {
-                                    extend: 'pdfHtml5',
-                                    /*          exportData: {decodeEntities: true}, */
-                                    messageTop: uniqueBranchNames,
-                                    messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                    text: 'PDF',
-                                    title: '재고현황 ' + uniqueBottomMessage,
-                                    font: 'hangul',
-
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        rows: ':visible',
-                                        encoding: 'UTF-8',
-
-                                        /*font: 'hangul',*/
-                                        /*                              customize: function (doc) {
-                                                                          // 폰트 설정 추가
-                                                                          /!*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*!/
-                                                                          doc.defaultStyle.fonts = 'Roboto';
-                                                                          doc.defaultStyle.font = 'Roboto';
-                                                                          modifier: {
-                                                                              page: 'current'
-                                                                          }
-
-                                                                      },*/
-
-                                    }
-
-                                }, {
-                                    extend: 'print',
-                                    title: '재고현황 ' + uniqueBottomMessage,
-                                    messageTop: uniqueBranchNames,
-                                    messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                    /*           exportData: {decodeEntities: true}, */
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        rows: ':visible',
-                                        encoding: 'UTF-8'
-                                    }
-                                }
-
-                                ],
-                                "lengthMenu": [[10, 25, 50, 100, -1],
-                                    [10, 25, 50, 100, "All"]],
-                                "language": {
-                                    "lengthMenu": "표시할 항목 수: _MENU_",
-                                    "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
-                                    "search": "검색:",
-                                    "paginate": {
-                                        "first": "처음",
-                                        "last": "마지막",
-                                        "next": "다음",
-                                        "previous": "이전",
-                                        "emptyTable": "데이터가 없어요.",
-                                        "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-                                        // "info": "현재 _START_ - _END_ / _TOTAL_건",
-                                        "infoEmpty": "데이터 없음",
-                                        "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-                                        // "search": "에서 검색: ",
-                                        "zeroRecords": "일치하는 데이터가 없어요.",
-                                        "loadingRecords": "로딩중...",
-                                        "processing": "잠시만 기다려 주세요..."
-                                        // "paginate": {
-                                        //     "next": "다음",
-                                        //     "previous": "이전"
-
-                                        // },
+                                        $('#example1').editableTableWidget();
                                     },
-                                }
+
+                                    columnDefs: [
+                                        {targets: '_all', editable: false, orderable: false},
+                                        /*                         {
+                                                                     targets: 5,
+                                                                     /!* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 *!/
+                                                                     render: function (data, type, row) {
+                                                                         if (type === 'display' || type === 'filter') {
+                                                                             var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
+                                                                             return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
+                                                                         }
+                                                                         /!*                          if (type === 'sort') {
+                                                                                                    // 정렬을 위해 원본 데이터 형식 사용
+                                                                                                    return data;
+                                                                                                  }   *!/
+                                                                         return data;
+                                                                     },
+                                                                 }*/
+                                    ],
+
+                                    /*    "ordering": [[0, 'desc']],*/
+                                    // 수정 불가능한 행 설정
+                                    /*                    createdRow: function (row, data, dataIndex) {
+                                                            if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
+                                                                $(row).addClass('not-editable');
+                                                            }
+                                                        },*/
+                                    "buttons": [{
+                                        extend: 'colvis',
+                                        text: '일부 컬럼 보기'
+                                    }, {
+                                        extend: 'colvisRestore',
+                                        text: '컬럼 복원'
+                                    }, {
+                                        extend: 'copyHtml5',
+                                        /*            exportData: {decodeEntities: true}, */
+                                        text: '클립보드에 복사',
+                                        messageTop: uniqueBranchNames,
+                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                        exportOptions: {
+                                            columns: ':visible',
+                                            rows: ':visible',
+                                            encoding: 'UTF-8'
+                                        }
+                                    }, {
+                                        extend: 'csvHtml5',
+                                        /*                 exportData: {decodeEntities: true}, */
+                                        title: '재고현황 ' + uniqueBottomMessage,
+                                        messageTop: uniqueBranchNames,
+                                        /*                      messageBottom: '생성 시각 : ' + getCurrentDateTime(),*/
+                                        exportOptions: {
+                                            columns: ':visible',
+                                            rows: ':visible',
+                                            encoding: 'UTF-8'
+                                        }
+                                    }, {
+                                        extend: 'excelHtml5',
+                                        title: '재고현황 ' + uniqueBottomMessage,
+                                        /*                 exportData: {decodeEntities: true}, */
+                                        messageTop: uniqueBranchNames,
+
+                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                        exportOptions: {
+                                            columns: ':visible',
+                                            rows: ':visible',
+                                            encoding: 'UTF-8',
+
+                                        }
+                                    }, {
+                                        extend: 'pdfHtml5',
+                                        /*          exportData: {decodeEntities: true}, */
+                                        messageTop: uniqueBranchNames,
+                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                        text: 'PDF',
+                                        title: '재고현황 ' + uniqueBottomMessage,
+                                        font: 'hangul',
+
+                                        exportOptions: {
+                                            columns: ':visible',
+                                            rows: ':visible',
+                                            encoding: 'UTF-8',
+
+                                            /*font: 'hangul',*/
+                                            /*                              customize: function (doc) {
+                                                                              // 폰트 설정 추가
+                                                                              /!*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*!/
+                                                                              doc.defaultStyle.fonts = 'Roboto';
+                                                                              doc.defaultStyle.font = 'Roboto';
+                                                                              modifier: {
+                                                                                  page: 'current'
+                                                                              }
+
+                                                                          },*/
+
+                                        }
+
+                                    }, {
+                                        extend: 'print',
+                                        title: '재고현황 ' + uniqueBottomMessage,
+                                        messageTop: uniqueBranchNames,
+                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                        /*           exportData: {decodeEntities: true}, */
+                                        exportOptions: {
+                                            columns: ':visible',
+                                            rows: ':visible',
+                                            encoding: 'UTF-8'
+                                        }
+                                    }
+
+                                    ],
+                                    "lengthMenu": [[10, 25, 50, 100, -1],
+                                        [10, 25, 50, 100, "All"]],
+                                    "language": {
+                                        "lengthMenu": "표시할 항목 수: _MENU_",
+                                        "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
+                                        "search": "검색:",
+                                        "paginate": {
+                                            "first": "처음",
+                                            "last": "마지막",
+                                            "next": "다음",
+                                            "previous": "이전",
+                                            "emptyTable": "데이터가 없어요.",
+                                            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                                            // "info": "현재 _START_ - _END_ / _TOTAL_건",
+                                            "infoEmpty": "데이터 없음",
+                                            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+                                            // "search": "에서 검색: ",
+                                            "zeroRecords": "일치하는 데이터가 없어요.",
+                                            "loadingRecords": "로딩중...",
+                                            "processing": "잠시만 기다려 주세요..."
+                                            // "paginate": {
+                                            //     "next": "다음",
+                                            //     "previous": "이전"
+
+                                            // },
+                                        },
+                                    }
+                                });
                             });
 
                             /*                     // 드롭다운 아이템 클릭 시 이벤트 처리
@@ -863,94 +896,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                 table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트
                             });
                             /*                    var prdTitleToIdMapString = '
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1331,182 +1276,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1771,181 +1541,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             ${entry.key}</option>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2803,30 +2399,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                     var currentData = table.rows().data().toArray();
                                     /!*                       currentData.splice(0, 0, [selectKey, parsedData.pubName, parsedData.pubAddr, parsedData.pubPhone, parsedData.pubRepresentative, parsedData.pubBank, '<form id="deleteForm" action="
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     ${path}/logistics/inventory/list/delete" method="post" style="display: none;"> <input type="hidden" name="pub_id" id="deleteId"> </form> <button type="button" onclick="confirmDeletion(this,' + selectKey + ')" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제 </button>']);*!/
 
                                     var pubName;
@@ -2947,31 +2519,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                                        if (formData.get('files')) {
                                                            fetch("
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
@@ -2997,31 +2544,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             } else {
                                 fetch("
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
@@ -3064,635 +2586,800 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
                         <div class="box-body">
-
-                            <div class="table-responsive">
-                                <%--          <div id="branch-names2" name="branch-names2" style="display:none;">
-
-                                              회사명 : (주)로켓 ERP /
-                                              <c:forEach var="branch" items="${branchNameUniqueList}">
-                                                  <c:set var="uniqueBranchNames" value=""/>
-                                                  <c:forEach var="item" items="${branchNameUniqueList}">
-                                                      <c:if test="${not uniqueBranchNames.contains(item.BRANCH_NAME)}">
-                                                          <c:set var="uniqueBranchNames"
-                                                                 value="${uniqueBranchNames} ${item.BRANCH_NAME}, "/>
-                                                      </c:if>
-                                                  </c:forEach>
-                                                  <c:set var="uniqueBranchNames"
-                                                         value="${fn:substring(uniqueBranchNames, 0, fn:length(uniqueBranchNames) - 2)}"/>
-                                              </c:forEach>
-                                              ${uniqueBranchNames}
-                                              <br>
-                                              기준 날짜 : ${daybyStockList[0]["SELECTED_STK_DATE"]}
-                                          </div>--%>
-                                <%--
-                                                   ${branchNameUniqueList}"--%>
-                                <div class="top"></div>
-                                <table id="example1"
-                                       class="table table-striped">
-                                    <thead>
-                                    <tr class="bt-5 border-primary">
-                                        <th>도서 코드</th>
-                                        <th>도서명</th>
-                                        <th>총 재고수량</th>
-                                        <%--                <th>입고 단가</th>
-                                                        <th>금액(총)</th>--%>
-                                        <!-- 선택한 branchId에 따라 동적으로 컬럼 생성 -->
-                                        <c:set var="count" value="0"/>
-                                        <c:forEach var="branchName" items="${branchNameUniqueList}">
-                                        <th>${branchName.BRANCH_NAME} 재고</th>
-                                            <c:set var="count" value="${count + 1}"/>
-                                        </c:forEach>
+                            <div class="table-responsive" style="margin-left:20px;">
 
 
-                                    </thead>
-                                    <%--                                    ${daybyStockList }--%>
-                                    <tbody>
-                                    <%--	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">--%>
-                                    <c:forEach var="daybyStock" items="${daybyStockList }">
-                                        <tr class="bt-5 border-primary">
-                                            <td name="dontedit" data-column-name="PRD_ID" data-parent-column="PRD_ID"
-                                                data-table-name="PRODUCT">${daybyStock.PRD_ID}</td>
+                                <%--                  <div class="box-controls pull-right">
+                                                      <div class="lookup lookup-circle lookup-right">
+                                                          <input type="text" name="s">
+                                                      </div>
+                                                  </div>--%>
 
-                                                <%-- TODO 클릭 했을 때 파일 수정 페이지 나왔으면 좋겠음--%>
-                                                <%--                                 <td name="dontedit" data-column-name="PRD_FILE_NAME_RE"
-                                                                                     data-parent-column="PRD_FILE_NAME_RE"
-                                                                                     data-table-name="PRD_ATTACH">
+                                <c:forEach items="${groupedBySendBrcIdAndPrdId}" var="sendBrcEntry">
+                                    <%--                                    <h2>Branch ID: ${sendBrcEntry.key}</h2>--%>
+                                    <c:forEach items="${sendBrcEntry.value}" var="prdEntry" varStatus="status">
+                                        <%--                                        <h3>Product ID: ${prdEntry.key}</h3>--%>
+                                        <div style="overflow: hidden; width: 60%; margin-right: auto;"
+                                             class="top">
+                                            <p style="float: left; margin-top: 40px; margin-left:5px;">회사명
+                                                : (주)로켓 ERP
+                                                : ${prdEntry.value[0].BRANCH_NAME}, ${prdEntry.value[0].PRD_TITLE}</p>
+                                            <p style="float: right; margin-top: 40px; margin-right:20px;">기간
+                                                : ${startDateHiddenValue}
+                                                - ${endDateHiddenValue}</p>
+                                        </div>
+                                        <%--                                        <h4>Branch Name: ${prdEntry.value[0].BRANCH_NAME}</h4>--%>
+                                        <table id=" datatable-${sendBrcEntry.key}-${status.index}"
+                                               class="table table-hover table-sm mb-0"
+                                               style="width: 60%; margin-right: auto;border: 1px solid #F1F1F1; padding: 10px;">
+                                            <thead class="table-light table-primary">
+                                            <tr class=" bt-1 border-primary
+                                            ">
+                                                    <%--                                                <th>Product ID</th>--%>
+                                                    <%--                                                <th>Title</th>--%>
+                                                    <%--                                                <th>Branch Name</th>--%>
+                                                <th>일자</th>
+                                                    <%--                                                <th>Stock</th>--%>
+                                                <th>거래처명</th>
+                                                    <%--                                                <th>Send Branch ID</th>--%>
+                                                    <%--                                                <th>Receive Branch ID</th>--%>
+                                                    <%--                                                <th>Inventory Type</th>--%>
+                                                <th>입고 수량</th>
+                                                <th>출고 수량</th>
+                                                <th>재고 수량</th>
+                                                    <%--                                                <th>Total Month Name</th>--%>
+                                                    <%--                                                <th>Previous Stock</th>--%>
+                                                    <%--                                  <th>Total Month In</th>
+                                                                                      <th>Total Month Out</th>
+                                                                                      <th>Total Month Stock</th>--%>
+                                                    <%--                <th>Final Month In</th>
+                                                                    <th>Final Month Out</th>
+                                                                    <th>Final Quantity</th>--%>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
 
-                                                                                     <img src="${path }/resources/upload/logistics/${prd.PRD_FILE_NAME_RE}"
-                                                                                          alt="prdImage" width="80px" id="${prd.PRD_ID}"
-                                                                                          onclick="document.getElementById('fileUpload').click();"/>
+                                            <c:set var="previousMonth" value=""/> <!-- 이전 달의 이름을 저장하는 변수 초기화 -->
+                                            <c:forEach items="${prdEntry.value}" var="record" varStatus="status">
+                                                <c:if test="${status.first}">
+                                                    <!-- 각 섹션의 첫 번째 레코드에 PREVIOUS_STOCK 값 출력 -->
+                                                    <tr class="bt-1 border-primary">
+                                                        <td colspan="2" style="text-align: center; color:red;"><strong>전일
+                                                            재고 </strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>${record.PREVIOUS_STOCK}</td>
+                                                    </tr>
+                                                </c:if>
+                                                <%--                     <c:choose>
+                                                                         <c:when test="${not status.first and record.TOTAL_MONTH_NAME ne previousMonth}">
+                                                                             <!-- 이전 레코드와 현재 레코드의 total_month_name이 다른 경우 새로운 th 추가 -->
+                                                                             <tr class="bt-1 border-primary">
+                                                                                 <th colspan="17">${record.TOTAL_MONTH_NAME}</th>
+                                                                                 <!-- colspan은 테이블 열의 개수에 따라 조정 -->
+                                                                             </tr>
+                                                                         </c:when>
+                                                                     </c:choose>--%>
+                                                <tr class="bt-1 border-primary">
+                                                        <%--                                                    <td>${record.PRD_ID}</td>--%>
+                                                        <%--                                                    <td>${record.PRD_TITLE}</td>--%>
+                                                        <%--                                                    <td>${record.BRANCH_NAME}</td>--%>
+                                                    <td><fmt:formatDate value="${record.STK_DATE}"
+                                                                        pattern="yyyy-MM-dd"/></td>
+                                                        <%--                                                    <td>${record.STK_STOCK}</td>--%>
+                                                    <td>${record.RECIEVE_BRANCH_NAME}</td>
+                                                        <%--                                                    <td>${record.SEND_BRC_ID}</td>--%>
+                                                        <%--                                                    <td>${record.RECIEVE_BRC_ID}</td>--%>
+                                                        <%--                                                    <td>${record.IV_TYPE}</td>--%>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${record.IN_STOCK == 0}">
+                                                                <!-- 입고 수량이 0일 경우 빈 문자열 출력 -->
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <!-- 그 외의 경우 실제 값 출력 -->
+                                                                ${record.IN_STOCK}
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td><c:choose>
+                                                        <c:when test="${record.OUT_STOCK == 0}">
+                                                            <!-- 입고 수량이 0일 경우 빈 문자열 출력 -->
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <!-- 그 외의 경우 실제 값 출력 -->
+                                                            ${record.OUT_STOCK}
+                                                        </c:otherwise>
+                                                    </c:choose>
 
-                                                                                 </td>--%>
-                                            <td name="dontedit" data-column-name="PRD_TITLE"
-                                                data-table-name="PRODUCT"
-                                                data-parent-column="PRD_TITLE">${daybyStock.PRD_TITLE}</td>
+                                                    </td>
+                                                    <td>${record.STK_STOCK}</td>
+                                                        <%--                                                    <td>${record.TOTAL_MONTH_NAME}</td>--%>
+                                                        <%--                                                    <td>${record.PREVIOUS_STOCK}</td>--%>
+                                                        <%--                      <td>${record.TOTAL_MONTH_IN}</td>
+                                                                              <td>${record.TOTAL_MONTH_OUT}</td>
+                                                                              <td>${record.TOTAL_MONTH_STOCK}</td>--%>
+                                                        <%--                             <td>${record.FINAL_MONTH_IN}</td>
+                                                                                     <td>${record.FINAL_MONTH_OUT}</td>
+                                                                                     <td>${record.FINAL_QUANTITY}</td>--%>
+                                                </tr>
+                                                <c:set var="previousMonth"
+                                                       value="${record.TOTAL_MONTH_NAME}"/> <!-- 현재 레코드의 월을 저장 -->
+                                                <c:if test="${status.last or record.TOTAL_MONTH_NAME ne prdEntry.value[status.index + 1].TOTAL_MONTH_NAME}">
+                                                    <tr class="bt-1 border-primary table-light">
 
-                                            <td name="dontedit" data-column-name="PRD_TITLE"
-                                                data-table-name="PRODUCT"
-                                                data-parent-column="PRD_TITLE"><fmt:formatNumber
-                                                    value="${daybyStock.TOTAL_STOCK_BY_PRD}"
-                                                    type="number" groupingUsed="true"/></td>
+                                                            <%--                                                        <th colspan="4" style="text-align: center;">합계</th>--%>
+                                                        <td colspan="2" style="text-align: center;">
+                                                            <b>${record.TOTAL_MONTH_NAME} 계</b>
+                                                        </td>
+                                                        <td>
+                                                                ${record.TOTAL_MONTH_IN}</td>
+                                                        <td>${record.TOTAL_MONTH_OUT}</td>
+                                                        <td>${record.TOTAL_MONTH_STOCK}</td>
+                                                        <!-- 여기에 원하는 내용을 넣습니다. -->
+                                                    </tr>
+                                                </c:if>
+                                                <c:if test="${status.last}">
+                                                    <!-- 마지막 이터레이션에서 '합계' 로우 추가 -->
+                                                    <tr class="bt-1 border-primary table-light">
+                                                        <td colspan="2" style="text-align: center;"><strong>합계</strong>
+                                                        </td>
+                                                        <td>${record.FINAL_MONTH_IN}</td>
+                                                        <td>${record.FINAL_MONTH_OUT}</td>
+                                                        <td>${record.FINAL_QUANTITY}</td>
+                                                    </tr>
+                                                </c:if>
+                                            </c:forEach>
+                                            </tbody>
 
-
-                                            <c:if test="${daybyStockList[0].branchIds[0] != null}">
-                                                <c:choose>
-                                                    <c:when test="${daybyStockList[0].branchIds[0] == 1}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("1달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[0] == 2}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("2달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[0] == 3}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("3달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[0] == 4}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("4달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[0] == 5}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("5달성");</script>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:if>
-                                            <c:if test="${daybyStockList[0].branchIds[1] != null}">
-                                                <c:choose>
-                                                    <c:when test="${daybyStockList[0].branchIds[1] == 1}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("1달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[1] == 2}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("2달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[1] == 3}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("3달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[1] == 4}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("4달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[1] == 5}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("5달성");</script>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:if>
-                                            <c:if test="${daybyStockList[0].branchIds[2] != null}">
-                                                <c:choose>
-                                                    <c:when test="${daybyStockList[0].branchIds[2] == 1}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("1달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[2] == 2}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("2달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[2] == 3}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("3달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[2] == 4}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("4달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[2] == 5}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("5달성");</script>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:if>
-                                            <c:if test="${daybyStockList[0].branchIds[3] != null}">
-                                                <c:choose>
-                                                    <c:when test="${daybyStockList[0].branchIds[3] == 1}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("1달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[3] == 2}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("2달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[3] == 3}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("3달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[3] == 4}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("4달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[3] == 5}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("5달성");</script>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:if>
-                                            <c:if test="${daybyStockList[0].branchIds[4] != null}">
-                                                <c:choose>
-                                                    <c:when test="${daybyStockList[0].branchIds[4] == 1}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("1달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[4] == 2}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("2달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[4] == 3}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("3달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[4] == 4}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("4달성");</script>
-                                                    </c:when>
-                                                    <c:when test="${daybyStockList[0].branchIds[4] == 5}">
-                                                        <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                            data-parent-column="PRD_AUTHOR"
-                                                            data-table-name="PRODUCT">
-                                                            <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                              type="number" groupingUsed="true"/>
-                                                        </td>
-                                                        <script>console.log("5달성");</script>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:if>
-
-                                        </tr>
+                                        </table>
+                                        <div style="overflow: hidden; width: 60%; margin-right: auto;" class="bottom">
+                                            <p style="float: left; margin-left:20px; margin-top:10px;">
+                                                [ ${status.index + 1} 페이지
+                                                ]</p>
+                                                <%--     <p style="float: right; margin-top: 40px; margin-right:40px;">기간
+                                                         : ${startDateHiddenValue}
+                                                         - ${endDateHiddenValue}</p>--%>
+                                            <%
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                                        "yyyy-MM-dd HH:mm:ss");
+                                                dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+                                                String koreanTime = dateFormat.format(new Date());
+                                            %>
+                                            <p style="float: right; margin-right:20px; margin-top:10px;">조회 시각
+                                                : <%= koreanTime %>
+                                            </p>
+                                        </div>
                                     </c:forEach>
-                                    </tbody>
-                                    <tfoot style="background-color: #E6E6FA;">
-                                    <tr>
-                                        <th colspan="2" style="text-align: center;">합계</th>
-
-
-                                        <td name="dontedit">
-                                            <fmt:formatNumber value="${daybyStockList[0].TOTAL_STOCK_BY_ALLPRD}"
-                                                              type="number" groupingUsed="true"/>
-                                        </td>
-                                        <%--   <td>
-                                               <fmt:formatNumber value="${daybyStockList[0].TOTAL_PURCHASE_COST}"
-                                                                 type="number" groupingUsed="true"/>
-                                           </td>
-                                           <td name="dontedit">
-                                               <fmt:formatNumber value="${daybyStockList[0].TOTAL_PRICE_ALLPRD}"
-                                                                 type="number" groupingUsed="true"/>
-                                           </td>--%>
-                                        <%--                                        dddddddddddddd ${daybyStockList[0].BRANCH3_STOCK_SUM}ddddddddddddd--%>
-                                        <%--                                        qqqqqqqqqqqqqq ${daybyStockList.BRANCH3_STOCK_SUM}qqqqqqqqqqqqqq--%>
-                                        <c:if test="${daybyStockList[0].branchIds[0] != null}">
-                                            <c:choose>
-                                                <c:when test="${daybyStockList[0].branchIds[0] == 1}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[1].BRANCH1_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("1달성111111");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[0] == 2}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[0].BRANCH2_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("2달성222222222");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[0] == 3}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[0].BRANCH3_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("3달성333333");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[0] == 4}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[0].BRANCH4_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("4달성4444444");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[0] == 5}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[0].BRANCH5_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("5달성555555");</script>
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
-                                        <c:if test="${daybyStockList[0].branchIds[1] != null}">
-                                            <c:choose>
-                                                <c:when test="${daybyStockList[0].branchIds[1] == 1}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[1].BRANCH1_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("1달성00000000000");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[1] == 2}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[3].BRANCH2_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("2달성0000000000");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[1] == 3}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[1].BRANCH3_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("3달성00000000000000");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[1] == 4}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[1].BRANCH4_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("4달성000000000000");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[1] == 5}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[1].BRANCH5_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("5달성000000000000000");</script>
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
-                                        <c:if test="${daybyStockList[0].branchIds[2] != null}">
-                                            <c:choose>
-                                                <c:when test="${daybyStockList[0].branchIds[2] == 1}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[2].BRANCH1_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("1달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[2] == 2}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[2].BRANCH2_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("2달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[2] == 3}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[4].BRANCH3_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("3달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[2] == 4}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[2].BRANCH4_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("4달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[2] == 5}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[2].BRANCH5_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("5달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
-                                        <c:if test="${daybyStockList[0].branchIds[3] != null}">
-                                            <c:choose>
-                                                <c:when test="${daybyStockList[0].branchIds[3] == 1}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[3].BRANCH1_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("1달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[3] == 2}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[3].BRANCH2_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("2달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[3] == 3}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[3].BRANCH3_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("3달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[3] == 4}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[2].BRANCH4_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("4달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[3] == 5}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[3].BRANCH5_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("5달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
-                                        <c:if test="${daybyStockList[0].branchIds[4] != null}">
-                                            <c:choose>
-                                                <c:when test="${daybyStockList[0].branchIds[4] == 1}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[4].BRANCH1_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("1달성ㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[4] == 2}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[4].BRANCH2_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("2달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[4] == 3}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[4].BRANCH3_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("3달성ㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[4] == 4}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[4].BRANCH4_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("4달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                </c:when>
-                                                <c:when test="${daybyStockList[0].branchIds[4] == 5}">
-                                                    <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                        data-parent-column="PRD_AUTHOR"
-                                                        data-table-name="PRODUCT">
-                                                        <fmt:formatNumber
-                                                                value="${RealdaybyStockList[0].BRANCH5_STOCK_SUM}"
-                                                                type="number" groupingUsed="true"/>
-                                                    </td>
-                                                    <script>console.log("5달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
-
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div class="bottom">
+                                </c:forEach>
+                            </div>
                         </div>
-                        <%
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-                            String koreanTime = dateFormat.format(new Date());
-                        %>
-                        <p>조회 시각 : <%= koreanTime %>
-                        </p>
+                        <%-- <div class="table-responsive">
+                                           <div id="branch-names2" name="branch-names2" style="display:none;">
+
+                                               회사명 : (주)로켓 ERP /
+                                               <c:forEach var="branch" items="${branchNameUniqueList}">
+                                                   <c:set var="uniqueBranchNames" value=""/>
+                                                   <c:forEach var="item" items="${branchNameUniqueList}">
+                                                       <c:if test="${not uniqueBranchNames.contains(item.BRANCH_NAME)}">
+                                                           <c:set var="uniqueBranchNames"
+                                                                  value="${uniqueBranchNames} ${item.BRANCH_NAME}, "/>
+                                                       </c:if>
+                                                   </c:forEach>
+                                                   <c:set var="uniqueBranchNames"
+                                                          value="${fn:substring(uniqueBranchNames, 0, fn:length(uniqueBranchNames) - 2)}"/>
+                                               </c:forEach>
+                                               ${uniqueBranchNames}
+                                               <br>
+                                               기준 날짜 : ${daybyStockList[0]["SELECTED_STK_DATE"]}
+                                           </div>
+                                                    ${branchNameUniqueList}"
+                                                                 <div class="top"></div>
+                                                                 <table id="example1"
+                                                                        class="table table-striped">
+                                                                     <thead>
+                                                                     <tr class="bt-5 border-primary">
+                                                                         <th>도서 코드</th>
+                                                                         <th>도서명</th>
+                                                                         <th>총 재고수량</th>
+                                                                         &lt;%&ndash;                <th>입고 단가</th>
+                                                                                         <th>금액(총)</th>&ndash;%&gt;
+                                                                         <!-- 선택한 branchId에 따라 동적으로 컬럼 생성 -->
+                                                                         <c:set var="count" value="0"/>
+                                                                         <c:forEach var="branchName" items="${branchNameUniqueList}">
+                                                                         <th>${branchName.BRANCH_NAME} 재고</th>
+                                                                             <c:set var="count" value="${count + 1}"/>
+                                                                         </c:forEach>
+                                                                     </thead>
+                                                                     &lt;%&ndash;                                    ${daybyStockList }&ndash;%&gt;
+                                                                     <tbody>
+                                                                     &lt;%&ndash;	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">&ndash;%&gt;
+                                                                     <c:forEach var="daybyStock" items="${daybyStockList }">
+                                                                         <tr class="bt-5 border-primary">
+                                                                             <td name="dontedit" data-column-name="PRD_ID" data-parent-column="PRD_ID"
+                                                                                 data-table-name="PRODUCT">${daybyStock.PRD_ID}</td>
+
+                                                                                 &lt;%&ndash; TODO 클릭 했을 때 파일 수정 페이지 나왔으면 좋겠음&ndash;%&gt;
+                                                                                 &lt;%&ndash;                                 <td name="dontedit" data-column-name="PRD_FILE_NAME_RE"
+                                                                                                                      data-parent-column="PRD_FILE_NAME_RE"
+                                                                                                                      data-table-name="PRD_ATTACH">
+
+
+                                                                                                                      <img src="${path }/resources/upload/logistics/${prd.PRD_FILE_NAME_RE}"
+                                                                                                                           alt="prdImage" width="80px" id="${prd.PRD_ID}"
+                                                                                                                           onclick="document.getElementById('fileUpload').click();"/>
+
+                                                                                                                  </td>&ndash;%&gt;
+                                                                             <td name="dontedit" data-column-name="PRD_TITLE"
+                                                                                 data-table-name="PRODUCT"
+                                                                                 data-parent-column="PRD_TITLE">${daybyStock.PRD_TITLE}</td>
+
+                                                                             <td name="dontedit" data-column-name="PRD_TITLE"
+                                                                                 data-table-name="PRODUCT"
+                                                                                 data-parent-column="PRD_TITLE"><fmt:formatNumber
+                                                                                     value="${daybyStock.TOTAL_STOCK_BY_PRD}"
+                                                                                     type="number" groupingUsed="true"/></td>
+
+
+                                                                             <c:if test="${daybyStockList[0].branchIds[0] != null}">
+                                                                                 <c:choose>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 1}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("1달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 2}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("2달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 3}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("3달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 4}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("4달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 5}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("5달성");</script>
+                                                                                     </c:when>
+                                                                                 </c:choose>
+                                                                             </c:if>
+                                                                             <c:if test="${daybyStockList[0].branchIds[1] != null}">
+                                                                                 <c:choose>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 1}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("1달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 2}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("2달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 3}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("3달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 4}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("4달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 5}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("5달성");</script>
+                                                                                     </c:when>
+                                                                                 </c:choose>
+                                                                             </c:if>
+                                                                             <c:if test="${daybyStockList[0].branchIds[2] != null}">
+                                                                                 <c:choose>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 1}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("1달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 2}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("2달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 3}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("3달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 4}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("4달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 5}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("5달성");</script>
+                                                                                     </c:when>
+                                                                                 </c:choose>
+                                                                             </c:if>
+                                                                             <c:if test="${daybyStockList[0].branchIds[3] != null}">
+                                                                                 <c:choose>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 1}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("1달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 2}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("2달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 3}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("3달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 4}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("4달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 5}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("5달성");</script>
+                                                                                     </c:when>
+                                                                                 </c:choose>
+                                                                             </c:if>
+                                                                             <c:if test="${daybyStockList[0].branchIds[4] != null}">
+                                                                                 <c:choose>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 1}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("1달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 2}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("2달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 3}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("3달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 4}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("4달성");</script>
+                                                                                     </c:when>
+                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 5}">
+                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                             data-parent-column="PRD_AUTHOR"
+                                                                                             data-table-name="PRODUCT">
+                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
+                                                                                                               type="number" groupingUsed="true"/>
+                                                                                         </td>
+                                                                                         <script>console.log("5달성");</script>
+                                                                                     </c:when>
+                                                                                 </c:choose>
+                                                                             </c:if>
+
+                                                                         </tr>
+                                                                     </c:forEach>
+                                                                     </tbody>
+                                                                     <tfoot style="background-color: #E6E6FA;">
+                                                                     <tr>
+                                                                         <th colspan="2" style="text-align: center;">합계</th>
+
+
+                                                                         <td name="dontedit">
+                                                                             <fmt:formatNumber value="${daybyStockList[0].TOTAL_STOCK_BY_ALLPRD}"
+                                                                                               type="number" groupingUsed="true"/>
+                                                                         </td>
+                                                                         &lt;%&ndash;   <td>
+                                                                                <fmt:formatNumber value="${daybyStockList[0].TOTAL_PURCHASE_COST}"
+                                                                                                  type="number" groupingUsed="true"/>
+                                                                            </td>
+                                                                            <td name="dontedit">
+                                                                                <fmt:formatNumber value="${daybyStockList[0].TOTAL_PRICE_ALLPRD}"
+                                                                                                  type="number" groupingUsed="true"/>
+                                                                            </td>&ndash;%&gt;
+                                                                         &lt;%&ndash;                                        dddddddddddddd ${daybyStockList[0].BRANCH3_STOCK_SUM}ddddddddddddd&ndash;%&gt;
+                                                                         &lt;%&ndash;                                        qqqqqqqqqqqqqq ${daybyStockList.BRANCH3_STOCK_SUM}qqqqqqqqqqqqqq&ndash;%&gt;
+                                                                         <c:if test="${daybyStockList[0].branchIds[0] != null}">
+                                                                             <c:choose>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 1}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[1].BRANCH1_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("1달성111111");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 2}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[0].BRANCH2_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("2달성222222222");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 3}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[0].BRANCH3_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("3달성333333");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 4}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[0].BRANCH4_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("4달성4444444");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 5}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[0].BRANCH5_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("5달성555555");</script>
+                                                                                 </c:when>
+                                                                             </c:choose>
+                                                                         </c:if>
+                                                                         <c:if test="${daybyStockList[0].branchIds[1] != null}">
+                                                                             <c:choose>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 1}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[1].BRANCH1_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("1달성00000000000");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 2}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[3].BRANCH2_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("2달성0000000000");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 3}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[1].BRANCH3_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("3달성00000000000000");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 4}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[1].BRANCH4_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("4달성000000000000");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 5}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[1].BRANCH5_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("5달성000000000000000");</script>
+                                                                                 </c:when>
+                                                                             </c:choose>
+                                                                         </c:if>
+                                                                         <c:if test="${daybyStockList[0].branchIds[2] != null}">
+                                                                             <c:choose>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 1}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[2].BRANCH1_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("1달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 2}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[2].BRANCH2_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("2달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 3}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[4].BRANCH3_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("3달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 4}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[2].BRANCH4_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("4달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 5}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[2].BRANCH5_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("5달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
+                                                                                 </c:when>
+                                                                             </c:choose>
+                                                                         </c:if>
+                                                                         <c:if test="${daybyStockList[0].branchIds[3] != null}">
+                                                                             <c:choose>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 1}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[3].BRANCH1_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("1달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 2}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[3].BRANCH2_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("2달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 3}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[3].BRANCH3_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("3달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 4}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[2].BRANCH4_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("4달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 5}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[3].BRANCH5_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("5달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
+                                                                                 </c:when>
+                                                                             </c:choose>
+                                                                         </c:if>
+                                                                         <c:if test="${daybyStockList[0].branchIds[4] != null}">
+                                                                             <c:choose>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 1}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[4].BRANCH1_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("1달성ㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 2}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[4].BRANCH2_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("2달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 3}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[4].BRANCH3_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("3달성ㅂㅂㅂㅂㅂㅂㅂ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 4}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[4].BRANCH4_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("4달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
+                                                                                 </c:when>
+                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 5}">
+                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
+                                                                                         data-parent-column="PRD_AUTHOR"
+                                                                                         data-table-name="PRODUCT">
+                                                                                         <fmt:formatNumber
+                                                                                                 value="${RealdaybyStockList[0].BRANCH5_STOCK_SUM}"
+                                                                                                 type="number" groupingUsed="true"/>
+                                                                                     </td>
+                                                                                     <script>console.log("5달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
+                                                                                 </c:when>
+                                                                             </c:choose>
+                                                                         </c:if>
+
+                                                                     </tr>
+                                                                     </tfoot>
+                                                                 </table>
+                                                             </div class="bottom">
+                             </div>
+                   <%
+                       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                       dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+                       String koreanTime = dateFormat.format(new Date());
+                   %>
+                   <p>조회 시각 : <%= koreanTime %>
+                   </p>--%>
                     </div>
                 </div>
+
+
             </div>
+        </section>
     </div>
-</div>
-</section>
-</div>
 </div>
 <script src="${path }/resources/js/pages/validation.js"></script>
 <script src="${path }/resources/js/pages/form-validation.js"></script>
@@ -3742,6 +3429,12 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 <script src="${path}/resources/js/menus.js"></script>
 <script src="${path}/resources/js/pages/extra_taskboard.js"></script>
 <script src="${path}/resources/js/pages/advanced-form-element.js"></script>
+<script src="${path}/resources/assets/vendor_components/jquery-knob/js/jquery.knob.js"></script>
+<script src="${path}/resources/js/pages/widget-inline-charts.js"></script>
+<script src="${path}/resources/assets/vendor_components/raphael/raphael.min.js"></script>
+<script src="${path}/resources/assets/vendor_components/morris.js/morris.min.js"></script>
+<script src="${path}/resources/js/pages/widget-morris-charts.js"></script>
+
 
 <%-- <script src="${path}/resources/assets/vendor_components/ckeditor/ckeditor.js"></script> --%>
 

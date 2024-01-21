@@ -1,9 +1,14 @@
 package com.rocket.psh.board.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,12 +17,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.FboardFile;
+import com.rocket.psh.board.model.service.FboardCommentService;
 import com.rocket.psh.board.model.service.FboardService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +39,9 @@ public class BoardController {
 	
 	
 	  private final FboardService service;
+	  private final FboardCommentService commService;
+		
+	
 	
 	  // 게시물 목록 조회
 	    @GetMapping("/fboardlist.do")
@@ -71,7 +84,7 @@ public class BoardController {
 	        
 
 	        // 게시글 상세 정보 조회
-	        Map<String, Object> fboard = service.selectFboardDetail(fboardNo);
+	        Fboard fboard = service.selectFboardDetail(fboardNo);
 	        mv.addObject("fboard", fboard);
 	        log.info("보드 정보{}",fboard);
 
@@ -83,7 +96,7 @@ public class BoardController {
 	        return mv;
 	    }
 	
-	    @GetMapping("/fboardWrite")
+	    @GetMapping("/fboardWrite")//board/fboardWrite
 	    public String writepage() {
 	    	return "board/fboardWrite";
 	    }
@@ -91,7 +104,7 @@ public class BoardController {
 	    
 	 // 게시글 작성 처리
 	    @PostMapping("/fboardWrite")
-	    public ModelAndView submitFboardWrite(Fboard fboardDTO, BindingResult result) {
+	    public ModelAndView submitFboardWrite(MultipartFile upfile,Fboard fboardDTO, BindingResult result,HttpSession session) {
 	        ModelAndView mv = new ModelAndView();
 	        Employee em = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	        int empNo=em.getEmpNo();
@@ -106,6 +119,36 @@ public class BoardController {
 	            return mv;
 	        }
 
+	        String path = session
+	        		.getServletContext()
+	        		.getRealPath("/resources/upload/fboard");
+	        
+	        String oriName="";
+	        String reName="";
+	        //serialize 값 가져오기
+	        log.info("파일 업로드 정보 가져오기 upFile{}");
+	        log.info("파일 업로드 정보 가져오기 upFile{}",upfile);
+	        
+	        File file1 = new File(path);
+	        if(!file1.exists()) {
+	        	file1.mkdirs();
+	        }
+	        
+	        if (!upfile.isEmpty()) {
+	        	oriName = upfile.getOriginalFilename();
+	        	String ext = oriName.substring(oriName.lastIndexOf("."));
+	        	Date today = new Date(System.currentTimeMillis());
+	        	int randomNum = (int)(Math.random() * 10000) + 1;
+	        	reName = "Rocket_ChatMessage_File_" + (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(
+	        			today)) + "_" + randomNum + ext;
+	        	try {
+	        		upfile.transferTo(new File(path, reName));
+	        		fboardDTO.setFiles(List.of(FboardFile.builder().fboardFileOri(oriName).fboardFileRe(reName).build()));
+	        	} catch (IOException | DataAccessException e) {
+	        		e.printStackTrace();
+	        	}
+	        }
+	        
 	        // 게시글 작성 로직 수행
 	        try {
 	            service.insertFboard(fboardDTO);
@@ -115,76 +158,88 @@ public class BoardController {
 	            mv.addObject("fboard", fboardDTO);
 	            mv.addObject("errorMessage", "게시글 작성 중 오류가 발생했습니다.");
 	        }
+	        
 
 	        return mv;
 	    }
 
-	    // 게시글 수정 페이지 이동
+	 // 게시글 수정 페이지 이동
 	    @GetMapping("/fboardedit")
 	    public ModelAndView fboardEdit(@RequestParam("fboardNo") int fboardNo) {
 	        ModelAndView mv = new ModelAndView();
-
 	        try {
-	            Map<String, Object> fboard = service.selectFboardDetail(fboardNo);
-	            
-	            if (fboard == null || fboard.isEmpty()) {
+	            Fboard fboard = service.selectFboardDetail(fboardNo);
+	            if (fboard == null) {
 	                mv.setViewName("redirect:/board/fboardlist");
 	                mv.addObject("errorMessage", "해당 게시글이 존재하지 않습니다.");
 	                return mv;
 	            }
-
-	            // 권한 검사 로직
-	            // User user = (User) request.getSession().getAttribute("user");
-	            // if (user == null || !user.canEdit(fboard)) {
-	            //     mv.setViewName("redirect:/board/fboardlist");
-	            //     mv.addObject("errorMessage", "수정 권한이 없습니다.");
-	            //     return mv;
-	            // }
-
+	            // TODO: 권한 검사 로직 구현
 	            mv.addObject("fboard", fboard);
 	            mv.setViewName("board/fboardedit");
 	        } catch (Exception e) {
 	            mv.setViewName("redirect:/board/fboardlist");
 	            mv.addObject("errorMessage", "게시글 조회 중 오류가 발생했습니다.");
 	        }
-
 	        return mv;
 	    }
 
+	    // 게시글 수정 처리
 	    @PostMapping("/fboardupdate")
-	    public ModelAndView fboardUpdate(@RequestParam Map fboard) {
-	    	ModelAndView mv=new ModelAndView();
-	    	int result=service.updateFboard(fboard);
-	    	if(result>0) {
-	    		mv.setViewName("redirect:/fboardlist");
-	    	}else {
-	    		mv.setViewName("redirect:/fboardedit?fboardNo="+fboard.get("fboardNo"));
-	    	}
-	    	
-	    	return mv;
+	    public ModelAndView fboardUpdate(@RequestParam Map<String, Object> fboard) {
+	        ModelAndView mv = new ModelAndView();
+	        int result = service.updateFboard(fboard);
+	        if (result > 0) {
+	            mv.setViewName("redirect:/board/fboardlist");
+	        } else {
+	            mv.setViewName("redirect:/board/fboardedit?fboardNo=" + fboard.get("fboardNo"));
+	        }
+	        return mv;
 	    }
-	    
+
 	    // 게시글 삭제 처리
 	    @PostMapping("/fboarddelete")
 	    public ModelAndView fboardDelete(@RequestParam("fboardNo") int fboardNo) {
 	        ModelAndView mv = new ModelAndView();
-
 	        try {
-	            // 권한 검사 로직
-	            // User user = (User) request.getSession().getAttribute("user");
-	            // if (user == null || !user.canDelete(fboardNo)) {
-	            //     mv.setViewName("redirect:/board/fboardlist");
-	            //     mv.addObject("errorMessage", "삭제 권한이 없습니다.");
-	            //     return mv;
-	            // }
-
+	            // TODO: 권한 검사 로직 구현
 	            service.deleteFboard(fboardNo);
-	            mv.setViewName("redirect:/board/fboardlist");
+	            mv.setViewName("redirect:/board/fboardlist.do");
 	        } catch (Exception e) {
-	            mv.setViewName("redirect:/board/fboardlist");
+	            mv.setViewName("redirect:/board/fboardlist.do");
 	            mv.addObject("errorMessage", "게시글 삭제 중 오류가 발생했습니다.");
 	        }
-
 	        return mv;
 	    }
+	   
+	    //댓글  
+	    @PostMapping("/comment/insertComment.do")
+	    public ModelAndView insertComment(@RequestParam("fboardNo") int fboardNo, 
+	                                      @RequestParam("regr_id") String regr_id, 
+	                                      @RequestParam("content") String content) {
+	        ModelAndView mav = new ModelAndView();
+
+	        try {
+	            Map<String, Object> param = new HashMap<>();
+	            param.put("fboardNo", fboardNo);
+	            param.put("empNo", regr_id);
+	            param.put("fbdComment", content);
+
+	            try {
+	                fboardNo = commService.insertComment(param);
+	                mav.addObject("message", "댓글이 성공적으로 추가되었습니다.");
+	            } catch (Exception e) {
+	                mav.addObject("message", "댓글 추가 중 오류가 발생하였습니다.");
+	                e.printStackTrace();
+	            }
+	        } catch (Exception e) {
+	            mav.addObject("message", "댓글 추가 중 오류가 발생하였습니다.");
+	            log.error("댓글 추가 중 오류 발생", e);
+	        }
+
+	        mav.setViewName("redirect:/board/fboardView");
+	        return mav;
+	    }
+
+	    
 }

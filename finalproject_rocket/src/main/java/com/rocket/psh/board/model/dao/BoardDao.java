@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.rocket.psh.board.model.dto.Fboard;
+import com.rocket.psh.board.model.dto.FboardFile;
 
 public interface BoardDao {
    
@@ -13,7 +14,7 @@ public interface BoardDao {
 	
 	int insertFboard(SqlSession session,Fboard fboard);
 	
-	Map<String, Object> selectFboardDetail(SqlSession session, int fboardNo);
+	Fboard selectFboardDetail(SqlSession session, int fboardNo);
 	
 	int updateFboard(SqlSession session,Map<String, Object> map);
 	
@@ -23,5 +24,6 @@ public interface BoardDao {
 	
 	List<Map<String,Object>> selectFboardComments(SqlSession session, int fboardNo);
 	
+	int insertFboardFile(SqlSession session, FboardFile ff);
 	
 }

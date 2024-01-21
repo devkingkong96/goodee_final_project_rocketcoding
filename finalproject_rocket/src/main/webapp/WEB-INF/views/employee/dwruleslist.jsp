@@ -72,7 +72,6 @@
 			<!-- /.col -->
 		  </div>
 		  <!-- /.row -->
-		<button class="btn commute delete" onclick="deleteRows()">삭제</button>
       </section>
    </div>
 </div>
@@ -135,59 +134,6 @@ $(document).ready(function() {
         comEarly.onchange = function() {
         	comEarly.value = comEarly.value.slice(0, 3) + '00';
         }
-    }
-</script>
-<script>
-    var selectedRows = {};
-
-    function rowClick(row, comNo) {
-        if (row.classList.contains('selected')) {
-            row.classList.remove('selected');
-            delete selectedRows[comNo];
-        } else {
-            row.classList.add('selected');
-            selectedRows[comNo] = row;
-        }
-    }
-
-    function deleteRows() {
-        var promises = [];
-
-        for (var comNo in selectedRows) {
-            var promise = new Promise(function(resolve, reject) {
-                $.ajax({
-                    url: '/deleteDwRule',   
-                    type: 'POST',        
-                    data: { 'comNo': comNo }, // 삭제할 행의 정보
-                    success: function(response) {
-                        if (response.success) {
-                            selectedRows[comNo].remove();
-                            delete selectedRows[comNo];
-                            resolve();
-                        } else {
-                            console.error('Failed to delete row: ' + response.error);
-                            reject();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // 서버로부터 에러 응답을 받았을 때 실행할 코드
-                        console.error('Failed to delete row: ' + error);
-                        reject();
-                    }
-                });
-            });
-
-            promises.push(promise);
-        }
-
-        Promise.all(promises)
-            .then(function() {
-                console.log('성공');
-                location.reload();
-            })
-            .catch(function() {
-                console.error('실패');
-            });
     }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

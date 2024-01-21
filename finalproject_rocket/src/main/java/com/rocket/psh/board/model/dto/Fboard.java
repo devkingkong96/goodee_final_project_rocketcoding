@@ -26,6 +26,7 @@ public class Fboard {
 	private int fboardViews;	//조회수
 	private Date fboardDate;	//게시글 작성일
 	private String fboard_Yn;// 삭제여뷰
-	
+	private List<FboardFile> files;
+	private List<FboardComment> comments;
 	
 }

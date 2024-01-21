@@ -131,12 +131,11 @@
 
         <dependency>
 
-        	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
 
-            
 
         </dependency>
 
@@ -167,5 +166,12 @@
             </plugin>
         </plugins>
     </build>
-
+	
+	
+		<!--
+			파일업로드 라이브 러리 등록하기  
+			commons-io 2.7
+			commons-filetupload 1.4
+		-->
+	
 </project>

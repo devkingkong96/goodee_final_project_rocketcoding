@@ -18,9 +18,12 @@ import lombok.ToString;
 @Builder
 public class FboardComment {
 	
-	private int commentNo;
-	private int fboardNo;
-	private int empNo;
-	private String fbdComment;
-	private Date fbdCommentDate;
+	private int commentNo; //댓글번호
+	private int fboardNo;//게시글 번호
+	private int empNo; //댓글 작성자
+	private String fbdComment; //댓글
+	private Date fbdCommentDate; //댓글 작성일
+	private String FBD_COMMENT_YN;//댓글 삭제여부
+	
+	
 }

@@ -139,12 +139,15 @@
                                     <!-- /.box-header -->
                                     <div class="box-body">
                                         <h4 class="box-title">본문</h4>
-                                        <div id="tagCont">
+                                    
+                                    <c:if test="${empty startDate}">
                                     <div class="box-header">
                                         <h4 class="box-title">제목<br>
                                             <input type="text" name="DOC_TITLE" class="form-control" style="width: 500px">
                                         </h4>
                                     </div> 
+                                    </c:if>
+                                        <div id="tagCont">
                                         <table>
 							                <thead>
 							                <tr>
@@ -203,18 +206,7 @@
 
 
                                     </div>
-                                    <%-- <div class="box">
-                                        <div class="box-header">
-                                            <h4 class="box-title">파일첨부</h4>
-                                        </div>
-                                        <div class="box-body">
-                                            <form action="${path }/docu/file" class="dropzone" id="form2">
-                                                <div class="fallback">
-                                                    <input name="file" type="file" multiple />
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div> --%>
+                                   
                                 </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
                             

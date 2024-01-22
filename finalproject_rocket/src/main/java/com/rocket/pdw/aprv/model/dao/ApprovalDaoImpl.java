@@ -54,7 +54,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		try {
 		//임시저장된거 다시 저장하기	
-		if(reqAll.containsKey("DOC_STATCD")) {
+		if(reqAll.containsKey("DOC_NO")) {
 			session.insert("approval.updateDocuBySave",reqAll);
 		}else {
 			session.insert("approval.insertDocu", reqAll);		

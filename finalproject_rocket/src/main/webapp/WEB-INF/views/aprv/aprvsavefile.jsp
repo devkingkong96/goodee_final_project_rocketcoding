@@ -1,3 +1,4 @@
+<%@page import="jakarta.security.auth.message.callback.PrivateKeyCallback.Request"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -163,24 +164,14 @@
 
 
                                     </div>
-                                    <%-- <div class="box">
-                                        <div class="box-header">
-                                            <h4 class="box-title">파일첨부</h4>
-                                        </div>
-                                        <div class="box-body">
-                                            <form action="${path }/docu/file" class="dropzone" id="form2">
-                                                <div class="fallback">
-                                                    <input name="file" type="file" multiple />
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div> --%>
+                                    
                                 </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
                             
-                            <button class="btn btn-primary" id="submitSave">임시저장></button>
-                            ||
-                            <button id="selectSaves"><c:out value="${saveCount }"/></button>
+                            <button class="btn btn-primary" id="submitSave">임시저장</button>
+                            
+                            <button class="btn btn-primary" id="selectSaves"><c:out value="${saveCount }"/></button>
+                            
                             </div>
                             
                         </div>
@@ -242,10 +233,10 @@
                                 <div id="btn-container" class="">
                                     <div class="col-12">
                                         <div class="">
-                                            <div class="box-header with-border">
+                                            <div class="box-header" style="margin-top: -11px">
                                                 <h1 class="box-title text-primary" id="peo-heder">People</h1>
                                             </div>
-                                            <div class="column" id="dep-container">
+                                            <div class="column" id="dep-container" style="margin-top: -13px">
                                                 <!--인원들출력란  -->
                                               
                                             </div>
@@ -254,12 +245,12 @@
                                 </div>
                                 <div>
                                     <h1 style="position: static; margin-right: 40px">결재자</h1>
-                                    <div class="column" style="width: 100%; height: 70%" id="aprv">
+                                    <div class="column" style="width: 100%; height: 100%" id="aprv">
                                     </div>
                                 </div>
                                 <div>
                                     <h1 style="position: static;">참조자</h1>
-                                    <div class="column" style="width: 100%; height: 70%;border: 2px"  id="reader">
+                                    <div class="column" style="width: 100%; height: 100%;" id="reader">
                                     </div>
                                 </div>
                             </div>
@@ -287,10 +278,11 @@
 		   <div class="modal-dialog modal-lg">
 			   <div class="modal-content" style="background-color: white;">
 		           <div class="modal-header">
-		               <h4 class="modal-title" id="myLargeModalLabel">임시저장</h4> 	
+		               <h4 class="modal-title" id="myLargeModalLabel">임시저장</h4>
+		               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="myBtn"></button> 	
 		           </div>
 		           <div class="modal-body" id="savemodalbody">
-		        
+		        		
 		           </div>
 		       </div>
 		   </div>
@@ -300,6 +292,7 @@
     //태그선택하게하기
     function tagSelect() {
         var x = document.getElementById("tagSelect").value;
+        
         if (x === "option1") {
             document.getElementById("contentContainer").style.display = "block";
             document.getElementById("tagCont").innerHTML = "";
@@ -598,25 +591,26 @@ $('#submitAll').click(function(e) {
 });
 
 </script>
-
 <script>
+var path = "${path}";
 $(document).ready(function(){
     $('#selectSaves').click(function(){
         $.ajax({
             url: `${path}/docu/savefilelists`,
             type: 'GET',
             success: function(response) {
-            	let outputHtml = '';
-            	for (let i = 0; i < response.length; i++) {
-            	    console.log('U_DATE:', response[i]['U_DATE']);  // U_DATE 값 출력
-            	    console.log('DOC_TITLE:', response[i]['DOC_TITLE']);  // DOC_TITLE 값 출력
-            	    var date = response[i]['U_DATE'];
-            	    var title = response[i]['DOC_TITLE'];
-            	    $('#savemodalbody').append(date);
-            	    $('#savemodalbody').append(title);
-            	}
-            	$('#saveLists').modal('show');
-
+                $('#savemodalbody').empty();  // savemodalbody의 내용을 초기화
+                $.each(response, function(i, item) {
+                    console.log('U_DATE:', item['U_DATE']);  // U_DATE 값 출력
+                    console.log('DOC_TITLE:', item['DOC_TITLE']);  // DOC_TITLE 값 출력
+                    var date = item['U_DATE'];
+                    var title = item['DOC_TITLE'];
+                    var docNo = item['DOC_NO'];  // docNo 값을 가져옵니다.
+                    console.log(docNo);
+                    console.log(typeof docNo);
+                    $('#savemodalbody').append('<a href="'+ path + '/docu/save/' + docNo +'">['+ date +'] ['+ title +']</a><br/>');
+                });
+                $('#saveLists').modal('show');
             }
         });
     });

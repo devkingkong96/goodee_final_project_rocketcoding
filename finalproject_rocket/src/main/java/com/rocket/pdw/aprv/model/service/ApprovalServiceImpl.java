@@ -6,14 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.pdw.aprv.model.dao.ApprovalDao;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@EnableScheduling
+@Slf4j
 public class ApprovalServiceImpl implements ApprovalService{
 	private final ApprovalDao dao;
 	private final SqlSession session;
@@ -67,10 +74,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return dao.saveDocu(session,reqAll);
 	}
+	
 	@Override
-	public int deleteSaveFile(int no) {
+	public int deleteSaveFile() {
 		// TODO Auto-generated method stub
-		return dao.deleteSaveFile(session,no);
+		return dao.deleteSaveFile(session);
 	}
 	
 	@Override
@@ -84,7 +92,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return dao.countSaveList(session, no);
 	}
 	
-	
+	@Scheduled(cron = "0 0 22 L * ?")
+	public void deleteSaveFileRun() {
+		int result = deleteSaveFile();
+		log.info("삭제",result);
+
+	}
 	
 }
 

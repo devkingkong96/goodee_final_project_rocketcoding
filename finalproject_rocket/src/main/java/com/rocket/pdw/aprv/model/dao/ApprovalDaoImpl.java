@@ -196,9 +196,9 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	}
 
 	@Override
-	public int deleteSaveFile(SqlSession session, int no) {
+	public int deleteSaveFile(SqlSession session) {
 		
-		return session.delete("approval.deleteSaveFile",no);
+		return session.delete("approval.deleteSaveFile");
 	}
 
 	@Override

@@ -228,6 +228,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="myBtn"></button>
                         </div>
                         <div class="modal-body">
+                                <h3>결재하면 수정하실수없습니다 정말 결재하시겠습니까?</h3>
                             <div id="flex-cotainer" style="display: flex">
                                 
                                 <button type="button" class="btn btn-danger text-start"  onclick="aprv();"> 결재 </button>

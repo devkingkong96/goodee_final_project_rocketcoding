@@ -25,7 +25,7 @@ public interface ApprovalService {
 	
 	int saveDocu(Map<String,Object>reqAll);
 	
-	int deleteSaveFile(int no);
+	int deleteSaveFile();
 	
 	List<Map<String,Object>> selectSaveList (int no);
 	

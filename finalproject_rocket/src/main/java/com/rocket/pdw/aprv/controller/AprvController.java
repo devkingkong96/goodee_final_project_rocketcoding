@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 @RequestMapping("/docu")
 @Controller
@@ -198,14 +199,7 @@ public class AprvController {
 		m.addAttribute("lists", alist);
 		return "aprv/aprvbox";
 	}
-	@GetMapping("/box/save")
-	public String aprvsave(Model m) {
-		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int no = e.getEmpNo();
-		List<Map<String, Object>> alist = service.selectSaveList(no);
-		m.addAttribute("lists", alist);
-		return "aprv/aprvbox";
-	}
+	
 
 	// ==============================================select list
 	// ==================================================================
@@ -340,7 +334,7 @@ public class AprvController {
 		
 		int result = service.saveDocu(reqAll);
 		
-		if(ObjectUtils.isEmpty(reqAll.get("DOC_CONT")) || ObjectUtils.isEmpty(reqAll.get("DOC_CONT"))) {
+		if(ObjectUtils.isEmpty(reqAll.get("DOC_CONT")) || ObjectUtils.isEmpty(reqAll.get("DOC_TITLE"))) {
 			return ResponseEntity.badRequest().body("값이 비었습니다");
 		}
 		
@@ -470,16 +464,7 @@ public class AprvController {
 		
 		
 	}
-	@PostMapping("/delete")
-	public void deleteSaveFile() {
-		Employee e = (Employee) SecurityContextHolder
-						.getContext().getAuthentication().getPrincipal();
-		int no = e.getEmpNo();
-		
-		service.deleteSaveFile(no);
-		
-		
-	}
+	
 	@GetMapping("/savefilelists")
 	@ResponseBody
 	public List<Map<String, Object>> saveFileList () {
@@ -487,9 +472,9 @@ public class AprvController {
 				.getContext().getAuthentication().getPrincipal();
 		int no = e.getEmpNo();
 		List<Map<String,Object>>saveLists = service.selectSaveList(no);
+		
 		String textData = "";
 		for (Map<String, Object> map : saveLists) {
-			
 			Clob text = (Clob)map.get("DOC_CONT");
 			try {
 			    String clobContent = text.getSubString(1, (int) text.length());
@@ -506,12 +491,51 @@ public class AprvController {
 			}finally {
 				map.put("DOC_CONT", textData);
 			}
-		}
+		} 
 		System.out.println("============================SAVEFILELIST========== :  "+saveLists);
 		return saveLists;
 		
 		
 		
 	}
+	@GetMapping("/save/{docNo}")
+	public String saveFileNo(@PathVariable int docNo,Model m) {
+		
+		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int no = e.getEmpNo();
+		
+		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
+		log.info("===========aprvDocu : {} ",aprvDocu);
+		
+		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
+		String textData = "";
+		try {
+		    String clobContent = text.getSubString(1, (int) text.length());
+		    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+		        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+		        for (String content : contentArray) {
+		            textData += content.trim();
+		        }
+		    } else {
+		        textData += clobContent;
+		    }
+		} catch (Exception e1) {
+		    e1.printStackTrace();
+		}
+		int saveCount =service.countSaveList(no);
 
+	    m.addAttribute("user", e);
+	    List<Map<String, Object>> employee = service.selectEmployee(no);
+		m.addAttribute("dept", employee
+                .get(0)
+                .get("DEP_NAME"));
+		m.addAttribute("docNo", docNo);
+		m.addAttribute("saveFile", aprvDocu);
+		m.addAttribute("textData", textData);
+		m.addAttribute("saveCount", saveCount);
+		
+		
+		return "aprv/aprvsavefile";
+	}
+	 
 }

@@ -47,7 +47,7 @@ public class LoggerAspect {
 
     //    @Around("within(com.rocket.seoj..controller..*)")
 //    @Around("within(com.rocket.seoj.logistics.controller.*)")
-    @Around("within(com.rocket.seoj..*) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
+//    @Around("within(com.rocket.seoj..*) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
     public Object seojTest(ProceedingJoinPoint pj) throws Throwable {
 
 

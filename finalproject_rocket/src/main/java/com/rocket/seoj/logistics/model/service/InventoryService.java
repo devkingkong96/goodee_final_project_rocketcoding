@@ -25,8 +25,8 @@ public class InventoryService {
 
 
     @Transactional
-    public List<Map<String, Object>> selectAllInventories() {
-        return dao.selectAllInventories(session);
+    public List<Map<String, Object>> selectAllInventories(int branchId) {
+        return dao.selectAllInventories(session, branchId);
     }
 
     @Transactional
@@ -58,7 +58,7 @@ public class InventoryService {
         int inventoryDeleteResult = dao.deleteInventoryColumn(session, inventoryId);
 
         // if문으로 감싸줘야함
-        log.debug("inventoryDeleteResult " + inventoryDeleteResult);
+//        log.debug("inventoryDeleteResult " + inventoryDeleteResult);
 
         if (inventoryDeleteResult > 0) {
             return true;
@@ -132,8 +132,8 @@ public class InventoryService {
     }
 
     @Transactional
-    public List<Map<String, Object>> getEmpListByemployeeId(long branchId) {
-        return dao.getEmpListByemployeeId(session, branchId);
+    public List<Map<String, Object>> getEmpListByemployeeId() {
+        return dao.getEmpListByemployeeId(session);
     }
 
     @Transactional

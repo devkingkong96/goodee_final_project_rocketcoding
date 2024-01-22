@@ -205,7 +205,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                     <div class=" connectedSortable">
                         <form name="insertproduct" id="insertproduct"
                         <%-- method="post"--%> enctype="multipart/form-data">
-                            <div class="box">
+                            <div class="box box-slided-up">
                                 <div class="box-header with-border">
                                     <h4 class="box-title"><i class="ti-agenda"></i> 책 등록</h4>
 
@@ -439,42 +439,43 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                             </label>
                                         </div>--%>
                                     </div>
-                                </div>
-                                <div name="fileButton"></div>
-                                <br/>
-                                <%-- <div class="col-lg-2 col-5">
-                                     <label class="form-label" style="margin:5px;" for="pubBank"><i
-                                             class="mdi mdi-bank"
-                                             style="margin-right:10px;"></i>
-                                         이체 정보</label>
-                                     <div class="input-group">
-                                         <button type="button" class="btn btn-info btn-sm dropdown-toggle"
-                                                 data-bs-toggle="dropdown">은행
-                                         </button>
-                                         <div class="dropdown-menu">
-                                             <a href="#" class="dropdown-item">국민</a>
-                                             <a href="#" class="dropdown-item">농협</a>
-                                             <a href="#" class="dropdown-item">우리</a>
-                                             <a href="#" class="dropdown-item">축협</a>
+                                    <div name="fileButton"></div>
+                                    <br/>
+                                    <%-- <div class="col-lg-2 col-5">
+                                         <label class="form-label" style="margin:5px;" for="pubBank"><i
+                                                 class="mdi mdi-bank"
+                                                 style="margin-right:10px;"></i>
+                                             이체 정보</label>
+                                         <div class="input-group">
+                                             <button type="button" class="btn btn-info btn-sm dropdown-toggle"
+                                                     data-bs-toggle="dropdown">은행
+                                             </button>
+                                             <div class="dropdown-menu">
+                                                 <a href="#" class="dropdown-item">국민</a>
+                                                 <a href="#" class="dropdown-item">농협</a>
+                                                 <a href="#" class="dropdown-item">우리</a>
+                                                 <a href="#" class="dropdown-item">축협</a>
+                                             </div>
+                                             <input name="pubBank" id="pubBank" type="text" class="form-control"
+                                                    placeholder="은행 선택" required>
                                          </div>
-                                         <input name="pubBank" id="pubBank" type="text" class="form-control"
-                                                placeholder="은행 선택" required>
-                                     </div>
-                                 </div>--%>
+                                     </div>--%>
 
-                                <div>
-                                    <div class="col-12"
-                                         style="margin-top:30px; margin-left:430px; align-items: flex-end; margin-bottom:50px;">
-                                        <%--  <input type="hidden" id="tableData" name="tableData" value="">--%>
-                                        <input type="hidden" id="prdIsdel" name="prdIsdel" value="N">
+                                    <div>
+                                        <div class="col-12"
+                                             style="margin-top:30px; margin-left:430px; align-items: flex-end; margin-bottom:50px;">
+                                            <%--  <input type="hidden" id="tableData" name="tableData" value="">--%>
+                                            <input type="hidden" id="prdIsdel" name="prdIsdel" value="N">
 
-                                        <button type="submit" name="formSubmitButton"
-                                                class="btn btn-primary submitproduct">
-                                            <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
-                                        </button>
+                                            <button type="submit" name="formSubmitButton"
+                                                    class="btn btn-primary submitproduct">
+                                                <i class="ti-save-alt" style="margin-right:10px;"></i> 저장
+                                            </button>
+                                        </div>
+                                        <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
                                     </div>
-                                    <%--                                        <input type="submit" class="btn btn-outline-success" value="저장">--%>
                                 </div>
+
                             </div>
 
                             <script>
@@ -1592,6 +1593,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
+
+
                                     ${path}/logistics/inventory/list/delete" method="post" style="display: none;"> <input type="hidden" name="pub_id" id="deleteId"> </form> <button type="button" onclick="confirmDeletion(this,' + selectKey + ')" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제 </button>']);*/
 
                                     var pubName;
@@ -1722,6 +1726,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
 
+
+
+
                             ${path}/logistics/inventory/endwrite", {
                                     method: "POST",
                                     headers: {
@@ -1747,6 +1754,9 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
                             } else {
                                 fetch("
+
+
+
 
 
 

@@ -136,15 +136,15 @@
 									<input type="hidden" name="DOC_CONT" value="" id="DOC_CONT"/>
 									<input type="hidden" name="DOC_STATCD" value="" id="DOC_STATCD"/>
 
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <h4 class="box-title">본문</h4>
+                                        <div id="tagCont">
                                     <div class="box-header">
                                         <h4 class="box-title">제목<br>
                                             <input type="text" name="DOC_TITLE" class="form-control" style="width: 500px">
                                         </h4>
                                     </div> 
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
-                                        <h4 class="box-title">본문</h4>
-                                        <div id="tagCont">
                                         <table>
 							                <thead>
 							                <tr>
@@ -219,6 +219,8 @@
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
                             
                             <button class="btn btn-primary" id="submitSave">임시저장</button>
+                            
+                            <button class="btn btn-primary" id="selectSaves"><c:out value="${saveCount }"/></button>
                             </div>
                             
                         </div>
@@ -236,7 +238,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="myBtn"></button>
                         </div>
                         <div class="modal-body">
-                            <div id="flex-cotainer" style="display: flex">
+                            <div id="flex-cotainer" style="display: flex;margin-right: 2px">
                                 <div class="multinav-scroll" style="height: 97%;">
                                     <!-- sidebar menu-->
                                     <ul class="sidebar-menu" data-widget="tree">
@@ -280,10 +282,10 @@
                                 <div id="btn-container" class="">
                                     <div class="col-12">
                                         <div class="">
-                                            <div class="box-header with-border">
+                                            <div class="box-header" style="margin-top: -11px">
                                                 <h1 class="box-title text-primary" id="peo-heder">People</h1>
                                             </div>
-                                            <div class="column" id="dep-container">
+                                            <div class="column" id="dep-container" style="margin-top: -12px">
                                                 <!--인원들출력란  -->
                                             </div>
                                         </div>
@@ -291,12 +293,12 @@
                                 </div>
                                 <div>
                                     <h1 style="position: static; margin-right: 40px">결재자</h1>
-                                    <div class="column" style="width: 100%; height: 70%" id="aprv">
+                                    <div class="column" style="width: 100%; height: 100%" id="aprv">
                                     </div>
                                 </div>
                                 <div>
                                     <h1 style="position: static;">참조자</h1>
-                                    <div class="column" style="width: 100%; height: 70%;border: 2px"  id="reader">
+                                    <div class="column" style="width: 100%; height: 100%;border: 2px"  id="reader">
                                     </div>
                                 </div>
                             </div>
@@ -320,6 +322,19 @@
 </div>
 </div>
 <!-- /.content-wrapper -->
+<div id="saveLists" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none; width: 100%">
+		   <div class="modal-dialog modal-lg">
+			   <div class="modal-content" style="background-color: white;">
+		           <div class="modal-header">
+		               <h4 class="modal-title" id="myLargeModalLabel">임시저장</h4> 	
+		           </div>
+		           <div class="modal-body" id="savemodalbody">
+		        		
+		           </div>
+		       </div>
+		   </div>
+		</div>
+
 <script>
     //태그선택하게하기
     function tagSelect() {
@@ -353,7 +368,16 @@
                 </tr>
                 <tr>
                     <td>휴가종류</td>
-                    <td>[사용할 휴가의 종류]</td>
+                    <td>
+                    	<input name="DOC_TITLE" type="radio" id="연차" class="" value="연차"/>
+                        <label for="연차">연차 
+                        &nbsp;
+                        <input name="DOC_TITLE" type="radio" id="병가" class="" value="병가"/>
+                        <label for="병가">병가
+                        &nbsp;
+                        <input name="DOC_TITLE" type="radio" id="경조사" class="" value="경조사"/>
+                        <label for="경조사">경조사
+                    </td>
                 </tr>
                 <tr>
                     <td>휴가사유</td>
@@ -366,7 +390,7 @@
             </tbody>
         </table>`;
         document.getElementById("DOC_TAG").value=1;
-        var startDate = "${startDate}" ;
+        var startDate = "${startDate}";
     	document.getElementById("startDate").innerHTML = startDate;
     	var endDate="${endDate}";
     	document.getElementById("endDate").innerHTML = endDate;
@@ -404,12 +428,14 @@
             },
             success: function(data) {
                 var html = '';
+                var path = "${path}";
                 for (var i = 0; i < data.length; i++) {
                     html += '<div class="column">'
                     html += '<button class="draggable" draggable="true">'
                     html += '<div class="d-flex align-items-center mb-30">'
                     html += '<div class="me-15">'
-                    /* html += '<img src="../../../images/avatar/1.jpg" class="avatar avatar-lg rounded10" alt="" />' */
+                    html += '<img src=${path}/resources/upload/profile/rocket20240122_15243028864_288.jpg class="avatar avatar-lg rounded10" alt="사진" />'
+                    //data[i].EMP_FILE
                     html += '</div>'
                     html += '<div class="d-flex flex-column fw-500" style="width: 100px;height:50px">'
                     html += '<p  class="text-dark hover-primary mb-1 fs-16">' + data[i].EMP_NAME + '</p>'
@@ -619,11 +645,11 @@ $('#submitSave').click(function(e) {
         type: 'POST',
         url: '${path}/docu/save',
         data: $('#form1').serialize(),
-       /*  console.log(data);, */
+       
         dataType:"text",
         success: function(response) {
             // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
-            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            
             if(response==="저장실패"){
             	alert('저장실패')	
             }else{
@@ -639,24 +665,40 @@ $('#submitSave').click(function(e) {
 
 <script>
 const saveFile= "${saveFile}";
-document.addEventListener('DOMContentLoaded', (event) => {
-	
-	
-	
-	if(saveFile!="null"){
-		if(confirm('임시저장된 파일이있습니다 이동하시겠습니까?')){
-		
-		window.location.href=`${path}/docu/aprv/savefile`;
-		
-		}
-		
-	}
 
-	
+document.addEventListener('DOMContentLoaded', (event) => {
+    if(saveFile!="null") {
+        if(confirm('${uDate}'+'에 저장된 문서가있습니다 이어서 작성하시겠습니까?')) {
+            window.location.href=`${path}/docu/aprv/savefile`;
+        }
+    }
+});
+</script>
+<script>
+var path = "${path}";
+$(document).ready(function(){
+    $('#selectSaves').click(function(){
+        $.ajax({
+            url: `${path}/docu/savefilelists`,
+            type: 'GET',
+            success: function(response) {
+                $('#savemodalbody').empty();  // savemodalbody의 내용을 초기화
+                $.each(response, function(i, item) {
+                    console.log('U_DATE:', item['U_DATE']);  // U_DATE 값 출력
+                    console.log('DOC_TITLE:', item['DOC_TITLE']);  // DOC_TITLE 값 출력
+                    var date = item['U_DATE'];
+                    var title = item['DOC_TITLE'];
+                    var docNo = item['DOC_NO'];  // docNo 값을 가져옵니다.
+                    console.log(docNo);
+                    console.log(typeof docNo);
+                    $('#savemodalbody').append('<a href="'+ path + '/docu/save/' + docNo +'">'+ date +' '+ title +'</a><br/>');
+                });
+                $('#saveLists').modal('show');
+            }
+        });
+    });
 });
 
-
 </script>
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

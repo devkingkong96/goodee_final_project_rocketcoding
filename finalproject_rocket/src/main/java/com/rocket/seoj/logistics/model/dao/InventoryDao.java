@@ -23,8 +23,8 @@ import java.util.Map;
 @Slf4j
 public class InventoryDao {
 
-    public List<Map<String, Object>> selectAllInventories(SqlSession session) {
-        return session.selectList("inventory.selectAllInventories");
+    public List<Map<String, Object>> selectAllInventories(SqlSession session, int branchId) {
+        return session.selectList("inventory.selectAllInventories", branchId);
     }
 
     public int updateColumn(SqlSession session,
@@ -46,8 +46,8 @@ public class InventoryDao {
         params.put("parentColumnName", parentColumnName);
         params.put("columnId", columnId);
 
-        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
-                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
+//        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
+//                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
 
         try {
 
@@ -104,7 +104,7 @@ public class InventoryDao {
         List<Integer> result = new ArrayList<>();
         for (PrdInventory prdIv : prdInventory) {
             int resultOne = session.insert("prdinventory.insertPrdInventory", prdIv);
-            log.debug("ㄴㄴㄴㄴㄴㄴㄴㄴresultOneㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ " + resultOne);
+//            log.debug("ㄴㄴㄴㄴㄴㄴㄴㄴresultOneㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ " + resultOne);
             result.add(resultOne);
         }
         return result;
@@ -118,8 +118,8 @@ public class InventoryDao {
         return session.selectList("branch.branchempinfo", branchId);
     }
 
-    public List<Map<String, Object>> getEmpListByemployeeId(SqlSession session, long branchId) {
-        return session.selectList("inventory.employeeListInBranch", branchId);
+    public List<Map<String, Object>> getEmpListByemployeeId(SqlSession session) {
+        return session.selectList("inventory.employeeListInBranch");
     }
 
     public List<Map<String, Object>> selectAllProduct(SqlSession session) {

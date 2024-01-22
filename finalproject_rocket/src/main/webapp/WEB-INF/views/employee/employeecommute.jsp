@@ -10,23 +10,8 @@
 	.box-body .row {
 	    align-items: center; /* 세로축에서 중앙 정렬 */
 	}
-    .clock-container {
-	    background-color: #333; /* 배경색 */
-	    color: #fff; /* 글자색 */
-	    padding: 20px; /* 패딩 */
-	    border-radius: 8px; /* 모서리 둥글기 */
-	    margin-top: 10px; /* 위쪽 여백 */
-	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
-	    text-align: center; /* 텍스트 중앙 정렬 */
-	    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 글꼴 */
-	    font-size: 2em; /* 글자 크기 */
-	    display: flex; /* Flexbox를 사용하여 내용 중앙 정렬 */
-	    justify-content: center; /* 가로축에서 중앙 정렬 */
-	    align-items: center; /* 세로축에서 중앙 정렬 */
-	    height: 100px; /* 높이 설정 */
-	}
 	.custom-font {
-        font-size: 1.2em; /* 이 값을 조절하여 원하는 크기로 설정하세요. */
+        font-size: 1.1em; /* 이 값을 조절하여 원하는 크기로 설정하세요. */
         font-weight: bold; /* 'bold'는 두껍게, 'normal'은 일반적으로 설정합니다. */
     }
     .custom-table {
@@ -229,7 +214,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/employeeCalendar',
             method: 'get',
-            data: dataToSend,
+            data: dataToSend,/*  */
             success: function(byname) {
                 console.log(byname);
                 $('#empName').text(byname['EMP_NAME']);
@@ -272,6 +257,8 @@ $(document).ready(function() {
                 success: function(data) {
                 	var events = data.map(function(event) {
                         var color;
+                        var endDate = new Date(event.END_DAY);
+                        endDate.setDate(endDate.getDate() + 1);
                         switch(event.STATUS) {
                             case '지각':
                                 color = 'red';
@@ -291,7 +278,7 @@ $(document).ready(function() {
                         return {
                             title: event.STATUS,
                             start: event.START_DAY,
-                            end: event.END_DAY,
+                            end: endDate.toISOString().split('T')[0], // ISO 문자열로 변환하고 시간 부분을 제거합니다.
                             color: color
                         };
                     });

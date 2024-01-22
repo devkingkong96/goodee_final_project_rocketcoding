@@ -54,7 +54,7 @@ public class ProductController {
                                          @RequestParam("value") String value,
                                          @RequestParam("parentTableName") String parentTableName,
                                          @RequestParam("parentColumnName") String parentColumnName) throws DataAccessException {
-        log.debug("parentTableName : " + parentTableName);
+//        log.debug("parentTableName : " + parentTableName);
 
         String parentColumnId = tableIdColumnMap.get(parentTableName.toUpperCase());
         String columnId = tableIdColumnMap.get(tableName);
@@ -63,8 +63,8 @@ public class ProductController {
             value = value.toUpperCase();
         }
 
-        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
-                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
+//        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
+//                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
 
         log.debug("업데이트 실행합니다");
         int result = 0;
@@ -73,7 +73,7 @@ public class ProductController {
 
             result = service.updateColumn(id, columnName, tableName.toUpperCase(), value, parentTableName.toUpperCase(),
                                           parentColumnId, parentColumnName, columnId);
-            log.debug("result : " + result);
+//            log.debug("result : " + result);
 
             if (result > 0) {
 
@@ -97,7 +97,7 @@ public class ProductController {
     @PostMapping("product/list/delete")
     public ResponseEntity<?> isdelUpdateProduct(@RequestParam("prd_id") Long prdId) {
 
-        log.debug("딜리트: " + prdId);
+//        log.debug("딜리트: " + prdId);
         boolean deletionSuccess = service.isdelUpdateProduct(prdId);
 
 
@@ -139,7 +139,7 @@ public class ProductController {
 */
 
         long generatedId = service.insertProduct(formdata1);
-        log.debug("generatedIdsㄹㄹaaaㅁㅁㅁㅁㅁㅁㅁㅁsss : " + formdata1.getPrdId());
+//        log.debug("generatedIdsㄹㄹaaaㅁㅁㅁㅁㅁㅁㅁㅁsss : " + formdata1.getPrdId());
 
         Employee loginemp = (Employee)SecurityContextHolder
                 .getContext()
@@ -149,7 +149,7 @@ public class ProductController {
 
 
 //        log.debug("tableData: " + tableData[0]['prdId']);
-        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ말미ㅏㅇ미ㅏ이마임이ㅏㅁ라");
+//        log.debug("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ말미ㅏㅇ미ㅏ이마임이ㅏㅁ라");
 //        List<PrdInventory> prdInventoryList = convertJsonToPrdInventoryList(prdInventory);
 
         String path = session
@@ -226,9 +226,9 @@ public class ProductController {
 /*        long generatedId = service.insertInventory(formData);
         log.debug("generatedId: " + generatedId);*/
 
-        log.debug("fileList" + fileList
-                .getPrdAttach()
-                .size());
+//        log.debug("fileList" + fileList
+//                .getPrdAttach()
+//                .size());
         List<Integer> result2 = null;
         if (upFile != null) {
             for (PrdAttach attach : fileList.getPrdAttach()) {
@@ -240,7 +240,7 @@ public class ProductController {
             // 다수의 파일이면 LIST 쨰로 보냄
             result2 = service.insertProductAttach(fileList.getPrdAttach());
 
-            log.debug(String.valueOf(result2));
+//            log.debug(String.valueOf(result2));
         }
         for (Integer result : result2) {
             if (result == 0) {

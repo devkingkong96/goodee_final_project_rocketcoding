@@ -257,6 +257,16 @@ $(document).ready(function(){
 </div>
 <script>
 $(document).ready(function() {
+    var depName = '${loginEmp.dep.depName}';
+    if (depName === '인사팀') {
+        $('#updateEmployee').show(); 
+    } else {
+        $('#updateEmployee').hide();
+    }
+});
+</script>
+<script>
+$(document).ready(function() {
 	$('table tbody .editable').on('click', function() {
 		var empNo = $(this).find('td:eq(0)').text();
 		var empName = $(this).find('td:eq(1)').text();

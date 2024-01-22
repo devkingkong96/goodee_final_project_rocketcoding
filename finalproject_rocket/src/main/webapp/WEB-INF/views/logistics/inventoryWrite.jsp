@@ -529,6 +529,26 @@
         var prdTitleToIdMapString = '${jsonMap}';
         var prdTitleToIdMap = JSON.parse(prdTitleToIdMapString);
 
+        /*        for (var key in prdTitleToIdMap) {
+                    if (prdTitleToIdMap.hasOwnProperty(key)) {
+                        console.log("키:", key, "값:", prdTitleToIdMap[key]);
+                    }
+                }
+
+
+                var prdTitleToIdMapString2 = '
+        ${jsonMap2}';
+        var prdTitleToIdMap2 = JSON.parse(prdTitleToIdMapString2);
+        // 변환된 객체의 내용을 콘솔에 로그로 출력합니다.
+        console.log("변환된 객체:", prdTitleToIdMap2);
+
+        // 객체의 각 키와 값을 순회하며 출력합니다.
+        for (var key in prdTitleToIdMap2) {
+            if (prdTitleToIdMap2.hasOwnProperty(key)) {
+                console.log("키2:", key, "값2:", prdTitleToIdMap2[key]);
+            }
+        }*/
+
         var table = $('#example1').DataTable();
         console.log("prdTitleToIdMap: " + prdTitleToIdMap);
 
@@ -605,8 +625,9 @@
             /*            var some = document.querySelector('.selectbook-form-label').textContent = selectedBook;
                         console.log(some);*/
 
+
             var rowData = table.row(rowIndex).data();
-            rowData[2] = '<label class="form-label" style="display:none;">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option>' + selectedText + '</option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>';
+            rowData[2] = '<label class="form-label" style="display:none;">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option>' + selectedText + '</option><c:forEach var="entry" items="${selectAllProduct }"><c:if test="${entry.PRD_ID != null}"><option value="${entry.PRD_ID}">${entry.PRD_TITLE}</option></c:if></c:forEach> </select>';
             console.log("rowData[2]: " + rowData[2]);
             /*            var rowData = table.row(0)[2];
                         console.log("rowData: " + rowData);*/
@@ -684,7 +705,7 @@
             /*            var currentButtonRow = $(this).attr('id').closest('tr');*/
 
 
-            var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label" style="display:none";>도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option><c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="${entry.value}"> ${entry.key}</option></c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
+            var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label" style="display:none";>도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option><c:forEach var="entry" items="${selectAllProduct }"><c:if test="${entry.PRD_ID != null}"><option value="${entry.PRD_ID}">${entry.PRD_TITLE}</option></c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
 
 
             var firstRowChooseBook = $('#example1 tbody tr:first .choosebook');
@@ -856,7 +877,7 @@
                     <div class=" connectedSortable">
                         <form name="insertinventory" id="insertinventory"
                         <%-- method="post"--%> enctype="multipart/form-data">
-                            <div class="box">
+                            <div class="box box-slided-up">
                                 <div class="box-header with-border">
                                     <h4 class="box-title"><i class="ti-agenda"></i> 입/출고 등록</h4>
 

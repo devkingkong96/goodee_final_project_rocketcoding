@@ -19,6 +19,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -91,9 +92,9 @@ public class StompChatController {
 		//result.add(Map.of("type","ROOMINVITE"));
 		responseData.put("type","ROOMINVITE");
 		
-		log.info("delresult:{}",param.get("delEmps").getClass());
+		log.info("delresult:{}",param.get("delEmps"));
 		//대화방에서 초대된 직원 목록에서 없애기
-		if(param.get("delEmps")!=null) {
+		if(ObjectUtils.isEmpty(param.get("delEmps"))) {
 			responseData.put("delEmps", param.get("delEmps"));
 		}
 		

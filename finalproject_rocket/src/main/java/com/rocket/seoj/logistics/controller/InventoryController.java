@@ -83,7 +83,7 @@ public class InventoryController {
                                          @RequestParam("value") String value,
                                          @RequestParam("parentTableName") String parentTableName,
                                          @RequestParam("parentColumnName") String parentColumnName) throws DataAccessException {
-        log.debug("parentTableName : " + parentTableName);
+//        log.debug("parentTableName : " + parentTableName);
 
         String parentColumnId = tableIdColumnMap.get(parentTableName.toUpperCase());
         String columnId = tableIdColumnMap.get(tableName);
@@ -92,8 +92,8 @@ public class InventoryController {
             value = value.toUpperCase();
         }
 
-        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
-                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
+//        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
+//                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
 
         log.debug("업데이트 실행합니다");
         int result = 0;
@@ -102,7 +102,7 @@ public class InventoryController {
 
             result = service.updateColumn(id, columnName, tableName.toUpperCase(), value, parentTableName.toUpperCase(),
                                           parentColumnId, parentColumnName, columnId);
-            log.debug("result : " + result);
+//            log.debug("result : " + result);
 
             if (result > 0) {
 
@@ -132,7 +132,7 @@ public class InventoryController {
                     .noContent()
                     .build();
         }
-        log.debug("brcInfo: {}", empInfoBybrc);
+//        log.debug("brcInfo: {}", empInfoBybrc);
         return ResponseEntity.ok(empInfoBybrc);
 
     }
@@ -147,7 +147,7 @@ public class InventoryController {
                     .noContent()
                     .build();
         }
-        log.debug("prdInfo: {}", prdInfo);
+//        log.debug("prdInfo: {}", prdInfo);
         return ResponseEntity.ok(prdInfo);
 
     }
@@ -216,7 +216,7 @@ public class InventoryController {
 */
         formData.setSendEmpId(loginemp.getEmpNo());
         long generatedId = service.insertInventory(formData);
-        log.debug("generatedId: " + generatedId);
+//        log.debug("generatedId: " + generatedId);
 
 
         List<InventoryAttach> fileList = new ArrayList<>();
@@ -250,9 +250,9 @@ public class InventoryController {
                 }
             }
         }
-        log.debug("컨트롤러 inv : " + inv);
-        log.debug("컨트롤러 invAttach : " + invAttach);
-        log.debug("컨트롤러 formData : " + formData);
+//        log.debug("컨트롤러 inv : " + inv);
+//        log.debug("컨트롤러 invAttach : " + invAttach);
+//        log.debug("컨트롤러 formData : " + formData);
 //        log.debug("formDataJson: " + (String)formData);
 //        log.debug("컨트롤러 tableData: " + tableData);
 
@@ -261,7 +261,7 @@ public class InventoryController {
         formData.setSendBrcId((long)loginemp.getBranchId());
 
 
-        log.debug("fileList" + fileList.size());
+//        log.debug("fileList" + fileList.size());
         List<Integer> result2 = null;
         if (upFile != null) {
             for (InventoryAttach attach : fileList) {
@@ -345,14 +345,15 @@ public class InventoryController {
                 .getPrincipal();
         model.addAttribute("loginemp", loginemp);
 
-        List<Map<String, Object>> empListByemployeeId = service.getEmpListByemployeeId(loginemp.getBranchId());
+        List<Map<String, Object>> empListByemployeeId = service.getEmpListByemployeeId();
         List<Map<String, Object>> branchList = service.selectAllBranch();
-        System.out.println(branchList.size());
+//        System.out.println(branchList.size());
         List<Map<String, Object>> writeInventoryItem = service.selectWriteInventory();
         List<Map<String, Object>> selectAllProduct = service.selectAllProduct();
 
         Map<Object, Object> prdTitleToIdMap = new HashMap<>(); // PRD_TITLE을 키로, PRD_ID를 값으로 하는 맵
         Set<Object> prdTitles = new HashSet<>(); // 중복 제거를 위한 Set
+
 
         for (Map<String, Object> item : writeInventoryItem) {
             Object title = item.get("PRD_TITLE");
@@ -372,6 +373,39 @@ public class InventoryController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
+
+/*        // 각 Map의 모든 키-값 쌍을 반복하여 출력
+        for (Map<String, Object> productMap : selectAllProduct) {
+            System.out.println("----- New Product Map -----");
+            for (Map.Entry<String, Object> entry : productMap.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                log.error("key : {}, value : {}", key, value);
+            }
+        }
+
+
+        Map<Object, Object> prdTitleToIdMap2 = new HashMap<>(); // PRD_TITLE을 키로, PRD_ID를 값으로 하는 맵
+        Set<Object> prdTitles2 = new HashSet<>(); // 중복 제거를 위한 Set
+        for (Map<String, Object> item : selectAllProduct) {
+            Object title = item.get("PRD_TITLE");
+            Object id = item.get("PRD_ID");
+            if (title != null && prdTitles2.add(title)) {
+                prdTitleToIdMap2.put(title, id);
+            }
+
+        }
+
+        ObjectMapper prdTitleToJson2 = new ObjectMapper();
+
+        try {
+            String jsonMap2 = prdTitleToJson2.writeValueAsString(prdTitleToIdMap2);
+            log.error("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ" + jsonMap2);
+            model.addAttribute("jsonMap2", jsonMap2);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }*/
         model.addAttribute("selectAllProduct", selectAllProduct);
         model.addAttribute("empListByemployeeId", empListByemployeeId);
         model.addAttribute("branchList", branchList);
@@ -385,7 +419,15 @@ public class InventoryController {
     public String selectAllInventories(Model model) {
 		/*		List<Map> inventories = service.selectAllInventories();
 				model.addAttribute("inventories", inventories);*/
-        List<Map<String, Object>> inventories = service.selectAllInventories();
+
+        Employee loginemp = (Employee)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        model.addAttribute("loginemp", loginemp);
+
+
+        List<Map<String, Object>> inventories = service.selectAllInventories(loginemp.getBranchId());
 
         // iv_id 중복 제거를 위한 코드
         Set<Object> uniqueIvIds = new HashSet<>();
@@ -431,10 +473,15 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/inventories")
+/*    @GetMapping("/inventories")
     @ResponseBody
-    public List<Map<String, Object>> getInventories() {
-        List<Map<String, Object>> items = service.selectAllInventories();
+    public List<Map<String, Object>> getInventories(Model model) {
+        Employee loginemp = (Employee)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        model.addAttribute("loginemp", loginemp);
+        List<Map<String, Object>> items = service.selectAllInventories(loginemp.getBranchId());
 
         for (Map<String, Object> item : items) {
 
@@ -449,7 +496,7 @@ public class InventoryController {
         }
 
         return items;
-    }
+    }*/
 
     public String clobToString(Clob data) {
         StringBuilder sb = new StringBuilder();

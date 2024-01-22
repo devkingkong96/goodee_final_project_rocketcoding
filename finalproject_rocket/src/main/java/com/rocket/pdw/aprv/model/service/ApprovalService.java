@@ -25,4 +25,10 @@ public interface ApprovalService {
 	
 	int saveDocu(Map<String,Object>reqAll);
 	
+	int deleteSaveFile();
+	
+	List<Map<String,Object>> selectSaveList (int no);
+	
+	int countSaveList(int no);
+	
 }

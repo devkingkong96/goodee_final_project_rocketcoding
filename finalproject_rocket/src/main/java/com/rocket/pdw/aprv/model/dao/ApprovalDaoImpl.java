@@ -195,6 +195,26 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		return session.selectList("approval.cheackSaveFile",no);
 	}
 
+	@Override
+	public int deleteSaveFile(SqlSession session) {
+		
+		return session.delete("approval.deleteSaveFile");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSaveList(SqlSession session, int no) {
+		
+		return session.selectList("approval.selectSaveList",no);
+	}
+
+	@Override
+	public int countSaveList(SqlSession session, int no) {
+		
+		return session.selectOne("approval.countSaveList",no);
+	}
+	
+	
+
 	
 	
 }

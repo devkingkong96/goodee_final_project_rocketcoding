@@ -17,7 +17,7 @@
 
 <%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param name="title" value="입/출고 등록"/>
+    <jsp:param name="title" value="지점별 재고 현황 검색"/>
 </jsp:include>
 
 <script type="text/javascript"
@@ -594,7 +594,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="${path}/"> <i
                                             class="mdi mdi-home-outline"></i></a></li>
-                                    <li class="breadcrumb-item" aria-current="page">물류 관리</li>
+                                    <li class="breadcrumb-item" aria-current="page">재고 관리</li>
                                     <li class="breadcrumb-item active" aria-current="page">지점별 재고 현황 검색
                                     </li>
                                 </ol>
@@ -708,7 +708,7 @@
                                     <%--                                        ${empListByemployeeId }--%>
 
                                     <div class="col-lg-5 col-12" style="margin:5px; margin-top:20px;">
-                                        <label class="form-label"><i class="si-user si"></i>
+                                        <label class="form-label"><i class="ti-package"></i>
                                             품목</label>
                                         <%--    <select
                                                     class="form-control select2" name="recieveEmpId" multiple="multiple"
@@ -1340,7 +1340,13 @@
 
 
 
+
+
+
                                 ${path}/logistics/stock/daybystock?
+
+
+
 
 
 
@@ -1408,6 +1414,9 @@
                             })*/
                                 /*} else {
                                     fetch("
+
+
+
 
 
 

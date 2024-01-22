@@ -24,4 +24,6 @@ public class ChatMessage {
 	private String msgFiReName; //수정 전 파일명
 	private String msgDelChck; //삭제여부
 	private String type; // ENTER,UPFILE,TALK
+	private String depName; // 부서 이름
+	private String empLv; // 직급
 }

@@ -58,7 +58,7 @@ public class InventoryService {
         int inventoryDeleteResult = dao.deleteInventoryColumn(session, inventoryId);
 
         // if문으로 감싸줘야함
-        log.debug("inventoryDeleteResult " + inventoryDeleteResult);
+//        log.debug("inventoryDeleteResult " + inventoryDeleteResult);
 
         if (inventoryDeleteResult > 0) {
             return true;

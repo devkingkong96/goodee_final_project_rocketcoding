@@ -52,4 +52,12 @@ public class ChatService {
 	public List<Map<String, Object>>modalSearch(Map<String, Object> param){
 		return dao.modalSearch(session,param);
 	}
+	//ajax 채팅리스트 채팅방 목록 검색
+	public List<Map<String, Object>>roomListSearch(Map<String, Object> param){
+		return dao.roomListSearch(session,param);
+	}
+	//ajax 채팅리스트 직원 목록 검색
+	public List<Map<String, Object>>empListSearch(Map<String, Object> param){
+		return dao.empListSearch(session,param);
+	}
 }

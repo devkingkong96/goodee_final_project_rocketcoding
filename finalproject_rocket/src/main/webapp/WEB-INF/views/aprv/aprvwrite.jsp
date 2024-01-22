@@ -136,15 +136,15 @@
 									<input type="hidden" name="DOC_CONT" value="" id="DOC_CONT"/>
 									<input type="hidden" name="DOC_STATCD" value="" id="DOC_STATCD"/>
 
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <h4 class="box-title">본문</h4>
+                                        <div id="tagCont">
                                     <div class="box-header">
                                         <h4 class="box-title">제목<br>
                                             <input type="text" name="DOC_TITLE" class="form-control" style="width: 500px">
                                         </h4>
                                     </div> 
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
-                                        <h4 class="box-title">본문</h4>
-                                        <div id="tagCont">
                                         <table>
 							                <thead>
 							                <tr>
@@ -218,7 +218,9 @@
                                 </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
                             
-                            <button class="btn btn-primary" id="submitSave">임시저장</button>
+                            <button class="btn btn-primary" id="submitSave">임시저장></button>
+                            ||
+                            <button id="selectSaves"><c:out value="${saveCount }"/></button>
                             </div>
                             
                         </div>
@@ -320,6 +322,14 @@
 </div>
 </div>
 <!-- /.content-wrapper -->
+<div id="saveLists"class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none; width: 100%">
+                <div class="modal-dialog modal-lg">
+                <div>
+                test
+                </div>
+               </div>
+                </div>
+
 <script>
     //태그선택하게하기
     function tagSelect() {
@@ -353,7 +363,16 @@
                 </tr>
                 <tr>
                     <td>휴가종류</td>
-                    <td>[사용할 휴가의 종류]</td>
+                    <td>
+                    	<input name="DOC_TITLE" type="radio" id="1" class="radio-col-danger" value="연차"/>
+                        <label for="1">연차 
+                        &nbsp;
+                        <input name="DOC_TITLE" type="radio" id="2" class="radio-col-danger" value="병가"/>
+                        <label for="2">병가
+                        &nbsp;
+                        <input name="DOC_TITLE" type="radio" id="3" class="radio-col-danger" value="경조사"/>
+                        <label for="3">경조사
+                    </td>
                 </tr>
                 <tr>
                     <td>휴가사유</td>
@@ -366,7 +385,7 @@
             </tbody>
         </table>`;
         document.getElementById("DOC_TAG").value=1;
-        var startDate = "${startDate}" ;
+        var startDate = "${startDate}";
     	document.getElementById("startDate").innerHTML = startDate;
     	var endDate="${endDate}";
     	document.getElementById("endDate").innerHTML = endDate;
@@ -619,11 +638,11 @@ $('#submitSave').click(function(e) {
         type: 'POST',
         url: '${path}/docu/save',
         data: $('#form1').serialize(),
-       /*  console.log(data);, */
+       
         dataType:"text",
         success: function(response) {
             // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
-            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            
             if(response==="저장실패"){
             	alert('저장실패')	
             }else{
@@ -642,13 +661,32 @@ const saveFile= "${saveFile}";
 
 document.addEventListener('DOMContentLoaded', (event) => {
     if(saveFile!="null") {
-        if(confirm('임시저장된 파일이있습니다 이동하시겠습니까?')) {
+        if(confirm('${uDate}'+'에 저장된 문서가있습니다 이어서 작성하시겠습니까?')) {
             window.location.href=`${path}/docu/aprv/savefile`;
         }
     }
 });
 </script>
+<script>
+$(document).ready(function(){
+    $('#selectSaves').click(function(){
+        $.ajax({
+            url: `${path}/docu/savefilelists`,
+            type: 'GET',
+            success: function(response) {
+            	
 
-
+                // 모달창을 띄웁니다.
+                $('#saveLists').modal('show');
+                
+            },
+            error: function(error) {
+                
+                console.log(error);
+            }
+        });
+    });
+});
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

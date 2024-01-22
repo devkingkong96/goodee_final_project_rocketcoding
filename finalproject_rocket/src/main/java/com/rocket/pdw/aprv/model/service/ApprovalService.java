@@ -27,4 +27,8 @@ public interface ApprovalService {
 	
 	int deleteSaveFile(int no);
 	
+	List<Map<String,Object>> selectSaveList (int no);
+	
+	int countSaveList(int no);
+	
 }

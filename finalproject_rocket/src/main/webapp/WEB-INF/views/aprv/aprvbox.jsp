@@ -28,10 +28,17 @@
 	         	<tr style="cursor: pointer;" onclick="window.location.href='${path}/docu/aprv/' + ${l.DOC_NO}">
 	         	<td><c:out value="${l.DOC_NO }"/></td>
 	         	<td><c:out value="${l.DOC_TITLE }"/></td>
-	         	<td><c:out value="${l.EMP_NO }"/></td>
+	         	<td><c:out value="${l.EMP_NAME }"/></td>
 	         	<td><c:out value="${l.START_DATE }"/></td>
 	         	<td><c:out value="${l.U_DATE }"/></td>
-	         	<td><c:out value="${l.DOC_TAG }"/></td>
+	         	<td>
+				    <c:if test="${l.DOC_TAG eq 1}">
+				    	휴가신청
+				    </c:if>
+				    <c:if test="${l.DOC_TAG eq 2}">
+				    	재고관리요청
+				    </c:if>
+				    </td>
 	         </tr>
 	         </c:forEach>
 	         </c:if>

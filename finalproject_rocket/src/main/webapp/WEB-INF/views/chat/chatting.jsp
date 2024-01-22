@@ -73,9 +73,9 @@
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				<div class="col-lg-10 col-10">
+				<div class="col-lg-10 col-12">
 					<div class="row">
-						<div class="col-xxxl-8 col-lg-8 col-8">
+						<div class="col-xxxl-8 col-lg-8 col-12">
 							<div class="box">
 							  <div class="box-header">
 								<div class="media align-items-top p-0">
@@ -87,7 +87,7 @@
 											<p class="fs-16">
 											  <a class="hover-primary" href="#"><strong><c:out value="${room.CHATROOM_NAME }"/></strong></a>
 											</p>
-											  <p class="fs-12">채팅방 인원 수 : <c:out value="${room.EMP_COUNT }"/></p>
+											  <p class="fs-12" id="numOfChatRoom">채팅방 인원 수 : <c:out value="${num}"/></p>
 										</div>
 										<div>
 											<ul class="box-controls pull-right">
@@ -138,10 +138,10 @@
 												</c:when>
 												<c:when test="${not empty msg.MSG_FI_RENAME && msg.MSG_EMP_NO!=empinfo.EMP_NO}">
 													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
-													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="window.location.replace('${path}/chat/file/download?reName=${msg.MSG_FI_RENAME }&oriName=${msg.MSG_FI_ORINAME }')"></button>
 												</c:when>
 												<c:otherwise>
-													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="window.location.replace('${path}/chat/file/download?reName=${msg.MSG_FI_RENAME }&oriName=${msg.MSG_FI_ORINAME }')"></button>
 													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
 												</c:otherwise>
 											</c:choose>
@@ -178,7 +178,7 @@
 							  </div>
 							</div>
 						</div>
-						<div class="col-lg-4 col-4">
+						<div class="col-lg-4 col-12">
                         <div class="box">
                             <div class="box-header">
                             	<div class="row">
@@ -256,10 +256,10 @@
                                         <img src="${path}/resources/images/avatar/1.jpg" alt="...">
                                       </p>
                                    <div class="media-body">
-                                      <p class="fs-20" id="chatEmpName">
+                                      <p class="fs-20">
                                         <c:out value="${e.EMP_NAME }"/>
                                       </p>
-                                      <p id="chatEmpLv"><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
+                                      <p><c:out value="${e.EMP_LV }"/> / <c:out value="${e.DEP_NAME }"/></p>
                                    </div>
                                    <input type="checkbox" id="emp${e.EMP_NO }" class="filled-in chk-col-primary" name="plustempCheck" value="${e.EMP_NO}"/>
 								   <label for="emp${e.EMP_NO }"> </label>
@@ -323,9 +323,27 @@
   				console.dir(chat.type);
   				
   				if(chat.type==="LEAVEROOM"){
+  					var data={roomId:roomId}
+  					$.ajax({
+  		  				type:'POST',
+  		  				url:'${path}/chat/room/numOfChatRoom',
+  		  				data:JSON.stringify(data),
+  		  				dataType:"json",
+						contentType:"application/json",
+  		  				success(data){
+  		  					document.getElementById('numOfChatRoom').innerHTML="채팅방 인원 수 : " + data;
+  		  				},
+  		  				error:function(error){
+  		  					alert('에러:'+error);
+  		  				}
+  		  			});
   					var empNo = chat.msgEmpNo;
+  					var depName = chat.depName;
+  					var empLv = chat.empLv;
+  					var empName = chat.msgEmpName;
+  					
   					console.log("empNo:"+empNo);
-  					var parentDiv = document.getElementById('emplistDiv');
+  					
 						var delDiv = document.getElementById('attendlist'+empNo);
 						console.log("delDiv:"+delDiv);
 						/* parentDiv.removeChild(delDiv); */
@@ -337,7 +355,7 @@
 						// 방 나간 직원 초대 목록에 추가
   						var $chatbox = document.createElement('div');
   						$chatbox.classList.add('media-list', 'media-list-hover');
-  						$chatbox.id = 'emplist' + userno;
+  						$chatbox.id = 'emplist' + empNo;
 
   						// 내부 요소들 생성
 
@@ -356,22 +374,20 @@
 
   						var $empName = document.createElement('p');
   						$empName.classList.add('fs-20');
-  						$empName.id = 'chatEmpName' + userno;
-  						$empName.textContent = username;
+  						$empName.textContent = empName;
 
   						var $empLv = document.createElement('p');
-  						$empLv.id = 'chatEmpLv' + userno;
-  						$empLv.textContent = userlv + " / " + username;
+  						$empLv.textContent = empLv + " / " + empName;
 
   						var $checkbox = document.createElement('input');
   						$checkbox.type = 'checkbox';
-  						$checkbox.id = 'emp' + userno;
+  						$checkbox.id = 'emp' + empNo;
   						$checkbox.classList.add('filled-in', 'chk-col-primary');
   						$checkbox.name = 'plustempCheck';
-  						$checkbox.value = userno;
+  						$checkbox.value = empNo;
 
   						var $label = document.createElement('label');
-  						$label.setAttribute('for', 'emp' + userno);
+  						$label.setAttribute('for', 'emp' + empNo);
 
   						// 요소들을 적절한 구조로 추가
   						$avatar.appendChild($avatarImage);
@@ -389,6 +405,22 @@
   				}
   				
   				if(chat.type==="ROOMINVITE"){
+  					var data={roomId:roomId}
+  					$.ajax({
+  		  				type:'POST',
+  		  				url:'${path}/chat/room/numOfChatRoom',
+  		  				data:JSON.stringify(data),
+  		  				dataType:"json",
+						contentType:"application/json",
+  		  				success(data){
+  							console.log("꺄아악"+data);
+  		  					document.getElementById('numOfChatRoom').innerHTML="채팅방 인원 수 : " + data;
+  		  				},
+  		  				error:function(error){
+  		  					alert('에러:'+error);
+  		  				}
+  		  			});
+  					
   					document.getElementById('emplistDiv').innerHTML="";
   					chat.inPerson.forEach(map=>{
   					// 새로운 div 요소 생성
@@ -438,20 +470,18 @@
   						targetElement.appendChild($chatbox); 
   					});
   					
-  					if(!delEmps){
   					chat.delEmps.forEach((emp)=>{
-  						console.dir("emp 목록"+emp);
+  						console.log("삭제할 emp 목록"+emp);
   						var parentDiv = document.getElementById('inviteEmpList');
   						var delDiv = document.getElementById('emplist'+emp);
   						console.log("delDiv:"+delDiv);
   						/* parentDiv.removeChild(delDiv); */
   						
-  						if(delDiv.parentNode){
-  							delDiv.parentNode.removeChild(delDiv);
+  						if(delDiv){
+  							delDiv.remove();
   						}
   						
   					});
-  					}
   				}
   				//chat.forEach((map)=>{
   				//	console.dir(map);
@@ -667,7 +697,7 @@
   		  						$button.id = "downBtn";
   		  						$button.name = "downBtn";
   		  						$button.onclick = function() {
-  		  						  downloadFile(''+msgFiOriName+'', ''+msgFiReName+'');
+  		  							window.location.replace(`${path}/chat/file/download?reName=`+msgFiReName+`&oriName=`+msgFiOriName);
   		  						};
   		  				if(writer==userno){
 	  		  				$chatTextStart.appendChild($button);
@@ -874,7 +904,10 @@
 	  				var data={
 	  						msgRoomNo:roomId,
 	  						msgEmpNo:userno,
-	  						type:"LEAVEROOM"
+	  						type:"LEAVEROOM",
+	  						empLv:userlv,
+	  	  					depName:userdept,
+	  	  					msgEmpName:username
 	  				}
 	  				$.ajax({
 	  					url:'${path}/chat/room/'+roomId,
@@ -939,6 +972,7 @@
 	 	 	 	  						delEmps:emps,
 	 	 	 	  						type:'INVITE'
 	 	 	 	  						}
+		  						console.log("ajax안에서 emps확인"+data);
 		  						stomp.send('/pub/chat/invite',{},JSON.stringify(data));
 		  						/* stomp.send('/pub/chat/delete',{},JSON.stringify(res)); */
 		  				},

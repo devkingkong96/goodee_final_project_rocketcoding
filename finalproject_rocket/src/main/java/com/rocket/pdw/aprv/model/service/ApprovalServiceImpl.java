@@ -73,6 +73,16 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return dao.deleteSaveFile(session,no);
 	}
 	
+	@Override
+	public List<Map<String, Object>> selectSaveList(int no) {
+		
+		return dao.selectSaveList(session, no);
+	}
+	@Override
+	public int countSaveList(int no) {
+		// TODO Auto-generated method stub
+		return dao.countSaveList(session, no);
+	}
 	
 	
 	

@@ -37,6 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.ksj.chat.model.dto.ChatMessage;
+import com.rocket.ksj.chat.model.service.ChatRoomService;
 import com.rocket.ksj.chat.model.service.ChatService;
 import com.rocket.seoj.logistics.model.dto.InventoryAttach;
 
@@ -56,6 +57,7 @@ public class ChatController {
 
 	private final Gson gson;
 	private final ChatService service;
+	private final ChatRoomService roomService;
 	
 	
 	@GetMapping("/list")
@@ -118,12 +120,11 @@ public class ChatController {
 
 	}
 	
-	@PostMapping("/file/download")
-	@ResponseBody
-	public String chatFileDownload(@RequestBody ChatMessage message,HttpSession session,HttpServletResponse response)
+	@GetMapping("/file/download")
+	public void chatFileDownload(String oriName,String reName,HttpSession session,HttpServletResponse response)
 		throws ServletException, IOException{
-		String oriName=message.getMsgFiOriName();
-		String reName=message.getMsgFiReName();
+//		String oriName=message.getMsgFiOriName();
+//		String reName=message.getMsgFiReName();
 		
 		//파일 스트림 연결
 		//실제 경로 가져오기
@@ -134,7 +135,7 @@ public class ChatController {
 		BufferedInputStream bis=new BufferedInputStream(fis);
 		
 		//파일명 인코딩 처리
-		String encodingName=new String(reName.getBytes("UTF-8"),"ISO-8859-1");
+		String encodingName=new String(oriName.getBytes("UTF-8"),"ISO-8859-1");
 		
 		//응답 헤더 설정 -> contentType
 		response.setContentType("application/octet-stream");
@@ -188,11 +189,11 @@ public class ChatController {
 //		}
 		//Header 설정
 		
-		
-		String jsonString=gson.toJson("success");
-		return jsonString;
+//		
+//		String jsonString=gson.toJson("success");
+//		return jsonString;
 	}
-	
+	//채팅방 안에서 직원목록 검색
 	@PostMapping("/room/modalsearch")
 	@ResponseBody
 	public List<Map<String, Object>> modalSearch(@RequestBody Map<String, Object>param){
@@ -202,6 +203,33 @@ public class ChatController {
 		List<Map<String, Object>>result=service.modalSearch(param);
 		log.info("방 번호{}",result);
 		
+		return result;
+	}
+	//채팅 목록에서 채팅방 목록 검색
+	@PostMapping("/list/roomListSearch")
+	@ResponseBody
+	public List<Map<String, Object>> roomListSearch(@RequestBody Map<String, Object>param){
+		log.info("방 리스트 찾기{}",param);
+		
+		List<Map<String, Object>>result=service.roomListSearch(param);
+		return result;
+	}
+	
+	//채팅 목록에서 직원목록 검색
+	@PostMapping("/list/empListSearch")
+	@ResponseBody
+	public List<Map<String, Object>> empListSearch(@RequestBody Map<String, Object>param){
+		log.info("멤버리스트 찾기{}",param);
+		
+		List<Map<String, Object>>result=service.empListSearch(param);
+		return result;
+	}
+	//채팅방 인원수 가져오기
+	@PostMapping("/room/numOfChatRoom")
+	@ResponseBody
+	public int numOfChatRoom(@RequestBody Map<String, Object>param) {
+		log.info("방 번호 인원수 체크용 : {}",param.get("roomId"));
+		int result=roomService.numberOfChatRoom(Integer.parseInt((String)param.get("roomId")));
 		return result;
 	}
 	

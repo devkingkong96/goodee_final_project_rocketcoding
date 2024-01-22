@@ -56,7 +56,7 @@ public class StockController {
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
-            log.error("key : {}, value : {}", key, value);
+//            log.error("key : {}, value : {}", key, value);
             // 값이 String 배열인 경우 Arrays.toString()을 사용하여 출력
 /*            // 값이 String 배열인 경우 Arrays.toString()을 사용하여 출력
             if (value instanceof String[]) {
@@ -145,13 +145,13 @@ public class StockController {
 
         // 결과 출력 (예시)
         groupedBySendBrcIdAndPrdId.forEach((sendBrcId, prdIdMap) -> {
-            log.error("Send Branch ID: " + sendBrcId);
+//            log.error("Send Branch ID: " + sendBrcId);
             prdIdMap.forEach((prdId, records) -> {
-                log.error("  Product ID: " + prdId);
+//                log.error("  Product ID: " + prdId);
                 for (Map<String, Object> record : records) {
-                    log.error("    Stock Date: " + record.get("STK_DATE"));
+//                    log.error("    Stock Date: " + record.get("STK_DATE"));
                     // 다른 필드들 출력
-                    log.error("    Stock: " + record.get("STK_STOCK"));
+//                    log.error("    Stock: " + record.get("STK_STOCK"));
                     // 기타 필요한 필드들에 대한 로그 출력
                 }
             });
@@ -195,6 +195,7 @@ public class StockController {
 
         return "logistics/StockLedgerPage";
     }
+
 
     @RequestMapping("stock/searchledger")
     public String searchLedger(Model model) {
@@ -342,16 +343,16 @@ public class StockController {
         // daybyStockList의 각 항목에 대해 반복
         for (Map<String, Object> item : daybyStockList) {
             // 각 Map의 키-값 쌍에 대해 반복
-            log.error("================================================");
+//            log.error("================================================");
             for (Map.Entry<String, Object> entry : item.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
 
                 // 값이 String 배열인 경우 Arrays.toString()을 사용하여 출력
                 if (value instanceof String[]) {
-                    log.error("Key: " + key + ", Value: " + Arrays.toString((String[])value));
+//                    log.error("Key: " + key + ", Value: " + Arrays.toString((String[])value));
                 } else {
-                    log.error("Key: " + key + ", Value: " + value);
+//                    log.error("Key: " + key + ", Value: " + value);
                 }
             }
         }
@@ -426,9 +427,9 @@ public class StockController {
 
             // 값이 String 배열인 경우 Arrays.toString()을 사용하여 출력
             if (value instanceof String[]) {
-                log.error(key + ": " + Arrays.toString((String[])value));
+//                log.error(key + ": " + Arrays.toString((String[])value));
             } else {
-                log.error(key + ": " + value);
+//                log.error(key + ": " + value);
             }
         }
 

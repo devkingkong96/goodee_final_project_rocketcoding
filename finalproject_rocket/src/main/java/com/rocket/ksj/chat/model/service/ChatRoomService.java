@@ -31,6 +31,10 @@ public class ChatRoomService {
 	public Map<String, Object> selectRoomById(int roomNo){
 		return dao.selectRoomById(session,roomNo);
 	}
+	//해당 채팅방의 인원수 가져오기
+	public int numberOfChatRoom(int roomId) {
+		return dao.numberOfChatRoom(session,roomId);
+	}
 	//채팅방,채팅참여 중간 테이블 생성
 	@Transactional
 	public List<Object> createChatRoomAll(HashMap<String, Object>req) {

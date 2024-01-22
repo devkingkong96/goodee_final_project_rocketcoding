@@ -168,7 +168,7 @@
 				            <tbody>
 				                <tr>
 				                    <td>성명</td>
-				                    <td>${docu[0]['EMP_NO']}</td>
+				                    <td>${docu[0]['EMP_NAME']}</td>
 				                </tr>
 				                
                 <tr>

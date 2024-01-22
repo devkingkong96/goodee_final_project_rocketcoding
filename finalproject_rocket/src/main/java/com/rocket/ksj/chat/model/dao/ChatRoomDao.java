@@ -19,6 +19,10 @@ public class ChatRoomDao {
 	public Map<String, Object> selectRoomById(SqlSession session,int roomNo){
 		return session.selectOne("chatroom.selectRoomById",roomNo);
 	}
+	//해당 채팅방의 인원수 가져오기
+	public int numberOfChatRoom(SqlSession session,int roomId) {
+		return session.selectOne("chatroom.numberOfChatRoom",roomId);
+	}
 	//채팅방 이름으로 채팅방 생성
 	public int createChatRoom(SqlSession session,String roomName) {
 		return session.insert("chatroom.createChatRoom",roomName);
@@ -51,4 +55,16 @@ public class ChatRoomDao {
 	public int plusEmpChat(SqlSession session,Map<String, Object> param) {
 		return session.insert("empchat.plusEmpChat",param);
 	}
+	//채팅방 첫 생성 인원수 증가
+//	public int listEmpCountPlus(SqlSession session) {
+//		return session.update("empchat.listEmpCountPlus");
+//	}
+//	//채팅방 중간 테이블 생성 인원수 증가
+//	public int roomEmpCountPlus(SqlSession session,int roomId) {
+//		return session.update("empchat.roomEmpCountPlus",roomId);
+//	}
+//	//채팅방 나가기(인원수 감소)
+//	public int empCountMinus(SqlSession session,int roomId) {
+//		return session.update("empchat.empCountMinus",roomId);
+//	}
 }

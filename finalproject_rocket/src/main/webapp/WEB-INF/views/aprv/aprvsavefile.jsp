@@ -137,20 +137,20 @@
 									<input type="hidden" name="DOC_STATCD" value="2" id="DOC_STATCD"/>
 									<input type="hidden" name="DOC_NO" value="" id="DOC_NO"/>
 
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <h4 class="box-title">본문</h4>
+                                        <div id="tagCont">
                                     <div class="box-header">
                                         <h4 class="box-title">제목<br>
                                             <input type="text" name="DOC_TITLE" class="form-control" style="width: 500px">
                                         </h4>
                                     </div> 
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
-                                        <h4 class="box-title">본문</h4>
-                                        <div id="tagCont">
                                         <table>							
 											<c:if test="${saveFile[0]['DOC_TAG'] eq 2}" >							
 												<c:out value="${textData}" escapeXml="false"/>
 									  		</c:if>
-									  		</table> 
+									  	</table> 
  
                                         </div>
                                         
@@ -177,6 +177,10 @@
                                     </div> --%>
                                 </div>
                             <button class="btn btn-primary" id="submitAll">제출하기</button>
+                            
+                            <button class="btn btn-primary" id="submitSave">임시저장></button>
+                            ||
+                            <button id="selectSaves"><c:out value="${saveCount }"/></button>
                             </div>
                             
                         </div>
@@ -243,6 +247,7 @@
                                             </div>
                                             <div class="column" id="dep-container">
                                                 <!--인원들출력란  -->
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -278,6 +283,19 @@
 </div>
 </div>
 <!-- /.content-wrapper -->
+		<div id="saveLists" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none; width: 100%">
+		   <div class="modal-dialog modal-lg">
+			   <div class="modal-content" style="background-color: white;">
+		           <div class="modal-header">
+		               <h4 class="modal-title" id="myLargeModalLabel">임시저장</h4> 	
+		           </div>
+		           <div class="modal-body" id="savemodalbody">
+		        
+		           </div>
+		       </div>
+		   </div>
+		</div>
+
 <script>
     //태그선택하게하기
     function tagSelect() {
@@ -311,14 +329,23 @@
                 </tr>
                 <tr>
                     <td>휴가종류</td>
-                    <td>[사용할 휴가의 종류]</td>
+                    <td>
+                    	<input name="DOC_TITLE" type="radio" id="연차" class="radio-col-danger" value="연차"/>
+                        <label for="연차">연차 
+                        &nbsp;
+                        <input name="DOC_TITLE" type="radio" id="병가" class="radio-col-danger" value="병가"/>
+                        <label for="병가">병가
+                        &nbsp;
+                        <input name="DOC_TITLE" type="radio" id="경조사" class="radio-col-danger" value="경조사"/>
+                        <label for="경조사">경조사
+                   </td>
                 </tr>
                 <tr>
                     <td>휴가사유</td>
-                    <td><textarea id="varCont"></textarea></td>
+                    <td><textarea cols="80" rows="15" id="varCont" style="border: none;" class="form-control">${textData}</textarea></td>
                 </tr>
                 <tr style="height: 500px">
-                    <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
+                    <td colspan="2" style="text-align: center;" >상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
                     <%=strDate %></td>
                 </tr>
             </tbody>
@@ -340,10 +367,10 @@
                 values += children[i].innerHTML;
             }
             document.getElementById("DOC_CONT").value = values;
-			console.log(values);
+			
         } else {
             document.getElementById("contentContainer").style.display = "none";
-            document.getElementById("tagCont").innerHTML = "";
+            //document.getElementById("tagCont").innerHTML = "";
         }
     }
     
@@ -490,8 +517,7 @@
                 });
             }
         }
-        console.log(aprvempInfo);
-        console.log(readerempInfo);
+        
         
         
         // 테이블에 새로운 내용 추가
@@ -558,7 +584,7 @@ $('#submitAll').click(function(e) {
         dataType:"text",
         success: function(response) {
             // AJAX 요청이 성공적으로 완료되면 실행될 콜백 함수
-            console.log(response); // 서버로부터 받은 응답을 콘솔에 출력
+            
             alert('등록성공')
             window.location.href = '${path}/'+response;
         },
@@ -568,6 +594,31 @@ $('#submitAll').click(function(e) {
             alert('전산팀에 문의하세요')
             
         }
+    });
+});
+
+</script>
+
+<script>
+$(document).ready(function(){
+    $('#selectSaves').click(function(){
+        $.ajax({
+            url: `${path}/docu/savefilelists`,
+            type: 'GET',
+            success: function(response) {
+            	let outputHtml = '';
+            	for (let i = 0; i < response.length; i++) {
+            	    console.log('U_DATE:', response[i]['U_DATE']);  // U_DATE 값 출력
+            	    console.log('DOC_TITLE:', response[i]['DOC_TITLE']);  // DOC_TITLE 값 출력
+            	    var date = response[i]['U_DATE'];
+            	    var title = response[i]['DOC_TITLE'];
+            	    $('#savemodalbody').append(date);
+            	    $('#savemodalbody').append(title);
+            	}
+            	$('#saveLists').modal('show');
+
+            }
+        });
     });
 });
 

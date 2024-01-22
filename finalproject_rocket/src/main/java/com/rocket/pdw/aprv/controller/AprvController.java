@@ -198,6 +198,14 @@ public class AprvController {
 		m.addAttribute("lists", alist);
 		return "aprv/aprvbox";
 	}
+	@GetMapping("/box/save")
+	public String aprvsave(Model m) {
+		Employee e = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int no = e.getEmpNo();
+		List<Map<String, Object>> alist = service.selectSaveList(no);
+		m.addAttribute("lists", alist);
+		return "aprv/aprvbox";
+	}
 
 	// ==============================================select list
 	// ==================================================================
@@ -219,6 +227,7 @@ public class AprvController {
 	        log.info("+++++++++++saveFile++++++++++++{}",saveFile);
 	        if(saveFile.size()>0) {
 	        	m.addAttribute("saveFile", saveFile);
+	        	m.addAttribute("uDate", saveFile.get(0).get("U_DATE"));
 	        	
 	        }else {
 	        	m.addAttribute("saveFile", "null");
@@ -233,22 +242,9 @@ public class AprvController {
 
 	        m.addAttribute("inventoryInfo", inventoryInfo);
 
-	/*        log.error(inventoryInfo == null ? "inventoryInfo is null" : "inventoryInfo is not null");
-	        if (inventoryInfo != null) {
-	            for (Map<String, Object> map : inventoryInfo) {
-	                // 각 맵의 모든 키-값 쌍에 대해 반복
-	                for (Map.Entry<String, Object> entry : map.entrySet()) {
-	                    // 로그 출력
-	                    log.error("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-	                }
-	            }
-	        }*/
-	       
-//	        session.removeAttribute("inventoryInfo");
-
-
 	        List<Map<String, Object>> employee = service.selectEmployee(no);
 	        
+	        int saveCount =service.countSaveList(no);
 
 
 	        m.addAttribute("inventoryInfo", inventoryInfo);
@@ -258,7 +254,7 @@ public class AprvController {
 	                .get("DEP_NAME"));
 	        m.addAttribute("startDate", startDate);
 		       m.addAttribute("endDate", endDate);
-	        
+	        m.addAttribute("saveCount", saveCount);
 	        return "aprv/aprvwrite";
 	    }
 	@GetMapping("/aprv/savefile")
@@ -268,7 +264,7 @@ public class AprvController {
                 .getAuthentication()
                 .getPrincipal();
         int no = e.getEmpNo();
-		
+        int saveCount =service.countSaveList(no);
 		List<Map<String,Object>> saveFile = service.cheackSaveFile(no);
 		log.info("=========saveFile========{}",saveFile);
 		
@@ -300,6 +296,8 @@ public class AprvController {
 		m.addAttribute("saveFile", saveFile);
 		m.addAttribute("user", e);
 		m.addAttribute("textData", textData);
+		m.addAttribute("saveCount", saveCount);
+		
 		return "aprv/aprvsavefile";
 	}
 	@GetMapping("/checkDept")
@@ -366,7 +364,7 @@ public class AprvController {
 		Employee e=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		/* log.info("docNo : {} ",docNo); */
 		List<Map<String,Object>>aprvDocu=service.selectAprvDocu(docNo);
-		//log.info("===========aprvDocu : {} ",aprvDocu);
+		log.info("===========aprvDocu : {} ",aprvDocu);
 		
 		Clob text = (Clob)aprvDocu.get(0).get("DOC_CONT");
 		String textData = "";
@@ -479,6 +477,39 @@ public class AprvController {
 		int no = e.getEmpNo();
 		
 		service.deleteSaveFile(no);
+		
+		
+	}
+	@GetMapping("/savefilelists")
+	@ResponseBody
+	public List<Map<String, Object>> saveFileList () {
+		Employee e = (Employee) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		int no = e.getEmpNo();
+		List<Map<String,Object>>saveLists = service.selectSaveList(no);
+		String textData = "";
+		for (Map<String, Object> map : saveLists) {
+			
+			Clob text = (Clob)map.get("DOC_CONT");
+			try {
+			    String clobContent = text.getSubString(1, (int) text.length());
+			    if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+			        String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+			        for (String content : contentArray) {
+			            textData += content.trim();
+			        }
+			    } else {
+			        textData += clobContent;
+			    }
+			}catch (Exception e1) {
+			    e1.printStackTrace();
+			}finally {
+				map.put("DOC_CONT", textData);
+			}
+		}
+		System.out.println("============================SAVEFILELIST========== :  "+saveLists);
+		return saveLists;
+		
 		
 		
 	}

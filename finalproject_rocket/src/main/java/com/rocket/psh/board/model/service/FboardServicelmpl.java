@@ -53,9 +53,19 @@ public class FboardServicelmpl implements FboardService {
 		return dao.selectFboardComments(session,fboardNo);
 	}
 	@Override
-	public int updateFboard(Map<String, Object> map) {
+	public int updateFboard(Fboard fboard) {
 		// TODO Auto-generated method stub
-		return dao.updateFboard(session, map);
+		int result=dao.updateFboard(session, fboard);
+		if(result>0&&fboard.getFiles()!=null) {
+			dao.deleteFile(session,fboard.getFboardNo());
+			fboard.getFiles().stream().forEach(e->{
+				e.setFboardNo(fboard.getFboardNo());
+				int result2=dao.updateFile(session, e);
+				
+			});
+	
+		}
+		return dao.updateFboard(session, fboard);
 	}
 	@Override
 	public int deleteFboard(int fboardNo) {

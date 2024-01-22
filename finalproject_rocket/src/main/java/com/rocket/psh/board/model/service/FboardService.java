@@ -19,7 +19,7 @@ public interface FboardService {
 
    List<Map<String, Object>> selectFboardComments(int fboardNo);
    
-   int updateFboard(Map<String, Object> map);
+   int updateFboard(Fboard fboard0);
 
    int deleteFboard(int fboardNo);
    

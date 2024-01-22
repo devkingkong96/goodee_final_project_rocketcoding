@@ -16,7 +16,7 @@ public interface BoardDao {
 	
 	Fboard selectFboardDetail(SqlSession session, int fboardNo);
 	
-	int updateFboard(SqlSession session,Map<String, Object> map);
+	int updateFboard(SqlSession session, Fboard fboard);
 	
 	int deleteFboard(SqlSession session,int fboardNo);
 	
@@ -26,4 +26,7 @@ public interface BoardDao {
 	
 	int insertFboardFile(SqlSession session, FboardFile ff);
 	
+	int deleteFile(SqlSession session, int boardNo);
+	
+	int updateFile(SqlSession session, FboardFile ff);
 }

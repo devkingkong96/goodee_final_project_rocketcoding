@@ -2,6 +2,7 @@ package com.rocket.psh.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rocket.jsy.employee.model.dto.Employee;
 import com.rocket.psh.board.model.dto.Fboard;
@@ -185,16 +185,60 @@ public class BoardController {
 	    }
 
 	    // 게시글 수정 처리
-	    @PostMapping("/fboardupdate")
-	    public ModelAndView fboardUpdate(@RequestParam Map<String, Object> fboard) {
+	    @GetMapping("/fboardupdate")
+	    public ModelAndView fboardUpdate(int fboardNo) {
 	        ModelAndView mv = new ModelAndView();
-	        int result = service.updateFboard(fboard);
-	        if (result > 0) {
-	            mv.setViewName("redirect:/board/fboardlist");
-	        } else {
-	            mv.setViewName("redirect:/board/fboardedit?fboardNo=" + fboard.get("fboardNo"));
-	        }
+	        mv.addObject("board",service.selectFboardDetail(fboardNo));
+	        mv.setViewName("board/fboardUpdate");
+	        
 	        return mv;
+	    }
+	    @PostMapping("/fboardupdate")
+	    public ModelAndView fboardUpdateEnd(Principal loginMember,Fboard f,
+	    		MultipartFile upfile,ModelAndView mv, String[] oriname, String[] rename,HttpSession session) {
+	    	f.setEmp((Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	    	String path = session
+	        		.getServletContext()
+	        		.getRealPath("/resources/upload/fboard");
+	    	
+	    	 File file1 = new File(path);
+		        if(!file1.exists()) {
+		        	file1.mkdirs();
+		        }
+		        String oriName="";
+		        String reName="";
+		        if (!upfile.isEmpty()) {
+		        	oriName = upfile.getOriginalFilename();
+		        	String ext = oriName.substring(oriName.lastIndexOf("."));
+		        	Date today = new Date(System.currentTimeMillis());
+		        	int randomNum = (int)(Math.random() * 10000) + 1;
+		        	reName = "Rocket_ChatMessage_File_" + (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(
+		        			today)) + "_" + randomNum + ext;
+		        	try {
+		        		upfile.transferTo(new File(path, reName));
+		        		f.setFiles(List.of(FboardFile.builder().fboardFileOri(oriName).fboardFileRe(reName).build()));
+		        	} catch (IOException | DataAccessException e) {
+		        		e.printStackTrace();
+		        	}
+		        }
+		    
+		    try {
+		    	int result=service.updateFboard(f);
+		    	
+		    	//등록된 파일 삭제하기
+		    	for(String r : rename) {
+		    		File delFile=new File(path+"/"+r);
+		    		delFile.delete();
+		    	}
+		    	mv.setViewName("redirect:/board/fboardView/"+f.getFboardNo());   
+		    }catch(Exception e){
+		    	e.printStackTrace();
+		    	
+		    	mv.setViewName("redirect:/board/fboardupdate?fboardNo="+f.getFboardNo());
+		    }
+		        
+		        
+	    	return mv;
 	    }
 
 	    // 게시글 삭제 처리
@@ -214,7 +258,7 @@ public class BoardController {
 	   
 	    //댓글  
 	    @PostMapping("/comment/insertComment.do")
-	    public ModelAndView insertComment(@RequestParam("fboardNo") int fboardNo, 
+	    public ModelAndView insertComment(int fboardNo, 
 	                                      @RequestParam("regr_id") String regr_id, 
 	                                      @RequestParam("content") String content) {
 	        ModelAndView mav = new ModelAndView();
@@ -226,7 +270,7 @@ public class BoardController {
 	            param.put("fbdComment", content);
 
 	            try {
-	                fboardNo = commService.insertComment(param);
+	                int result = commService.insertComment(param);
 	                mav.addObject("message", "댓글이 성공적으로 추가되었습니다.");
 	            } catch (Exception e) {
 	                mav.addObject("message", "댓글 추가 중 오류가 발생하였습니다.");
@@ -237,7 +281,7 @@ public class BoardController {
 	            log.error("댓글 추가 중 오류 발생", e);
 	        }
 
-	        mav.setViewName("redirect:/board/fboardView");
+	        mav.setViewName("redirect:/board/fboardView/"+fboardNo);
 	        return mav;
 	    }
 

@@ -106,7 +106,7 @@
 					</h4>
 					<div class="box-footer no-border">
 						 <div class="d-md-flex d-block justify-content-between align-items-center bg-white p-5 rounded10 b-1 overflow-hidden">
-						 		<input type="hidden" name="fboardNo" value="${fboard.fboardNo }"/>
+						 		<input type="hidden" name="fboardNo" value="${fboard.fboardNo}"/>
 						 		<input type="hidden" name="regr_id" value="${loginEmp.empNo }"/>
 								<input class="form-control b-0 py-10" type="text" name="content" placeholder="댓글을 달아주세요">
 								<div class="d-flex justify-content-between align-items-center mt-md-0 mt-30">
@@ -117,45 +117,50 @@
 							</div>
 					 </div>
 				</form>
-					  <!--댓글 내용 부분   -->
 					<div id="info__f">
-					  <input type="text" placeholder="댓글 들어올 공간" value=""/>
-						<h5>${Comment.fbdComment }</h5>
-					  
-					  <button>삭제</button>
+						
 					</div>  
-					
-				<%-- <table class="table table-review" style="padding: 3em;  height: 300px; ">
-		        <tbody>
-		                <tr style="text-align:center;">
-		                    <th width="0%"></th>
-		                    <th  width="15%" >댓글 작성자</th>
-		                    <th  width="50%">댓글 내용</th>
-		                    <th width="15%">작성일</th>
-		                </tr>
-		               <c:forEach items="${reviews}" var="review" varStatus="i">
-					    <tr>
-					        <td><input type="hidden" id="reviewIdx" value="${review.idx}"></td>
-					        <td>${review.name}</td>
-					        <td><input class="review_content" type="text" value="${review.content}" disabled></td>
-					        <td>
-					            <c:forEach items="${review.comments}" var="comment">
-					                <tr>
-					                    <td><input type="hidden" id="commentNo" value="${comment.commentNo}"></td>
-					                    <td>${comment.empNo}</td>
-					                    <td><input class="comment_content" type="text" value="${comment.fbdComment}" disabled></td>
-					                    <td>${comment.fbdCommentDate}</td>
-					                </tr>
-					            </c:forEach>
-					        </td>
-					        <td>${review.createdate}</td>
-					        <td align="center"><input data-idx="${review.idx}" data-recommend=""  src="<%=request.getContextPath()%>/resources/garoestate/assets/img/icon/like.png" class="likebtn" type="image"  style="float:left;"> 댓글창</td>
-					    </tr>
-					</c:forEach>
-					
-		        </tbody>
-		   	   </table> --%>
-		    
+					  <!--댓글 내용 부분   -->
+						<div class="row">
+									<div class="col-lg-12">
+										<div class="box">
+											<div class="box-body">
+												<div class="table-responsive">
+													<table class="table">
+														<thead class="bg-primary">
+														<tbody>
+														<c:choose>
+															<c:when test="${fboard.comments.get(0).commentNo!=0 }">
+																<c:forEach var="comment" items="${fboard.comments }">
+																	<tr>
+																		<td colspan="4">
+																			<sup>${comment.fbdCommentDate }
+																			${comment.writer.empName }</sup><br>
+																			 <h3 style="display:inline-block;margin-left:20%">${comment.fbdComment }</h3>
+																		</td>
+																		
+																		<td style="text-align:right">
+																			<c:if test="${comment.writer.empNo eq loginEmp.empNo}">
+																				<button class="btn btn-outline-warning" onclick="updateComment">수정</button>
+																				<button class="btn btn-outline-danger">삭제</button>
+																			</c:if>
+																		</td>
+																	</tr>
+																</c:forEach>
+															</c:when>
+			 														
+															<c:otherwise>
+																<tr>
+																	<td colspan="4">작성된 댓글이 없습니다.</td>
+																</tr>
+															</c:otherwise>
+														</c:choose>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
 				</div>
        		</div>
        	</div>
@@ -173,28 +178,51 @@ function fboardDelete(fboardNo) {
         form.submit();
     }
 }
+function fboardEdit(fboardNo){
+	var form = document.createElement('form');
+    form.setAttribute('method', 'get');
+    form.setAttribute('action', '/board/fboardupdate');
+    form.innerHTML = '<input type="hidden" name="fboardNo" value="' + fboardNo + '">';
+    document.body.appendChild(form);
+    form.submit();
+}
 
+function updateComment(commentNo, fboardNo) {
+    var fboardNo = $('#fboardNo').val();
+    console.log("수정로그-fboardNo 확인: " + $('#fboardNo').val());
+    var commentNo = $('#commentNo').val();
+    console.log("수정로그-commentNo 확인: " + $('#commentNo').val());
+    var updateContent = $('#updateContent' + commentNo).val();
 
-/* $(document).on('click','#btnUpdate', function() {
-    var commentNo = $(this).parent().prev().prev().prev().children().val();
-    var fbdComment = $(this).parent().prev().children().val();
-    
+    if(updateContent =='') {
+        alert("수정 할 내용을 입력하세요");
+        return;
+    } 
+
     $.ajax({
-        url:'/comment/updateComment.do',
-        type: 'post',
-        data: {
-            "commentNo" : commentNo,
-            "fbdComment" : fbdComment
+        type:'post',
+        url: '/stationery/CommentUpdate',
+        data: JSON.stringify(
+            {
+                "fbdComment": updateContent,
+                "commentNo": commentNo,
+                "fboardNo": fboardNo
+            }
+        ),
+        contentType:'application/json',
+        success:function(data){
+            if(data ==='UpdateSuccess') {
+                alert('댓글이 수정되었습니다!');
+                getCommentList();
+            } else {
+                alert('댓글 수정에 실패했습니다.');
+            }
         },
-        success: function(result) {
-            location.reload();
-        },
-        error: function() {
-            alert('댓글 수정 실패');
+        error:function() {
+            alert('통신실패');
         }
-    });    
-});
- */
+    });   
+};
 
 </script>
 <!-- Vendor JS -->

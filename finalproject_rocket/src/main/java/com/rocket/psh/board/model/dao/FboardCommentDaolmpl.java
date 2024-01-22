@@ -9,10 +9,13 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class FboardCommentDaolmpl implements FboardCommentDao {
 		
-		private SqlSessionFactory sqlSessionFactory;
+		private final SqlSessionFactory sqlSessionFactory;
 	
 		
 	    // 댓글 조회
@@ -25,7 +28,7 @@ public class FboardCommentDaolmpl implements FboardCommentDao {
 	    // 게시글에 대한 모든 댓글 조회
 	    public List<HashMap<String, Object>> selectCommentsByFboardNo(int fboardNo) {
 	        try (SqlSession session = sqlSessionFactory.openSession()) {
-	            return session.selectList("selectCommentsByFboardNo", fboardNo);
+	            return session.selectList("fboardcomment.selectCommentsByFboardNo", fboardNo);
 	        }
 	    }
 	
@@ -43,16 +46,15 @@ public class FboardCommentDaolmpl implements FboardCommentDao {
 	    
 
 		public int insertComment(Map<String, Object> reqAll) {
-			//임시저장하기	
-			 try (SqlSession session = sqlSessionFactory.openSession()) {
-		            return session.insert("insertComment", reqAll);
-		        }
+			try (SqlSession session = sqlSessionFactory.openSession()) {
+				return session.insert("fboardcomment.insertComment", reqAll);
+			}
 		}
 	
 	    // 댓글 수정
 	    public int updateComment(HashMap<String, Object> commentData) {
 	        try (SqlSession session = sqlSessionFactory.openSession()) {
-	            int result = session.update("updateComment", commentData);
+	            int result = session.update("fboardcomment.updateComment", commentData);
 	            session.commit();
 	            return result;
 	        }
@@ -64,7 +66,7 @@ public class FboardCommentDaolmpl implements FboardCommentDao {
 	            HashMap<String, Object> params = new HashMap<>();
 	            params.put("commentNo", commentNo);
 	            params.put("FBD_COMMENT_YN", "Y");
-	            int result = session.update("deleteComment", params);
+	            int result = session.update("fboardcomment.deleteComment", params);
 	            session.commit();
 	            return result;
 	        }

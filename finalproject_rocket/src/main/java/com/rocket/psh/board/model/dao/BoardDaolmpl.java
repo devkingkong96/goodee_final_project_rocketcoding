@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.naming.factory.FactoryBase;
 import org.springframework.stereotype.Repository;
 
 import com.rocket.psh.board.model.dto.Fboard;
@@ -58,13 +59,29 @@ public class BoardDaolmpl implements BoardDao {
 	}
 
 	@Override
-    public int updateFboard(SqlSession session, Map<String, Object> map) {
-        return session.update("fboard.updateFboard", map);
+    public int updateFboard(SqlSession session, Fboard fboard ) {
+        return session.update("fboard.updateFboard", fboard);
     }
 
     @Override
     public int deleteFboard(SqlSession session, int fboardNo) {
         return session.delete("fboard.deleteFboard", fboardNo);
     }
+
+	@Override
+	public int deleteFile(SqlSession session, int boardNo) {
+		// TODO Auto-generated method stub
+		return session.delete("fboard.deleteFile",boardNo);
+	}
+
+	@Override
+	public int updateFile(SqlSession session, FboardFile ff) {
+		// TODO Auto-generated method stub
+		return session.insert("fboard.insertFboardFile2",ff);
+	}
+    
+	
+	
+    
 
 }

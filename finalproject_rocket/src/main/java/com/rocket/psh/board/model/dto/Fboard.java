@@ -20,7 +20,8 @@ import lombok.ToString;
 public class Fboard {
 	
 	private int fboardNo; //게시판 번호
-	private int empNo;	  //게시글 작성자 
+	private int empNo;	  //게시글 작성자
+	private Employee emp;
 	private String fboardTitle;	// 게시글 제목
 	private String fboardContent; //게시글 내용
 	private int fboardViews;	//조회수

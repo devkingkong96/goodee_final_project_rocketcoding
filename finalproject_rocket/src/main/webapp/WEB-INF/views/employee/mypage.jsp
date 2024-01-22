@@ -56,9 +56,13 @@
     justify-content: center; /* 가로축에서 중앙 정렬 */
     align-items: center; /* 세로축에서 중앙 정렬 */
     height: 60px; /* 높이를 줄임 */
-}
-    
-    </style>
+	}
+    #startWorkTime, #endWorkTime {
+        font-weight: bold;
+        font-size: 1.1em; 
+        color: #343a40; 
+    }
+</style>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -187,6 +191,17 @@
     </div>
 </div>
 <script>
+$(function() {
+    $('.holiday.plus').click(function(e) {
+        var remainingLeave = ${employee.HOMOLY}; // 남은 연차
+        if (remainingLeave <= 0) {
+            alert('남은 연차가 없습니다.');
+            e.preventDefault(); // 버튼의 기본 동작(여기서는 모달 창 열기)을 막습니다.
+        }
+    });
+});
+</script>
+<script>
 $(document).ready(function() {
     $('.holiday.plus').click(function() {
         $('#calendarModal').modal('show');
@@ -214,8 +229,11 @@ document.getElementById('startWork').addEventListener('click',function(){
         
         // 출근 시간을 로컬 스토리지에 저장
         var now = new Date();
-        var timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        localStorage.setItem('startWorkTime_' + empNo, timeString);
+        var startWorkTimeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        localStorage.setItem('startWorkTime_' + empNo, startWorkTimeString);
+        
+        // 출근 시간을 화면에 표시합니다.
+        document.getElementById('startWorkTime').textContent = '출근시간: ' + startWorkTimeString;
         
         // 출근 버튼을 누른 경우, 퇴근 버튼을 활성화하고 출근 버튼을 숨깁니다.
         document.getElementById('startWork').style.display = 'none';
@@ -234,10 +252,14 @@ document.getElementById('endWork').addEventListener('click',function(){
         sendData('/endWork');
         localStorage.setItem('endWork_' + empNo, today);
         
-     // 퇴근 시간을 로컬 스토리지에 저장
+     // 퇴근 시간을 로컬 스토리지에 저장하고 표시합니다.
         var now = new Date();
-        var timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        localStorage.setItem('endWorkTime_' + empNo, timeString);
+        var endWorkTimeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        localStorage.setItem('endWorkTime_' + empNo, endWorkTimeString);
+        
+        // 퇴근 시간을 화면에 표시합니다.
+        document.getElementById('endWorkTime').textContent = '퇴근시간: ' + endWorkTimeString;
+        
         // 퇴근 버튼을 누른 경우, 퇴근 버튼을 숨깁니다.
         document.getElementById('endWork').style.display = 'none';
     } else {
@@ -285,7 +307,7 @@ function updateClock() {
 }
 
 window.onload = function() {
-    updateClock();
+	updateClock();
     setInterval(updateClock, 1000);
 
     var empNo = getEmpNoFromSession();
@@ -296,19 +318,21 @@ window.onload = function() {
     var startWorkTime = localStorage.getItem('startWorkTime_' + empNo);
     var endWorkTime = localStorage.getItem('endWorkTime_' + empNo);
 
-    if (startWorkDate == today) {
+    // 출근 시간 표시
+    if (startWorkDate == today && startWorkTime) {
         document.getElementById('startWork').style.display = 'none';
         document.getElementById('endWork').disabled = false;
-        if (startWorkTime) {
-            document.getElementById('startWorkTime').textContent = startWorkTime;
-        }
+        document.getElementById('startWorkTime').textContent = '출근시간: ' + startWorkTime;
+    } else {
+        document.getElementById('startWorkTime').textContent = '출근시간: 진행되지 않음';
     }
 
-    if (endWorkDate == today) {
+    // 퇴근 시간 표시
+    if (endWorkDate == today && endWorkTime) {
         document.getElementById('endWork').style.display = 'none';
-        if (endWorkTime) {
-            document.getElementById('endWorkTime').textContent = endWorkTime;
-        }
+        document.getElementById('endWorkTime').textContent = '퇴근시간: ' + endWorkTime;
+    } else {
+        document.getElementById('endWorkTime').textContent = '퇴근시간: 진행되지 않음';
     }
 };
 </script>

@@ -69,7 +69,7 @@ public class CommuteController {
 	        Object startDateObj = event.get("START_DAY");
 	     //it (endDateObj != null 이것보단) 
 	     //ObjectUtils.isEmpty(byname) 이걸로 값을 체크 map 도 되고 배열도 되고 
-	        if (endDateObj != null) {
+	        if (!ObjectUtils.isEmpty(endDateObj)) {
 	            try {
 	                Date endDate = inputFormat.parse(endDateObj.toString());
 	                String formattedEndDate = outputFormat.format(endDate);
@@ -80,8 +80,8 @@ public class CommuteController {
 	        } else {
 	            event.put("END_DAY", "");
 	        }
-	        
-	        if (startDateObj != null) {
+
+	        if (!ObjectUtils.isEmpty(startDateObj)) {
 	            try {
 	                Date startDate = inputFormat.parse(startDateObj.toString());
 	                String formattedStartDate = outputFormat.format(startDate);

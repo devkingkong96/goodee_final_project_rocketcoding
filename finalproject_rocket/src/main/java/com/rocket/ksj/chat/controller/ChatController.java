@@ -120,12 +120,11 @@ public class ChatController {
 
 	}
 	
-	@PostMapping("/file/download")
-	@ResponseBody
-	public String chatFileDownload(@RequestBody ChatMessage message,HttpSession session,HttpServletResponse response)
+	@GetMapping("/file/download")
+	public void chatFileDownload(String oriName,String reName,HttpSession session,HttpServletResponse response)
 		throws ServletException, IOException{
-		String oriName=message.getMsgFiOriName();
-		String reName=message.getMsgFiReName();
+//		String oriName=message.getMsgFiOriName();
+//		String reName=message.getMsgFiReName();
 		
 		//파일 스트림 연결
 		//실제 경로 가져오기
@@ -136,7 +135,7 @@ public class ChatController {
 		BufferedInputStream bis=new BufferedInputStream(fis);
 		
 		//파일명 인코딩 처리
-		String encodingName=new String(reName.getBytes("UTF-8"),"ISO-8859-1");
+		String encodingName=new String(oriName.getBytes("UTF-8"),"ISO-8859-1");
 		
 		//응답 헤더 설정 -> contentType
 		response.setContentType("application/octet-stream");
@@ -190,9 +189,9 @@ public class ChatController {
 //		}
 		//Header 설정
 		
-		
-		String jsonString=gson.toJson("success");
-		return jsonString;
+//		
+//		String jsonString=gson.toJson("success");
+//		return jsonString;
 	}
 	//채팅방 안에서 직원목록 검색
 	@PostMapping("/room/modalsearch")

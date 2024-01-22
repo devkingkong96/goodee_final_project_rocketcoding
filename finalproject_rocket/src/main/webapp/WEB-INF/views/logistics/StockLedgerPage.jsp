@@ -21,6 +21,19 @@
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm");
     String formattedNow = now.format(formatter);
 %>
+
+<%--<link rel="stylesheet" href=
+        "https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+
+<!--jQuery library file -->
+<script type="text/javascript"
+        src="https://code.jquery.com/jquery-3.5.1.js">
+</script>
+
+<!--Datatable plugin JS library file -->
+<script type="text/javascript"
+        src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+</script>--%>
 <%--<title>로켓코딩ERP</title>--%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param name="title" value="재고 수불부"/>
@@ -38,30 +51,7 @@
 src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script> -->
 
 <!-- extract 버튼 가져오기 -->
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script
-        src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script
-        src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-<script
-        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
-<script
-        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-<script
-        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-<script
-        src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<script
-        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script
-        src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-<script
-        src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-<script
-        src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
+
 
 <style>
     .dt-button-background {
@@ -139,7 +129,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
     /*}*/
 
     th, td {
-        border-left: 1px solid #E5E5E5;
+        /*border-left: 1px solid #E5E5E5;*/
         border-right: 1px solid #E5E5E5;
     }
 </style>
@@ -586,1191 +576,6 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
                                         ${daybyStockList[0]["SELECTED_STK_DATE"]}>--%>
 
 
-                    <script>
-                        var uniqueBottomMessage = "기준 날짜 : " + document.getElementById('branch-names3').value;
-
-                        var uniqueBranchNames = document.getElementById('branch-names').value;
-                        uniqueBranchNames = "회사명 : (주)로켓 ERP / " + uniqueBranchNames + " 외";
-
-                        function getCurrentDateTime() {
-                            var now = new Date();
-                            var year = now.getFullYear();
-                            var month = ('0' + (now.getMonth() + 1)).slice(-2);
-                            var day = ('0' + now.getDate()).slice(-2);
-                            var hour = ('0' + now.getHours()).slice(-2);
-                            var minute = ('0' + now.getMinutes()).slice(-2);
-                            var second = ('0' + now.getSeconds()).slice(-2);
-                            return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-                        }
-
-                        $(function () {
-                            $("#min").datepicker();
-                            $("#max").datepicker();
-                        });
-                        /*                        var select2Element;
-                                                var parentElement;
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    parentElement_forEmptyValue = document.querySelector('.form-control.select2.select2-hidden-accessible');
-                                                    select2Element_forEmptyValue = parentElement_forEmptyValue.querySelector('.select2-selection.select2-selection--single');
-
-                                                    // 이제 select2Element를 사용할 수 있습니다.
-                                                });*/
-
-
-                        /*          var uniqueBranchNames = "회사명 : (주)로켓 ERP / " + uniqueBranchNames;*/
-
-
-                        $(document).ready(function () {
-
-                            var path = "${path}";
-                            var select2Data = {};
-                            var serverData = $("#branch-names2").html();
-                            $(".top").html(serverData);
-                            $(".bottom").html("여기는 테이블 아래쪽에 표시될 텍스트입니다.");
-
-                            /*
-                               $("#targetElement").html(serverData);*/
-                            /*   $("[id^=datatable-]").each(function () {
-                                       // 현재 테이블을 Datatable로 초기화
-                                       $(this).DataTable({
-                                           "dom": '<"top">Bflirtp<"bottom">',
-                                           "autoWidth": true,
-                                           "drawCallback": function (settings) {
-
-                                               $('#example1').editableTableWidget();
-                                           },
-                                           ordering: true
-                                       });
-                                   });*/
-                            $("[id^=datatable-]").each(function () {
-                                $(this).DataTable({
-                                    // 기본 DataTables 설정
-                                    "paging": false,
-                                    "lengthChange": false,
-                                    "searching": false,
-                                    "info": false,
-                                    /* ordering: true,
-                                     order: [[0, "desc"]],*/
-                                    // "editable": true,
-                                    "responsive": true,
-                                    /*    "dateFormat": 'YYYY-MM-DD HH:mm', */
-                                    "dom": '<"top">Bflirtp<"bottom">',
-                                    // "dom": 'Bflir<"branch-names">tp',
-                                    // dom: '<"top"i>rt<"<"tableInfo">"flp><"clear">',
-                                    "autoWidth": false,
-                                    "width": "80%",
-                                    "fixedHeader": true,
-                                    "drawCallback": function (settings) {
-
-                                        $('#example1').editableTableWidget();
-                                    },
-
-                                    columnDefs: [
-                                        {targets: '_all', editable: false, orderable: false},
-                                        /*                         {
-                                                                     targets: 5,
-                                                                     /!* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 *!/
-                                                                     render: function (data, type, row) {
-                                                                         if (type === 'display' || type === 'filter') {
-                                                                             var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
-                                                                             return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
-                                                                         }
-                                                                         /!*                          if (type === 'sort') {
-                                                                                                    // 정렬을 위해 원본 데이터 형식 사용
-                                                                                                    return data;
-                                                                                                  }   *!/
-                                                                         return data;
-                                                                     },
-                                                                 }*/
-                                    ],
-
-                                    /*    "ordering": [[0, 'desc']],*/
-                                    // 수정 불가능한 행 설정
-                                    /*                    createdRow: function (row, data, dataIndex) {
-                                                            if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
-                                                                $(row).addClass('not-editable');
-                                                            }
-                                                        },*/
-                                    "buttons": [{
-                                        extend: 'colvis',
-                                        text: '일부 컬럼 보기'
-                                    }, {
-                                        extend: 'colvisRestore',
-                                        text: '컬럼 복원'
-                                    }, {
-                                        extend: 'copyHtml5',
-                                        /*            exportData: {decodeEntities: true}, */
-                                        text: '클립보드에 복사',
-                                        messageTop: uniqueBranchNames,
-                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                        exportOptions: {
-                                            columns: ':visible',
-                                            rows: ':visible',
-                                            encoding: 'UTF-8'
-                                        }
-                                    }, {
-                                        extend: 'csvHtml5',
-                                        /*                 exportData: {decodeEntities: true}, */
-                                        title: '재고현황 ' + uniqueBottomMessage,
-                                        messageTop: uniqueBranchNames,
-                                        /*                      messageBottom: '생성 시각 : ' + getCurrentDateTime(),*/
-                                        exportOptions: {
-                                            columns: ':visible',
-                                            rows: ':visible',
-                                            encoding: 'UTF-8'
-                                        }
-                                    }, {
-                                        extend: 'excelHtml5',
-                                        title: '재고현황 ' + uniqueBottomMessage,
-                                        /*                 exportData: {decodeEntities: true}, */
-                                        messageTop: uniqueBranchNames,
-
-                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                        exportOptions: {
-                                            columns: ':visible',
-                                            rows: ':visible',
-                                            encoding: 'UTF-8',
-
-                                        }
-                                    }, {
-                                        extend: 'pdfHtml5',
-                                        /*          exportData: {decodeEntities: true}, */
-                                        messageTop: uniqueBranchNames,
-                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                        text: 'PDF',
-                                        title: '재고현황 ' + uniqueBottomMessage,
-                                        font: 'hangul',
-
-                                        exportOptions: {
-                                            columns: ':visible',
-                                            rows: ':visible',
-                                            encoding: 'UTF-8',
-
-                                            /*font: 'hangul',*/
-                                            /*                              customize: function (doc) {
-                                                                              // 폰트 설정 추가
-                                                                              /!*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*!/
-                                                                              doc.defaultStyle.fonts = 'Roboto';
-                                                                              doc.defaultStyle.font = 'Roboto';
-                                                                              modifier: {
-                                                                                  page: 'current'
-                                                                              }
-
-                                                                          },*/
-
-                                        }
-
-                                    }, {
-                                        extend: 'print',
-                                        title: '재고현황 ' + uniqueBottomMessage,
-                                        messageTop: uniqueBranchNames,
-                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
-                                        /*           exportData: {decodeEntities: true}, */
-                                        exportOptions: {
-                                            columns: ':visible',
-                                            rows: ':visible',
-                                            encoding: 'UTF-8'
-                                        }
-                                    }
-
-                                    ],
-                                    "lengthMenu": [[10, 25, 50, 100, -1],
-                                        [10, 25, 50, 100, "All"]],
-                                    "language": {
-                                        "lengthMenu": "표시할 항목 수: _MENU_",
-                                        "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
-                                        "search": "검색:",
-                                        "paginate": {
-                                            "first": "처음",
-                                            "last": "마지막",
-                                            "next": "다음",
-                                            "previous": "이전",
-                                            "emptyTable": "데이터가 없어요.",
-                                            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-                                            // "info": "현재 _START_ - _END_ / _TOTAL_건",
-                                            "infoEmpty": "데이터 없음",
-                                            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-                                            // "search": "에서 검색: ",
-                                            "zeroRecords": "일치하는 데이터가 없어요.",
-                                            "loadingRecords": "로딩중...",
-                                            "processing": "잠시만 기다려 주세요..."
-                                            // "paginate": {
-                                            //     "next": "다음",
-                                            //     "previous": "이전"
-
-                                            // },
-                                        },
-                                    }
-                                });
-                            });
-
-                            /*                     // 드롭다운 아이템 클릭 시 이벤트 처리
-                                                 $('.dropdown-menu a').click(function () {
-                                                     var selectedBank = $(this).text(); // 선택된 드롭다운 아이템의 텍스트 값 가져오기
-                                                     $('input[name="pubBank"]').val(selectedBank + " "); // input 요소에 선택된 값 설정
-                                                 });*/
-                            /*          function addCells(data) {
-
-                                          var sheetData = sheet.getElementsByTagName('sheetData')[0];
-                                          for (i = 0; i < data.length; i++) {
-                                              var key = data[i].key;
-                                              var value = data[i].value;
-
-                                              var c = sheet.createElement('c');
-                                              c.setAttribute("t", "inlineStr");
-
-                                              //Set styling (added styles to the buttons.html5.min.js file)
-                                              switch (value) {
-                                                  case 'I':
-                                                      c.setAttribute("s", "78");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'Do':
-                                                      c.setAttribute("s", "67");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'Not':
-                                                      c.setAttribute("s", "68");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'Like':
-                                                      c.setAttribute("s", "69");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'XML':
-                                                      c.setAttribute("s", "70");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'It':
-                                                      c.setAttribute("s", "71");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'Is':
-                                                      c.setAttribute("s", "72");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'Too':
-                                                      c.setAttribute("s", "73");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                                  case 'Verbose':
-                                                      c.setAttribute("s", "74");  //REMEMBER ZERO BASED (COUNT -1)
-                                                      break;
-                                              }
-
-                                              var is = sheet.createElement('is');
-                                              var t = sheet.createElement('t');
-                                              var text = sheet.createTextNode(value)
-
-                                              t.appendChild(text);
-                                              is.appendChild(t);
-                                              c.appendChild(is);
-
-                                              //Add cells to row 2 (zero-based) of sheet
-                                              sheetData.childNodes[1].appendChild(c);
-                                          }
-                                      }
-
-          //The call to add cells to an existing row (in this case to row 2, which is in the function)
-                                      addCells([{key: 'M', value: ''}, {key: 'N', value: 'I'}, {key: 'O', value: 'Do'}, {
-                                          key: 'P',
-                                          value: 'Not'
-                                      }, {key: 'Q', value: 'Like'}, {key: 'R', value: 'XML'}, {key: 'S', value: 'It'}, {
-                                          key: 'T',
-                                          value: ' Is'
-                                      }, {key: 'U', value: 'Too'}, {key: 'V', value: ''}, {key: 'W', value: 'Verbose'}]);*/
-
-                            $('#example1').editableTableWidget().on('change', function (e, newValue) {
-                                // alert("change");
-
-                                var cell = $(e.target);
-                                // <select> 요소의 변경은 무시
-                                if (cell.is('select')) {
-                                    return;
-                                }
-
-                                // 셀의 데이터가 변경되었을 때의 처리
-                                var cell = $(e.target);
-                                var columnIdx = cell.index();
-                                var rowIdx = cell.closest('tr').index();
-                                var table = $('#example1').DataTable();
-                                var data = table.row(rowIdx).data();
-
-
-                                data[columnIdx] = newValue; // 데이터 배열 업데이트
-
-                                /*            // 검색 색인 업데이트 없이 데이터만 업데이트
-                                            table.row(rowIdx).data(data);*/
-                                table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트
-                            });
-                            /*                    var prdTitleToIdMapString = '
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            ${jsonMap}';
-                            var prdTitleToIdMap = JSON.parse(prdTitleToIdMapString);
-
-                            var table = $('#example1').DataTable();
-                            console.log("prdTitleToIdMap: " + prdTitleToIdMap);*/
-
-                            /*  $(document).on('change', '.chooseBrc', function () {
-
-                                  var currentPagePath = window.location.pathname;
-                                  var url = currentPagePath + '/branchempinfo';
-
-                                  var select = $(this);
-                                  var branchId = select.val();
-
-                                  $.ajax({
-                                      url: url, // 서버 URL
-                                      method: 'GET',
-                                      data: {
-                                          /!* bookName: selectedBook,*!/
-                                          branchId: branchId
-                                      },
-                                      success: function (response) {
-                                          console.log(response);
-                                          populateSelectOptions(response);
-                                      },
-                                      error: function (xhr, status, error) {
-                                          // 에러 처리
-                                          alert('오류가 발생했습니다: ' + error);
-                                      }
-                                  });
-
-                                  function populateSelectOptions(empInfo) {
-                                      var selectElement = document.querySelector('.chooseRecieveEmp');
-                                      selectElement.innerHTML = ''; // 기존 옵션 제거
-
-                                      // 서버로부터 받은 데이터를 이용하여 새로운 옵션 생성
-                                      var option = document.createElement('option');
-                                      empInfo.forEach(emp => {
-                                          option = document.createElement('option');
-                                          option.value = emp.EMP_NO; // 예: 직원 ID
-                                          option.textContent = emp.EMP_NAME; // 예: 직원 이름
-                                          selectElement.appendChild(option);
-                                      });
-
-                                      // select2 업데이트를 위해 'change' 이벤트를 트리거합니다.
-                                      $(selectElement).select2();
-                                      $(selectElement).trigger('change');
-                                  }
-
-                              });*/
-
-                            /*                            $(document).on('change', 'td .chooseBook', function () {
-                                                            /!*       var select = $(this);
-                                                                   var selectedBook = select.val(); // 선택된 도서명*!/
-
-                                                            var select = $(this);
-                                                            var prdId = select.val();
-                                                            var rowIndex = $(this).closest('tr').index();
-                                                            select2Data[rowIndex] = prdId;
-
-                                                            var selectedValue = $(this).val(); // 선택된 값 가져오기
-                                                            var selectId = selectedValue; // 새로운 ID 생성
-                                                            $(this).attr('id', selectId); // ID를 변경된 값으로 설정
-
-                                                            console.log("prdId : " + prdId);
-                                                            var selectedTitle = prdTitleToIdMap[prdId];
-                                                            var row = select.closest('tr'); // 현재 행 찾기
-                                                            var currentPagePath = window.location.pathname;
-                                                            var url = currentPagePath + '/prdinfo';
-                                                            console.log("prdId: " + prdId);
-
-                                                            console.log("prdTitleToIdMap: " + prdTitleToIdMap);
-                                                            // AJAX 요청
-                                                            $.ajax({
-                                                                url: url, // 서버 URL
-                                                                method: 'GET',
-                                                                data: {
-                                                                    /!* bookName: selectedBook,*!/
-                                                                    prdId: prdId
-                                                                },
-                                                                success: function (response) {
-
-                                                                    console.log("response.PRD_PRICE: " + response.PRD_PRICE);
-                                                                    var rowIndex = table.row(row).index();
-
-                                                                    table.cell(rowIndex, 1).data(response.PRD_ID);
-                                                                    table.cell(rowIndex, 4).data(response.PRD_PRICE);
-                                                                    table.cell(rowIndex, 5).data(response.PRICE_IN_STK);
-
-                                                                    table.draw();
-
-                                                                },
-                                                                error: function (xhr, status, error) {
-                                                                    // 에러 처리
-                                                                    alert('오류가 발생했습니다: ' + error);
-                                                                },
-
-                                                            });
-                                                        });*/
-
-                            var table = $('#example1').DataTable();
-
-                            /*                            var plusButtonCounter = 1;
-
-                                                        $(document).on('click', '[id$="plusButton"]', function () {
-
-                                                            plusButtonCounter++; // 카운터 증가
-                                                            // alert("하이");
-                                                            var buttonId = $(this).attr('id'); // 클릭된 버튼의 ID
-                                                            console.log("buttonId: " + buttonId);
-                                                            var currentRow = $(this).closest('tr');
-                                                            console.log("currentRow: " + currentRow);
-                                                            var currentRowIndex = currentRow.index();
-                                                            console.log("currentRowIndex: " + currentRowIndex);
-                                                            /!*            var currentButtonRow = $(this).attr('id').closest('tr');*!/
-
-
-                                                            var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            ${entry.value}">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            ${entry.key}</option>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            </c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
-
-
-                                var firstRowChooseBook = $('#example1 tbody tr:first .choosebook');
-                                // alert(firstRowChooseBook.val());
-
-                                var currentData = table.rows().data().toArray();
-                                // console.log("currentData: " + currentData);
-                                var selectedValues = [];
-                                $('.chooseBook').each(function () {
-                                    var selectedValue = $(this).val();
-                                    selectedValues.push(selectedValue);
-                                });
-
-
-                                // 현재 클릭한 행 아래로 데이터를 밀어냄
-                                currentData.splice(currentRowIndex + 1, 0, newData);
-
-                                table.clear().rows.add(currentData).draw();
-
-                                // 다시 그린 모든 행의 특정 셀에 'name' 속성 추가
-                                $('#example1 tbody tr').each(function () {
-                                    // 이전에 선택된 값을 저장
-                                    // var prevSelectedValue = $(this).find('.select2').val();
-
-                                    $(this).find('td').eq(0).attr('name', 'dontedit');
-                                    $(this).find('td').eq(1).attr('name', 'dontedit').addClass('prdId');
-                                    $(this).find('td').eq(2).attr('name', 'dontedit');
-                                    $(this).find('td').eq(3).addClass('prdIvQuantity');
-                                    $(this).find('td').eq(4).attr('name', 'dontedit');
-                                    $(this).find('td').eq(5).attr('name', 'dontedit');
-                                    $(this).find('td').eq(6).addClass('prdIvMemo');
-                                    $(this).find('td').eq(7).attr('name', 'dontedit');
-
-                                    // 모든 행에 있는 '.select2' 요소 초기화
-                                    var select2Element = $(this).find('.select2');
-                                    var rowIndex = $(this).closest('tr').index();
-
-                                    $('tbody tr').each(function (index) {
-
-                                        var select2Value = $(this).find('.chooseBook').val(); // .chooseBook 클래스를 가진 요소의 선택된 값을 가져옴
-                                        var cell = table.cell(index, 1);
-
-                                        select2Value = selectedValues[index];
-                                        /!*                    cell.data(select2Value); // 선택된 값을 셀에 할당
-                                                            cell.draw(); // 변경된 데이터를 테이블에 그리기*!/
-
-                                        /!*$(this).next().find('.chooseBook').val(selectedValues[index]).trigger('change');*!/ // 선택된 값을 .chooseBook 클래스를 가진 요소에 설정
-                                        if (index > currentRowIndex) {
-                                            $(this).next().find('.chooseBook').val(select2Value);
-                                        }
-                                        if (index <= currentRowIndex) {
-                                            $(this).find('.chooseBook').val(select2Value);
-                                        }
-
-                                        if (index === 0) {
-
-                                            select2Element.select2({
-
-                                                allowClear: true
-                                            });
-
-                                        }
-                                    });
-
-                                    table.draw();
-                                    if (justones === false) {
-                                        var lastTr = $('#example1 tbody tr:last')
-                                        var select2Container = lastTr.find('.select2.select2-container.select2-container--default');
-                                        // var select2Container = $('.select2.select2-container.select2-container--default');
-
-                                        // select2Container가 속해 있는 DataTables의 행 삭제
-                                        var dataTable = $('#example1').DataTable(); // DataTables 초기화
-                                        select2Container.each(function () {
-                                            var row = $(this).closest('tr');
-                                            var rowIndex = dataTable.row(row).index(); // 행의 인덱스 가져오기
-                                            dataTable.row(rowIndex).remove().draw(); // 행 삭제 및 테이블 다시 그리기
-                                            /!*         dataTable.row(0).data(currentData[0]).draw();
-                                                     rowselect2 = row.find('.select2');*!/
-
-
-                                        });
-
-                                        justones = true;
-
-                                    }
-
-                                });
-
-
-                            });*/
-
-
-                        });
-
-                    </script>
                     <script>
 
                         /*        const saveButton = document.querySelector('.submitproduct');
@@ -2573,806 +1378,205 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 
 
                     </script>
+                    <div id="externalTableContainer">
+                        <div class="box">
+                            <div class="box-header">
 
 
-                    <div class="box">
-                        <div class="box-header">
+                                <h4 class="box-title"><strong>재고 수불부</strong>
+                                </h4>
+                                <h6 class="subtitle">재고 수불부 내역을 파일로 활용하세요</h6>
+                            </div>
 
 
-                            <h4 class="box-title"><strong>재고 수불부</strong>
-                            </h4>
-                            <h6 class="subtitle">재고 수불부 내역을 파일로 활용하세요</h6>
-                        </div>
+                            <div class="box-body">
+                                <div class="table-responsive" style="margin-left:20px;">
+                                    <%--                                <table id="productorder">--%>
+                                    <%--                                    <tr>--%>
+                                    <%--                                        <th>dddd</th>--%>
+                                    <%--                                        <th>dddd</th>--%>
+                                    <%--                                    </tr>--%>
+                                    <%--                                    <tr>--%>
+                                    <%--                                        <td>dddd</td>--%>
+                                    <%--                                        <td>dddd</td>--%>
+                                    <%--                                    </tr>--%>
+                                    <%--                                </table>--%>
 
 
-                        <div class="box-body">
-                            <div class="table-responsive" style="margin-left:20px;">
+                                    <%--                  <div class="box-controls pull-right">
+                                                          <div class="lookup lookup-circle lookup-right">
+                                                              <input type="text" name="s">
+                                                          </div>
+                                                      </div>--%>
 
-
-                                <%--                  <div class="box-controls pull-right">
-                                                      <div class="lookup lookup-circle lookup-right">
-                                                          <input type="text" name="s">
-                                                      </div>
-                                                  </div>--%>
-
-                                <c:forEach items="${groupedBySendBrcIdAndPrdId}" var="sendBrcEntry">
-                                    <%--                                    <h2>Branch ID: ${sendBrcEntry.key}</h2>--%>
-                                    <c:forEach items="${sendBrcEntry.value}" var="prdEntry" varStatus="status">
-                                        <%--                                        <h3>Product ID: ${prdEntry.key}</h3>--%>
-                                        <div style="overflow: hidden; width: 60%; margin-right: auto;"
-                                             class="top">
-                                            <p style="float: left; margin-top: 40px; margin-left:5px;">회사명
-                                                : (주)로켓 ERP
-                                                : ${prdEntry.value[0].BRANCH_NAME}, ${prdEntry.value[0].PRD_TITLE}</p>
-                                            <p style="float: right; margin-top: 40px; margin-right:20px;">기간
-                                                : ${startDateHiddenValue}
-                                                - ${endDateHiddenValue}</p>
-                                        </div>
-                                        <%--                                        <h4>Branch Name: ${prdEntry.value[0].BRANCH_NAME}</h4>--%>
-                                        <table id=" datatable-${sendBrcEntry.key}-${status.index}"
-                                               class="table table-hover table-sm mb-0"
-                                               style="width: 60%; margin-right: auto;border: 1px solid #F1F1F1; padding: 10px;">
-                                            <thead class="table-light table-primary">
-                                            <tr class=" bt-1 border-primary
+                                    <c:forEach items="${groupedBySendBrcIdAndPrdId}" var="sendBrcEntry">
+                                        <%--                                    <h2>Branch ID: ${sendBrcEntry.key}</h2>--%>
+                                        <c:forEach items="${sendBrcEntry.value}" var="prdEntry" varStatus="status">
+                                            <%--                                        <h3>Product ID: ${prdEntry.key}</h3>--%>
+                                            <div style="overflow: hidden; width: 60%; margin-right: auto;"
+                                                 class="top">
+                                                <p style="float: left; margin-top: 40px; margin-left:5px;">회사명
+                                                    : (주)로켓 ERP
+                                                    : ${prdEntry.value[0].BRANCH_NAME}, ${prdEntry.value[0].PRD_TITLE}</p>
+                                                <p style="float: right; margin-top: 40px; margin-right:20px;">기간
+                                                    : ${startDateHiddenValue}
+                                                    - ${endDateHiddenValue}</p>
+                                            </div>
+                                            <%--                                        <h4>Branch Name: ${prdEntry.value[0].BRANCH_NAME}</h4>--%>
+                                            <table id="datatable-${sendBrcEntry.key}-${status.index}"
+                                                   class="display table table-hover table-sm mb-0"
+                                                   style="width: 60%; margin-right: auto;border: 1px solid #F1F1F1; padding: 10px;"
+                                                   name="gggg">
+                                                <thead class="table-light table-primary">
+                                                <tr class=" bt-1 border-primary
                                             ">
-                                                    <%--                                                <th>Product ID</th>--%>
-                                                    <%--                                                <th>Title</th>--%>
-                                                    <%--                                                <th>Branch Name</th>--%>
-                                                <th>일자</th>
-                                                    <%--                                                <th>Stock</th>--%>
-                                                <th>거래처명</th>
-                                                    <%--                                                <th>Send Branch ID</th>--%>
-                                                    <%--                                                <th>Receive Branch ID</th>--%>
-                                                    <%--                                                <th>Inventory Type</th>--%>
-                                                <th>입고 수량</th>
-                                                <th>출고 수량</th>
-                                                <th>재고 수량</th>
-                                                    <%--                                                <th>Total Month Name</th>--%>
-                                                    <%--                                                <th>Previous Stock</th>--%>
-                                                    <%--                                  <th>Total Month In</th>
-                                                                                      <th>Total Month Out</th>
-                                                                                      <th>Total Month Stock</th>--%>
-                                                    <%--                <th>Final Month In</th>
-                                                                    <th>Final Month Out</th>
-                                                                    <th>Final Quantity</th>--%>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                                                        <%--                                                <th>Product ID</th>--%>
+                                                        <%--                                                <th>Title</th>--%>
+                                                        <%--                                                <th>Branch Name</th>--%>
+                                                    <th>일자</th>
+                                                        <%--                                                <th>Stock</th>--%>
+                                                    <th>거래처명</th>
+                                                        <%--                                                <th>Send Branch ID</th>--%>
+                                                        <%--                                                <th>Receive Branch ID</th>--%>
+                                                        <%--                                                <th>Inventory Type</th>--%>
+                                                    <th>입고 수량</th>
+                                                    <th>출고 수량</th>
+                                                    <th>재고 수량</th>
+                                                        <%--                                                <th>Total Month Name</th>--%>
+                                                        <%--                                                <th>Previous Stock</th>--%>
+                                                        <%--                                  <th>Total Month In</th>
+                                                                                          <th>Total Month Out</th>
+                                                                                          <th>Total Month Stock</th>--%>
+                                                        <%--                <th>Final Month In</th>
+                                                                        <th>Final Month Out</th>
+                                                                        <th>Final Quantity</th>--%>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
 
 
-                                            <c:set var="previousMonth" value=""/> <!-- 이전 달의 이름을 저장하는 변수 초기화 -->
-                                            <c:forEach items="${prdEntry.value}" var="record" varStatus="status">
-                                                <c:if test="${status.first}">
-                                                    <!-- 각 섹션의 첫 번째 레코드에 PREVIOUS_STOCK 값 출력 -->
+                                                <c:set var="previousMonth" value=""/> <!-- 이전 달의 이름을 저장하는 변수 초기화 -->
+                                                <c:forEach items="${prdEntry.value}" var="record" varStatus="status">
+                                                    <c:if test="${status.first}">
+                                                        <!-- 각 섹션의 첫 번째 레코드에 PREVIOUS_STOCK 값 출력 -->
+                                                        <tr class="bt-1 border-primary">
+                                                            <td colspan="2" style="text-align: center; color:red;">
+                                                                <strong>전일
+                                                                    재고 </strong></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>${record.PREVIOUS_STOCK}</td>
+                                                        </tr>
+                                                    </c:if>
+                                                    <%--                     <c:choose>
+                                                                             <c:when test="${not status.first and record.TOTAL_MONTH_NAME ne previousMonth}">
+                                                                                 <!-- 이전 레코드와 현재 레코드의 total_month_name이 다른 경우 새로운 th 추가 -->
+                                                                                 <tr class="bt-1 border-primary">
+                                                                                     <th colspan="17">${record.TOTAL_MONTH_NAME}</th>
+                                                                                     <!-- colspan은 테이블 열의 개수에 따라 조정 -->
+                                                                                 </tr>
+                                                                             </c:when>
+                                                                         </c:choose>--%>
                                                     <tr class="bt-1 border-primary">
-                                                        <td colspan="2" style="text-align: center; color:red;"><strong>전일
-                                                            재고 </strong></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>${record.PREVIOUS_STOCK}</td>
-                                                    </tr>
-                                                </c:if>
-                                                <%--                     <c:choose>
-                                                                         <c:when test="${not status.first and record.TOTAL_MONTH_NAME ne previousMonth}">
-                                                                             <!-- 이전 레코드와 현재 레코드의 total_month_name이 다른 경우 새로운 th 추가 -->
-                                                                             <tr class="bt-1 border-primary">
-                                                                                 <th colspan="17">${record.TOTAL_MONTH_NAME}</th>
-                                                                                 <!-- colspan은 테이블 열의 개수에 따라 조정 -->
-                                                                             </tr>
-                                                                         </c:when>
-                                                                     </c:choose>--%>
-                                                <tr class="bt-1 border-primary">
-                                                        <%--                                                    <td>${record.PRD_ID}</td>--%>
-                                                        <%--                                                    <td>${record.PRD_TITLE}</td>--%>
-                                                        <%--                                                    <td>${record.BRANCH_NAME}</td>--%>
-                                                    <td><fmt:formatDate value="${record.STK_DATE}"
-                                                                        pattern="yyyy-MM-dd"/></td>
-                                                        <%--                                                    <td>${record.STK_STOCK}</td>--%>
-                                                    <td>${record.RECIEVE_BRANCH_NAME}</td>
-                                                        <%--                                                    <td>${record.SEND_BRC_ID}</td>--%>
-                                                        <%--                                                    <td>${record.RECIEVE_BRC_ID}</td>--%>
-                                                        <%--                                                    <td>${record.IV_TYPE}</td>--%>
-                                                    <td>
-                                                        <c:choose>
-                                                            <c:when test="${record.IN_STOCK == 0}">
+                                                            <%--                                                    <td>${record.PRD_ID}</td>--%>
+                                                            <%--                                                    <td>${record.PRD_TITLE}</td>--%>
+                                                            <%--                                                    <td>${record.BRANCH_NAME}</td>--%>
+                                                        <td><fmt:formatDate value="${record.STK_DATE}"
+                                                                            pattern="yyyy-MM-dd"/></td>
+                                                            <%--                                                    <td>${record.STK_STOCK}</td>--%>
+                                                        <td>${record.RECIEVE_BRANCH_NAME}</td>
+                                                            <%--                                                    <td>${record.SEND_BRC_ID}</td>--%>
+                                                            <%--                                                    <td>${record.RECIEVE_BRC_ID}</td>--%>
+                                                            <%--                                                    <td>${record.IV_TYPE}</td>--%>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${record.IN_STOCK == 0}">
+                                                                    <!-- 입고 수량이 0일 경우 빈 문자열 출력 -->
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <!-- 그 외의 경우 실제 값 출력 -->
+                                                                    ${record.IN_STOCK}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td><c:choose>
+                                                            <c:when test="${record.OUT_STOCK == 0}">
                                                                 <!-- 입고 수량이 0일 경우 빈 문자열 출력 -->
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <!-- 그 외의 경우 실제 값 출력 -->
-                                                                ${record.IN_STOCK}
+                                                                ${record.OUT_STOCK}
                                                             </c:otherwise>
                                                         </c:choose>
-                                                    </td>
-                                                    <td><c:choose>
-                                                        <c:when test="${record.OUT_STOCK == 0}">
-                                                            <!-- 입고 수량이 0일 경우 빈 문자열 출력 -->
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <!-- 그 외의 경우 실제 값 출력 -->
-                                                            ${record.OUT_STOCK}
-                                                        </c:otherwise>
-                                                    </c:choose>
 
-                                                    </td>
-                                                    <td>${record.STK_STOCK}</td>
-                                                        <%--                                                    <td>${record.TOTAL_MONTH_NAME}</td>--%>
-                                                        <%--                                                    <td>${record.PREVIOUS_STOCK}</td>--%>
-                                                        <%--                      <td>${record.TOTAL_MONTH_IN}</td>
-                                                                              <td>${record.TOTAL_MONTH_OUT}</td>
-                                                                              <td>${record.TOTAL_MONTH_STOCK}</td>--%>
-                                                        <%--                             <td>${record.FINAL_MONTH_IN}</td>
-                                                                                     <td>${record.FINAL_MONTH_OUT}</td>
-                                                                                     <td>${record.FINAL_QUANTITY}</td>--%>
-                                                </tr>
-                                                <c:set var="previousMonth"
-                                                       value="${record.TOTAL_MONTH_NAME}"/> <!-- 현재 레코드의 월을 저장 -->
-                                                <c:if test="${status.last or record.TOTAL_MONTH_NAME ne prdEntry.value[status.index + 1].TOTAL_MONTH_NAME}">
-                                                    <tr class="bt-1 border-primary table-light">
-
-                                                            <%--                                                        <th colspan="4" style="text-align: center;">합계</th>--%>
-                                                        <td colspan="2" style="text-align: center;">
-                                                            <b>${record.TOTAL_MONTH_NAME} 계</b>
                                                         </td>
-                                                        <td>
-                                                                ${record.TOTAL_MONTH_IN}</td>
-                                                        <td>${record.TOTAL_MONTH_OUT}</td>
-                                                        <td>${record.TOTAL_MONTH_STOCK}</td>
-                                                        <!-- 여기에 원하는 내용을 넣습니다. -->
+                                                        <td>${record.STK_STOCK}</td>
+                                                            <%--                                                    <td>${record.TOTAL_MONTH_NAME}</td>--%>
+                                                            <%--                                                    <td>${record.PREVIOUS_STOCK}</td>--%>
+                                                            <%--                      <td>${record.TOTAL_MONTH_IN}</td>
+                                                                                  <td>${record.TOTAL_MONTH_OUT}</td>
+                                                                                  <td>${record.TOTAL_MONTH_STOCK}</td>--%>
+                                                            <%--                             <td>${record.FINAL_MONTH_IN}</td>
+                                                                                         <td>${record.FINAL_MONTH_OUT}</td>
+                                                                                         <td>${record.FINAL_QUANTITY}</td>--%>
                                                     </tr>
-                                                </c:if>
-                                                <c:if test="${status.last}">
-                                                    <!-- 마지막 이터레이션에서 '합계' 로우 추가 -->
-                                                    <tr class="bt-1 border-primary table-light">
-                                                        <td colspan="2" style="text-align: center;"><strong>합계</strong>
-                                                        </td>
-                                                        <td>${record.FINAL_MONTH_IN}</td>
-                                                        <td>${record.FINAL_MONTH_OUT}</td>
-                                                        <td>${record.FINAL_QUANTITY}</td>
-                                                    </tr>
-                                                </c:if>
-                                            </c:forEach>
-                                            </tbody>
+                                                    <c:set var="previousMonth"
+                                                           value="${record.TOTAL_MONTH_NAME}"/> <!-- 현재 레코드의 월을 저장 -->
+                                                    <c:if test="${status.last or record.TOTAL_MONTH_NAME ne prdEntry.value[status.index + 1].TOTAL_MONTH_NAME}">
+                                                        <tr class="bt-1 border-primary table-light">
 
-                                        </table>
-                                        <div style="overflow: hidden; width: 60%; margin-right: auto;" class="bottom">
-                                            <p style="float: left; margin-left:20px; margin-top:10px;">
-                                                [ ${status.index + 1} 페이지
-                                                ]</p>
-                                                <%--     <p style="float: right; margin-top: 40px; margin-right:40px;">기간
-                                                         : ${startDateHiddenValue}
-                                                         - ${endDateHiddenValue}</p>--%>
-                                            <%
-                                                SimpleDateFormat dateFormat = new SimpleDateFormat(
-                                                        "yyyy-MM-dd HH:mm:ss");
-                                                dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-                                                String koreanTime = dateFormat.format(new Date());
-                                            %>
-                                            <p style="float: right; margin-right:20px; margin-top:10px;">조회 시각
-                                                : <%= koreanTime %>
-                                            </p>
-                                        </div>
+                                                                <%--                                                        <th colspan="4" style="text-align: center;">합계</th>--%>
+                                                            <td colspan="2" style="text-align: center;">
+                                                                <b>${record.TOTAL_MONTH_NAME} 계</b>
+                                                            </td>
+                                                            <td>
+                                                                    ${record.TOTAL_MONTH_IN}</td>
+                                                            <td>${record.TOTAL_MONTH_OUT}</td>
+                                                            <td>${record.TOTAL_MONTH_STOCK}</td>
+                                                            <!-- 여기에 원하는 내용을 넣습니다. -->
+                                                        </tr>
+                                                    </c:if>
+                                                    <c:if test="${status.last}">
+                                                        <!-- 마지막 이터레이션에서 '합계' 로우 추가 -->
+                                                        <tr class="bt-1 border-primary table-light">
+                                                            <td colspan="2" style="text-align: center;">
+                                                                <strong>합계</strong>
+                                                            </td>
+                                                            <td>${record.FINAL_MONTH_IN}</td>
+                                                            <td>${record.FINAL_MONTH_OUT}</td>
+                                                            <td>${record.FINAL_QUANTITY}</td>
+                                                        </tr>
+                                                    </c:if>
+                                                </c:forEach>
+                                                </tbody>
+
+                                            </table>
+
+                                            <div style="overflow: hidden; width: 60%; margin-right: auto;"
+                                                 class="bottom">
+                                                <p style="float: left; margin-left:20px; margin-top:10px;">
+                                                    [ ${status.index + 1} 페이지
+                                                    ]</p>
+                                                    <%--     <p style="float: right; margin-top: 40px; margin-right:40px;">기간
+                                                             : ${startDateHiddenValue}
+                                                             - ${endDateHiddenValue}</p>--%>
+                                                <%
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                                            "yyyy-MM-dd HH:mm:ss");
+                                                    dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+                                                    String koreanTime = dateFormat.format(new Date());
+                                                %>
+                                                <p style="float: right; margin-right:20px; margin-top:10px;">조회 시각
+                                                    : <%= koreanTime %>
+                                                </p>
+                                            </div>
+                                        </c:forEach>
                                     </c:forEach>
-                                </c:forEach>
+                                </div>
                             </div>
+
+
                         </div>
-                        <%-- <div class="table-responsive">
-                                           <div id="branch-names2" name="branch-names2" style="display:none;">
-
-                                               회사명 : (주)로켓 ERP /
-                                               <c:forEach var="branch" items="${branchNameUniqueList}">
-                                                   <c:set var="uniqueBranchNames" value=""/>
-                                                   <c:forEach var="item" items="${branchNameUniqueList}">
-                                                       <c:if test="${not uniqueBranchNames.contains(item.BRANCH_NAME)}">
-                                                           <c:set var="uniqueBranchNames"
-                                                                  value="${uniqueBranchNames} ${item.BRANCH_NAME}, "/>
-                                                       </c:if>
-                                                   </c:forEach>
-                                                   <c:set var="uniqueBranchNames"
-                                                          value="${fn:substring(uniqueBranchNames, 0, fn:length(uniqueBranchNames) - 2)}"/>
-                                               </c:forEach>
-                                               ${uniqueBranchNames}
-                                               <br>
-                                               기준 날짜 : ${daybyStockList[0]["SELECTED_STK_DATE"]}
-                                           </div>
-                                                    ${branchNameUniqueList}"
-                                                                 <div class="top"></div>
-                                                                 <table id="example1"
-                                                                        class="table table-striped">
-                                                                     <thead>
-                                                                     <tr class="bt-5 border-primary">
-                                                                         <th>도서 코드</th>
-                                                                         <th>도서명</th>
-                                                                         <th>총 재고수량</th>
-                                                                         &lt;%&ndash;                <th>입고 단가</th>
-                                                                                         <th>금액(총)</th>&ndash;%&gt;
-                                                                         <!-- 선택한 branchId에 따라 동적으로 컬럼 생성 -->
-                                                                         <c:set var="count" value="0"/>
-                                                                         <c:forEach var="branchName" items="${branchNameUniqueList}">
-                                                                         <th>${branchName.BRANCH_NAME} 재고</th>
-                                                                             <c:set var="count" value="${count + 1}"/>
-                                                                         </c:forEach>
-                                                                     </thead>
-                                                                     &lt;%&ndash;                                    ${daybyStockList }&ndash;%&gt;
-                                                                     <tbody>
-                                                                     &lt;%&ndash;	<c:if test="받는 거래처가 로그인 직원의 해당 지점일 시">&ndash;%&gt;
-                                                                     <c:forEach var="daybyStock" items="${daybyStockList }">
-                                                                         <tr class="bt-5 border-primary">
-                                                                             <td name="dontedit" data-column-name="PRD_ID" data-parent-column="PRD_ID"
-                                                                                 data-table-name="PRODUCT">${daybyStock.PRD_ID}</td>
-
-                                                                                 &lt;%&ndash; TODO 클릭 했을 때 파일 수정 페이지 나왔으면 좋겠음&ndash;%&gt;
-                                                                                 &lt;%&ndash;                                 <td name="dontedit" data-column-name="PRD_FILE_NAME_RE"
-                                                                                                                      data-parent-column="PRD_FILE_NAME_RE"
-                                                                                                                      data-table-name="PRD_ATTACH">
-
-
-                                                                                                                      <img src="${path }/resources/upload/logistics/${prd.PRD_FILE_NAME_RE}"
-                                                                                                                           alt="prdImage" width="80px" id="${prd.PRD_ID}"
-                                                                                                                           onclick="document.getElementById('fileUpload').click();"/>
-
-                                                                                                                  </td>&ndash;%&gt;
-                                                                             <td name="dontedit" data-column-name="PRD_TITLE"
-                                                                                 data-table-name="PRODUCT"
-                                                                                 data-parent-column="PRD_TITLE">${daybyStock.PRD_TITLE}</td>
-
-                                                                             <td name="dontedit" data-column-name="PRD_TITLE"
-                                                                                 data-table-name="PRODUCT"
-                                                                                 data-parent-column="PRD_TITLE"><fmt:formatNumber
-                                                                                     value="${daybyStock.TOTAL_STOCK_BY_PRD}"
-                                                                                     type="number" groupingUsed="true"/></td>
-
-
-                                                                             <c:if test="${daybyStockList[0].branchIds[0] != null}">
-                                                                                 <c:choose>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 1}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("1달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 2}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("2달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 3}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("3달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 4}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("4달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[0] == 5}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("5달성");</script>
-                                                                                     </c:when>
-                                                                                 </c:choose>
-                                                                             </c:if>
-                                                                             <c:if test="${daybyStockList[0].branchIds[1] != null}">
-                                                                                 <c:choose>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 1}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("1달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 2}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("2달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 3}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("3달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 4}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("4달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[1] == 5}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("5달성");</script>
-                                                                                     </c:when>
-                                                                                 </c:choose>
-                                                                             </c:if>
-                                                                             <c:if test="${daybyStockList[0].branchIds[2] != null}">
-                                                                                 <c:choose>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 1}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("1달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 2}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("2달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 3}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("3달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 4}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("4달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[2] == 5}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("5달성");</script>
-                                                                                     </c:when>
-                                                                                 </c:choose>
-                                                                             </c:if>
-                                                                             <c:if test="${daybyStockList[0].branchIds[3] != null}">
-                                                                                 <c:choose>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 1}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("1달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 2}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("2달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 3}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("3달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 4}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("4달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[3] == 5}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("5달성");</script>
-                                                                                     </c:when>
-                                                                                 </c:choose>
-                                                                             </c:if>
-                                                                             <c:if test="${daybyStockList[0].branchIds[4] != null}">
-                                                                                 <c:choose>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 1}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH1_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("1달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 2}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH2_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("2달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 3}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH3_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("3달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 4}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH4_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("4달성");</script>
-                                                                                     </c:when>
-                                                                                     <c:when test="${daybyStockList[0].branchIds[4] == 5}">
-                                                                                         <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                             data-parent-column="PRD_AUTHOR"
-                                                                                             data-table-name="PRODUCT">
-                                                                                             <fmt:formatNumber value="${daybyStock.BRANCH5_STOCK}"
-                                                                                                               type="number" groupingUsed="true"/>
-                                                                                         </td>
-                                                                                         <script>console.log("5달성");</script>
-                                                                                     </c:when>
-                                                                                 </c:choose>
-                                                                             </c:if>
-
-                                                                         </tr>
-                                                                     </c:forEach>
-                                                                     </tbody>
-                                                                     <tfoot style="background-color: #E6E6FA;">
-                                                                     <tr>
-                                                                         <th colspan="2" style="text-align: center;">합계</th>
-
-
-                                                                         <td name="dontedit">
-                                                                             <fmt:formatNumber value="${daybyStockList[0].TOTAL_STOCK_BY_ALLPRD}"
-                                                                                               type="number" groupingUsed="true"/>
-                                                                         </td>
-                                                                         &lt;%&ndash;   <td>
-                                                                                <fmt:formatNumber value="${daybyStockList[0].TOTAL_PURCHASE_COST}"
-                                                                                                  type="number" groupingUsed="true"/>
-                                                                            </td>
-                                                                            <td name="dontedit">
-                                                                                <fmt:formatNumber value="${daybyStockList[0].TOTAL_PRICE_ALLPRD}"
-                                                                                                  type="number" groupingUsed="true"/>
-                                                                            </td>&ndash;%&gt;
-                                                                         &lt;%&ndash;                                        dddddddddddddd ${daybyStockList[0].BRANCH3_STOCK_SUM}ddddddddddddd&ndash;%&gt;
-                                                                         &lt;%&ndash;                                        qqqqqqqqqqqqqq ${daybyStockList.BRANCH3_STOCK_SUM}qqqqqqqqqqqqqq&ndash;%&gt;
-                                                                         <c:if test="${daybyStockList[0].branchIds[0] != null}">
-                                                                             <c:choose>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 1}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[1].BRANCH1_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("1달성111111");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 2}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[0].BRANCH2_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("2달성222222222");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 3}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[0].BRANCH3_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("3달성333333");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 4}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[0].BRANCH4_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("4달성4444444");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[0] == 5}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[0].BRANCH5_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("5달성555555");</script>
-                                                                                 </c:when>
-                                                                             </c:choose>
-                                                                         </c:if>
-                                                                         <c:if test="${daybyStockList[0].branchIds[1] != null}">
-                                                                             <c:choose>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 1}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[1].BRANCH1_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("1달성00000000000");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 2}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[3].BRANCH2_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("2달성0000000000");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 3}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[1].BRANCH3_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("3달성00000000000000");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 4}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[1].BRANCH4_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("4달성000000000000");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[1] == 5}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[1].BRANCH5_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("5달성000000000000000");</script>
-                                                                                 </c:when>
-                                                                             </c:choose>
-                                                                         </c:if>
-                                                                         <c:if test="${daybyStockList[0].branchIds[2] != null}">
-                                                                             <c:choose>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 1}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[2].BRANCH1_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("1달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 2}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[2].BRANCH2_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("2달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 3}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[4].BRANCH3_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("3달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 4}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[2].BRANCH4_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("4달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[2] == 5}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[2].BRANCH5_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("5달성ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ");</script>
-                                                                                 </c:when>
-                                                                             </c:choose>
-                                                                         </c:if>
-                                                                         <c:if test="${daybyStockList[0].branchIds[3] != null}">
-                                                                             <c:choose>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 1}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[3].BRANCH1_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("1달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 2}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[3].BRANCH2_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("2달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 3}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[3].BRANCH3_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("3달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 4}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[2].BRANCH4_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("4달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[3] == 5}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[3].BRANCH5_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("5달성ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");</script>
-                                                                                 </c:when>
-                                                                             </c:choose>
-                                                                         </c:if>
-                                                                         <c:if test="${daybyStockList[0].branchIds[4] != null}">
-                                                                             <c:choose>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 1}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[4].BRANCH1_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("1달성ㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 2}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[4].BRANCH2_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("2달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 3}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[4].BRANCH3_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("3달성ㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 4}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[4].BRANCH4_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("4달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                                                 </c:when>
-                                                                                 <c:when test="${daybyStockList[0].branchIds[4] == 5}">
-                                                                                     <td name="dontedit" data-column-name="PRD_AUTHOR"
-                                                                                         data-parent-column="PRD_AUTHOR"
-                                                                                         data-table-name="PRODUCT">
-                                                                                         <fmt:formatNumber
-                                                                                                 value="${RealdaybyStockList[0].BRANCH5_STOCK_SUM}"
-                                                                                                 type="number" groupingUsed="true"/>
-                                                                                     </td>
-                                                                                     <script>console.log("5달성ㅂㅂㅂㅂㅂㅂㅂㅂㅂ");</script>
-                                                                                 </c:when>
-                                                                             </c:choose>
-                                                                         </c:if>
-
-                                                                     </tr>
-                                                                     </tfoot>
-                                                                 </table>
-                                                             </div class="bottom">
-                             </div>
-                   <%
-                       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                       dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-                       String koreanTime = dateFormat.format(new Date());
-                   %>
-                   <p>조회 시각 : <%= koreanTime %>
-                   </p>--%>
                     </div>
                 </div>
 
@@ -3381,6 +1585,2627 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
         </section>
     </div>
 </div>
+
+
+<script>
+
+    /*                        var uniqueBottomMessage = "기준 날짜 : " + document.getElementById('branch-names3').value;
+
+                            var uniqueBranchNames = document.getElementById('branch-names').value;
+                            uniqueBranchNames = "회사명 : (주)로켓 ERP / " + uniqueBranchNames + " 외";
+
+                            function getCurrentDateTime() {
+                                var now = new Date();
+                                var year = now.getFullYear();
+                                var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                                var day = ('0' + now.getDate()).slice(-2);
+                                var hour = ('0' + now.getHours()).slice(-2);
+                                var minute = ('0' + now.getMinutes()).slice(-2);
+                                var second = ('0' + now.getSeconds()).slice(-2);
+                                return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+                            }*/
+
+
+    $(function () {
+        $("#min").datepicker();
+        $("#max").datepicker();
+    });
+    /*                        var select2Element;
+                            var parentElement;
+                            document.addEventListener('DOMContentLoaded', function () {
+                                parentElement_forEmptyValue = document.querySelector('.form-control.select2.select2-hidden-accessible');
+                                select2Element_forEmptyValue = parentElement_forEmptyValue.querySelector('.select2-selection.select2-selection--single');
+
+                                // 이제 select2Element를 사용할 수 있습니다.
+                            });*/
+
+
+    /*          var uniqueBranchNames = "회사명 : (주)로켓 ERP / " + uniqueBranchNames;*/
+
+    /*    $(document).ready(function () {
+            $('table.display').DataTable();
+        });*/
+
+    $(document).ready(function () {
+        <%--$("#externalTableContainer").load("${path}/logistics/stock/ledger2", function () {--%>
+        <%--    // 필요한 경우 여기서 추가적인 JavaScript 로직을 실행--%>
+        <%--});--%>
+
+
+        <%--$("#externalTableContainer").load("${path}/logistics/stock/ledger2", function (response, status, xhr) {--%>
+        <%--    if (status == "error") {--%>
+        <%--        var msg = "Sorry but there was an error: ";--%>
+        <%--        $("#externalTableContainer").html(msg + xhr.status + " " + xhr.statusText);--%>
+        <%--    } else {--%>
+        <%--        // AJAX 요청이 성공했을 때, response에는 externalTable.jsp의 내용이 담겨 있음--%>
+        <%--        // 필요한 경우 여기서 추가적인 JavaScript 로직을 실행--%>
+        <%--        // 예를 들어, DataTables 초기화 등--%>
+
+        <%--        // response에서 테이블들을 가져와서 externalTableContainer에 삽입--%>
+        <%--        $("#externalTableContainer").html(response);--%>
+
+        <%--        // 모든 테이블에 DataTables 적용--%>
+        <%--        $('#externalTableContainer').find('table').each(function () {--%>
+        <%--            $(this).DataTable(); // 이 부분에서 각 테이블에 DataTables를 초기화--%>
+        <%--        });--%>
+        <%--    }--%>
+        <%--});--%>
+        var path = "${path}";
+        var select2Data = {};
+        var serverData = $("#branch-names2").html();
+        // $(".top").html(serverData);
+        // $(".bottom").html("여기는 테이블 아래쪽에 표시될 텍스트입니다.");
+
+        var tables;
+        $.extend($.fn.dataTable.defaults, {
+            dom: 'Blfrtip',
+            searching: true,
+            ordering: false
+        });
+
+        // $("[id^=datatable-]").on('init.dt', function (e, settings, json) {
+        //     //api can be retrieved by
+        //     var api = $("[id^=datatable-]").DataTable();
+        // })
+
+        /*
+        //    $("#targetElement").html(serverData);*/
+        // $("[id^=datatable-]").each(function () {
+        //     alert($(this).attr("id"));
+        //     // 현재 테이블을 Datatable로 초기화
+        //     $(this).DataTable();
+        //     tables.push($(this));
+        // });
+
+        /*        $("[id^=datatable-1-0]").DataTable().clear().destroy();
+                $("[id^=datatable-1-1]").DataTable();*/
+        // alert(tables);
+        // tables.push($("[id^=datatable-]"));
+
+        // $('table.display').dataTable(); //focus here
+
+
+        // $('table').dataTable({
+        //
+        //     "fnDrawCallback": function (oSettings) {
+        //
+        //         if (oSettings.sTableId == '[id^=datatable-]') {
+        //             alert("gg");
+        //         }
+        //         if (oSettings.sTableId == '[id^=datatable-]') {
+        //             alert("dd");
+        //         }
+        //         console.log(oSettings)
+        //
+        //     }
+        // });
+
+
+        /*            $('[id="datatable-1-0"]').dataTable({
+                        // 현재 테이블을 Datatable로 초기화
+                        // "dom": '<"top">Bflirtp<"bottom">',
+                        // "autoWidth": true,
+                        // "drawCallback": function (settings) {
+                        //
+                        //     $('#example1').editableTableWidget();
+                        // },
+                        // ordering: true,
+                        // columnDefs: [
+                        //     {targets: '_all', editable: false, orderable: false},
+                        // ],
+                        // "lengthMenu": [[10, 25, 50, 100, -1],
+                        //     [10, 25, 50, 100, "All"]],
+                        // "language": {
+                        //     "lengthMenu": "표시할 항목 수: _MENU_",
+                        //     "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
+                        //     "search": "검색:",
+                        //     "paginate": {
+                        //         "first": "처음",
+                        //         "last": "마지막",
+                        //         "next": "다음",
+                        //         "previous": "이전",
+                        //         "emptyTable": "데이터가 없어요.",
+                        //         "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                        //         // "info": "현재 _START_ - _END_ / _TOTAL_건",
+                        //         "infoEmpty": "데이터 없음",
+                        //         "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+                        //         // "search": "에서 검색: ",
+                        //         "zeroRecords": "일치하는 데이터가 없어요.",
+                        //         "loadingRecords": "로딩중...",
+                        //         "processing": "잠시만 기다려 주세요..."
+                        //     },
+                        // },
+                        //
+                        //
+                        // "buttons": [{
+                        //     extend: 'excelHtml5'
+                        //
+                        // }],
+                        // "initComplete": function (settings, json) {
+                        //     alert('initComplete');
+                        //     // alert
+                        // }
+                    });*/
+        // var tables = ['datatable-1-1', 'datatable-1-2', 'datatable-1-3', 'datatable-1-4'];
+        //
+        // $.each(tables, function (i, tableId) {
+        //     if ($.fn.dataTable.isDataTable('#' + tableId)) {
+        //         $('#' + tableId).DataTable().clear().destroy();
+        //     }
+        //     $('#' + tableId).dataTable();
+        // });
+
+        //
+        // new DataTable('#datatable-1-0');
+
+
+        /*                       var tables = new DataTable('table.display');
+                               alert(tables);*/
+        /*                 tables.each(function () {
+                             var table = $(this).DataTable();
+                             alert(this);
+                             table
+                                 .order([1, 'desc'])
+                                 .draw();
+                         });*/
+
+
+        //
+        // $('table').each(function () {
+        //     alert($(this).attr("id"));
+        //     // 현재 테이블을 Datatable로 초기화
+        //     $(this).DataTable();
+        // });
+
+        // var elements = document.getElementsByName('gggg');
+        // var $elements = $('[name="gggg"]');
+        // alert($elements);
+
+        /*                              $elements.each(function () {
+                                          alert($(this).attr("id"));
+                                      })*/
+        /*                           var tables = [];
+                                   var allTables = document.querySelectorAll('table.display.table.table-hover.table-sm.mb-0');
+                                   for (var i = 0; i < allTables.length; i++) {
+                                       alert($(allTables[i]).attr("id"));
+                                       tables.push($(allTables[i]).DataTable());
+                                   }*/
+        /*                  var tables = [];
+                          $('table.display.table.table-hover.table-sm.mb-0').each(function () {
+                              alert($(this).attr("id"));
+                              tables.push($(this).DataTable());
+                          });*/
+
+        // for (var i = 0; i < 13; i++) {
+        //     $("[id^=datatable-]").DataTable();
+        //
+        // }
+        // alert(tables.length);
+        /*
+                                    $("[id^=datatable-]").each(function () {
+                                        tables.push($(this).DataTable());
+                                    });
+        */
+
+
+        // $("[id^=datatable-]").each(function () {
+        //     tables.push($(this).DataTable({
+        //         // 현재 테이블을 Datatable로 초기화
+        //         // "dom": '<"top">Bflirtp<"bottom">',
+        //         "autoWidth": true,
+        //         "drawCallback": function (settings) {
+        //
+        //             $('#example1').editableTableWidget();
+        //         },
+        //         ordering: true,
+        //         columnDefs: [
+        //             {targets: '_all', editable: false, orderable: false},
+        //         ],
+        //         "lengthMenu": [[10, 25, 50, 100, -1],
+        //             [10, 25, 50, 100, "All"]],
+        //         "language": {
+        //             "lengthMenu": "표시할 항목 수: _MENU_",
+        //             "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
+        //             "search": "검색:",
+        //             "paginate": {
+        //                 "first": "처음",
+        //                 "last": "마지막",
+        //                 "next": "다음",
+        //                 "previous": "이전",
+        //                 "emptyTable": "데이터가 없어요.",
+        //                 "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+        //                 // "info": "현재 _START_ - _END_ / _TOTAL_건",
+        //                 "infoEmpty": "데이터 없음",
+        //                 "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+        //                 // "search": "에서 검색: ",
+        //                 "zeroRecords": "일치하는 데이터가 없어요.",
+        //                 "loadingRecords": "로딩중...",
+        //                 "processing": "잠시만 기다려 주세요..."
+        //             },
+        //         },
+        //         "buttons": [{
+        //             extend: 'excelHtml5',
+        //             title: '재고현황 ' + uniqueBottomMessage,
+        //             /*                 exportData: {decodeEntities: true}, */
+        //             messageTop: uniqueBranchNames,
+        //
+        //             messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+        //             exportOptions: {
+        //                 columns: ':visible',
+        //                 rows: ':visible',
+        //                 encoding: 'UTF-8',
+        //
+        //             },
+        //             customize: function (xlsx) {
+        //                 // 각 테이블 데이터 처리
+        //                 tables.forEach(function (table, index) {
+        //                     addSheet(xlsx, table, 'Sheet ' + (index + 1));
+        //                 });
+        //             }
+        //         },
+        //         ],
+        //     }));
+        // });
+        // alert("ddd");
+
+        /*                     $("[id^=datatable-]").each(function () {
+                                 tables.push($(this).DataTable({
+                                     // 기본 DataTables 설정
+                                     "paging": false,
+                                     "lengthChange": false,
+                                     "searching": false,
+                                     "info": false,
+                                     /!* ordering: true,
+                                      order: [[0, "desc"]],*!/
+                                     // "editable": true,
+                                     "responsive": true,
+                                     /!*    "dateFormat": 'YYYY-MM-DD HH:mm', *!/
+                                     "dom": '<"top">Bflirtp<"bottom">',
+                                     // "dom": 'Bflir<"branch-names">tp',
+                                     // dom: '<"top"i>rt<"<"tableInfo">"flp><"clear">',
+                                     "autoWidth": false,
+                                     "width": "80%",
+                                     "fixedHeader": true,
+                                     "drawCallback": function (settings) {
+
+                                         $('#example1').editableTableWidget();
+                                     },
+
+                                     columnDefs: [
+                                         {targets: '_all', editable: false, orderable: false},
+                                         /!*                         {
+                                                                      targets: 5,
+                                                                      /!* orderData: 3, // 정렬을 위해 원본 데이터의 인덱스 지정 *!/
+                                                                      render: function (data, type, row) {
+                                                                          if (type === 'display' || type === 'filter') {
+                                                                              var date = moment(data, 'YYYY-MM-DD HH:mm:ss.S'); // SQL 형식에 맞춰서 변환
+                                                                              return date.format('YYYY-MM-DD'); // 원하는 형식으로 표시
+                                                                          }
+                                                                          /!*                          if (type === 'sort') {
+                                                                                                     // 정렬을 위해 원본 데이터 형식 사용
+                                                                                                     return data;
+                                                                                                   }   *!/
+                                                                          return data;
+                                                                      },
+                                                                  }*!/
+                                     ],
+
+                                     /!*    "ordering": [[0, 'desc']],*!/
+                                     // 수정 불가능한 행 설정
+                                     /!*                    createdRow: function (row, data, dataIndex) {
+                                                             if (dataIndex === 6 || dataIndex === 8 || dataIndex === 9) { // 수정 불가능한 행의 인덱스
+                                                                 $(row).addClass('not-editable');
+                                                             }
+                                                         },*!/
+                                     /!*               "buttons": [{
+                                                        extend: 'colvis',
+                                                        text: '일부 컬럼 보기'
+                                                    }, {
+                                                        extend: 'colvisRestore',
+                                                        text: '컬럼 복원'
+                                                    }, {
+                                                        extend: 'copyHtml5',
+                                                        /!*            exportData: {decodeEntities: true}, *!/
+                                                        text: '클립보드에 복사',
+                                                        messageTop: uniqueBranchNames,
+                                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                                        exportOptions: {
+                                                            columns: ':visible',
+                                                            rows: ':visible',
+                                                            encoding: 'UTF-8'
+                                                        }
+                                                    }, {
+                                                        extend: 'csvHtml5',
+                                                        /!*                 exportData: {decodeEntities: true}, *!/
+                                                        title: '재고현황 ' + uniqueBottomMessage,
+                                                        messageTop: uniqueBranchNames,
+                                                        /!*                      messageBottom: '생성 시각 : ' + getCurrentDateTime(),*!/
+                                                        exportOptions: {
+                                                            columns: ':visible',
+                                                            rows: ':visible',
+                                                            encoding: 'UTF-8'
+                                                        }
+                                                    }, {
+                                                        extend: 'excelHtml5',
+                                                        title: '재고현황 ' + uniqueBottomMessage,
+                                                        /!*                 exportData: {decodeEntities: true}, *!/
+                                                        messageTop: uniqueBranchNames,
+
+                                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                                        exportOptions: {
+                                                            columns: ':visible',
+                                                            rows: ':visible',
+                                                            encoding: 'UTF-8',
+
+                                                        }
+                                                    }, {
+                                                        extend: 'pdfHtml5',
+                                                        /!*          exportData: {decodeEntities: true}, *!/
+                                                        messageTop: uniqueBranchNames,
+                                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                                        text: 'PDF',
+                                                        title: '재고현황 ' + uniqueBottomMessage,
+                                                        font: 'hangul',
+
+                                                        exportOptions: {
+                                                            columns: ':visible',
+                                                            rows: ':visible',
+                                                            encoding: 'UTF-8',
+
+                                                            /!*font: 'hangul',*!/
+                                                            /!*   customize: function (doc) {
+                                                                   // 폰트 설정 추가
+                                                                   /!*                       doc.defaultStyle.styles.tableBodyEven.font = 'Roboto';*!/
+                                                                   doc.defaultStyle.fonts = 'Roboto';
+                                                                   doc.defaultStyle.font = 'Roboto';
+                                                                   modifier: {
+                                                                       page: 'current'
+
+                                                               },*!/
+
+                                                        }
+
+                                                    }, {
+                                                        extend: 'print',
+                                                        title: '재고현황 ' + uniqueBottomMessage,
+                                                        messageTop: uniqueBranchNames,
+                                                        messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                                                        /!*           exportData: {decodeEntities: true}, *!/
+                                                        exportOptions: {
+                                                            columns: ':visible',
+                                                            rows: ':visible',
+                                                            encoding: 'UTF-8'
+                                                        }
+                                                    }
+
+                                                    ],*!/
+                                     "lengthMenu": [[10, 25, 50, 100, -1],
+                                         [10, 25, 50, 100, "All"]],
+                                     "language": {
+                                         "lengthMenu": "표시할 항목 수: _MENU_",
+                                         "info": "총 _TOTAL_개 중 _START_부터 _END_까지 표시",
+                                         "search": "검색:",
+                                         "paginate": {
+                                             "first": "처음",
+                                             "last": "마지막",
+                                             "next": "다음",
+                                             "previous": "이전",
+                                             "emptyTable": "데이터가 없어요.",
+                                             "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                                             // "info": "현재 _START_ - _END_ / _TOTAL_건",
+                                             "infoEmpty": "데이터 없음",
+                                             "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+                                             // "search": "에서 검색: ",
+                                             "zeroRecords": "일치하는 데이터가 없어요.",
+                                             "loadingRecords": "로딩중...",
+                                             "processing": "잠시만 기다려 주세요..."
+                                             // "paginate": {
+                                             //     "next": "다음",
+                                             //     "previous": "이전"
+
+                                             // },
+                                         },
+                                     }
+                                 }));
+
+                             });*/
+        //
+        alert(tables.length);
+
+
+        var buttons = [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel로 내보내기',
+                customize: function (xlsx) {
+                    // 각 테이블 데이터 처리
+                    tables.forEach(function (table, index) {
+                        // 여기에 각 테이블의 데이터를 처리하는 로직을 추가
+                        // 예: addSheet(xlsx, '#table-id-' + index, 'Sheet ' + (index + 1));
+                        addSheet(xlsx, table, 'Sheet ' + (index + 1));
+                    });
+                },
+                title: '재고현황 ' + uniqueBottomMessage,
+
+                messageTop: uniqueBranchNames,
+
+                messageBottom: '생성 시각 : ' + getCurrentDateTime(),
+                exportOptions: {
+                    columns: ':visible',
+                    rows: ':visible',
+                    encoding: 'UTF-8',
+                }
+            }
+        ];
+        alert("ddd222");
+
+        tables.forEach(function (table) {
+
+            new $.fn.dataTable.buttons(table, {
+
+                buttons: buttons
+            })
+            ;
+            table.buttons().container().appendTo($('.table-responsive'));
+        });
+
+        // Excel 시트 추가 함수
+
+        function addSheet(xlsx, tableId, sheetName) {
+            // 여기에 각 테이블의 데이터를 Excel 시트로 변환하는 로직을 추가
+
+            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+            var sheetData = $('row', sheet);
+
+            // 각 테이블의 행 데이터 추가
+            table.rows().every(function () {
+                var data = this.data();
+                var row = sheet.createElement('row');
+
+                data.forEach(function (cellData) {
+                    var cell = sheet.createElement('c');
+                    cell.setAttribute('t', 'inlineStr');
+                    var cellValue = sheet.createElement('is');
+                    var textNode = sheet.createElement('t');
+                    textNode.textContent = cellData;
+                    cellValue.appendChild(textNode);
+                    cell.appendChild(cellValue);
+                    row.appendChild(cell);
+                });
+
+                sheetData.append(row);
+            });
+
+            // 시트 이름 변경
+            var sheetNameTag = $('sheet', xlsx.xl['workbook.xml']).filter(function () {
+                return $(this).attr('sheetId') === '1';
+            });
+            sheetNameTag.attr('name', sheetName);
+        }
+
+
+        /*                     // 드롭다운 아이템 클릭 시 이벤트 처리
+                             $('.dropdown-menu a').click(function () {
+                                 var selectedBank = $(this).text(); // 선택된 드롭다운 아이템의 텍스트 값 가져오기
+                                 $('input[name="pubBank"]').val(selectedBank + " "); // input 요소에 선택된 값 설정
+                             });*/
+        /*          function addCells(data) {
+
+                      var sheetData = sheet.getElementsByTagName('sheetData')[0];
+                      for (i = 0; i < data.length; i++) {
+                          var key = data[i].key;
+                          var value = data[i].value;
+
+                          var c = sheet.createElement('c');
+                          c.setAttribute("t", "inlineStr");
+
+                          //Set styling (added styles to the buttons.html5.min.js file)
+                          switch (value) {
+                              case 'I':
+                                  c.setAttribute("s", "78");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'Do':
+                                  c.setAttribute("s", "67");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'Not':
+                                  c.setAttribute("s", "68");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'Like':
+                                  c.setAttribute("s", "69");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'XML':
+                                  c.setAttribute("s", "70");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'It':
+                                  c.setAttribute("s", "71");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'Is':
+                                  c.setAttribute("s", "72");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'Too':
+                                  c.setAttribute("s", "73");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                              case 'Verbose':
+                                  c.setAttribute("s", "74");  //REMEMBER ZERO BASED (COUNT -1)
+                                  break;
+                          }
+
+                          var is = sheet.createElement('is');
+                          var t = sheet.createElement('t');
+                          var text = sheet.createTextNode(value)
+
+                          t.appendChild(text);
+                          is.appendChild(t);
+                          c.appendChild(is);
+
+                          //Add cells to row 2 (zero-based) of sheet
+                          sheetData.childNodes[1].appendChild(c);
+                      }
+                  }
+
+//The call to add cells to an existing row (in this case to row 2, which is in the function)
+                  addCells([{key: 'M', value: ''}, {key: 'N', value: 'I'}, {key: 'O', value: 'Do'}, {
+                      key: 'P',
+                      value: 'Not'
+                  }, {key: 'Q', value: 'Like'}, {key: 'R', value: 'XML'}, {key: 'S', value: 'It'}, {
+                      key: 'T',
+                      value: ' Is'
+                  }, {key: 'U', value: 'Too'}, {key: 'V', value: ''}, {key: 'W', value: 'Verbose'}]);*/
+
+        $('#example1').editableTableWidget().on('change', function (e, newValue) {
+            // alert("change");
+
+            var cell = $(e.target);
+            // <select> 요소의 변경은 무시
+            if (cell.is('select')) {
+                return;
+            }
+
+            // 셀의 데이터가 변경되었을 때의 처리
+            var cell = $(e.target);
+            var columnIdx = cell.index();
+            var rowIdx = cell.closest('tr').index();
+            var table = $('#example1').DataTable();
+            var data = table.row(rowIdx).data();
+
+
+            data[columnIdx] = newValue; // 데이터 배열 업데이트
+
+            /*            // 검색 색인 업데이트 없이 데이터만 업데이트
+                        table.row(rowIdx).data(data);*/
+            table.row(rowIdx).data(data).draw(); // 검색 색인 업데이트
+        });
+
+        /*                    var prdTitleToIdMapString = '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ${jsonMap}';
+                            var prdTitleToIdMap = JSON.parse(prdTitleToIdMapString);
+
+                            var table = $('#example1').DataTable();
+                            console.log("prdTitleToIdMap: " + prdTitleToIdMap);*/
+
+        /*  $(document).on('change', '.chooseBrc', function () {
+
+              var currentPagePath = window.location.pathname;
+              var url = currentPagePath + '/branchempinfo';
+
+              var select = $(this);
+              var branchId = select.val();
+
+              $.ajax({
+                  url: url, // 서버 URL
+                  method: 'GET',
+                  data: {
+                      /!* bookName: selectedBook,*!/
+                      branchId: branchId
+                  },
+                  success: function (response) {
+                      console.log(response);
+                      populateSelectOptions(response);
+                  },
+                  error: function (xhr, status, error) {
+                      // 에러 처리
+                      alert('오류가 발생했습니다: ' + error);
+                  }
+              });
+
+              function populateSelectOptions(empInfo) {
+                  var selectElement = document.querySelector('.chooseRecieveEmp');
+                  selectElement.innerHTML = ''; // 기존 옵션 제거
+
+                  // 서버로부터 받은 데이터를 이용하여 새로운 옵션 생성
+                  var option = document.createElement('option');
+                  empInfo.forEach(emp => {
+                      option = document.createElement('option');
+                      option.value = emp.EMP_NO; // 예: 직원 ID
+                      option.textContent = emp.EMP_NAME; // 예: 직원 이름
+                      selectElement.appendChild(option);
+                  });
+
+                  // select2 업데이트를 위해 'change' 이벤트를 트리거합니다.
+                  $(selectElement).select2();
+                  $(selectElement).trigger('change');
+              }
+
+          });*/
+
+        /*                            $(document).on('change', 'td .chooseBook', function () {
+                                        /!*       var select = $(this);
+                                               var selectedBook = select.val(); // 선택된 도서명*!/
+
+                                        var select = $(this);
+                                        var prdId = select.val();
+                                        var rowIndex = $(this).closest('tr').index();
+                                        select2Data[rowIndex] = prdId;
+
+                                        var selectedValue = $(this).val(); // 선택된 값 가져오기
+                                        var selectId = selectedValue; // 새로운 ID 생성
+                                        $(this).attr('id', selectId); // ID를 변경된 값으로 설정
+
+                                        console.log("prdId : " + prdId);
+                                        var selectedTitle = prdTitleToIdMap[prdId];
+                                        var row = select.closest('tr'); // 현재 행 찾기
+                                        var currentPagePath = window.location.pathname;
+                                        var url = currentPagePath + '/prdinfo';
+                                        console.log("prdId: " + prdId);
+
+                                        console.log("prdTitleToIdMap: " + prdTitleToIdMap);
+                                        // AJAX 요청
+                                        $.ajax({
+                                            url: url, // 서버 URL
+                                            method: 'GET',
+                                            data: {
+                                                /!* bookName: selectedBook,*!/
+                                                prdId: prdId
+                                            },
+                                            success: function (response) {
+
+                                                console.log("response.PRD_PRICE: " + response.PRD_PRICE);
+                                                var rowIndex = table.row(row).index();
+
+                                                table.cell(rowIndex, 1).data(response.PRD_ID);
+                                                table.cell(rowIndex, 4).data(response.PRD_PRICE);
+                                                table.cell(rowIndex, 5).data(response.PRICE_IN_STK);
+
+                                                table.draw();
+
+                                            },
+                                            error: function (xhr, status, error) {
+                                                // 에러 처리
+                                                alert('오류가 발생했습니다: ' + error);
+                                            },
+
+                                        });
+                                    });*/
+
+        var table = $('#example1').DataTable();
+
+        /*                            var plusButtonCounter = 1;
+
+                                    $(document).on('click', '[id$="plusButton"]', function () {
+
+                                        plusButtonCounter++; // 카운터 증가
+                                        // alert("하이");
+                                        var buttonId = $(this).attr('id'); // 클릭된 버튼의 ID
+                                        console.log("buttonId: " + buttonId);
+                                        var currentRow = $(this).closest('tr');
+                                        console.log("currentRow: " + currentRow);
+                                        var currentRowIndex = currentRow.index();
+                                        console.log("currentRowIndex: " + currentRowIndex);
+                                        /!*            var currentButtonRow = $(this).attr('id').closest('tr');*!/
+
+
+                                        var newData = ['<button type="button" id="' + plusButtonCounter + 'plusButton" class="plusButton waves-effect waves-light btn btn-outline btn-primary-light mb-5"></button>', '', '<label class="form-label">도서 선택</label> <select class="chooseBook form-control select2" data-placeholder="도서를 선택하세요" style="width: 100%;"> <option></option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <c:forEach var="entry" items="${prdTitleToIdMap }"><c:if test="${entry.key != null}"> <option value="
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ${entry.value}">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ${entry.key}</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </c:if></c:forEach> </select>', '최소 1 입력', '', '', '메모 입력', '<button type="button" id="delButton" class="waves-effect waves-light btn btn-danger-light btn-flat mb-5">삭제</button>'];
+
+
+                                var firstRowChooseBook = $('#example1 tbody tr:first .choosebook');
+                                // alert(firstRowChooseBook.val());
+
+                                var currentData = table.rows().data().toArray();
+                                // console.log("currentData: " + currentData);
+                                var selectedValues = [];
+                                $('.chooseBook').each(function () {
+                                    var selectedValue = $(this).val();
+                                    selectedValues.push(selectedValue);
+                                });
+
+
+                                // 현재 클릭한 행 아래로 데이터를 밀어냄
+                                currentData.splice(currentRowIndex + 1, 0, newData);
+
+                                table.clear().rows.add(currentData).draw();
+
+                                // 다시 그린 모든 행의 특정 셀에 'name' 속성 추가
+                                $('#example1 tbody tr').each(function () {
+                                    // 이전에 선택된 값을 저장
+                                    // var prevSelectedValue = $(this).find('.select2').val();
+
+                                    $(this).find('td').eq(0).attr('name', 'dontedit');
+                                    $(this).find('td').eq(1).attr('name', 'dontedit').addClass('prdId');
+                                    $(this).find('td').eq(2).attr('name', 'dontedit');
+                                    $(this).find('td').eq(3).addClass('prdIvQuantity');
+                                    $(this).find('td').eq(4).attr('name', 'dontedit');
+                                    $(this).find('td').eq(5).attr('name', 'dontedit');
+                                    $(this).find('td').eq(6).addClass('prdIvMemo');
+                                    $(this).find('td').eq(7).attr('name', 'dontedit');
+
+                                    // 모든 행에 있는 '.select2' 요소 초기화
+                                    var select2Element = $(this).find('.select2');
+                                    var rowIndex = $(this).closest('tr').index();
+
+                                    $('tbody tr').each(function (index) {
+
+                                        var select2Value = $(this).find('.chooseBook').val(); // .chooseBook 클래스를 가진 요소의 선택된 값을 가져옴
+                                        var cell = table.cell(index, 1);
+
+                                        select2Value = selectedValues[index];
+                                        /!*                    cell.data(select2Value); // 선택된 값을 셀에 할당
+                                                            cell.draw(); // 변경된 데이터를 테이블에 그리기*!/
+
+                                        /!*$(this).next().find('.chooseBook').val(selectedValues[index]).trigger('change');*!/ // 선택된 값을 .chooseBook 클래스를 가진 요소에 설정
+                                        if (index > currentRowIndex) {
+                                            $(this).next().find('.chooseBook').val(select2Value);
+                                        }
+                                        if (index <= currentRowIndex) {
+                                            $(this).find('.chooseBook').val(select2Value);
+                                        }
+
+                                        if (index === 0) {
+
+                                            select2Element.select2({
+
+                                                allowClear: true
+                                            });
+
+                                        }
+                                    });
+
+                                    table.draw();
+                                    if (justones === false) {
+                                        var lastTr = $('#example1 tbody tr:last')
+                                        var select2Container = lastTr.find('.select2.select2-container.select2-container--default');
+                                        // var select2Container = $('.select2.select2-container.select2-container--default');
+
+                                        // select2Container가 속해 있는 DataTables의 행 삭제
+                                        var dataTable = $('#example1').DataTable(); // DataTables 초기화
+                                        select2Container.each(function () {
+                                            var row = $(this).closest('tr');
+                                            var rowIndex = dataTable.row(row).index(); // 행의 인덱스 가져오기
+                                            dataTable.row(rowIndex).remove().draw(); // 행 삭제 및 테이블 다시 그리기
+                                            /!*         dataTable.row(0).data(currentData[0]).draw();
+                                                     rowselect2 = row.find('.select2');*!/
+
+
+                                        });
+
+                                        justones = true;
+
+                                    }
+
+                                });
+
+
+                            });*/
+
+
+    })
+    ;
+
+
+</script>
+
+
 <script src="${path }/resources/js/pages/validation.js"></script>
 <script src="${path }/resources/js/pages/form-validation.js"></script>
 <%--
@@ -3394,7 +4219,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 <script src="${path}/resources/js/vendors.min.js"></script>
 <script src="${path}/resources/js/pages/chat-popup.js"></script>
 <script src="${path}/resources/assets/icons/feather-icons/feather.min.js"></script>
-<script src="${path}/resources/assets/vendor_components/datatable/datatables.min.js"></script>
+<%--<script src="${path}/resources/assets/vendor_components/datatable/datatables.min.js"></script>--%>
 <script src="${path }/resources/assets/vendor_components/tiny-editable/mindmup-editabletable.js"></script>
 <script src="${path }/resources/assets/vendor_components/tiny-editable/numeric-input-example.js"></script>
 <script src="${path }/resources/assets/vendor_components/jquery-ui/jquery-ui.js"></script>
@@ -3415,6 +4240,8 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 <script src="${path}/resources/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 <script src="${path}/resources/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="${path}/resources/assets/vendor_plugins/iCheck/icheck.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 
 
 <!-- CRMi App -->
@@ -3422,6 +4249,7 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 <script src="${path}/resources/js/pages/calendar.js"></script>
 <script src="${path}/resources/js/pages/editor.js"></script>
 <script src="${path}/resources/js/pages/data-table.js"></script>
+<%--<script src="${path}/resources/js/pages/data-table2.js"></script>--%>
 <script src="${path }/resources/js/pages/editable-tables.js"></script>
 
 
@@ -3429,15 +4257,41 @@ src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></
 <script src="${path}/resources/js/menus.js"></script>
 <script src="${path}/resources/js/pages/extra_taskboard.js"></script>
 <script src="${path}/resources/js/pages/advanced-form-element.js"></script>
-<script src="${path}/resources/assets/vendor_components/jquery-knob/js/jquery.knob.js"></script>
-<script src="${path}/resources/js/pages/widget-inline-charts.js"></script>
-<script src="${path}/resources/assets/vendor_components/raphael/raphael.min.js"></script>
-<script src="${path}/resources/assets/vendor_components/morris.js/morris.min.js"></script>
-<script src="${path}/resources/js/pages/widget-morris-charts.js"></script>
+
+
+<%--<script src="${path}/resources/assets/vendor_components/jquery-knob/js/jquery.knob.js"></script>--%>
+<%--<script src="${path}/resources/js/pages/widget-inline-charts.js"></script>--%>
+<%--<script src="${path}/resources/assets/vendor_components/raphael/raphael.min.js"></script>--%>
+<%--<script src="${path}/resources/assets/vendor_components/morris.js/morris.min.js"></script>--%>
+<%--<script src="${path}/resources/js/pages/widget-morris-charts.js"></script>--%>
 
 
 <%-- <script src="${path}/resources/assets/vendor_components/ckeditor/ckeditor.js"></script> --%>
-
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+        src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script
+        src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script
+        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+<script
+        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script
+        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script
+        src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script
+        src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script
+        src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script
+        src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script
+        src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 
 <script>
     $.widget.bridge('uibutton', $.ui.button);

@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -116,29 +117,29 @@ public class MypageController {
 	            Object startDateObj = event.get("START_DAY");
 	            //it (endDateObj != null 이것보단) 
 	   	     	//ObjectUtils.isEmpty(byname) 이걸로 값을 체크 map 도 되고 배열도 되고 
-	            if (endDateObj != null) {
-	                try {
-	                    Date endDate = inputFormat.parse(endDateObj.toString());
-	                    String formattedEndDate = outputFormat.format(endDate);
-	                    event.put("END_DAY", formattedEndDate);
-	                } catch (ParseException e) {
-	                    e.printStackTrace();
-	                }
-	            } else {
-	                event.put("END_DAY", "");
-	            }
-	            
-	            if (startDateObj != null) {
-	                try {
-	                    Date startDate = inputFormat.parse(startDateObj.toString());
-	                    String formattedStartDate = outputFormat.format(startDate);
-	                    event.put("START_DAY", formattedStartDate);
-	                } catch (ParseException e) {
-	                    e.printStackTrace();
-	                }
-	            } else {
-	                event.put("START_DAY", "");
-	            }
+	            if (!ObjectUtils.isEmpty(endDateObj)) {
+		            try {
+		                Date endDate = inputFormat.parse(endDateObj.toString());
+		                String formattedEndDate = outputFormat.format(endDate);
+		                event.put("END_DAY", formattedEndDate);
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		        } else {
+		            event.put("END_DAY", "");
+		        }
+
+		        if (!ObjectUtils.isEmpty(startDateObj)) {
+		            try {
+		                Date startDate = inputFormat.parse(startDateObj.toString());
+		                String formattedStartDate = outputFormat.format(startDate);
+		                event.put("START_DAY", formattedStartDate);
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		        } else {
+		            event.put("START_DAY", "");
+		        }
 	        }
 	        log.info("mycalendar:" + mycalendar.toString());
 	    }

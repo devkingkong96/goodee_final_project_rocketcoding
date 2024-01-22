@@ -138,10 +138,10 @@
 												</c:when>
 												<c:when test="${not empty msg.MSG_FI_RENAME && msg.MSG_EMP_NO!=empinfo.EMP_NO}">
 													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
-													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="window.location.replace('${path}/chat/file/download?reName=${msg.MSG_FI_RENAME }&oriName=${msg.MSG_FI_ORINAME }')"></button>
 												</c:when>
 												<c:otherwise>
-													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="downloadFile('${msg.MSG_FI_ORINAME}', '${msg.MSG_FI_RENAME }')"></button>
+													<button class="btn fa fa-download" id="downBtn" name="downBtn" onclick="window.location.replace('${path}/chat/file/download?reName=${msg.MSG_FI_RENAME }&oriName=${msg.MSG_FI_ORINAME }')"></button>
 													<img src="${path}/resources/upload/chatfile/${msg.MSG_FI_RENAME}" width="200" height="200" alt="user" class="chatUpFile" id="chatUpFile${msg.MESSAGE_ID }">
 												</c:otherwise>
 											</c:choose>
@@ -697,7 +697,7 @@
   		  						$button.id = "downBtn";
   		  						$button.name = "downBtn";
   		  						$button.onclick = function() {
-  		  						  downloadFile(''+msgFiOriName+'', ''+msgFiReName+'');
+  		  							window.location.replace(`${path}/chat/file/download?reName=`+msgFiReName+`&oriName=`+msgFiOriName);
   		  						};
   		  				if(writer==userno){
 	  		  				$chatTextStart.appendChild($button);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="productattach">
+    <resultMap id="productattachMap" type="productattach">
+        <id column="prd_file_id" property="prdfileId"/>
+        <result column="prd_file_name_ori" property="prdfileNameOri"/>
+        <result column="prd_file_name_re" property="prdfileNameRe"/>
+        <result column="prd_file_upload_date" property="prdfileUploadDate"/>
+        <result column="prd_attach_isdel" property="prdattachIsdel"/>
+        <result property="prdId" column="PRD_ID"/>
+    </resultMap>
+
+    <insert id="insertProductAttach" parameterType="productattach">
+        insert into PRD_ATTACH(prd_file_id, prd_file_name_ori, prd_file_name_re, prd_file_upload_date, prd_attach_isdel,
+                               prd_id)
+        values (SEQ_PRD_FILE_ID.nextval, #{prdFileNameOri}, #{prdFileNameRe}, sysdate, 'N', #{prdId})
+    </insert>
+</mapper>

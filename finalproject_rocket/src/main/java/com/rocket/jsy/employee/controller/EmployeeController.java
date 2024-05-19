@@ -3,7 +3,7 @@ package com.rocket.jsy.employee.controller;
 
 import static com.rocket.common.Getrequest.getParameterMap;
 
-import java.util.ArrayList;
+import java.sql.Clob;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -45,13 +44,10 @@ public class EmployeeController {
 	        int empNo = Integer.parseInt(userDetails.getUsername());
 	        Map<String, Object> employee = service.selectEmployeeByNo(empNo);
 	        Map<String, Object> coomute = mypageservice.selectEmployeeByNo(empNo);
-//	        List<Map<String, Object>> mycalendar = mypageservice.selectEmployeeByCalendar(empNo);
 	        log.info("Employee: " + employee.toString());
 	        log.info("Coomute: " + coomute.toString());
-//	        log.info("mycalendar:" + mycalendar.toString());
 	        model.addAttribute("employee", employee);
 	        model.addAttribute("coomute", coomute);
-//	        model.addAttribute("mycalendar", mycalendar);	        
 	    }
 	    return "employee/mypage";
 	}
@@ -74,16 +70,33 @@ public class EmployeeController {
 	
 	@GetMapping("/employeeholidaylist")
 	public String employeeholidaylist(Model model) {
-		List<Map<String, Object>> employees=service.selectEmployeeHolidayAll();
-		model.addAttribute("employees",employees);
-		return "employee/employeeholidaylist";
+	    List<Map<String, Object>> employees = service.selectEmployeeHolidayAll();
+
+	    for (Map<String, Object> map : employees) {
+	        String textData = "";
+	        if(map.get("DOC_CONT") instanceof java.sql.Clob) { 
+	            Clob text = (Clob) map.get("DOC_CONT");
+	            try {
+	                String clobContent = text.getSubString(1, (int) text.length());
+	                if (clobContent.startsWith("[") && clobContent.endsWith("]")) {
+	                    String[] contentArray = clobContent.substring(1, clobContent.length() - 1).split(",");
+	                    for (String content : contentArray) {
+	                        textData += content.trim();
+	                    }
+	                } else {
+	                    textData += clobContent;
+	                }
+	            } catch (Exception e1) {
+	                e1.printStackTrace();
+	            } finally {
+	                map.put("DOC_CONT", textData); 
+	            }
+	        }
+	    }
+
+	    model.addAttribute("employees", employees);
+	    return "employee/employeeholidaylist";
 	}
-	 
-//	 @GetMapping("/myPageCalendar")
-//	 @ResponseBody
-//	    public List<Map<String, Object>> myPageCalendar() {
-//	        return service.selectEmployeeMyPageCalendar();
-//	    }
 	 
 	 @PostMapping("/employeeinsert")
 	 @ResponseBody

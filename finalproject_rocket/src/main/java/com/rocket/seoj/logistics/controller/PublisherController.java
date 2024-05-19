@@ -25,12 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Brief description of functions
- *
- * @author J
- * @version 2023-12-25
- */
 @Controller
 @RequestMapping("/logistics")
 @RequiredArgsConstructor
@@ -39,63 +33,11 @@ public class PublisherController {
 
     private final PublisherService service;
 
-    /*	@ExceptionHandler (DataAccessException.class)
-        public ResponseEntity<Object>
-               handleDataAccessException(DataAccessException ex,
-                                         WebRequest request) {
-            Map<String, Object> body = new LinkedHashMap<>();
-            body.put("timestamp", LocalDateTime.now());
-            body.put("message", "업데이트 실패");
-
-            return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-        }*/
-/*    public static HashMap<String, Object> getParameterMap(HttpServletRequest request) {
-
-        HashMap<String, Object> parameterMap = new HashMap<String, Object>();
-        Enumeration enums = request.getParameterNames();
-
-        while (enums.hasMoreElements()) {
-            String paramName = (String)enums.nextElement();
-            String[] parameters = request.getParameterValues(paramName);
-
-            if (parameters.length > 1) {
-                parameterMap.put(paramName, parameters);
-            } else {
-                parameterMap.put(paramName, parameters[0]);
-            }
-        }
-        return parameterMap;
-    }*/
-//    public HashMap<String, Object> getParameterMap(HttpServletRequest request) {
-//
-//        HashMap<String, Object> parameterMap = new HashMap<String, Object>();
-//
-//        Enumeration<String> enums = request.getParameterNames();
-//
-//        while (enums.hasMoreElements()) {
-//            String paramName = (String)enums.nextElement();
-//            log.error("ㅁㄴ라ㅣㅈ가미ㅓㅇ미ㅏ어ㅣㅏㅁ어ㅣㅏ모리ㅏㅁ롸졷ㅂ : " + paramName);
-//            String[] parameters = request.getParameterValues(paramName);
-//            log.error("?????????????????????????????????????? : " + parameters);
-//            if (parameters.length > 1) {
-//                parameterMap.put(paramName, parameters);
-//            } else {
-//                parameterMap.put(paramName, parameters[0]);
-//            }
-//        }
-//
-//        return parameterMap;
-//    }
-
     @PostMapping("/publisher/list/insert")
     public ResponseEntity<?> insertPublisher(HttpServletRequest request, HttpServletResponse response) {
 
         HashMap<String, Object> params = Getrequest.getParameterMap(request);
-//        params.put("pubId", 0);
-        log.debug("{}", params);
-        // param.stream().map(e->)
         long selectKey = service.insertPublisher(params);
-        log.debug("selectKey : " + params.get("pubId"));
         if ((long)params.get("pubId") != 0) {
             return ResponseEntity
                     .ok()
@@ -106,51 +48,11 @@ public class PublisherController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("message", "추가 실패", "status", "error"));
         }
-
-
     }
-
-
-/*    @PostMapping("/publisher/list/insert")
-    public void insertPublisher(HttpServletRequest request, HttpServletResponse response) {
-
-        HashMap<String, Object> params = Getrequest.getParameterMap(request);
-//        params.put("pubId", 0);
-        log.debug("{}", params);
-        // param.stream().map(e->)
-        long selectKey = service.insertPublisher(params);
-        log.debug("selectKey : " + params.get("pubId"));
-//        if ((long)params.get("pubId") != 0) {
-//            return ResponseEntity
-//                    .ok()
-//                    .body(Map.of("message", "추가 완료", "status", "success", "selectKey", params.get("pubId")));
-//        } else {
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(Map.of("message", "추가 실패", "status", "error"));
-//        }
-        Map<String, Object> returnMap = new HashMap<>();
-        returnMap.put("message", "추가 완료");
-        returnMap.put("status", "success");
-        returnMap.put("param", params); // << 필드값 넣을필요 없이 맵/맵리스트 넣으면됨
-
-        // 서버가 클라이언트에게 정보를 JSON 형식으로 보냄
-        JSONObject resultJson = new JSONObject();
-        resultJson.put("list", returnMap);
-        try {
-            response
-                    .getWriter()
-                    .write(resultJson.toJSONString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     @PostMapping("publisher/list/delete")
     public ResponseEntity<?> deletePublisher(@RequestParam("pub_id") Long pubId) {
 
-        log.debug("딜리트: " + pubId);
         boolean deletionSuccess = service.isdelUpdatePublisher(pubId);
 
 
@@ -183,9 +85,6 @@ public class PublisherController {
         if (parentColumnName.equals("IV_VAT_TYPE")) {
             value = value.toUpperCase();
         }
-
-        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ컨트롤러ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
-                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
 
         log.debug("업데이트 실행합니다");
         int result = 0;

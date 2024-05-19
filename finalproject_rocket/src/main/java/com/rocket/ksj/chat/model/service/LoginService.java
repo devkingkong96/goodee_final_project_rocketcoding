@@ -52,14 +52,14 @@ public class LoginService {
 	}
 	
 	public void sendEmail(String email,String empNo,String tmpPwd) {
-		log.info("이메일{}",email);
-		log.info("이메일{}",empNo);
-		log.info("이메일{}",tmpPwd);
+//		log.info("이메일{}",email);
+//		log.info("이메일{}",empNo);
+//		log.info("이메일{}",tmpPwd);
 		String subject="[RocketERP] 임시비밀번호 발급 안내";
 		String msg="";
 		msg+="<div align='center' style='border:1px solid black; font-family:verdana'>";
 		msg+="<h3 style='color: blue;'><strong>"+empNo;
-		msg+="번 사원님</strong>의 임시 비밀번호 입니다. 해당 번호로 로그인해주세요.</h3>";
+		msg+=" 사원님</strong>의 임시 비밀번호 입니다. 해당 번호로 로그인해주세요.</h3>";
 		msg+="<p>임시 비밀번호 : <strong>"+tmpPwd+"</strong></p></div>";
 		MimeMessage message=mailsender.createMimeMessage();
 		MimeMessageHelper helper=new MimeMessageHelper(message,"UTF-8");

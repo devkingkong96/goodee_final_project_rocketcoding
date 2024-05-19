@@ -10,12 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Brief description of functions
- *
- * @author J
- * @version 2023-12-25
- */
 @Repository
 @Slf4j
 public class PublisherDao {
@@ -40,9 +34,6 @@ public class PublisherDao {
         params.put("parentColumnName", parentColumnName);
         params.put("columnId", columnId);
 
-        log.debug("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + String.valueOf(
-                id) + ", " + columnName + ", " + tableName + ", " + value + ", " + parentTableName + ", " + parentColumnId + ", " + parentColumnName + ", " + columnId);
-
         try {
 
             if (parentTableName.equals(tableName)) {
@@ -53,7 +44,6 @@ public class PublisherDao {
         } catch (DataAccessException e) {
             throw e;
         }
-
     }
 
     public List<Map<String, Object>> selectAllPublisher(SqlSession session) {

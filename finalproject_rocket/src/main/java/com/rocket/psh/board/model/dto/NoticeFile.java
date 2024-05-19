@@ -17,9 +17,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class NoticeFile {
 	
-	private int noticeFileNo;
-	
-	private int noticeNo;
-	private String noticeFileOri;
-	private String noticeFileRe;
+	private int noticeFileNo; //공지사항 첨부파일 번호
+	private int noticeNo; //공지글 번호
+	private String noticeFileOri;//첨부파일
+	private String noticeFileRe; //수정첨부파이
 }

@@ -7,13 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-/**
- * Brief description of functions
- *
- * @author J
- * @version 2024-01-12
- */
 @Repository
 @Slf4j
 public class StockDao {

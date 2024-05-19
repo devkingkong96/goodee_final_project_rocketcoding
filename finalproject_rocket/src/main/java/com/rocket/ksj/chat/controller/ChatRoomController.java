@@ -59,7 +59,7 @@ public class ChatRoomController {
 	public String inChatting(@PathVariable int roomId,Model m) {
 		//대화방에 참여중인 회원 제외한 직원 리스트 가져오기
 		List<Map<String, Object>>emplistAll=chatService.selectEmployeeAll(roomId);
-		log.info("roomId : {}",roomId);
+//		log.info("roomId : {}",roomId);
 		//로그인한 직원 정보 가져오기
 		Employee emp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int empNo=emp.getEmpNo();
@@ -74,10 +74,10 @@ public class ChatRoomController {
 		//해당 채팅방의 채팅내역들 가져오기
 		List<Map<String, Object>>messages=msgService.selectChatMessageByNo(roomId);
 		
-		log.info("직원 정보{}",empinfo);
-		log.info("채팅방 정보{}",room);
-		log.info("채팅내역 정보{}",messages);
-		log.info("채팅방 직원 목록{}",emplist);		
+//		log.info("직원 정보{}",empinfo);
+//		log.info("채팅방 정보{}",room);
+//		log.info("채팅내역 정보{}",messages);
+//		log.info("채팅방 직원 목록{}",emplist);		
 		
 		
 		m.addAttribute("empinfo",empinfo);
@@ -94,10 +94,10 @@ public class ChatRoomController {
 	@DeleteMapping
 	public ResponseEntity<Object> deleteEmpChatRooms(HttpServletRequest req) {
 		HashMap<String, Object>reqAll=getParameterMap(req);
-		log.info("delete 채팅방 테스트{}",reqAll.get("roomCheck"));
+//		log.info("delete 채팅방 테스트{}",reqAll.get("roomCheck"));
 		
 		String result=roomService.deleteEmpChatRooms(reqAll);
-		log.info("result 결과{}",result);
+//		log.info("result 결과{}",result);
 		if(result.equals("success")) {
 			return ResponseEntity.ok().build();
 		}else {
@@ -108,8 +108,8 @@ public class ChatRoomController {
 	//채팅방 중간테이블 나가기 -> 채팅방안에서
 	@RequestMapping(value = "/{msgRoomNo}", method = RequestMethod.PUT)
 	public ResponseEntity<Object> deleteEmpChatRoom(@PathVariable int msgRoomNo,int msgEmpNo) {
-		log.info("roomId {}",msgRoomNo);
-		log.info("empNo {}",msgEmpNo);
+//		log.info("roomId {}",msgRoomNo);
+//		log.info("empNo {}",msgEmpNo);
 		
 		Map<String, Object> param=new HashMap<>();
 		param.put("roomId", msgRoomNo);

@@ -50,34 +50,14 @@ public class InventoryService {
 
     @Transactional
     public boolean deleteInventoryAndAttachmentAndPrdIv(Long inventoryId) {
-		
-		/*		int attachDeleteResult = dao.deleteInventoryAttach(session, inventoryId);
-				log.debug("attachDeleteResult " + attachDeleteResult);
-				int prdInventoryDelResult = dao.deletePrdInventory(session, inventoryId);
-				log.debug("prdInventoryDelResult " + prdInventoryDelResult);*/
-        int inventoryDeleteResult = dao.deleteInventoryColumn(session, inventoryId);
 
-        // if문으로 감싸줘야함
-//        log.debug("inventoryDeleteResult " + inventoryDeleteResult);
+        int inventoryDeleteResult = dao.deleteInventoryColumn(session, inventoryId);
 
         if (inventoryDeleteResult > 0) {
             return true;
         } else {
             return false;
         }
-		
-		/*		if (attachDeleteResult > 0 && inventoryDeleteResult > 0
-				   && prdInventoryDelResult > 0) {
-					log.debug("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 성공ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
-					return true;
-				} else if (inventoryDeleteResult > 0) {
-					log.debug("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 성공ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
-					return true;
-				} else {
-		
-					log.debug("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ인벤토리 딜리트 실패ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
-					return false;
-				}*/
     }
 
     @Transactional
@@ -96,19 +76,6 @@ public class InventoryService {
         dao.insertInventory(session, formData);
         return formData.getIvId();
     }
-
-/*    public void insertInventoryAttachBatch(List<InventoryAttach> attachList) {
-        try (
-
-                int[] result = session
-                        .getMapper(InventoryDao.class)
-                        .insertInventoryAttachBatch(attachList)) {
-            session.commit();
-        } catch (Exception e) {
-            session.rollback();
-            throw e;
-        }
-    }*/
 
     @Transactional
     public List<Integer> insertInventoryAttach(List<InventoryAttach> fileList) {

@@ -1,20 +1,26 @@
 package com.rocket.psh.board.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.rocket.psh.board.model.dto.Notice;
 
 public interface NoticeService {
-	List<Notice> getNoticeList() throws Exception;
-	
-	Notice getNoticeInfo(Notice pDTO, boolean type) throws Exception;
-	
-	//공지사항 등록 pDTO 화면에서 입력된 공지사항 입력된 값
-	void insertNoticeInfo(Notice pDTO) throws Exception;
-	
-	//공지사항 수정 pDTO 화면에 입력된 수정되기 위한 공지사항 입력된 값들 집가고 싶다.
-	void updateNoticeInfo(Notice pDTO) throws Exception;
-	
-	//공지사항 삭제 임둥~ pDTO 에서 삭제할 noticeSeq 값
-	void deletNoticeInfo(Notice pDTO) throws Exception;
+    // 메인 페이지에 보여줄 공지사항을 조회하는 메소드입니다.
+    List<Map<String, Object>> selectNoticeMainPage(Map<String, Object> param);
+
+    // 공지사항을 추가하는 메소드입니다.
+    int insertNotice(Notice notice);
+
+    // 공지사항 상세 정보를 조회하는 메소드입니다.
+    Notice selectNoticeDetail(int noticeNo);
+
+    // 공지사항을 수정하는 메소드입니다.
+    int updateNotice(Notice notice);
+
+    // 공지사항을 삭제하는 메소드입니다.
+    int deleteNotice(int noticeNo);
+
+    // 공지사항 조회수를 증가시키는 메소드입니다.
+    int increaseViewCount(int noticeNo);
 }

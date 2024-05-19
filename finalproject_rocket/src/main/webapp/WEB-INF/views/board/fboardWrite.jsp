@@ -19,7 +19,7 @@
 		   <!-- Main content -->
 			<div class="row">			  
 				<div class="col-lg-12 col-12">
-					<form class="form" action="${path }/board/fboardWrite" method="post" enctype="multipart/form-data">
+					<form class="form" action="${path }/board/fboardWriteEnd" method="post" enctype="multipart/form-data">
 					  <div class="box">
 						<div class="box-header with-border">
 						  <h4 class="box-title">자유 게시판</h4>
@@ -36,12 +36,12 @@
 									</div>
 								  </div>								
 								</div>								
-                  
 								<div class="form-group">
 								  <label class="form-label"></label>
 								  <label class="file">
 									<input type="file" id="file" name="upfile">
 								  </label>
+								  <iframe src="">k</iframe>
 								</div>
 								<div class="form-group">
 								  <label class="form-label">내용</label>
@@ -71,16 +71,16 @@
 
 
 			<!-- Vendor JS -->
-			<script src="src/resources/js/vendors.min.js"></script>
-			<script src="src/resources/js/pages/chat-popup.js"></script>
+			<script src="${path }/resources/js/vendors.min.js"></script>
+			<script src="${path }/resources/js/pages/chat-popup.js"></script>
 			<script
-				src="src/resources/js/assets/icons/feather-icons/feather.min.js"></script>
+				src="${path }/resources/js/assets/icons/feather-icons/feather.min.js"></script>
 			<script
-				src="src/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
+				src="${path }/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
 
 			<!-- CRMi App -->
-			<script src="src/resources/js/template.js"></script>
+			<script src="${path }/resources/js/template.js"></script>
 
-			<script src="src/resources/js/pages/data-table.js"></script>
+			<script src="${path }/resources/js/pages/data-table.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

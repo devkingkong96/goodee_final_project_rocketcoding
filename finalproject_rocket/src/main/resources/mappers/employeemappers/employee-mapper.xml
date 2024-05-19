@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="employee">
+    <resultMap type="employee" id="employeeMap">
+        <id column="EMP_NO" property="empNo"/>
+        <result column="EMP_PW" property="empPw"/>
+        <result column="EMP_NAME" property="empName"/>
+        <result column="EMP_LV" property="empLv"/>
+        <result column="EMP_ENDATE" property="empEndate"/>
+        <result column="EMP_STATUS" property="empStatus"/>
+        <result column="EMP_FICATION" property="empFication"/>
+        <result column="EMP_EMAIL" property="empEmail"/>
+        <result column="EMP_FILE" property="empFile"/>
+        <result property="branchId" column="BRANCH_ID"/>
+        <result property="depCode" column="DEP_CODE"/>
+        <result property="dwrulesCode" column="DWRULES_CODE"/>
+        <association property="dep" resultMap="department.departmentMap"/>
+    </resultMap>
+
+    <select id="selectEmployeeAll" resultType="hashMap">
+        SELECT * FROM EMPLOYEE
+                          LEFT JOIN DEPARTMENT d ON EMPLOYEE.DEP_CODE=d.DEP_CODE
+                          LEFT JOIN BRANCH b ON EMPLOYEE.BRANCH_ID=b.BRANCH_ID
+                          LEFT JOIN DWRULES c ON EMPLOYEE.DWRULES_CODE=c.DWRULES_CODE
+    </select>
+    <select id="selectBranch" resultType="hashMap">
+        SELECT * FROM BRANCH
+    </select>
+    <!--     <select id="selectDepartment" resultType="hashMap">
+            SELECT * FROM DEPARTMENT
+        </select> -->
+    <select id="selectDwrules" resultType="hashMap">
+        SELECT * FROM DWRULES
+    </select>
+    <select id="selectEmpfication" resultType="string">
+        SELECT EMP_FICATION FROM EMPLOYEE
+    </select>
+
+    <select id="selectEmployeeByNo" resultType="hashMap">
+        <!--       SELECT * FROM EMPLOYEE
+             LEFT JOIN DEPARTMENT d ON EMPLOYEE.DEP_CODE=d.DEP_CODE
+             JOIN DWRULES USING(DWRULES_CODE)
+             WHERE EMPLOYEE.EMP_NO=#{empNo} -->
+
+        <!-- SELECT E.*, D.*, DR.*, GREATEST(0, NVL((15 - DO.USED_LEAVE), 15)) AS homoly
+        FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON E.DEP_CODE = D.DEP_CODE
+        LEFT JOIN DWRULES DR ON DR.DWRULES_CODE = E.DWRULES_CODE
+        LEFT JOIN (
+            SELECT EMP_NO, SUM(END_DATE - START_DATE + 1) AS USED_LEAVE
+            FROM DOCUMENT
+            WHERE DOC_TAG = 1 AND EMP_NO = #{empNo} AND DOC_STATCD = 1
+            GROUP BY EMP_NO
+        ) DO ON E.EMP_NO = DO.EMP_NO
+        WHERE E.EMP_NO = #{empNo} -->
+        SELECT E.*, D.*, DR.*, GREATEST(0, NVL((15 - DO.USED_LEAVE), 15)) AS homoly
+        FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON E.DEP_CODE = D.DEP_CODE
+        LEFT JOIN DWRULES DR ON DR.DWRULES_CODE = E.DWRULES_CODE
+        LEFT JOIN (
+        SELECT EMP_NO, SUM(
+        CASE
+        WHEN TO_CHAR(START_DATE + (ROWNUM - 1), 'DY', 'NLS_DATE_LANGUAGE = KOREAN') NOT IN ('토', '일') THEN 1
+        ELSE 0
+        END) AS USED_LEAVE
+        FROM (
+        SELECT EMP_NO, START_DATE, END_DATE, END_DATE - START_DATE + 1 AS days
+        FROM DOCUMENT
+        WHERE DOC_TAG = 1 AND EMP_NO = #{empNo} AND DOC_STATCD = 1
+        )
+        CONNECT BY LEVEL &lt;= days
+        GROUP BY EMP_NO
+        ) DO ON E.EMP_NO = DO.EMP_NO
+        WHERE E.EMP_NO = #{empNo}
+
+    </select>
+
+    <select id="selectEmployeeHolidayAll" resultType="hashMap">
+        SELECT * FROM EMPLOYEE
+                          JOIN DOCUMENT d ON EMPLOYEE.EMP_NO = d.EMP_NO
+        WHERE DOC_TAG = 1 AND DOC_STATCD = 1
+    </select>
+
+    <insert id="insertEmployee" parameterType="hashmap">
+        INSERT INTO EMPLOYEE
+        VALUES(
+                  SEQ_EMP_NO.NEXTVAL,
+                  #{branchId},
+                  #{empPw},
+                  #{empName},
+                  #{empLv},
+                  SYSDATE,
+                  DEFAULT,
+                  #{empEmail},
+                  #{depCode},
+                  #{dwruleCode},
+                  DEFAULT
+              )
+    </insert>
+
+    <update id="updateEmpFile">
+        update EMPLOYEE SET EMP_FILE=#{empFile} WHERE EMP_NO = #{empNo}
+    </update>
+
+    <update id="updateEmployee" parameterType="hashmap">
+        UPDATE EMPLOYEE SET
+                            EMP_PW = #{empPw},
+                            EMP_NAME = #{empName},
+                            EMP_LV = #{empLv},
+                            EMP_EMAIL = #{empEmail},
+                            DEP_CODE = #{depCode},
+                            DWRULES_CODE = #{dwrules},
+                            EMP_FICATION = #{empFication}
+        WHERE EMP_NO = #{empNo}
+    </update>
+    <update id="updateEmployeeFilename" parameterType="hashmap">
+        UPDATE EMPLOYEE SET EMP_FILENAME = #{filename} WHERE EMP_NO = #{empNo}
+    </update>
+    <!-- 사원이름으로 달력보여주는 쿼리 -->
+    <select id="selectEmployeeByCalendar" resultType="hashmap" parameterType="string">
+        SELECT
+       	CASE 
+            WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN '조퇴'
+            WHEN ROUND((TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') - TO_DATE(d.DWRULES_START, 'HH24:MI')) * 24, 2) >= 0 THEN '지각'
+            ELSE '출근' 
+        	END AS status,
+            TO_CHAR(c.COM_ENROLL,'YYYY-MM-DD HH24:MI') AS START_DAY,
+            COM_DATE AS END_DAY
+        FROM  COMMUTE c
+                  JOIN EMPLOYEE e ON c.EMP_NO = e.EMP_NO
+                  JOIN DWRULES d ON e.DWRULES_CODE = d.DWRULES_CODE
+        WHERE e.EMP_NAME = #{empName}
+        UNION
+        SELECT DECODE(DOC_STATCD, '0', '휴가신청', '1', '휴가승인') AS STATUS, TO_CHAR(START_DATE,'YYYY-MM-DD HH24:MI'), END_DATE FROM DOCUMENT
+                                                                                                                                   JOIN EMPLOYEE e ON DOCUMENT.EMP_NO = e.EMP_NO
+        WHERE e.EMP_NAME = #{empName} AND DOC_TAG=1 AND DECODE(DOC_STATCD, '0', '휴가신청', '1', '휴가승인') IS NOT NULL
+    </select>
+    <!-- 사원이름으로 근태조회 -->
+    <select id="selectcommuteByName" resultType="hashmap" parameterType="string">
+        SELECT E.*, D.*, DR.*, GREATEST(0, NVL((15 - DO.USED_LEAVE), 15)) AS homoly,
+		    NVL(C.지각수, 0) AS 지각수,
+		    NVL(C.출근수, 0) AS 출근수,
+		    NVL(C.조퇴수, 0) AS 조퇴수
+		FROM EMPLOYEE E
+		LEFT JOIN DEPARTMENT D ON E.DEP_CODE = D.DEP_CODE
+		LEFT JOIN DWRULES DR ON DR.DWRULES_CODE = E.DWRULES_CODE
+		LEFT JOIN (
+		    SELECT EMP_NO, SUM(
+		    CASE
+		    WHEN TO_CHAR(START_DATE + (ROWNUM - 1), 'DY', 'NLS_DATE_LANGUAGE = KOREAN') NOT IN ('토', '일') THEN 1
+		    ELSE 0
+		    END) AS USED_LEAVE
+		    FROM (
+		    SELECT EMP_NO, START_DATE, END_DATE, END_DATE - START_DATE + 1 AS days
+		    FROM DOCUMENT
+		    WHERE DOC_TAG = 1 AND EMP_NO = (SELECT EMP_NO FROM EMPLOYEE WHERE EMP_NAME = #{empName}) AND DOC_STATCD = 1
+		    )
+		    CONNECT BY LEVEL &lt;= days
+		    GROUP BY EMP_NO
+		) DO ON E.EMP_NO = DO.EMP_NO
+		LEFT JOIN (
+		    SELECT
+		    e.EMP_NO,
+		    COALESCE(SUM(CASE WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN 0 WHEN ROUND((TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') - TO_DATE(d.DWRULES_START, 'HH24:MI')) * 24, 2) >= 0 THEN 1 ELSE 0 END), 0) AS 지각수,
+		    COALESCE(SUM(CASE WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN 0 WHEN ROUND((TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') - TO_DATE(d.DWRULES_START, 'HH24:MI')) * 24, 2) &lt; 0 THEN 1 ELSE 0 END), 0) AS 출근수,
+		    COALESCE(SUM(CASE WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN 1 ELSE 0 END), 0) AS 조퇴수
+		    FROM COMMUTE c
+		    JOIN EMPLOYEE e ON c.EMP_NO = e.EMP_NO
+		    JOIN DWRULES d ON e.DWRULES_CODE = d.DWRULES_CODE
+		    GROUP BY e.EMP_NO
+		) C ON E.EMP_NO = C.EMP_NO
+		WHERE E.EMP_NAME = #{empName}
+
+    </select>
+
+    <select id="employeesearch" resultType="hashmap" parameterType="string">
+        SELECT * FROM EMPLOYEE
+                          JOIN DEPARTMENT USING(DEP_CODE)
+        WHERE EMP_NAME LIKE '%${empName}%'
+    </select>
+
+    <!-- 로그인 관련 메소드들 -->
+    <select id="selectEmployeeByLoginId" resultMap="employeeMap" parameterType="string">
+        SELECT * FROM EMPLOYEE
+                          JOIN DEPARTMENT USING(DEP_CODE)
+        WHERE EMP_NO=#{empNo}
+    </select>
+
+    <select id="selectEmployeeByNoTmp" resultType="int" parameterType="string">
+        SELECT NVL(COUNT(*),0) FROM EMPLOYEE WHERE EMP_NO=#{empNo}
+    </select>
+
+    <select id="selectEmployeeByNoEmailTmp" resultType="int" parameterType="map">
+        SELECT NVL(COUNT(*),0) FROM EMPLOYEE WHERE EMP_EMAIL=#{email} AND EMP_NO=#{empNo}
+    </select>
+
+    <update id="updateEmployeeTempPwd" parameterType="map">
+        UPDATE EMPLOYEE SET EMP_PW=#{BCtmpPwd} WHERE EMP_NO=#{empNo}
+    </update>
+
+</mapper>

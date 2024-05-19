@@ -83,7 +83,7 @@
         <h4 class="modal-title"><strong>근무규칙 설정</strong></h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/dwrulesadd" method="post">
+      <form action="${path}/dwrulesadd" method="post">
       <div class="modal-body">
        <table class="table table-striped-columns">
 	    <tr>

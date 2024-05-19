@@ -8,6 +8,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param name="title" value=""/>
 </jsp:include>
+<style>
+#example {
+    font-size: 1.2em; /* 원하는 크기로 조절 */
+}
+</style>
  <!-- extract 버튼 가져오기 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -48,6 +53,7 @@
 								<th>이메일</th>
 								<th>입사일자</th>
 								<th>재직여부</th>					
+								<th>이미지</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -60,6 +66,7 @@
 						            <td>${employees.EMP_EMAIL}</td>
 						            <td><fmt:formatDate value="${employees.EMP_ENDATE}" pattern="yyyy-MM-dd"/></td>
 						            <td>${employees.EMP_FICATION}</td>
+									<td><img src="${path}/resources/upload/profile/${employees.EMP_FILE}" width="100px" height="100px" /></td>
 						        </tr>
 						    </c:forEach>
 						</tbody>			  
@@ -167,15 +174,15 @@ $(document).ready(function(){
 
 	    $.ajax({
 	      type: "POST",
-	      url: "/employeeinsert", 
+	      url: "${path}/employeeinsert", 
 	      data: formData,
 	      success: function(response){
-		        alert("수정이 완료되었습니다.");
+		        alert("입력이 완료되었습니다.");
 		        $('#modal-modify').modal('hide'); 
 		        location.reload(); 
 		      },
 		      error: function(jqXHR, textStatus, errorThrown){
-		        alert("수정에 실패하였습니다. 오류 내용: " + errorThrown);
+		        alert("입력에 실패하였습니다. 오류 내용: " + errorThrown);
 		      }
 		    });
 		  });
@@ -297,7 +304,7 @@ $(document).ready(function() {
 
 	    $.ajax({
 	        type: "POST",
-	        url: "/employeeupdate",
+	        url: "${path}/employeeupdate",
 	        data: formData,
 	        success: function(response){
 	          alert("수정이 완료되었습니다.");

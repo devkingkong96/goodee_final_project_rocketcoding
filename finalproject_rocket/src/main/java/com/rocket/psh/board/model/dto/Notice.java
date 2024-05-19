@@ -18,13 +18,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Notice {
 	
-	private int noticeNo;
-	
-	private int empNo;
-	
-	private String noticeTitle;
-	private String noticeContent;
-	private int noticeViews;
-	private Date noticeDate;
+	private int noticeNo; //공지글 번호
+	private int empNo; //사원번호
+	private String noticeTitle; //공지제목
+	private String noticeContent; //공지내용
+	private int noticeViews; //조회수
+	private Date noticeDate; //공지사항 작성일 
 	
 }

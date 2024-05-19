@@ -19,27 +19,46 @@
 	         	<th>문서번호</th>
 	         	<th>문서제목</th>
 	         	<th>기안자</th>
-	         	<th>기안일</th>
+	         	<th>문서상태</th>
 	         	<th>완료일</th>
 	         	<th>구분</th>
 	         </tr>
 	         <c:if test="${not empty lists }">
 	         <c:forEach var="l" items="${lists }">
 	         	<tr style="cursor: pointer;" onclick="window.location.href='${path}/docu/aprv/' + ${l.DOC_NO}">
-	         	<td><c:out value="${l.DOC_NO }"/></td>
-	         	<td><c:out value="${l.DOC_TITLE }"/></td>
-	         	<td><c:out value="${l.EMP_NAME }"/></td>
-	         	<td><c:out value="${l.START_DATE }"/></td>
-	         	<td><c:out value="${l.U_DATE }"/></td>
-	         	<td>
-				    <c:if test="${l.DOC_TAG eq 1}">
-				    	휴가신청
+	         		<td><c:out value="${l.DOC_NO }"/></td>
+		         	<td>
+		         		<c:if test="${l.DOC_TAG eq 1}">
+					    	<c:out value="${l.EMP_NAME }"/>님의 휴가신청입니다	
+					    </c:if>
+					    [<c:out value="${l.DOC_TITLE }"/>]
+					</td>
+		         	<td>
+		         		<c:out value="${l.EMP_NAME }"/>
+		         	</td>
+		         	<td>
+				   	 <c:if test="${l.DOC_STATCD eq 1}">
+				    	결재완료
 				    </c:if>
-				    <c:if test="${l.DOC_TAG eq 2}">
-				    	재고관리요청
+				    <c:if test="${l.DOC_STATCD eq -1}">
+				    	반려
 				    </c:if>
+				    <c:if test="${l.DOC_STATCD eq  2}">
+				    	임시저장
+				    </c:if>
+		         	</td>
+		         	<td>
+		         		<fmt:formatDate value="${l.U_DATE }" pattern="yyyy-MM-dd"/>
+		         	</td>
+		         	<td>
+					    <c:if test="${l.DOC_TAG eq 1}">
+					    	휴가신청
+					    </c:if>
+					    <c:if test="${l.DOC_TAG eq 2}">
+					    	입출고요청
+					    </c:if>
 				    </td>
-	         </tr>
+	        	</tr>
 	         </c:forEach>
 	         </c:if>
          </tbody>	

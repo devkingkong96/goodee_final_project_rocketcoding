@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="approval">
+     <resultMap type="approval" id="approvalMap">
+     <id column="APRV_NO" property="aprvNo"/>
+      <result column="APRV_SQ" property="aprvSq"/>
+      <result column="APRV_LV" property="aprvLv"/>
+      <result column="APRV_RE" property="aprvRe"/>
+      <result column="APRV_DATE" property="aprvDate"/>
+      <result property="docNo" column="DOC_NO"/>
+        <result property="empNo" column="EMP_NO"/>
+        
+        
+        
+  </resultMap>
+  
+        <select id="selectAprvMainPage" resultType="hashMap">
+         SELECT A.*,ROWNUM FROM(
+            SELECT * FROM APPROVAL ORDER BY APRV_DATE DESC) A WHERE ROWNUM &lt;= 10
+      </select>
+        <select id="selectAprvList" resultType="hashMap">
+           SELECT * FROM APPROVAL A LEFT JOIN DOCUMENT D USING (DOC_NO) 
+                                LEFT JOIN EMPLOYEE USING (EMP_NO) 
+                                                         WHERE A.APRV_EMP=#{no}
+                                                            ORDER BY U_DATE DESC
+        </select>
+        
+        <select id="ckLvList" resultType="hashMap">
+         SELECT A.*,D.*,E.* 
+         FROM 
+         (
+           SELECT * FROM APPROVAL WHERE DOC_NO=#{DOC_NO} 
+         ) A 
+         LEFT JOIN DOCUMENT D ON D.DOC_NO = A.DOC_NO
+         LEFT JOIN EMPLOYEE E ON E.EMP_NO = D.EMP_NO 
+         WHERE a.APRV_LV=#{APRV_LV}        
+        </select>
+        <select id="findName" resultType="hashMap" parameterType="_int">
+           SELECT EMP_NAME,EMP_LV,EMP_NO,EMP_FILE FROM EMPLOYEE LEFT JOIN DEPARTMENT USING (DEP_CODE) WHERE DEP_CODE=#{depCode}
+        
+        </select>
+        <select id="selectEmployee" resultType="hashMap">
+           SELECT * FROM EMPLOYEE LEFT JOIN DEPARTMENT USING (DEP_CODE) WHERE EMP_NO=#{no}
+        </select>
+        <insert id="insertDocu" parameterType="hashMap">
+           INSERT INTO DOCUMENT VALUES(SEQ_DOC_NO.NEXTVAL,#{DOC_TAG},#{DOC_TITLE},#{DOC_CONT},0,SYSDATE,#{EMP_NO},TO_DATE(#{START_DATE},'YYYY-MM-DD'),TO_DATE(#{END_DATE},'YYYY-MM-DD'))
+        </insert>
+        
+        <!-- <insert id="fistAprv" parameterType="hashMap">
+         INSERT INTO APPROVAL VALUES(SEQ_APRV_NO.NEXTVAL,'${APRV_SQ}','${APRV_LV}',NULL,SEQ_DOC_NO.CURRVAL,SYSDATE,'${APRV_EMP}')        
+        </insert>
+        <insert id="insertAprv" parameterType="hashMap">
+         INSERT INTO APPROVAL VALUES(SEQ_APRV_NO.NEXTVAL,'${APRV_SQ}','${APRV_LV}',NULL,SEQ_DOC_NO.CURRVAL,NULL,'${APRV_EMP}')        
+        </insert> -->
+        
+        <select id="selectAprvDocu" resultType="hashMap" parameterType="_int">
+           SELECT * FROM DOCUMENT d LEFT JOIN APPROVAL_FILE USING (DOC_NO)
+                             LEFT JOIN TAG USING (DOC_TAG)
+                             LEFT JOIN APPROVAL A USING (DOC_NO)
+                             LEFT JOIN EMPLOYEE E ON A.APRV_EMP=E.EMP_NO
+                             WHERE DOC_NO=${docNo}
+                             ORDER BY APRV_LV
+        </select>
+        <update id="updateAprv" parameterType="hashMap">
+           UPDATE APPROVAL SET APRV_SQ= '1',APRV_DATE=SYSDATE WHERE APRV_EMP=#{EMP_NO} AND DOC_NO = #{DOC_NO}
+        </update>
+        <update id="updateDocu" parameterType="hashMap">
+           UPDATE DOCUMENT SET DOC_STATCD='1',U_DATE=SYSDATE WHERE DOC_NO=#{DOC_NO}
+        </update>
+        <update id="rejectAprv" parameterType="hashMap">
+           UPDATE APPROVAL SET APRV_SQ= '-1',APRV_DATE=SYSDATE WHERE APRV_EMP=#{EMP_NO} AND DOC_NO = #{DOC_NO}
+        </update>
+        <update id="rejectDocu" parameterType="hashMap">
+           UPDATE DOCUMENT SET DOC_STATCD='-1',U_DATE=SYSDATE WHERE DOC_NO=#{DOC_NO}
+        </update>
+        
+        <select id="cheackSaveFile" parameterType="_int" resultType="hashMap">
+           SELECT * FROM DOCUMENT WHERE DOC_STATCD = 2 AND EMP_NO = #{no} ORDER BY U_DATE DESC
+        </select>
+        <update id="updateDocuBySave" parameterType="hashMap">
+           UPDATE DOCUMENT SET DOC_STATCD='0',U_DATE=SYSDATE,DOC_TITLE=#{DOC_TITLE} WHERE DOC_NO=#{DOC_NO}
+        </update>
+        
+        <insert id="fistAprv" parameterType="hashMap">
+          <choose>
+              <when test="DOC_NO != null">
+                  INSERT INTO APPROVAL VALUES(SEQ_APRV_NO.NEXTVAL,#{APRV_SQ},#{APRV_LV},NULL,#{DOC_NO},SYSDATE,#{APRV_EMP})        
+              </when>
+              <otherwise>
+                  INSERT INTO APPROVAL VALUES(SEQ_APRV_NO.NEXTVAL,#{APRV_SQ},#{APRV_LV},NULL,SEQ_DOC_NO.CURRVAL,SYSDATE,#{APRV_EMP})        
+              </otherwise>
+          </choose>
+      </insert>
+      <insert id="insertAprv" parameterType="hashMap">
+          <choose >
+              <when  test="DOC_NO != null" >
+                  INSERT INTO APPROVAL VALUES(SEQ_APRV_NO.NEXTVAL,#{APRV_SQ},#{APRV_LV},NULL,#{DOC_NO},NULL,#{APRV_EMP})        
+              </when>
+              <otherwise>
+                  INSERT INTO APPROVAL VALUES(SEQ_APRV_NO.NEXTVAL,#{APRV_SQ},#{APRV_LV},NULL,SEQ_DOC_NO.CURRVAL,NULL,#{APRV_EMP})        
+              </otherwise>
+          </choose>
+      </insert>
+        <insert id="savedocu" parameterType="hashMap">
+           INSERT INTO DOCUMENT VALUES(SEQ_DOC_NO.NEXTVAL,#{DOC_TAG},#{DOC_TITLE},#{DOC_CONT},2,SYSDATE,#{EMP_NO},TO_DATE(#{START_DATE},'YYYY-MM-DD'),TO_DATE(#{END_DATE},'YYYY-MM-DD'))
+        </insert>
+        <select id="selectSaveList" parameterType="_int" resultType="hashMap">
+           SELECT * FROM DOCUMENT WHERE DOC_STATCD=2 AND EMP_NO=#{no}
+        </select>
+        <select id="countSaveList" parameterType="_int" resultType="int">
+           SELECT COUNT(*) FROM DOCUMENT WHERE DOC_STATCD=2 AND EMP_NO=#{no}
+        </select>
+        <delete id="deleteSaveFile">
+			DELETE DOCUMENT WHERE DOC_STATCD=2
+		</delete> 
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatmessage">
+	<resultMap type="chatmessage" id="chatmessageMap">
+		<id column="MESSAGE_ID" property="messageId"/>
+		<result column="MESSAGE" property="message"/>
+		<result column="SEND_AT" property="sendAt"/>
+		<result column="READ_CHECK" property="readCheck"/>
+		<result column="MSG_EMP_NO" property="msgEmpNo"/>
+		<result column="MSG_ROOM_NO" property="msgRoomNo"/>
+		<result column="MSG_EMP_NAME" property="msgEmpName"/>
+		<result column="MSG_FI_ORINAME" property="msgFiOriName"/>
+		<result column="MSG_FI_RENAME" property="msgFiReName"/>
+		<result column="MSG_DEL_CHCK" property="msgDelChck"/>
+	</resultMap>
+	
+	<select id="selectChatMessageByNo" resultType="hashMap" parameterType="_int">
+		SELECT * FROM CHATMESSAGE WHERE MSG_ROOM_NO=#{roomNo} ORDER BY SEND_AT
+	</select>
+	
+	<insert id="insertMessage" parameterType="chatmessage">
+		INSERT INTO CHATMESSAGE VALUES(SEQ_MESSAGE_ID.NEXTVAL,#{message},SYSDATE,'N',#{msgRoomNo},#{msgEmpNo},#{msgEmpName},#{msgFiOriName},#{msgFiReName},default)
+	</insert>
+	
+	<delete id="deleteMessageByNo" parameterType="_int">
+		DELETE FROM CHATMESSAGE WHERE MSG_ROOM_NO=#{roomNo}
+	</delete>
+</mapper>

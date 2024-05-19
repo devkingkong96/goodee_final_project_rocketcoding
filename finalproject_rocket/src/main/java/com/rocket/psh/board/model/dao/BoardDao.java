@@ -29,4 +29,6 @@ public interface BoardDao {
 	int deleteFile(SqlSession session, int boardNo);
 	
 	int updateFile(SqlSession session, FboardFile ff);
+
+	int deleteComment(SqlSession session, int commentNo);
 }

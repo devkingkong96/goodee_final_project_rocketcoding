@@ -81,7 +81,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-    <form id="departmentForm" action="/department/add" method="post">
+    <form id="departmentForm" action="${path}/department/add" method="post">
         <table class="table table-striped-columns">
             <tr>
                 <td>부서명</td>
@@ -104,12 +104,12 @@
 <div class="modal fade" id="myModal2">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" id="modalHeader">
 		<h4 class="modal-title"><strong id="depTitle">부서상세화면</strong></h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      	<div style="max-height: 500px; overflow-y: auto;">
+      	<div id="scrollArea" style="max-height: 500px; overflow-y: auto;">
         <table class="table table-striped-columns">
             <thead>
 					<tr class="editable">
@@ -142,7 +142,7 @@ $(document).ready(function() {
 
         $('#depTitle').text(depName + ' 부서상세화면');
         $.ajax({
-            url: '/departmentdetail', 
+            url: '${path}/departmentdetail', 
             method: 'get',
             data: { depName: depName },
             success: function(data) {

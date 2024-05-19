@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -103,7 +104,7 @@ public class BoardController {
 	    
 	    
 	 // 게시글 작성 처리
-	    @PostMapping("/fboardWrite")
+	    @PostMapping("/fboardWriteEnd")
 	    public ModelAndView submitFboardWrite(MultipartFile upfile,Fboard fboardDTO, BindingResult result,HttpSession session) {
 	        ModelAndView mv = new ModelAndView();
 	        Employee em = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -249,7 +250,9 @@ public class BoardController {
 	            // TODO: 권한 검사 로직 구현
 	            service.deleteFboard(fboardNo);
 	            mv.setViewName("redirect:/board/fboardlist.do");
+	            log.info("+++++++++++++++++++++++dadasd++++++++++++++++++++++++++++++{}",fboardNo);
 	        } catch (Exception e) {
+	        	log.info("+++++++++++++++++++++++dadasd++++++++++++++++++++++++++++++{}",e);
 	            mv.setViewName("redirect:/board/fboardlist.do");
 	            mv.addObject("errorMessage", "게시글 삭제 중 오류가 발생했습니다.");
 	        }
@@ -284,6 +287,62 @@ public class BoardController {
 	        mav.setViewName("redirect:/board/fboardView/"+fboardNo);
 	        return mav;
 	    }
+	    
+	    //댓글 수정
+	    @PostMapping("/comment/updateComment.do")
+	    @ResponseBody
+	    public Map<String,String> updateComment(int fboardNo,
+	    									@RequestParam("commentNo") String commentNo, 
+	                                      @RequestParam("fbdComment") String content) {
+	        ModelAndView mav = new ModelAndView();
+
+	        String msg="";
+	        try {
+	            Map<String, Object> param = new HashMap<>();
+	            param.put("fboardNo",fboardNo);
+	            param.put("commentNo", commentNo);
+	            param.put("fbdComment", content);
+	            try {
+	                int result = commService.updateComment(param);
+	                msg="댓글이 성공적으로 추가되었습니다.";
+	            } catch (Exception e) {
+	                msg="댓글 추가 중 오류가 발생하였습니다.";
+	                e.printStackTrace();
+	            }
+	        } catch (Exception e) {
+	            msg="댓글 추가 중 오류가 발생하였습니다.";
+	            log.error("댓글 추가 중 오류 발생", e);
+	        }
+
+	        return Map.of("msg",msg,"url","/board/fboardView/"+fboardNo);
+	    }
+	    
+//	    //댓글삭제  
+//	    @GetMapping("/comment/deleteComent.do")
+//	    public String deleteComment(int commentNo,int fboardNo) {
+//	    	log.error("commentNo", commentNo);
+//	    	int result=service.deleteComment(commentNo);
+//	    	log.error("fboardNo", fboardNo);
+//	    	log.error("result", result);
+//	    	return "redirect:/fboardView/"+fboardNo;
+//	    }
+	    @GetMapping("/comment/deleteComent.do")
+	    public String deleteComment(int commentNo,int fboardNo) {
+	    	Map<String, Object>param=new HashMap<>();
+	    	param.put("commentNo", commentNo);
+//	    	param.put("fboardNo", fboardNo);
+	    	
+	        int result = commService.deleteComment(commentNo);
+	        if (result == 0) {
+	            return "error";
+	        }
+	        return "redirect:/board/fboardView/" + fboardNo;
+	    }
+
+	  
+	    
+	    
+
 
 	    
 }

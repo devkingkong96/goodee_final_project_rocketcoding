@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="department">
+	<resultMap type="department" id="departmentMap">
+		<id column="DEP_CODE" property="depCode"/>
+		<result column="DEP_NAME" property="depName"/>
+	</resultMap>
+	<select id="selectDepartmentAll" resultType="hashMap">
+    SELECT D.DEP_CODE, D.DEP_NAME, COUNT(E.EMP_NO) AS DEP_COUNT
+    FROM DEPARTMENT D
+    LEFT JOIN EMPLOYEE E ON D.DEP_CODE = E.DEP_CODE
+    GROUP BY D.DEP_CODE, D.DEP_NAME
+	</select>
+	<select id="selectDepartment" resultType="hashMap">
+    	SELECT * FROM DEPARTMENT
+    </select>
+	<insert id="insertDepartment">
+    INSERT INTO DEPARTMENT VALUES (SEQ_DEP_CODE.NEXTVAL, #{depName})
+	</insert>
+	
+	<select id="departmentdetail" resultType="hashMap" parameterType="string">
+	SELECT EMP_NO,EMP_NAME,EMP_LV FROM DEPARTMENT
+	JOIN EMPLOYEE USING(DEP_CODE)
+	WHERE DEP_NAME = #{depName}
+	</select>
+</mapper>

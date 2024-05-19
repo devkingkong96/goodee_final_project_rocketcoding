@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="commute">
+	<resultMap type="commute" id="commuteMap">
+		<id column="COM_NO" property="comNo"/>
+		<result column="COM_ENROLL" property="comEnroll"/>
+		<result column="COM_END" property="comEnd"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	<select id="selectCommuteAll" resultType="hashMap">
+		SELECT * FROM COMMUTE
+	</select>
+	
+	<insert id="startWork">
+    INSERT INTO COMMUTE (COM_NO,EMP_NO,COM_ENROLL,COM_END,COM_DATE)
+    VALUES (SEQ_COM_NO.NEXTVAL,#{empNo},SYSDATE,NULL,SYSDATE)
+	</insert>
+	
+	<update id="endWork">
+	   	UPDATE COMMUTE SET
+	    COM_END = SYSDATE
+		WHERE EMP_NO=#{empNo} AND to_char( COM_DATE, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')  
+	</update>
+	
+	<select id="selectCommuteSum" resultType="hashMap">
+		   	SELECT
+			    COALESCE(SUM(CASE WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN 0 WHEN ROUND((TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') - TO_DATE(d.DWRULES_START, 'HH24:MI')) * 24, 2) >= 0 THEN 1 ELSE 0 END), 0) AS 지각수,
+			    COALESCE(SUM(CASE WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN 0 WHEN ROUND((TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') - TO_DATE(d.DWRULES_START, 'HH24:MI')) * 24, 2) &lt; 0 THEN 1 ELSE 0 END), 0) AS 출근수,
+			    COALESCE(SUM(CASE WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN 1 ELSE 0 END), 0) AS 조퇴수
+			FROM  COMMUTE c
+			JOIN EMPLOYEE e ON c.EMP_NO = e.EMP_NO
+			JOIN DWRULES d ON e.DWRULES_CODE = d.DWRULES_CODE
+			WHERE e.EMP_NO = #{empNo}
+	</select>
+	
+	<select id="MypageCalendar" resultType="hashMap">
+		SELECT
+	TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') as st,
+	CASE 
+		WHEN TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') BETWEEN TO_DATE(d.DWRULES_EARLY, 'HH24:MI') AND TO_DATE(d.DWRULES_END, 'HH24:MI') THEN '조퇴'
+		WHEN ROUND((TO_DATE(to_char(c.COM_ENROLL,'HH24:mi'), 'HH24:MI') - TO_DATE(d.DWRULES_START, 'HH24:MI')) * 24, 2) >= 0 THEN '지각'
+		ELSE '출근' 
+	END AS status,
+	TO_CHAR(c.COM_ENROLL,'YYYY-MM-DD HH24:MI') AS START_DAY,
+	COM_DATE AS END_DAY
+	FROM  COMMUTE c
+	JOIN EMPLOYEE e ON c.EMP_NO = e.EMP_NO
+	JOIN DWRULES d ON e.DWRULES_CODE = d.DWRULES_CODE
+	WHERE e.EMP_NO = #{empNo}
+UNION
+	SELECT null, DECODE(DOC_STATCD, '0', '휴가신청', '1', '휴가승인') AS STATUS, TO_CHAR(START_DATE,'YYYY-MM-DD HH24:MI'), END_DATE FROM DOCUMENT
+	WHERE EMP_NO=#{empNo} AND DOC_TAG=1 AND DECODE(DOC_STATCD, '0', '휴가신청', '1', '휴가승인') IS NOT NULL
+
+	</select>
+	
+</mapper>

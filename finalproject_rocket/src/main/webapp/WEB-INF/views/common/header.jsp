@@ -38,12 +38,12 @@
             <a href="${path }/" class="logo">
                 <!-- logo-->
                 <div class="logo-mini w-30">
-                    <span class="light-logo"><img src="${path}/resources/images/logo-letter.png" alt="logo"></span>
-                    <span class="dark-logo"><img src="${path}/resources/images/logo-letter-white.png" alt="logo"></span>
+                    <span class="light-logo"><img src="${path}/resources/images/10.png" alt="logo" style="width: 3px; height: auto;"></span>
+                    <span class="dark-logo"><img src="${path}/resources/images/10.png" alt="logo" style="width: 3px; height: auto;"></span>
                 </div>
                 <div class="logo-lg">
-                    <span class="light-logo"><img src="${path}/resources/images/logo-dark-text.png" alt="logo"></span>
-                    <span class="dark-logo"><img src="${path}/resources/images/logo-light-text.png" alt="logo"></span>
+                    <span class="light-logo"><img src="${path}/resources/images/10.png" alt="logo" style="width: 3px; height: auto;"></span>
+                    <span class="dark-logo"><img src="${path}/resources/images/10.png" alt="logo" style="width: 3px; height: auto;"></span>
                 </div>
             </a>
         </div>
@@ -59,7 +59,7 @@
                         </a>
                     </li>
                     <li class="btn-group d-lg-inline-flex d-none">
-                        <div class="app-menu">
+                        <!-- <div class="app-menu">
                             <div class="search-bx mx-5">
                                 <form>
                                     <div class="input-group">
@@ -71,14 +71,14 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
+                        </div> -->
                     </li>
                 </ul>
             </div>
 
             <div class="navbar-custom-menu r-side">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown notifications-menu btn-group nav-item">
+                    <!-- <li class="dropdown notifications-menu btn-group nav-item">
                         <a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon"
                            data-bs-toggle="dropdown" title="Notifications">
                             <i class="icon-Notifications"><span class="path1"></span><span class="path2"></span></i>
@@ -98,7 +98,7 @@
                                 </div>
                             </li>
                             <li>
-                                <!-- inner menu: contains the actual data -->
+                                inner menu: contains the actual data
                                 <ul class="menu sm-scrol">
                                     <li>
                                         <a href="#">
@@ -146,7 +146,7 @@
                                 <a href="#">View all</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- 			<li class="btn-group nav-item">
                                     <a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="" data-bs-toggle="modal" data-bs-target="#quick_actions_toggle">
                                         <i class="icon-Layout-arrange"><span class="path1"></span><span class="path2"></span></i>
@@ -200,10 +200,10 @@
                 <a href="${path }/" class="logo">
                     <!-- logo-->
                     <div class="logo-mini">
-                        <span class="light-logo"><img src="${path}/resources/images/logo-letter.png" alt="logo"></span>
+                        <span class="light-logo"><img src="${path}/resources/images/10.png" alt="logo" style="width: 50px; height: auto;"></span>
                     </div>
                     <div class="logo-lg">
-                        <span class="light-logo fs-36 fw-700">로고</span>
+                        <span class="light-logo fs-30 fw-700">PaperDia</span>
                     </div>
                 </a>
             </div>
@@ -242,7 +242,7 @@
 			    $(document).ready(function() {
 			        var depName = '${loginEmp.dep.depName}';
 			        if (depName !== '인사팀') {
-			            $('#employeeHolidayList, #employeeCommuteList, #departmentList, #dwRulesList').click(function(e) {
+			            $('#employeeHolidayList, #employeeCommuteList, #departmentList, #dwRulesList, #employeeCommute').click(function(e) {
 			                e.preventDefault();
 			                alert('권한이 없습니다.');
 			            });
@@ -357,14 +357,65 @@
 
                         </li>
                         <!-- 물류 메뉴 끝-->
-
-                        <li>
-                            <a href="${pageContext.request.contextPath}/board/fboardlist.do">
+						<!-- 사원 관리 메뉴 시작  -->
+						<ul class="treeview-menu">
+						    <li class="treeview">
+						        <a href="#"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+						            <span>사원 관리</span>
+						            <i class="fa fa-angle-right pull-right"></i> 
+						        </a>
+						        <a href="${pageContext.request.contextPath}/board/fboardlist.do">
                                 <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span
                                         class="path2"></span></i>
                                 <span>게시판</span>
+                            	</a>
+						        <ul class="treeview-menu">
+						            <li class='<%= request.getRequestURI().contains("/employeelist") ? "active" : "" %>'>
+						                <a href="${path}/employeelist" id="employeeInfoManage"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원 정보관리</a>
+						            </li>
+						            <li class='<%= request.getRequestURI().contains("/employeeholidaylist") ? "active" : "" %>'>
+						                <a href="${path}/employeeholidaylist" id="employeeHolidayList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 휴가사용 조회</a>
+						            </li>
+						            <li class='<%= request.getRequestURI().contains("/employeecommute") ? "active" : "" %>'>
+						                <a href="${path}/employeecommute" id="employeeCommute"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>사원별 근태관리</a>
+						            </li>
+						        </ul>
+						    </li>
+						    <li class='<%= request.getRequestURI().contains("/departmentlist") ? "active" : "" %>'>
+						        <a href="${path}/departmentlist" id="departmentList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>부서 관리</a>
+						    </li>
+						    <li class='<%= request.getRequestURI().contains("/dwruleslist") ? "active" : "" %>'>
+						        <a href="${path}/dwruleslist" id="dwRulesList"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>근무시간 관리</a>
+						    </li>
+						</ul>
+						<!-- 사원 관리 메뉴 끝 -->
+                        <!-- 게시판 메뉴 시작 -->
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="glyphicon glyphicon-list-alt"><span class="path1"></span><span class="path2"></span></i>
+                                <span>게시판</span>
+                                <span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+
+
+
                             </a>
+                            <ul class="treeview-menu">
+
+                                <li class='<%= request.getRequestURI().contains("/notice") ? "active" : "" %>'>
+                                    <a href="${path}/notice/notice.do"><i class="icon-Commit"><span
+                                            class="path1"></span><span
+                                            class="path2"></span></i>공지사항</a></li>
+                                <li class='<%= request.getRequestURI().contains("/board") ? "active" : "" %>'>
+                                    <a href="${path}/board/fboardlist.do"><i class="icon-Commit"><span
+                                            class="path1"></span><span
+                                            class="path2"></span></i>자유 게시판</a></li>
+                            </ul>
+
                         </li>
+                        <!-- 게시판 메뉴끝 -->
+                        <!-- 채팅 메뉴시작  -->
                         <li>
                             <a href="${path }/chat/list">
                                 <i class="fa fa-comments"></i>
@@ -373,8 +424,16 @@
                         </li>
 						<li class="treeview">
                             <a href="#">
-                                <img style="width: 28px; height: 28px; filter : grayscale(100%)"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy9Jc1pfkjTgTIyPDX2byAiDFXg9X-vbgiQA&usqp=CAU"><span class="path1"></span><span class="path2"></span></i>
-                                <span>전자결재</span>
+                            	<div style="position: relative; display: flex">
+                                <img style="width: 35px; height: 28px; filter : grayscale(100%); position: relative; z-index: 1;"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy9Jc1pfkjTgTIyPDX2byAiDFXg9X-vbgiQA&usqp=CAU"><span class="path1"></span><span class="path2"></span></i>
+          						<div class="" style="position: absolute; top: -7px; left: -5px; z-index: 2; height: 18px; width: 18px; background-color: #A374DB; border-radius: 16px" >
+          						
+                                 <p id="countList" style="position: absolute; top: -2.2px; left: 4.7px; z-index: 3; color: white; font-size: 14px;">
+											
+                                </p> 
+          						</div>
+                                </div>
+                                <span style="position: absolute; top: 10px; left: 50px;">전자결재</span>
                                 <span class="pull-right-container">
 					  <i class="fa fa-angle-right pull-right"></i>
 					</span>
@@ -397,7 +456,8 @@
                                                     class="path1"></span><span class="path2"></span></i>전체</a></li>
                                         <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/w"><i class="icon-Commit"><span
-                                                    class="path1"></span><span class="path2"></span></i>대기</a>
+                                                    class="path1"></span><span class="path2"></span></i>대기 [<span id="countList2" style="font-size: large;"></span>]</a>
+                                                    
                                         </li>
                                         <li class='<%= request.getRequestURI().contains("docu") ? "active" : "" %>'>
                                             <a href="${path}/docu/lists/v"><i class="icon-Commit"><span
@@ -447,6 +507,12 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="${path }/meeting">
+                                <i class="si-call-out si" style="font-size: 20px !important;"></i>
+                                <span>화상 회의</span>
+                            </a>
+                        </li>
                     </ul>
                     <div class="sidebar-widgets">
                         <div class="copyright text-center m-25">
@@ -460,4 +526,52 @@
             </div>
         </section>
     </aside>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+var path='${path}';
 
+$(document).ready(function(){
+    $.ajax({
+        url: `${path}/docu/countlist`,
+        type: 'GET',
+        success: function(response) {
+            
+            var res = response;
+            document.getElementById('countList').innerHTML = res;
+            document.getElementById('countList2').innerHTML = res;
+        }
+    });
+});
+ 
+
+</script>
+<script>
+	/* var sockJS=new SockJS("/ws/alarm"); */
+
+	/* var sockJS=new SockJS("/ws/alarm");
+	var stomp=Stomp.over(sockJS);
+		
+	stomp.connect({},onConnected,onError);
+	//연결 성공했을 때 실행하는 함수
+	function onConnected(){
+		console.log("알람 stomp 연결 성공");
+		
+		//subscribe(path,callback)으로 메세지 받기 가능
+		
+		//sub 할 url -> /sub/chat/room/roomId로 구독 시작
+		stomp.subscribe("/sub/*",onMessageReceived);
+		//StompChatController의 @MessageMapping("/chat/enter")에서 template.convertAndSend()를 통해 메시지 전달받음.
+			
+	}
+	//통신 실패했을 때 함수
+	function onError(){
+		alert('header 통신 종료');
+	}
+	
+	function onMessageReceived(payload){
+		console.log("수신 확인");
+			
+		var chat=JSON.parse(payload.body);
+	} */
+</script>

@@ -38,12 +38,12 @@ public class DBConnectionProvider
 //		log.info("{}",loginEMP.getEmpNo());
 		
 		//회원이 없으면 예외처리
-		if(loginEMP==null)
-			throw new UsernameNotFoundException("유효한 직원 아이디가 없습니다.");
-				
+//		if(loginEMP==null)
+//			throw new UsernameNotFoundException("유효한 직원 아이디가 없습니다.");
 		//비밀번호 체크
-		if(!pw.equals("updateData")&&!encoder.matches(pw, loginEMP.getEmpPw()))
-			throw new BadCredentialsException("비밀번호가 틀렸습니다.");
+		if(loginEMP==null||!encoder.matches(pw, loginEMP.getEmpPw())) {
+			throw new BadCredentialsException("인증실패");
+		}
 		
 		return new UsernamePasswordAuthenticationToken(loginEMP, loginEMP.getPassword(),loginEMP.getAuthorities());
 	}
@@ -54,7 +54,6 @@ public class DBConnectionProvider
 	
 	 @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
 		Employee loginEMP=service.selectEmployeeByLoginId(username);
 		return loginEMP;
 	}

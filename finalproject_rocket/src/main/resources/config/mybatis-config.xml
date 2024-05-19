@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+   <settings>
+      <setting name="jdbcTypeForNull" value="NULL" />
+
+        <!-- MyBatis의 로깅을 SLF4J를 통해 사용하도록 설정 -->
+        <setting name="logImpl" value="SLF4J"/>
+
+   </settings>
+
+
+   <typeAliases>
+      <!-- ksj -->
+      <typeAlias type="com.rocket.ksj.chat.model.dto.ChatFile" alias="chatfile"/>
+      <typeAlias type="com.rocket.ksj.chat.model.dto.ChatMessage" alias="chatmessage"/>
+      <typeAlias type="com.rocket.ksj.chat.model.dto.ChatRoom" alias="chatroom"/>
+      <typeAlias type="com.rocket.ksj.chat.model.dto.EmpChat" alias="empchat"/>
+
+      <!-- psh -->
+      <typeAlias type="com.rocket.psh.board.model.dto.Fboard" alias="fboard"/>
+      <typeAlias type="com.rocket.psh.board.model.dto.FboardComment" alias="fboardcomment"/>
+      <typeAlias type="com.rocket.psh.board.model.dto.FboardFile" alias="fboardfile"/>
+      <typeAlias type="com.rocket.psh.board.model.dto.Notice" alias="notice"/>
+      <typeAlias type="com.rocket.psh.board.model.dto.NoticeFile" alias="noticefile"/>
+
+      <!-- seoj -->
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.Inventory" alias="inventory"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.Product" alias="product"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.Branch" alias="branch"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.InventoryAttach" alias="inventoryattach"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.PrdInventory" alias="prdinventory"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.Stock" alias="stock"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.PrdAttach" alias="productattach"/>
+      <typeAlias type="com.rocket.seoj.logistics.model.dto.Publisher" alias="publisher"/>
+
+      <!-- jsy -->
+      <typeAlias type="com.rocket.jsy.employee.model.dto.Commute" alias="commute"/>
+      <typeAlias type="com.rocket.jsy.employee.model.dto.Department" alias="department"/>
+      <typeAlias type="com.rocket.jsy.employee.model.dto.DwRules" alias="dwrules"/>
+      <typeAlias type="com.rocket.jsy.employee.model.dto.EmpFile" alias="empfile"/>
+      <typeAlias type="com.rocket.jsy.employee.model.dto.Employee" alias="employee"/>
+
+      <!-- pdw -->
+      <typeAlias type="com.rocket.pdw.aprv.model.dto.Tag" alias="tag"/>
+      <typeAlias type="com.rocket.pdw.aprv.model.dto.Document" alias="document"/>
+      <typeAlias type="com.rocket.pdw.aprv.model.dto.Approval" alias="approval"/>
+      <typeAlias type="com.rocket.pdw.aprv.model.dto.ApprovalFile" alias="aprvfile"/>
+   </typeAliases>
+</configuration>

@@ -12,12 +12,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Brief description of functions
- *
- * @author J
- * @version 2023-12-23
- */
 
 @Data
 @NoArgsConstructor

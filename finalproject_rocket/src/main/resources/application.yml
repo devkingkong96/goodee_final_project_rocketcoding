@@ -1,0 +1,70 @@
+#콜론뒤 띄어쓰기 항상!
+
+#server.port=8080
+server:
+  port: 8080
+#  ssl:
+#    key-store: classpath:mykeystore.p12
+#    key-store-password: mypassword
+#    keyStoreType: PKCS12
+#    keyAlias: mykey
+#spring.datasource.driver-class-name
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:oracle:thin:@14.36.141.71:10052:xe
+    username: rocket_erp
+    password: rocket_erp
+    hikari:
+      maximum-pool-size: 1
+      minimum-idle: 1
+      idle-timeout: 50
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  #spring.mvc.view.prfix/suffix
+  pubnub:
+    publishKey: 'your-publish-key'
+    subscribeKey: 'your-subscribe-key'
+    ssl: false
+
+
+
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /WEB-INF/views/
+  #sping email 설정
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kimsj9693@gmail.com
+    password: jxodcepymhzmthil
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  aop:
+    auto: true
+
+#mybatis 설정
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
+  config-location: classpath:config/mybatis-config.xml
+#log 설정
+logging:
+  level:
+    '[com.rocket]': debug
+    '[jdbc.sqlonly]': off
+    '[jdbc.resultsettable]': debug
+    '[jdbc.audit]': off
+    '[jdbc.resultset]': off
+    '[jdbc.connection]': error
+    '[jdbc.sqltiming]': debug
+    '[org.springframework.web]': info
+pattern:
+  console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+contextPath: /GDJ71_rocket_final

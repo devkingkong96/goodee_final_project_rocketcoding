@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+   <jsp:param name="title" value="마이페이지"/>
+</jsp:include>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -63,11 +68,6 @@
         color: #343a40; 
     }
 </style>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param name="title" value="마이페이지"/>
-</jsp:include>
 <div class="content-wrapper">
     <div class="container-full">
         <section class="content">
@@ -77,7 +77,7 @@
                         <div class="row">
                             <div class="col-lg-3 col-12">
                                 <div class="user-bg">
-                                    <form action="/upload" method="post" enctype="multipart/form-data">
+                                    <form action="${path}/upload" method="post" enctype="multipart/form-data">
                                         <input type="file" id="fileUpload" style="display:none" name="file" onchange="form.submit()"/>
                                         <img src="${path}/resources/upload/profile/${loginEmp.empFile}" alt="user" width="200px" height="200px" id="userImage" onclick="document.getElementById('fileUpload').click();"/>
                                     </form>
@@ -186,6 +186,7 @@
             <div class="modal-footer">
         		<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
                 <button type="button" class="btn btn-primary holymoly">신청</button>
+            	<span class="no-holiday" style="display: none;">남은 휴가가 없어요</span>
             </div>
         </div>
     </div>
@@ -193,10 +194,16 @@
 <script>
 $(function() {
     $('.holiday.plus').click(function(e) {
-        var remainingLeave = ${employee.HOMOLY}; // 남은 연차
+        var remainingLeave = ${employee.HOMOLY}; 
+        var holidayButton = $('.holymoly'); 
+        var noHolidayText = $('.no-holiday'); 
         if (remainingLeave <= 0) {
-            alert('남은 연차가 없습니다.');
-            e.preventDefault(); // 버튼의 기본 동작(여기서는 모달 창 열기)을 막습니다.
+            holidayButton.hide(); 
+            noHolidayText.show(); 
+            e.preventDefault(); 
+        } else {
+            holidayButton.show(); 
+            noHolidayText.hide(); 
         }
     });
 });
@@ -224,7 +231,7 @@ document.getElementById('startWork').addEventListener('click',function(){
     var storedDate = localStorage.getItem('startWork_' + empNo);
     var today = new Date().toISOString().slice(0,10);
     if(storedDate != today) {
-        sendData('/startWork');
+        sendData('${path}/startWork');
         localStorage.setItem('startWork_' + empNo, today);
         
         // 출근 시간을 로컬 스토리지에 저장
@@ -249,7 +256,7 @@ document.getElementById('endWork').addEventListener('click',function(){
     var storedDate = localStorage.getItem('endWork_' + empNo);
     var today = new Date().toISOString().slice(0,10);
     if(storedDate != today) {
-        sendData('/endWork');
+        sendData('${path}/endWork');
         localStorage.setItem('endWork_' + empNo, today);
         
      // 퇴근 시간을 로컬 스토리지에 저장하고 표시합니다.
@@ -278,7 +285,7 @@ function sendData(url) {
             var message;
             var now = new Date();
             var timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-            if(url === "/endWork") {
+            if(url === "${path}/endWork") {
                 message = response.time + "시 " + response.message2;
                 var userConfirmed = confirm(message);
                 if(userConfirmed) {
@@ -324,7 +331,7 @@ window.onload = function() {
         document.getElementById('endWork').disabled = false;
         document.getElementById('startWorkTime').textContent = '출근시간: ' + startWorkTime;
     } else {
-        document.getElementById('startWorkTime').textContent = '출근시간: 진행되지 않음';
+        document.getElementById('startWorkTime').textContent = '';
     }
 
     // 퇴근 시간 표시
@@ -332,7 +339,7 @@ window.onload = function() {
         document.getElementById('endWork').style.display = 'none';
         document.getElementById('endWorkTime').textContent = '퇴근시간: ' + endWorkTime;
     } else {
-        document.getElementById('endWorkTime').textContent = '퇴근시간: 진행되지 않음';
+        document.getElementById('endWorkTime').textContent = '';
     }
 };
 </script>

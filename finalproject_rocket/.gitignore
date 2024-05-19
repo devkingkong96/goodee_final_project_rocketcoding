@@ -31,8 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
-src/main/resources/
-src/main/webapp/resources/
+#src/main/resources/
+#src/main/webapp/resources/upload/
+#src/main/webapp/resources/
 Scripts/
 .dbeaver/
 springboot/

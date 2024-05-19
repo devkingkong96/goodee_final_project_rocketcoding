@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fboardfile">
+	<resultMap type="fboardfile" id="fboardfileMap">
+		<id column="FBOARD_FILE_NO" property="fboardFileNo"/>
+		<result column="FBOARD_FILE_ORI" property="fboardFileOri"/>
+		<result column="FBOARD_FILE_RE" property="fboardFileRe"/>
+		<result column="FBOARD_NO" property="fboardNo"/>
+	</resultMap>
+</mapper>

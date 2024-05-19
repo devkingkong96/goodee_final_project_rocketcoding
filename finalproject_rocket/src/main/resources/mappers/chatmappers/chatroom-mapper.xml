@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatroom">
+	<resultMap type="chatroom" id="chatroomMap">
+		<id column="CHATROOM_NO" property="chatRoomNo"/>
+		<result column="EMP_COUNT" property="empCount"/>
+		<result column="CREATED_AT" property="createdAt"/>
+		<result column="CHATROOM_NAME" property="chatRoomName"/>
+		<result column="CH_DEL_CHCK" property="chDelChck"/>
+	</resultMap>
+	
+	<insert id="createChatRoom" parameterType="String">
+		INSERT INTO CHATROOM VALUES(SEQ_CHATROOM_ID.NEXTVAL,'0',SYSDATE,#{roomName})
+	</insert>
+	
+	<delete id="deleteRoomByNo" parameterType="_int">
+		DELETE FROM CHATROOM WHERE CHATROOM_NO=#{roomNo}
+	</delete>
+	
+	<select id="selectRoomAll" resultType="hashMap">
+		SELECT * FROM CHATROOM
+	</select>
+	
+	<select id="selectRoomById" resultType="hashMap" parameterType="_int">
+		SELECT * FROM CHATROOM WHERE CHATROOM_NO=#{roomNo} AND ROWNUM &lt;=1
+	</select>
+	
+	<select id="selectEmployeeInRoom" resultType="hashMap" parameterType="_int">
+		SELECT * FROM EMP_CHAT 
+				JOIN EMPLOYEE ON EMCH_EMP_NO=EMP_NO 
+				JOIN DEPARTMENT USING(DEP_CODE) 
+				WHERE CH_ROOM_NO=#{roomNo} AND EMCH_DEL_CHCK='N'
+				ORDER BY EMP_NAME ASC
+	</select>
+	
+	<select id="modalSearch" resultType="hashMap" parameterType="map">
+		SELECT * FROM EMPLOYEE 
+				JOIN DEPARTMENT USING(DEP_CODE) 
+				WHERE EMP_NO NOT IN (
+					SELECT EMCH_EMP_NO FROM EMP_CHAT
+					WHERE CH_ROOM_NO=#{roomId}
+				) AND (EMP_NAME LIKE '%${modalsearchValue}%'
+					 OR DEP_NAME LIKE '%${modalsearchValue}%'
+					 OR EMP_LV LIKE '%${modalsearchValue}%')
+	</select>
+	
+	<!-- 채팅방 인원 수 -->
+	<select id="numberOfChatRoom" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		    FROM EMP_CHAT
+		    WHERE CH_ROOM_NO=#{roomId}
+	</select>
+	
+</mapper>

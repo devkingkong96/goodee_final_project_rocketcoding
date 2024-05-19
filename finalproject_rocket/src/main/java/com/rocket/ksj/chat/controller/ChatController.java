@@ -24,6 +24,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,10 +65,12 @@ public class ChatController {
 	
 	@GetMapping("/list")
 	public String chatlist(Model m) {
+		
 		Employee emp=(Employee)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		//로그인한 회원 번호
 		int empNo=emp.getEmpNo();
+		Map<String, Object>empinfo=service.selectEmpInfo(empNo);
 		//로그인한 회원 제외한 직원 리스트 가져오기
 		List<Map<String, Object>>emplist=service.selectEmployeeList(empNo);
 		//로그인한 직원 채팅방 가져오기
@@ -75,7 +80,7 @@ public class ChatController {
 		
 		m.addAttribute("emplist",emplist);
 		m.addAttribute("chatlist",chatlist);
-		m.addAttribute("logempNo",empNo);
+		m.addAttribute("logempNo",empinfo);
 //		m.addAttribute("chatroomlist",chatroomlist);
 		
 		return "chat/chatlist";
@@ -93,8 +98,8 @@ public class ChatController {
 		String oriName="";
 		String reName="";
 		//serialize 값 가져오기
-		log.info("파일 업로드 정보 가져오기 upFile{}");
-		log.info("파일 업로드 정보 가져오기 upFile{}",file);
+//		log.info("파일 업로드 정보 가져오기 upFile{}");
+//		log.info("파일 업로드 정보 가져오기 upFile{}",file);
 		
 			File file1 = new File(path);
 	        if(!file1.exists()) {
@@ -121,17 +126,31 @@ public class ChatController {
 	}
 	
 	@GetMapping("/file/download")
-	public void chatFileDownload(String oriName,String reName,HttpSession session,HttpServletResponse response)
+	public void chatFileDownload(String oriName,String reName,HttpSession session,HttpServletResponse response,Model model)
 		throws ServletException, IOException{
 //		String oriName=message.getMsgFiOriName();
 //		String reName=message.getMsgFiReName();
-		
+		if(ObjectUtils.isEmpty(oriName)||ObjectUtils.isEmpty(reName)) {
+			// 빈값 처리
+	        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	        return;
+		}
 		//파일 스트림 연결
 		//실제 경로 가져오기
 		String path = session
 				.getServletContext()
 				.getRealPath("/resources/upload/chatfile/");
-		FileInputStream fis=new FileInputStream(path+reName);
+		
+		File file = new File(path + reName);
+		
+		//파일이 존재하지 않으면 에러 처리
+		if(!file.exists()) {
+			// 파일이 존재하지 않으면 에러 처리
+	        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	        return;
+		}
+		
+		FileInputStream fis=new FileInputStream(file);
 		BufferedInputStream bis=new BufferedInputStream(fis);
 		
 		//파일명 인코딩 처리
@@ -201,7 +220,7 @@ public class ChatController {
 //		log.info("방 번호{}",param.get("roomId"));
 		
 		List<Map<String, Object>>result=service.modalSearch(param);
-		log.info("방 번호{}",result);
+//		log.info("방 번호{}",result);
 		
 		return result;
 	}
@@ -209,7 +228,7 @@ public class ChatController {
 	@PostMapping("/list/roomListSearch")
 	@ResponseBody
 	public List<Map<String, Object>> roomListSearch(@RequestBody Map<String, Object>param){
-		log.info("방 리스트 찾기{}",param);
+//		log.info("방 리스트 찾기{}",param);
 		
 		List<Map<String, Object>>result=service.roomListSearch(param);
 		return result;
@@ -219,7 +238,7 @@ public class ChatController {
 	@PostMapping("/list/empListSearch")
 	@ResponseBody
 	public List<Map<String, Object>> empListSearch(@RequestBody Map<String, Object>param){
-		log.info("멤버리스트 찾기{}",param);
+//		log.info("멤버리스트 찾기{}",param);
 		
 		List<Map<String, Object>>result=service.empListSearch(param);
 		return result;
@@ -228,7 +247,7 @@ public class ChatController {
 	@PostMapping("/room/numOfChatRoom")
 	@ResponseBody
 	public int numOfChatRoom(@RequestBody Map<String, Object>param) {
-		log.info("방 번호 인원수 체크용 : {}",param.get("roomId"));
+//		log.info("방 번호 인원수 체크용 : {}",param.get("roomId"));
 		int result=roomService.numberOfChatRoom(Integer.parseInt((String)param.get("roomId")));
 		return result;
 	}

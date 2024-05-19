@@ -39,8 +39,8 @@ public class InventoryDto {
 //		Branch receiveBranch = iv.getRecieveBrcId();
 //		Employee sendEmployee = iv.getSendEmpId();
 //		Employee receiveEmployee = iv.getRecieveEmpId();
-		/*		System.out.println(iv.getSendBrcId());*/
-		/*		System.out.println("ddddddddddddddddddddd" + sendBranch);*/
+		/*		log.debug(iv.getSendBrcId());*/
+		/*		log.debug("" + sendBranch);*/
 //		BranchDto sendBranchDto = (iv.getSendBrcId() != null) ?
 //		   sendBrcId.of(iv.getSendBrcId()) :
 //		   null;

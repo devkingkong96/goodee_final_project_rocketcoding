@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+   <jsp:param name="title" value="마이페이지"/>
+</jsp:include>
 <style>
 	.box-body .row div {
 	    padding: 5px 0; /* 상하 패딩 */
@@ -34,11 +39,6 @@
     }
 }
 </style>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param name="title" value="마이페이지"/>
-</jsp:include>
 <!-- extract 버튼 가져오기 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -182,7 +182,7 @@ $(document).ready(function() {
         var employeeName = $(this).val();
 
         $.ajax({
-            url: '/employeesearch',
+            url: '${path}/employeesearch',
             method: 'get',
             data: { employeeName: employeeName },
             success: function(byname) {
@@ -212,7 +212,7 @@ $(document).ready(function() {
         console.log(dataToSend);  
 
         $.ajax({
-            url: '/employeeCalendar',
+            url: '${path}/employeeCalendar',
             method: 'get',
             data: dataToSend,/*  */
             success: function(byname) {
@@ -252,7 +252,7 @@ $(document).ready(function() {
         eventLimit: true,
         events: function(start, end, timezone, callback) {
             $.ajax({
-                url: '/myevents/' + employeeName,
+                url: '${path}/myevents/' + employeeName,
                 method: 'GET',
                 success: function(data) {
                 	var events = data.map(function(event) {

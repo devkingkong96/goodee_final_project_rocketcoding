@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="empchat">
+	<resultMap type="empchat" id="empchatMap">
+		<id column="EMP_CHAT_NO" property="empChatNo"/>
+		<result column="EMCH_EMP_NO" property="emChEmpNo"/>
+		<result column="EMCH_ROOM_NO" property="emChRoomNo"/>
+		<result column="CH_BOOKMARK" property="chBookMark"/>
+		<result column="CHATROOM_NAME" property="chatRoomName"/>
+		<result column="EMCH_DEL_CHCK" property="emChDelChck"/>
+	</resultMap>
+	
+	<select id="selectEmployeeAll" parameterType="_int" resultType="hashMap">
+		SELECT * FROM EMPLOYEE 
+				JOIN DEPARTMENT USING(DEP_CODE) 
+				WHERE EMP_NO NOT IN (
+					SELECT EMCH_EMP_NO FROM EMP_CHAT
+					WHERE CH_ROOM_NO=#{roomId}
+				)
+	</select>
+	
+	<select id="selectEmployeeList" parameterType="_int" resultType="hashMap">
+		SELECT * FROM EMPLOYEE 
+				JOIN DEPARTMENT USING(DEP_CODE)
+				WHERE EMP_NO!=#{empNo}
+	</select>
+	
+	<select id="selectEmpInfo" parameterType="_int" resultType="hashMap">
+		SELECT * FROM EMPLOYEE
+				JOIN DEPARTMENT USING(DEP_CODE)
+				WHERE EMP_NO=#{empNo} AND ROWNUM &lt;=1
+	</select>
+	
+	<select id="selectChatAll" resultType="hashMap" parameterType="_int">
+		SELECT * FROM EMP_CHAT
+			JOIN CHATROOM ON CH_ROOM_NO=CHATROOM_NO 
+			WHERE EMCH_EMP_NO=#{empNo} AND EMCH_DEL_CHCK='N'
+	</select>
+	
+	<insert id="createEmpChat" parameterType="_int">
+		INSERT INTO EMP_CHAT VALUES(SEQ_EMP_CHAT_NO.NEXTVAL,#{empNo},SEQ_CHATROOM_ID.CURRVAL,'F',DEFAULT)
+	</insert>
+	
+	<insert id="plusEmpChat" parameterType="map">
+		INSERT INTO EMP_CHAT VALUES(SEQ_EMP_CHAT_NO.NEXTVAL,#{empNo},#{roomId},'F',DEFAULT)
+	</insert>
+	<!-- 채팅방 첫 생성 인원수 증가 -->
+	<!-- <update id="listEmpCountPlus">
+		UPDATE CHATROOM
+			SET EMP_COUNT = EMP_COUNT + 1
+			WHERE CHATROOM_NO=(SEQ_CHATROOM_ID.CURRVAL)
+	</update>
+	채팅방 중간 테이블 생성 인원수 증가
+	<update id="roomEmpCountPlus" parameterType="_int">
+		UPDATE CHATROOM
+			SET EMP_COUNT = EMP_COUNT + 1
+			WHERE CHATROOM_NO=#{roomId}
+	</update>
+	채팅방 인원수 감소
+	<update id="empCountMinus" parameterType="_int">
+		UPDATE CHATROOM
+			SET EMP_COUNT = EMP_COUNT - 1
+			WHERE CHATROOM_NO=#{roomId}
+	</update> -->
+	
+	<delete id="deleteEmpChatByNo" parameterType="_int">
+		DELETE FROM EMP_CHAT WHERE CHATROOM_NO=#{roomNo}
+	</delete>
+	
+	<delete id="deleteEmpChatRoomById" parameterType="map">
+		DELETE FROM EMP_CHAT WHERE EMCH_EMP_NO=#{empNo} AND CH_ROOM_NO=#{roomId}
+	</delete>
+	
+	<select id="roomListSearch" resultType="hashMap" parameterType="map">
+		SELECT CHATROOM_NO,EMP_COUNT,CHATROOM_NAME,TO_CHAR(CREATED_AT, 'YYYY.MM.DD') AS CREATED_AT FROM EMP_CHAT
+			JOIN CHATROOM ON CH_ROOM_NO=CHATROOM_NO 
+			WHERE EMCH_EMP_NO=#{empNo} AND EMCH_DEL_CHCK='N' AND CHATROOM_NAME LIKE '%${roomsearchValue}%'
+	</select>
+	
+	<select id="empListSearch" resultType="hashMap" parameterType="map">
+		SELECT * FROM EMPLOYEE 
+				JOIN DEPARTMENT USING(DEP_CODE)
+				WHERE EMP_NO!=#{empNo} AND
+					(EMP_NAME LIKE '%${empsearchValue}%'
+					 OR DEP_NAME LIKE '%${empsearchValue}%'
+					 OR EMP_LV LIKE '%${empsearchValue}%')
+	</select>
+	
+	
+	<!-- <update id="hiderooms" parameterType="map">
+		UPDATE EMP_CHAT SET EMCH_DEL_CHCK='Y' WHERE EMCH_EMP_NO=#{userNo} CH_ROOM_NO=#{roomId}
+	</update> -->
+</mapper>

@@ -81,16 +81,16 @@
 
 
 			<!-- Vendor JS -->
-			<script src="src/resources/js/vendors.min.js"></script>
-			<script src="src/resources/js/pages/chat-popup.js"></script>
+			<script src="${path }/resources/js/vendors.min.js"></script>
+			<script src="${path }/resources/js/pages/chat-popup.js"></script>
 			<script
-				src="src/resources/js/assets/icons/feather-icons/feather.min.js"></script>
+				src="${path }/resources/js/assets/icons/feather-icons/feather.min.js"></script>
 			<script
-				src="src/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
+				src="${path }/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
 
 			<!-- CRMi App -->
-			<script src="src/resources/js/template.js"></script>
+			<script src="${path }/resources/js/template.js"></script>
 
-			<script src="src/resources/js/pages/data-table.js"></script>
+			<script src="${path }/resources/js/pages/data-table.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inventoryattach">
+    <resultMap id="inventoryattachMap" type="inventoryattach">
+        <id column="iv_file_id" property="ivFileId"/>
+        <result column="iv_file_name_ori" property="ivFileNameOri"/>
+        <result column="iv_file_name_re" property="ivFileNameRe"/>
+        <result column="iv_upload_date" property="ivUploadDate"/>
+        <result column="iv_attach_isdel" property="ivAttachIsdel"/>
+        <result property="ivId" column="IV_ID"/>
+    </resultMap>
+
+    <insert id="insertInventoryAttach" parameterType="inventoryattach">
+        insert into inventory_attach(iv_file_id, iv_file_name_ori, iv_file_name_re, iv_upload_date, iv_attach_isdel,
+                                     iv_id)
+        values (SEQ_IV_FILE_ID.nextval, #{ivFileNameOri}, #{ivFileNameRe}, sysdate, 'N', #{ivId})
+    </insert>
+
+
+    <delete id="deleteInventoryAttach" parameterType="long">
+        delete
+            INVENTORY_ATTACH
+        where iv_id = ${inventoryId}
+    </delete>
+
+</mapper>

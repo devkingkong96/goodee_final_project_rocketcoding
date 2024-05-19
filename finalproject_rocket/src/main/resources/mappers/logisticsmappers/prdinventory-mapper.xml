@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="prdinventory">
+    <resultMap id="prdinventoryMap" type="prdinventory">
+        <id column="prd_iv_id" property="prdIvId"/>
+        <result column="prd_iv_quantity" property="prdIvQuantity"/>
+        <result column="prd_iv_memo" property="prdIvMemo"/>
+        <result property="prdId" column="PRD_ID"/>
+        <result property="ivId" column="IV_ID"/>
+    </resultMap>
+
+    <delete id="deletePrdInventory" parameterType="long">
+        delete
+            PRDINVENTORY
+        where iv_id = ${inventoryId}
+    </delete>
+
+    <insert id="insertPrdInventory" parameterType="prdinventory">
+        INSERT INTO PRDINVENTORY (prd_iv_id, prd_iv_quantity, prd_iv_memo,
+        prd_id, iv_id)
+        VALUES (SEQ_PRD_IV_NO.nextval,
+        #{prdIvQuantity}, #{prdIvMemo},
+        #{prdId}, #{ivId})
+
+        <selectKey keyProperty="prdIvId" resultType="long" order="AFTER">
+            SELECT
+            SEQ_PRD_IV_NO.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+
+</mapper>

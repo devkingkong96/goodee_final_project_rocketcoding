@@ -25,15 +25,11 @@
       <!-- Main content -->
       <section class="content">
          <div class="row">
-
 			<div class="col-12">
-			  <!-- /.box -->
-
 			  <div class="box">
 				<div class="box-header with-border">
 				  <h3 class="box-title">사원별휴가사용조회</h3>
 				</div>
-				<!-- /.box-header -->
 				<div class="box-body">
 					<div class="table-responsive">
 					  <table id="example" class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
@@ -48,7 +44,6 @@
 						</thead>
 						<tbody>
 				    <c:forEach var="employees" items="${employees}">
-				        <%-- <c:forEach var="document" items="${employee.documentList}"> --%>
 				            <tr>
 				                <td>${employees.EMP_NO}</td>
 				                <td>${employees.EMP_NAME}</td>
@@ -59,7 +54,6 @@
 								<fmt:formatDate value="${employees.END_DATE}" pattern="yyyy-MM-dd" />
 								</td>				            
 								</tr>
-				        <%-- </c:forEach> --%>
 				    </c:forEach>
 					</tbody>
 				<tfoot>

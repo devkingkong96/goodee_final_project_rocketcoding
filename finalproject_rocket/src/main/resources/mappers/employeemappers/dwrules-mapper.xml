@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dwrules">
+	<resultMap type="dwrules" id="dwrulesMap">
+		<id column="DWRULES_CODE" property="dwrulesCode"/>
+		<result column="DWRULES_START" property="dwrulesStart"/>
+		<result column="DWRULES_END" property="dwrulesEnd"/>
+		<result column="DWRULES_EARLY" property="dwrulesEarly"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	<select id="selectDwRulesAll" resultType="hashMap">
+		SELECT * FROM DWRULES
+	</select>
+	<insert id="insertDwRules" parameterType="DwRules">
+		INSERT INTO DWRULES
+		VALUES(SEQ_DWRULES_CODE.NEXTVAL,#{dwrulesStart},#{dwrulesEnd},#{dwrulesEarly}
+		)
+	</insert>
+	<delete id="deleteDwRule" parameterType="string">
+    	DELETE FROM dwrules
+    	WHERE DWRULES_CODE = #{comNo}
+	</delete>
+</mapper>
+	

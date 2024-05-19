@@ -21,25 +21,6 @@ public class ProductService {
     private final ProductDao dao;
     private final SqlSession session;
 
-/*    @Transactional
-    public int updateColumn(long id,
-                            String columnName,
-                            String tableName,
-                            String value,
-                            String parentTableName,
-                            String parentColumnId,
-                            String parentColumnName,
-                            String columnId) throws DataAccessException {
-
-        try {
-            return dao.updateColumn(session, id, columnName, tableName, value, parentTableName, parentColumnId,
-                                    parentColumnName, columnId);
-        } catch (DataAccessException e) {
-            throw e;
-        }
-
-    }*/
-
     @Transactional
     public List<Map<String, Object>> selectAllProductAndPublisherAndFiles() {
         return dao.selectAllProductAndPublisherAndFiles(session);
@@ -83,13 +64,4 @@ public class ProductService {
 
 
     }
-
-/*
-    public boolean isdelUpdatePublisher(Long pubId) {
-        return dao.isdelUpdatePublisher(session, pubId);
-    }
-
-    public long insertPublisher(HashMap<String, Object> params) {
-        return dao.insertPublisher(session, params);
-    }*/
 }

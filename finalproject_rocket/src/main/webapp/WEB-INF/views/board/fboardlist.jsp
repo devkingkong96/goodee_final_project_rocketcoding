@@ -39,7 +39,7 @@
                        <tr style="cursor: pointer;" onclick="window.location.href='${path}/board/fboardView/'+${row.FBOARD_NO}">
                             <td>${row.FBOARD_NO}</td>
                             <td>${row.FBOARD_TITLE}</td>
-                            <td>${row.EMP_NO}</td>
+                            <td>${row.EMP_NAME}</td>
                             <td>${row.FBOARD_VIEWS}</td>
                             <td><fmt:formatDate value="${row.FBOARD_DATE}" pattern="yyyy MM dd"/></td>
                         </tr>
@@ -56,7 +56,7 @@
 </div>
 </div>
 
-  
+	        
   
 	
 	<!-- Page Content overlay -->
@@ -64,15 +64,15 @@
 	
 
 	<!-- Vendor JS -->
-	<script src="src/resources/js/vendors.min.js"></script>
-	<script src="src/resources/js/pages/chat-popup.js"></script>
-	<script src="src/resources/js/assets/icons/feather-icons/feather.min.js"></script>
-	<script src="src/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
+	<script src="${path }/resources/js/vendors.min.js"></script>
+	<script src="${path }/resources/js/pages/chat-popup.js"></script>
+	<script src="${path }/resources/js/assets/icons/feather-icons/feather.min.js"></script>
+	<script src="${path }/resources/js/assets/vendor_components/datatable/datatables.min.js"></script>
 	
 	<!-- CRMi App -->
-	<script src="src/resources/js/template.js"></script>
+	<script src="${path }/resources/js/template.js"></script>
 	
-	<script src="src/resources/js/pages/data-table.js"></script>
+	<script src="${path }/resources/js/pages/data-table.js"></script>
 
 
 

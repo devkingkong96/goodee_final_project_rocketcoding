@@ -116,12 +116,6 @@
                 </dependency>-->
 
 
-        <!-- starter-jpa 적용하기-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
         <!-- starter-aop 적용하기-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -146,11 +140,21 @@
             <version>1.1.1</version>
         </dependency>
 
+        <!-- configuration-processor 적용하기 -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
 
     </dependencies>
 
 
     <build>
+      <finalName>GDJ71_rocket_final</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -166,12 +170,12 @@
             </plugin>
         </plugins>
     </build>
-	
-	
-		<!--
-			파일업로드 라이브 러리 등록하기  
-			commons-io 2.7
-			commons-filetupload 1.4
-		-->
-	
+   
+   
+      <!--
+         파일업로드 라이브 러리 등록하기  
+         commons-io 2.7
+         commons-filetupload 1.4
+      -->
+   
 </project>

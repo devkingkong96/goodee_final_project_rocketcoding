@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fboardcomment">
+	<resultMap type="fboardcomment" id="fboardcommentMap">
+		<id column="COMMENT_NO" property="commentNo"/>
+		<result column="FBD_COMMENT" property="fbdComment"/>
+		<result column="FBD_COMMENT_DATE" property="fbdCommentDate"/>
+		<result column="FBOARD_NO" property="fboardNo"/>
+		<result column="FBD_COMMENT_YN" property="fbdCommentYN"/>
+		<association javaType="employee" property="writer">
+			<id column="commentWriterId" property="empNo"/>
+			<result column="writer" property="empName"/>
+		</association>
+	</resultMap>
+	 <!-- 댓글 조회 -->
+	  <select id="selectCommentByCommentNo" parameterType="int" resultType="java.util.HashMap">
+	    SELECT commentNo, fboardNo, empNo, fbdComment, fbdCommentDate, FBD_COMMENT_YN
+	    FROM Comments
+	    WHERE commentNo = #{commentNo}
+	  </select>
+	
+	  <!-- 게시글에 대한 모든 댓글 조회 -->
+	  <select id="selectCommentsByFboardNo" parameterType="int" resultType="java.util.HashMap">
+	    SELECT commentNo, fboardNo, empNo, fbdComment, fbdCommentDate, FBD_COMMENT_YN
+	    FROM Comments
+	    WHERE fboardNo = #{fboardNo}
+	      AND FBD_COMMENT_YN = 'N'
+	  </select>
+	
+	  <!-- 댓글 추가 -->
+	 <!-- 댓글 추가 -->
+	<insert id="insertComment" parameterType="java.util.HashMap">
+		  INSERT INTO FBOARDCOMMENT (comment_no, fboard_No, emp_No, fbd_Comment, fbd_Comment_Date, FBD_COMMENT_YN)
+		  VALUES (SEQ_FBD_COMMENT_NO.nextval ,#{fboardNo}, #{empNo}, #{fbdComment}, SYSDATE, 'N')
+	</insert>
+		
+	  <!-- 댓글 수정 -->
+	  <update id="updateComment" parameterType="java.util.HashMap">
+	    UPDATE FBOARDCOMMENT
+	    SET FBD_COMMENT = #{fbdComment}
+	    WHERE COMMENT_NO = #{commentNo}
+	      AND FBD_COMMENT_YN = 'N'
+	  </update>
+	
+	  <!-- 댓글 삭제여부 업데이트 (실제 삭제는 하지 않음) -->
+	  <update id="deleteComment" parameterType="_int">
+	    UPDATE FBOARDCOMMENT
+	    SET FBD_COMMENT_YN = 'Y'
+	    WHERE COMMENT_NO = #{commentNo}
+	  </update>
+	  
+</mapper>

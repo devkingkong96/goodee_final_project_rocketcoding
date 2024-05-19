@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fboard">
+	<resultMap type="fboard" id="fboardMap">
+		<id column="FBOARD_NO" property="fboardNo"/>
+		<result column="FBOARD_TITLE" property="fboardTitle"/>
+		<result column="FBOARD_CONTENT" property="fboardContent"/>
+		<result column="FBOARD_VIEWS" property="fboardViews"/>
+		<result column="FBOARD_DATE" property="fboardDate"/>
+		<association property="emp" resultMap="employee.employeeMap"/>
+		<collection property="files" resultMap="fboardfile.fboardfileMap"/>
+		<collection property="comments" resultMap="fboardcomment.fboardcommentMap"/>
+	</resultMap>
+		
+	<select id="selectFboardMainPage" resultType="map">
+		SELECT * FROM FBOARD
+		 JOIN EMPLOYEE USING(EMP_NO) 
+		 WHERE FBOARD_YN = 'N'
+		 ORDER BY FBOARD_DATE DESC
+	</select>
+	
+	<!-- 게시글 삽입 -->
+    <insert id="insertFboard" parameterType="fboard">
+        INSERT INTO FBOARD (
+            FBOARD_NO, EMP_NO, FBOARD_TITLE,
+            FBOARD_CONTENT, FBOARD_VIEWS, FBOARD_DATE, FBOARD_YN
+        ) VALUES (
+            SEQ_FBOARD_NO.NEXTVAL, #{empNo}, #{fboardTitle},
+            #{fboardContent},0,SYSDATE,'N'
+        )
+    </insert>
+
+    <!-- 게시글 목록 조회 -->
+    <select id="selectAllFboards" resultType="map">
+        SELECT
+            FBOARD_NO as "fboardNo",
+            EMP_NO as "empNo",
+            FBOARD_TITLE as "fboardTitle",
+            FBOARD_CONTENT as "fboardContent",
+            FBOARD_VIEWS as "fboardViews",
+            FBOARD_DATE as "fboardDate",
+        FROM FBOARD
+       
+    </select>
+
+    <!-- 게시글 상세 조회 -->
+    <select id="selectFboardDetail" parameterType="_int" resultMap="fboardMap">
+        SELECT * FROM FBOARD 
+			LEFT JOIN EMPLOYEE USING(EMP_NO)
+			LEFT JOIN FBOARD_FILE USING(FBOARD_NO)
+			LEFT JOIN (select fbc.*,e.emp_name as writer, e.emp_no as commentWriterId from FBOARDCOMMENT fbc join employee e on fbc.emp_no=e.emp_no) 
+			 USING(FBOARD_NO)
+			WHERE  FBOARD_NO =#{fboardNo}
+    </select>
+	
+	<select id="selectFboardComments" parameterType="_int" resultMap="fboardMap">
+		SELECT * FROM FBOARD 
+			LEFT JOIN FBOARD_FILE USING(FBOARD_NO)
+			LEFT JOIN FBOARDCOMMENT USING(FBOARD_NO)
+			WHERE  FBOARD_NO =#{fboardNo}
+	</select>
+	
+    <!-- 게시글 수정 -->
+    <update id="updateFboard" parameterType="fboard">
+         UPDATE FBOARD SET
+	        FBOARD_TITLE = #{fboardTitle},
+	        FBOARD_CONTENT = #{fboardContent}
+   		 WHERE FBOARD_NO = #{fboardNo}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteFboard" parameterType="_int">
+        UPDATE FBOARD SET FBOARD_YN = 'Y' WHERE FBOARD_NO = #{fboardNo}
+    </delete>
+    
+    
+    <insert id="insertFboardFile" parameterType="fboardfile">
+    	<selectKey keyProperty="fboardNo" order="BEFORE" resultType="_int">
+    		SELECT SEQ_FBOARD_NO.CURRVAL FROM DUAL
+    	</selectKey>
+    	INSERT INTO FBOARD_FILE VALUES(SEQ_FBD_FILE_NO.NEXTVAL,#{fboardNo},#{fboardFileOri},#{fboardFileRe})
+    </insert>
+
+
+	<delete id="deleteFile" parameterType="_int">
+		DELETE FROM FBOARD_FILE WHERE FBOARD_NO=#{fboardNo}
+	</delete>
+	<insert id="insertFboardFile2" parameterType="fboardfile">
+	   INSERT INTO FBOARD_FILE VALUES(SEQ_FBD_FILE_NO.NEXTVAL,#{fboardNo},#{fboardFileOri},#{fboardFileRe})
+    </insert>
+</mapper>
+

@@ -5,12 +5,12 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.rocket.psh.board.model.dao.BoardDao;
 import com.rocket.psh.board.model.dto.Fboard;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -72,6 +72,13 @@ public class FboardServicelmpl implements FboardService {
 		// TODO Auto-generated method stub
 		return dao.deleteFboard(session, fboardNo);
 	}
+
+	@Override
+	public int deleteComment(int commentNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteComment(session, commentNo);
+	}
+	
 	
 	
 	

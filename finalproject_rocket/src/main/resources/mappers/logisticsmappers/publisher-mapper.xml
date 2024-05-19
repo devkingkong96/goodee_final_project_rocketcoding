@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="publisher">
+    <resultMap id="publisherMap" type="publisher">
+        <id column="pub_id" property="pubId"/>
+        <result column="pub_name" property="pubName"/>
+        <result column="pub_addr" property="pubAddr"/>
+        <result column="pub_phone" property="pubPhone"/>
+        <result column="pub_isdel" property="pubIsdel"/>
+        <result column="pub_representative" property="pubRepresentative"/>
+        <result column="pub_bank" property="pubBank"/>
+    </resultMap>
+
+
+    <insert id="insertPublisher" parameterType="hashMap">
+        INSERT INTO PUBLISHER (pub_id, pub_name, pub_addr, pub_phone, pub_isdel, pub_representative, pub_bank)
+        VALUES (SEQ_PUBLISHER_ID.nextval,
+        #{pubName}, #{pubAddr}, #{pubPhone}, #{pubIsdel}, #{pubRepresentative}, #{pubBank})
+
+        <selectKey keyProperty="pubId" resultType="long" order="AFTER">
+            SELECT
+            SEQ_PUBLISHER_ID.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="isdelUpdatePublisher" parameterType="long">
+        UPDATE PUBLISHER
+        SET pub_isdel = 'Y'
+        WHERE pub_id = #{pubId}
+    </update>
+
+    <update id="updateColumn" parameterType="map">
+        UPDATE ${tableName}
+        SET ${parentColumnName} = '${value}'
+        WHERE ${columnId} = (SELECT ${columnName}
+                             FROM PUBLISHER
+                             WHERE ${parentColumnId} = ${id})
+    </update>
+    <update id="updateColumn_sameTable" parameterType="map">
+        UPDATE
+            ${tableName}
+        SET ${parentColumnName} = '${value}'
+        WHERE ${parentColumnId} = ${id}
+    </update>
+
+    <select id="selectAllPublisher" resultType="hashMap">
+        select *
+        from PUBLISHER
+        where pub_isdel = 'N'
+    </select>
+
+</mapper>

@@ -54,19 +54,6 @@ public class MypageController {
 	    request.setAttribute("emp_no", session.getName());
 	    return "redirect:/mypage";
 	}
-//	@PostMapping("/upload")
-//	public ModelAndView handleFileUpload(MultipartHttpServletRequest mpRequest, HttpServletRequest request, Principal session) throws Exception {
-//	    String empFile = fileUtil.updateImg(mpRequest, request);
-//
-//	    service.updateEmpFile(empFile, Integer.parseInt(session.getName()));
-//
-//	    ModelAndView mv = new ModelAndView();
-//	    mv.setViewName("employee/mypage");
-//	    mv.addObject("emp_no", session.getName());
-//
-//	    return mv;
-//	}
-
 
 	@PostMapping("/startWork")
 	public ResponseEntity<Map<String, String>> startWork(@RequestParam int empNo) {

@@ -1,0 +1,491 @@
+* 4fc34eb = dw , 4 months ago : aprvendtest
+*   74d8ac7 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[32m|[m[33m\[m  
+[32m|[m *   18c1b83 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [34m|[m[35m\[m  
+[32m|[m [34m|[m *   c7168f8 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [34m|[m [36m|[m[1;31m\[m  
+[32m|[m [34m|[m [36m|[m *   f5f3dc9 = ksj , 4 months ago : ksj_LoggerAspect컨트롤러 @Around 충돌 수정
+[32m|[m [34m|[m [36m|[m [1;32m|[m[1;33m\[m  
+[32m|[m [34m|[m [36m|[m [1;32m|[m *   345ce07 = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[32m|[m [34m|[m [36m|[m [1;32m|[m [1;34m|[m[1;35m\[m  
+[32m|[m [34m|[m [36m|[m [1;32m|[m * [1;35m|[m daaf343 = P-LEG\Administrator , 4 months ago : was용 카밋 -seoj
+[32m|[m [34m|[m [36m|[m * [1;35m|[m [1;35m|[m 294945e = ksj , 4 months ago : ksj_파일 다운로드 완료
+[32m|[m [34m|[m [36m|[m [1;35m|[m [1;35m|[m[1;35m/[m  
+[32m|[m [34m|[m [36m|[m [1;35m|[m[1;35m/[m[1;35m|[m   
+[32m|[m [34m|[m * [1;35m|[m [1;35m|[m 54fb7b8 = JangSeYoung-BackEnd , 4 months ago : sy : 1/22일 작업 커밋
+[32m|[m * [1;35m|[m [1;35m|[m [1;35m|[m 68f2334 = dw , 4 months ago : TESTD
+[32m|[m [1;35m|[m [1;35m|[m[1;35m/[m [1;35m/[m  
+[32m|[m [1;35m|[m[1;35m/[m[1;35m|[m [1;35m|[m   
+[32m|[m * [1;35m|[m [1;35m|[m   6cb6416 = park , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [1;36m|[m[31m\[m [1;35m\[m [1;35m\[m  
+[32m|[m [1;36m|[m * [1;35m|[m [1;35m|[m a162247 = kim , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [1;36m|[m [32m|[m[1;35m\[m[1;35m|[m [1;35m|[m 
+[32m|[m [1;36m|[m [32m|[m * [1;35m|[m 36e7fb3 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [1;36m|[m [32m|[m [34m|[m[1;35m\[m[1;35m|[m 
+[32m|[m [1;36m|[m [32m|[m * [1;35m|[m 794b31f = JangSeYoung-BackEnd , 4 months ago : 1/21 구글스타일로 바꾼 마이페이지
+[32m|[m [1;36m|[m * [35m|[m [1;35m|[m 106b375 = ksj , 4 months ago : ksj_채팅방 인원수,초대,나가기 실시간 완료
+[32m|[m * [35m|[m [35m|[m [1;35m|[m 73bc531 = dw , 4 months ago : 임시저장중 테스트
+[32m|[m [1;35m|[m [35m|[m[1;35m_[m[35m|[m[1;35m/[m  
+[32m|[m [1;35m|[m[1;35m/[m[35m|[m [35m|[m   
+[32m|[m * [35m|[m [35m|[m   3de41ec = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[32m|[m [36m|[m[1;31m\[m [35m\[m [35m\[m  
+[32m|[m [36m|[m * [35m\[m [35m\[m   98cb710 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [36m|[m [1;32m|[m[1;33m\[m [35m\[m [35m\[m  
+[32m|[m [36m|[m * [1;33m|[m [35m|[m [35m|[m f34997b = dw , 4 months ago : 임시저장삭제...
+[32m|[m [36m|[m [35m|[m [1;33m|[m[35m_[m[35m|[m[35m/[m  
+[32m|[m [36m|[m [35m|[m[35m/[m[1;33m|[m [35m|[m   
+[32m|[m * [35m|[m [1;33m|[m [35m|[m e463e76 = P-LEG\Administrator , 4 months ago : 재고 수불부 페이지 1차 완료
+* [1;33m|[m [35m|[m [1;33m|[m [35m|[m 27b73d5 = GOODE , 4 months ago : psh_댓글완료 수정은 아직.. ㅎ
+[1;33m|[m [1;33m|[m[1;33m_[m[35m|[m[1;33m/[m [35m/[m  
+[1;33m|[m[1;33m/[m[1;33m|[m [35m|[m [35m|[m   
+* [1;33m|[m [35m|[m [35m|[m   105ace5 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;34m|[m[35m\[m [1;33m\[m [35m\[m [35m\[m  
+[1;34m|[m [35m|[m [1;33m|[m[35m/[m [35m/[m  
+[1;34m|[m [35m|[m[35m/[m[1;33m|[m [35m|[m   
+[1;34m|[m * [1;33m|[m [35m|[m   5ab196c = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;34m|[m [1;36m|[m[31m\[m [1;33m\[m [35m\[m  
+[1;34m|[m * [31m|[m [1;33m|[m [35m|[m d9449c3 = JangSeYoung-BackEnd , 4 months ago : sy: 1/19일 작업 커밋
+* [31m|[m [31m|[m [1;33m|[m [35m|[m 808f1b7 = GOODE , 4 months ago : psh_댓글 완료 는 했지만 jsp 에서 출력을 못하여 수정은 주말에 하겠습니다.
+[31m|[m [31m|[m[31m/[m [1;33m/[m [35m/[m  
+[31m|[m[31m/[m[31m|[m [1;33m|[m [35m|[m   
+* [31m|[m [1;33m|[m [35m|[m   caa4d11 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[32m|[m[33m\[m [31m\[m [1;33m\[m [35m\[m  
+[32m|[m * [31m\[m [1;33m\[m [35m\[m   be84044 = park , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [34m|[m[35m\[m [31m\[m [1;33m\[m [35m\[m  
+[32m|[m [34m|[m [35m|[m [31m|[m[35m_[m[1;33m|[m[35m/[m  
+[32m|[m [34m|[m [35m|[m[35m/[m[31m|[m [1;33m|[m   
+[32m|[m [34m|[m * [31m|[m [1;33m|[m 6e8cbcc = ksj , 4 months ago : ksj_채팅방 초대 나가기 실시간 구현 완료, 채팅 리스트 실시간 수정중
+[32m|[m * [35m|[m [31m|[m [1;33m|[m 5db18ab = dw , 4 months ago : 임시저장 80%정도...
+[32m|[m [35m|[m[35m/[m [31m/[m [1;33m/[m  
+[32m|[m * [31m|[m [1;33m|[m   3fb422e = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [36m|[m[1;31m\[m [31m\[m [1;33m\[m  
+[32m|[m [36m|[m * [31m|[m [1;33m|[m 3cb2dd4 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [36m|[m [1;32m|[m[31m\[m[31m|[m [1;33m|[m 
+[32m|[m [36m|[m [1;32m|[m * [1;33m|[m   fc39893 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [36m|[m [1;32m|[m [1;34m|[m[1;35m\[m [1;33m\[m  
+[32m|[m [36m|[m [1;32m|[m * [1;35m|[m [1;33m|[m 5557e1b = JangSeYoung-BackEnd , 4 months ago : 1.18일 sy 기능완료
+[32m|[m [36m|[m * [1;35m|[m [1;35m|[m [1;33m|[m ada0b02 = ksj , 4 months ago : ksj_채팅방 리스트 ajax 실시간 수정중
+[32m|[m [36m|[m [1;35m|[m [1;35m|[m[1;35m/[m [1;33m/[m  
+[32m|[m [36m|[m [1;35m|[m[1;35m/[m[1;35m|[m [1;33m|[m   
+[32m|[m [36m|[m * [1;35m|[m [1;33m|[m 66598ce = ksj , 4 months ago : ksj_방 나가기,생성하기 실시간 구현중
+[32m|[m * [1;35m|[m [1;35m|[m [1;33m|[m c81dad3 = dw , 4 months ago : 임시저장 임시저장
+[32m|[m [1;35m|[m[1;35m/[m [1;35m/[m [1;33m/[m  
+[32m|[m * [1;35m|[m [1;33m|[m   198017a = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [1;36m|[m[31m\[m [1;35m\[m [1;33m\[m  
+[32m|[m [1;36m|[m * [1;35m|[m [1;33m|[m 00c24ac = ksj , 4 months ago : ksj_채팅방 목록 리스트 ajax 업데이트 구현중
+[32m|[m * [31m|[m [1;35m|[m [1;33m|[m b228d16 = dw , 4 months ago : 재밌따 json
+[32m|[m [31m|[m[31m/[m [1;35m/[m [1;33m/[m  
+[32m|[m * [1;35m|[m [1;33m|[m 6dfda21 = ksj , 4 months ago : ksj_채팅방 리스트 실시간 초대,방나가기 구현중
+[32m|[m * [1;35m|[m [1;33m|[m   feb71c7 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [32m|[m[33m\[m [1;35m\[m [1;33m\[m  
+[32m|[m [32m|[m * [1;35m\[m [1;33m\[m   7e8a3c7 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [32m|[m [34m|[m[1;33m\[m [1;35m\[m [1;33m\[m  
+[32m|[m [32m|[m [34m|[m [1;33m|[m [1;35m|[m[1;33m/[m  
+[32m|[m [32m|[m [34m|[m [1;33m|[m[1;33m/[m[1;35m|[m   
+[32m|[m [32m|[m [34m|[m * [1;35m|[m d0cf80c = P-LEG\Administrator , 4 months ago : 헤더 푸시 -seoj
+[32m|[m [32m|[m * [35m|[m [1;35m|[m 47fa0ff = dw , 4 months ago : 집가서할게용~
+[32m|[m [32m|[m * [35m|[m [1;35m|[m 3cf036e = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [32m|[m [36m|[m[35m\[m[35m|[m [1;35m|[m 
+[32m|[m [32m|[m [36m|[m * [1;35m|[m 82bea68 = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[32m|[m [32m|[m [36m|[m [1;32m|[m[1;35m\[m[1;35m|[m 
+[32m|[m [32m|[m [36m|[m * [1;35m|[m 5d9e548 = P-LEG\Administrator , 4 months ago : 푸시
+[32m|[m [32m|[m * [1;33m|[m [1;35m|[m 33e530a = dw , 4 months ago : header 조금수정
+[32m|[m [32m|[m [1;35m|[m [1;33m|[m[1;35m/[m  
+[32m|[m [32m|[m [1;35m|[m[1;35m/[m[1;33m|[m   
+[32m|[m [32m|[m * [1;33m|[m   2968de0 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [32m|[m [1;34m|[m[1;35m\[m [1;33m\[m  
+[32m|[m [32m|[m [1;34m|[m * [1;33m|[m 87e2820 = dw , 4 months ago : iv insertpage 작업중...
+[32m|[m [32m|[m * [1;35m|[m [1;33m|[m 75cd8bc = JangSeYoung-BackEnd , 4 months ago : sy : mypage 수정 , 헤더 제이쿼리 추가
+[32m|[m * [1;35m|[m [1;35m|[m [1;33m|[m 4deef15 = ksj , 4 months ago : ksj_채팅 stomp 검색 기능 구현
+[32m|[m [1;35m|[m [1;35m|[m[1;35m/[m [1;33m/[m  
+[32m|[m [1;35m|[m[1;35m/[m[1;35m|[m [1;33m|[m   
+[32m|[m * [1;35m|[m [1;33m|[m   5df5458 = kim , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [1;36m|[m[31m\[m [1;35m\[m [1;33m\[m  
+[32m|[m [1;36m|[m * [1;35m|[m [1;33m|[m 8d31315 = dw , 4 months ago : 세영이꺼데이터 insert완성
+[32m|[m * [31m|[m [1;35m|[m [1;33m|[m 627b7d2 = ksj , 4 months ago : ksj_채팅방 직원목록 ajax 검색 기능 구현중
+[32m|[m [31m|[m[31m/[m [1;35m/[m [1;33m/[m  
+[32m|[m * [1;35m|[m [1;33m|[m   18fe484 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [32m|[m[33m\[m [1;35m\[m [1;33m\[m  
+[32m|[m [32m|[m * [1;35m|[m [1;33m|[m 89b73e9 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [32m|[m [34m|[m[1;35m\[m[1;35m|[m [1;33m|[m 
+[32m|[m [32m|[m * [1;35m|[m [1;33m|[m db96b72 = ksj , 4 months ago : ksj_채팅 초대하기 목록 ajax 검색 기능 업데이트중
+[32m|[m * [35m|[m [1;35m|[m [1;33m|[m ddc9108 = user01 , 4 months ago : mypage연동중...
+[32m|[m * [35m|[m [1;35m|[m [1;33m|[m   ea02cd1 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [36m|[m[1;35m\[m [35m\[m [1;35m\[m [1;33m\[m  
+[32m|[m [36m|[m [1;35m|[m [35m|[m[1;35m/[m [1;33m/[m  
+[32m|[m [36m|[m [1;35m|[m[1;35m/[m[35m|[m [1;33m|[m   
+[32m|[m [36m|[m * [35m|[m [1;33m|[m   482ae76 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [36m|[m [1;32m|[m[1;33m\[m [35m\[m [1;33m\[m  
+[32m|[m [36m|[m [1;32m|[m [1;33m|[m [35m|[m[1;33m/[m  
+[32m|[m [36m|[m [1;32m|[m [1;33m|[m[1;33m/[m[35m|[m   
+[32m|[m [36m|[m [1;32m|[m * [35m|[m   692dede = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[32m|[m [36m|[m [1;32m|[m [1;34m|[m[1;35m\[m [35m\[m  
+[32m|[m [36m|[m [1;32m|[m * [1;35m|[m [35m|[m f2c7270 = P-LEG\Administrator , 4 months ago : 지점별 재고 현황 검색 종/횡 페이지 완료 / 재고 수불부 페이지 진행 -seoj
+[32m|[m [36m|[m * [1;35m|[m [1;35m|[m [35m|[m ebf4c83 = JangSeYoung-BackEnd , 4 months ago : sy : 휴가 끝
+[32m|[m [36m|[m [1;35m|[m [1;35m|[m[1;35m/[m [35m/[m  
+[32m|[m [36m|[m [1;35m|[m[1;35m/[m[1;35m|[m [35m|[m   
+[32m|[m [36m|[m * [1;35m|[m [35m|[m   01b1859 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [36m|[m [1;36m|[m[31m\[m [1;35m\[m [35m\[m  
+[32m|[m [36m|[m * [31m|[m [1;35m|[m [35m|[m 6c1fb2e = JangSeYoung-BackEnd , 4 months ago : 1/15 sy: 달력 거의다 함
+[32m|[m * [31m|[m [31m|[m [1;35m|[m [35m|[m b6e877c = dw , 4 months ago : header 수정
+[32m|[m [31m|[m [31m|[m[31m/[m [1;35m/[m [35m/[m  
+[32m|[m [31m|[m[31m/[m[31m|[m [1;35m|[m [35m|[m   
+[32m|[m * [31m|[m [1;35m|[m [35m|[m   5db63d6 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[32m|[m [32m|[m[35m\[m [31m\[m [1;35m\[m [35m\[m  
+[32m|[m [32m|[m [35m|[m [31m|[m[35m_[m[1;35m|[m[35m/[m  
+[32m|[m [32m|[m [35m|[m[35m/[m[31m|[m [1;35m|[m   
+[32m|[m [32m|[m * [31m|[m [1;35m|[m   f756662 = kim , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [32m|[m [34m|[m[1;35m\[m [31m\[m [1;35m\[m  
+[32m|[m [32m|[m [34m|[m [1;35m|[m [31m|[m[1;35m/[m  
+[32m|[m [32m|[m [34m|[m [1;35m|[m[1;35m/[m[31m|[m   
+[32m|[m [32m|[m [34m|[m * [31m|[m 4c52921 = P-LEG\Administrator , 4 months ago : 지점별 재고 현황 종/횡 페이지 거의 완성 + 실제 사용할 product, 지점 5개, 모든 부서/직급별 사원 추가
+[32m|[m [32m|[m [34m|[m * [31m|[m 86a92f9 = P-LEG\Administrator , 4 months ago : header 링크 추가 / securityConfig.java -seoj
+[32m|[m [32m|[m [34m|[m * [31m|[m 2c69e87 = P-LEG\Administrator , 4 months ago : securityConfig.java 선진이꺼 커밋 버전으로 다시 올림(실수로 제꺼 올라갔길래;;)
+[32m|[m [32m|[m [34m|[m * [31m|[m 6bf81d7 = P-LEG\Administrator , 4 months ago : 재고 현황 검색 완료 / 헤더 링크 연결 / 지점별 재고 현황 검색 추가 -seoj
+[32m|[m [32m|[m * [35m|[m [31m|[m bc8e8fc = ksj , 4 months ago : ksj_채팅방 나가기 구현
+[32m|[m [32m|[m [35m|[m[35m/[m [31m/[m  
+[32m|[m [32m|[m * [31m|[m   b1d0acc = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[32m|[m [32m|[m [36m|[m[1;31m\[m [31m\[m  
+[32m|[m [32m|[m [36m|[m * [31m\[m   a02b75a = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m [32m|[m [36m|[m [1;32m|[m[1;33m\[m [31m\[m  
+[32m|[m [32m|[m [36m|[m * [1;33m|[m [31m|[m c664dab = ksj , 4 months ago : ksj_다운로드 구현중
+[32m|[m [32m|[m * [1;33m|[m [1;33m|[m [31m|[m 4804f68 = P-LEG\Administrator , 4 months ago : 재고현황 검색/검색 결과 페이지 추가 -seoj
+[32m|[m * [1;33m|[m [1;33m|[m [1;33m|[m [31m|[m cf0f317 = dw , 4 months ago : updateaprv 거의끝
+[32m|[m * [1;33m|[m [1;33m|[m [1;33m|[m [31m|[m f7122b6 = dw , 4 months ago : UPDATE APPROVAL 분기처리중
+[32m|[m [1;33m|[m [1;33m|[m[1;33m/[m [1;33m/[m [31m/[m  
+[32m|[m [1;33m|[m[1;33m/[m[1;33m|[m [1;33m|[m [31m|[m   
+* [1;33m|[m [1;33m|[m [1;33m|[m [31m|[m 3e06823 = psh_ , 4 months ago : psh_게시판
+[1;33m|[m [1;33m|[m[1;33m_[m[1;33m|[m[1;33m/[m [31m/[m  
+[1;33m|[m[1;33m/[m[1;33m|[m [1;33m|[m [31m|[m   
+* [1;33m|[m [1;33m|[m [31m|[m 7515c90 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;34m|[m[1;33m\[m[1;33m|[m [1;33m|[m [31m|[m 
+[1;34m|[m * [1;33m|[m [31m|[m   30091d3 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[1;34m|[m [1;36m|[m[31m\[m [1;33m\[m [31m\[m  
+[1;34m|[m [1;36m|[m * [1;33m\[m [31m\[m   9499614 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;34m|[m [1;36m|[m [32m|[m[33m\[m [1;33m\[m [31m\[m  
+[1;34m|[m [1;36m|[m * [33m|[m [1;33m|[m [31m|[m 6c5980b = ksj , 4 months ago : ksj_파일 업로드 성공
+[1;34m|[m * [33m|[m [33m|[m [1;33m|[m [31m|[m c3de0cc = dw , 4 months ago : update aprv하는중
+* [33m|[m [33m|[m [33m|[m [1;33m|[m [31m|[m 580887c = psh , 4 months ago : psh_게시판 공지사항 89.999%완료
+[33m|[m [33m|[m[33m_[m[33m|[m[33m/[m [1;33m/[m [31m/[m  
+[33m|[m[33m/[m[33m|[m [33m|[m [1;33m|[m [31m|[m   
+* [33m|[m [33m|[m [1;33m|[m [31m|[m 72cc7e2 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[34m|[m[33m\[m[33m|[m [33m|[m [1;33m|[m [31m|[m 
+[34m|[m * [33m|[m [1;33m|[m [31m|[m f5936c3 = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[34m|[m [36m|[m[33m\[m[33m|[m [1;33m|[m [31m|[m 
+[34m|[m [36m|[m * [1;33m|[m [31m|[m   de35bf0 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[34m|[m [36m|[m [1;32m|[m[31m\[m [1;33m\[m [31m\[m  
+[34m|[m [36m|[m [1;32m|[m [31m|[m [1;33m|[m[31m/[m  
+[34m|[m [36m|[m [1;32m|[m [31m|[m[31m/[m[1;33m|[m   
+[34m|[m [36m|[m [1;32m|[m * [1;33m|[m 1673ec0 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[34m|[m [36m|[m [1;32m|[m [1;34m|[m[1;33m\[m[1;33m|[m 
+[34m|[m [36m|[m [1;32m|[m * [1;33m|[m 920aa14 = JangSeYoung-BackEnd , 4 months ago : sy : 1/10 작업
+[34m|[m [36m|[m * [1;35m|[m [1;33m|[m   48ac11e = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[34m|[m [36m|[m [1;36m|[m[1;33m\[m [1;35m\[m [1;33m\[m  
+[34m|[m [36m|[m [1;36m|[m [1;33m|[m [1;35m|[m[1;33m/[m  
+[34m|[m [36m|[m [1;36m|[m [1;33m|[m[1;33m/[m[1;35m|[m   
+[34m|[m [36m|[m * [1;33m|[m [1;35m|[m e2966c7 = ksj , 4 months ago : ksj_채팅 파일 업로드 수정중(화면 구현 완료)
+[34m|[m * [31m|[m [1;33m|[m [1;35m|[m   72f5a5f = pdw , 4 months ago : dw_푸쉬를 위한 푸쉬
+[34m|[m [32m|[m[1;33m\[m [31m\[m [1;33m\[m [1;35m\[m  
+[34m|[m [32m|[m [1;33m|[m [31m|[m[1;33m/[m [1;35m/[m  
+[34m|[m [32m|[m [1;33m|[m[1;33m/[m[31m|[m [1;35m|[m   
+[34m|[m [32m|[m * [31m|[m [1;35m|[m   e388fda = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[34m|[m [32m|[m [34m|[m[35m\[m [31m\[m [1;35m\[m  
+[34m|[m [32m|[m * [35m|[m [31m|[m [1;35m|[m c6c16ce = P-LEG\Administrator , 4 months ago : pom.xml 푸시
+[34m|[m [32m|[m * [35m|[m [31m|[m [1;35m|[m 42c0165 = P-LEG\Administrator , 4 months ago : pom.xml 푸시
+[34m|[m * [35m|[m [35m|[m [31m|[m [1;35m|[m 1ba8cb2 = dw , 4 months ago : aprvo resady
+[34m|[m * [35m|[m [35m|[m [31m|[m [1;35m|[m   640fafd = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[34m|[m [36m|[m[35m\[m [35m\[m [35m\[m [31m\[m [1;35m\[m  
+[34m|[m [36m|[m [35m|[m [35m|[m[35m/[m [31m/[m [1;35m/[m  
+[34m|[m [36m|[m [35m|[m[35m/[m[35m|[m [31m|[m [1;35m|[m   
+[34m|[m * [35m|[m [35m|[m [31m|[m [1;35m|[m 3a10770 = dw , 4 months ago : insert 거의끝! aprvdocu작업시작
+* [1;31m|[m [35m|[m [35m|[m [31m|[m [1;35m|[m e9722f2 = GOODE , 4 months ago : psh_게시판 등록 성공
+[35m|[m [1;31m|[m[35m/[m [35m/[m [31m/[m [1;35m/[m  
+[35m|[m[35m/[m[1;31m|[m [35m|[m [31m|[m [1;35m|[m   
+* [1;31m|[m [35m|[m [31m|[m [1;35m|[m   bd729a4 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;32m|[m[35m\[m [1;31m\[m [35m\[m [31m\[m [1;35m\[m  
+[1;32m|[m [35m|[m [1;31m|[m[35m/[m [31m/[m [1;35m/[m  
+[1;32m|[m [35m|[m[35m/[m[1;31m|[m [31m|[m [1;35m|[m   
+[1;32m|[m * [1;31m|[m [31m|[m [1;35m|[m   7693b97 = P-LEG\Administrator , 4 months ago : Merge remote-tracking branch 'origin/dev' into dev
+[1;32m|[m [1;34m|[m[31m\[m [1;31m\[m [31m\[m [1;35m\[m  
+[1;32m|[m [1;34m|[m [31m|[m [1;31m|[m[31m/[m [1;35m/[m  
+[1;32m|[m [1;34m|[m [31m|[m[31m/[m[1;31m|[m [1;35m|[m   
+[1;32m|[m [1;34m|[m * [1;31m|[m [1;35m|[m 2e8733b = ksj , 4 months ago : ksj_채팅 파일 업로드 구현 시작
+[1;32m|[m [1;34m|[m [1;31m|[m[1;31m/[m [1;35m/[m  
+[1;32m|[m [1;34m|[m * [1;35m|[m   de6aac2 = dw , 4 months ago : 충돌 해결
+[1;32m|[m [1;34m|[m [1;36m|[m[31m\[m [1;35m\[m  
+[1;32m|[m [1;34m|[m [1;36m|[m * [1;35m\[m   0c30d7b = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;32m|[m [1;34m|[m [1;36m|[m [32m|[m[33m\[m [1;35m\[m  
+[1;32m|[m [1;34m|[m [1;36m|[m * [33m|[m [1;35m|[m affcf12 = ksj , 4 months ago : ksj_헤더 emp->Emp 수정
+[1;32m|[m [1;34m|[m * [33m|[m [33m|[m [1;35m|[m 7acee7f = dw , 4 months ago : insert aprv end...
+[1;32m|[m * [33m|[m [33m|[m [33m|[m [1;35m|[m 077babd = P-LEG\Administrator , 4 months ago : 제품 CRUD 1차 완료
+* [33m|[m [33m|[m [33m|[m [33m|[m [1;35m|[m c417dfc = psh , 4 months ago : psh_게시판 연동 완료
+[33m|[m [33m|[m[33m_[m[33m|[m[33m_[m[33m|[m[33m/[m [1;35m/[m  
+[33m|[m[33m/[m[33m|[m [33m|[m [33m|[m [1;35m|[m   
+* [33m|[m [33m|[m [33m|[m [1;35m|[m   88e1539 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[34m|[m[33m\[m [33m\[m [33m\[m [33m\[m [1;35m\[m  
+[34m|[m [33m|[m [33m|[m[33m_[m[33m|[m[33m/[m [1;35m/[m  
+[34m|[m [33m|[m[33m/[m[33m|[m [33m|[m [1;35m|[m   
+[34m|[m * [33m|[m [33m|[m [1;35m|[m   9e1a521 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[34m|[m [36m|[m[1;35m\[m [33m\[m [33m\[m [1;35m\[m  
+[34m|[m [36m|[m [1;35m|[m [33m|[m[1;35m_[m[33m|[m[1;35m/[m  
+[34m|[m [36m|[m [1;35m|[m[1;35m/[m[33m|[m [33m|[m   
+[34m|[m [36m|[m * [33m|[m [33m|[m 6d540cc = JangSeYoung-BackEnd , 4 months ago : sy: 오늘 작업 1/9
+[34m|[m * [1;31m|[m [33m|[m [33m|[m 14b91f8 = ksj , 4 months ago : ksj_로그인 session 수정
+[34m|[m * [1;31m|[m [33m|[m [33m|[m a7e9f69 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[34m|[m [1;32m|[m[1;31m\[m[1;31m|[m [33m|[m [33m|[m 
+[34m|[m [1;32m|[m * [33m|[m [33m|[m   ee3a637 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[34m|[m [1;32m|[m [1;34m|[m[33m\[m [33m\[m [33m\[m  
+[34m|[m [1;32m|[m [1;34m|[m [33m|[m [33m|[m[33m/[m  
+[34m|[m [1;32m|[m [1;34m|[m [33m|[m[33m/[m[33m|[m   
+[34m|[m [1;32m|[m * [33m|[m [33m|[m 0113ad0 = JangSeYoung-BackEnd , 4 months ago : sy: 1/9일 프로필사진 완료
+[34m|[m * [1;35m|[m [33m|[m [33m|[m 5d10e35 = ksj , 4 months ago : ksj_푸쉬 받기 위한 푸쉬
+[34m|[m [33m|[m [1;35m|[m[33m/[m [33m/[m  
+[34m|[m [33m|[m[33m/[m[1;35m|[m [33m|[m   
+[34m|[m * [1;35m|[m [33m|[m   14abdb0 = park , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[34m|[m [1;36m|[m[31m\[m [1;35m\[m [33m\[m  
+[34m|[m [1;36m|[m * [1;35m\[m [33m\[m   3439170 = kim , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[34m|[m [1;36m|[m [32m|[m[33m\[m [1;35m\[m [33m\[m  
+[34m|[m [1;36m|[m [32m|[m [33m|[m [1;35m|[m[33m/[m  
+[34m|[m [1;36m|[m [32m|[m [33m|[m[33m/[m[1;35m|[m   
+[34m|[m [1;36m|[m [32m|[m * [1;35m|[m 5caa335 = P-LEG\Administrator , 4 months ago : 출판사 CRUD 완료 / aop logger 적용 완료
+[34m|[m [1;36m|[m * [33m|[m [1;35m|[m e3d7213 = ksj , 4 months ago : ksj_채팅 기능 분기문 추가
+[34m|[m [1;36m|[m [33m|[m[33m/[m [1;35m/[m  
+[34m|[m * [33m/[m [1;35m/[m cb0c7d9 = dw , 4 months ago : aprv insert
+[34m|[m [33m|[m[33m/[m [1;35m/[m  
+* [33m/[m [1;35m/[m 59e6c66 = GOODE , 4 months ago : psh_게시판 수정
+[33m|[m[33m/[m [1;35m/[m  
+* [1;35m|[m   573c6a8 = GOODE , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[34m|[m[35m\[m [1;35m\[m  
+[34m|[m * [1;35m\[m   e79ac12 = ksj , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[34m|[m [36m|[m[1;31m\[m [1;35m\[m  
+[34m|[m [36m|[m * [1;35m|[m 82bf87c = user01 , 4 months ago : push push babe~
+[34m|[m [36m|[m * [1;35m|[m ecdcbdd = user01 , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[34m|[m [36m|[m [1;32m|[m[1;35m\[m[1;35m|[m 
+[34m|[m [36m|[m * [1;35m|[m 38fdaf6 = dw , 4 months ago : aprv test
+[34m|[m [36m|[m * [1;35m|[m 7850f1a = dw , 4 months ago : 결재 중간 저장
+[34m|[m [36m|[m * [1;35m|[m 3c53d17 = dw , 5 months ago : aprvwrite page
+[34m|[m [36m|[m * [1;35m|[m b78835a = dw , 5 months ago : insert document 완성중,,,,,
+[34m|[m * [1;33m|[m [1;35m|[m 7da1320 = ksj , 4 months ago : ksj_채팅방 삭제 기능 구현중
+* [1;33m|[m [1;33m|[m [1;35m|[m c18a6c9 = GOODE , 4 months ago : psh_수정
+[1;35m|[m [1;33m|[m[1;35m_[m[1;33m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[1;33m|[m [1;33m|[m   
+* [1;33m|[m [1;33m|[m 1481e99 = JangSeYoung-BackEnd , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;34m|[m[1;33m\[m[1;33m|[m [1;33m|[m 
+[1;34m|[m * [1;33m|[m   e48ec1e = kim , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;34m|[m [1;36m|[m[31m\[m [1;33m\[m  
+[1;34m|[m [1;36m|[m * [1;33m\[m   d1c398b = P-LEG\Administrator , 4 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[1;34m|[m [1;36m|[m [32m|[m[33m\[m [1;33m\[m  
+[1;34m|[m [1;36m|[m * [33m|[m [1;33m|[m 4a841b0 = P-LEG\Administrator , 4 months ago : 입출고 페이지 2개 1차 완료/출판사 추가 페이지 작업
+[1;34m|[m * [33m|[m [33m|[m [1;33m|[m a3ce937 = ksj , 4 months ago : ksj_채팅 연결 성공, CRUD 시작
+[1;34m|[m [33m|[m [33m|[m[33m/[m [1;33m/[m  
+[1;34m|[m [33m|[m[33m/[m[33m|[m [1;33m|[m   
+[1;34m|[m * [33m|[m [1;33m|[m   becde6c = GOODE , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;34m|[m [34m|[m[35m\[m [33m\[m [1;33m\[m  
+[1;34m|[m [34m|[m * [33m|[m [1;33m|[m 35523bb = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;34m|[m [34m|[m [36m|[m[33m\[m[33m|[m [1;33m|[m 
+[1;34m|[m [34m|[m [36m|[m * [1;33m|[m ca72389 = P-LEG\Administrator , 5 months ago : 입출고 crud 성공 / 입출고 create 주변테이블 sql 작성중 -seoj
+[1;34m|[m [34m|[m [36m|[m * [1;33m|[m 3dced12 = P-LEG\Administrator , 5 months ago : 입출고 crud 성공 / 입출고 create 주변테이블 sql 작성중 -seoj
+[1;34m|[m [34m|[m * [1;31m|[m [1;33m|[m 72bccc3 = ksj , 5 months ago : ksj_채팅 기능 구현중
+[1;34m|[m [34m|[m [1;31m|[m[1;31m/[m [1;33m/[m  
+[1;34m|[m [34m|[m * [1;33m|[m bf1f4e8 = ksj , 5 months ago : ksj_채팅 내역 가져오기 구현중
+[1;34m|[m [34m|[m * [1;33m|[m   dc710c6 = kim , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;34m|[m [34m|[m [1;32m|[m[1;33m\[m [1;33m\[m  
+[1;34m|[m [34m|[m [1;32m|[m * [1;33m\[m   e9785ab = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;34m|[m [34m|[m [1;32m|[m [1;34m|[m[1;35m\[m [1;33m\[m  
+[1;34m|[m [34m|[m [1;32m|[m * [1;35m|[m [1;33m|[m 4dec775 = ksj , 5 months ago : ksj_채팅 구현중
+[1;34m|[m [34m|[m * [1;35m|[m [1;35m|[m [1;33m|[m b4e4aff = ksj , 5 months ago : ksj_커밋
+[1;34m|[m [34m|[m [1;35m|[m[1;35m/[m [1;35m/[m [1;33m/[m  
+[1;34m|[m * [1;35m|[m [1;35m|[m [1;33m|[m 1ceb19f = psh_ , 5 months ago : psh_게시판연결
+* [1;35m|[m [1;35m|[m [1;35m|[m [1;33m|[m 44c8e77 = JangSeYoung-BackEnd , 4 months ago : SY: 1/8일 커밋
+[1;35m|[m [1;35m|[m[1;35m_[m[1;35m|[m[1;35m/[m [1;33m/[m  
+[1;35m|[m[1;35m/[m[1;35m|[m [1;35m|[m [1;33m|[m   
+* [1;35m|[m [1;35m|[m [1;33m|[m 328dd5c = JangSeYoung-BackEnd , 5 months ago : sy: 이제 안할게요
+* [1;35m|[m [1;35m|[m [1;33m|[m   7d976d9 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;36m|[m[1;35m\[m [1;35m\[m [1;35m\[m [1;33m\[m  
+[1;36m|[m [1;35m|[m [1;35m|[m[1;35m/[m [1;33m/[m  
+[1;36m|[m [1;35m|[m[1;35m/[m[1;35m|[m [1;33m|[m   
+[1;36m|[m * [1;35m|[m [1;33m|[m 88af83c = ksj , 5 months ago : ksj_로그인 메소드 수정
+[1;36m|[m * [1;35m|[m [1;33m|[m   3177b50 = ksj , 5 months ago : ksj_충돌 수정
+[1;36m|[m [32m|[m[33m\[m [1;35m\[m [1;33m\[m  
+[1;36m|[m [32m|[m * [1;35m|[m [1;33m|[m c124d8a = P-LEG\Administrator , 5 months ago : 카밋
+[1;36m|[m [32m|[m [34m|[m[1;35m\[m[1;35m|[m [1;33m|[m 
+[1;36m|[m [32m|[m * [1;35m|[m [1;33m|[m 3da15e6 = P-LEG\Administrator , 5 months ago : inventory create 페이지 작업
+[1;36m|[m * [35m|[m [1;35m|[m [1;33m|[m 9148f95 = ksj , 5 months ago : ksj_채팅 구현중
+[1;36m|[m [1;35m|[m [35m|[m[1;35m/[m [1;33m/[m  
+[1;36m|[m [1;35m|[m[1;35m/[m[35m|[m [1;33m|[m   
+[1;36m|[m * [35m|[m [1;33m|[m cada3ca = kim , 5 months ago : ksj_채팅 직원 목록 ajax 처리중
+[1;36m|[m [1;33m|[m [35m|[m[1;33m/[m  
+[1;36m|[m [1;33m|[m[1;33m/[m[35m|[m   
+[1;36m|[m * [35m|[m   00545cd = user01 , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[1;36m|[m [36m|[m[1;31m\[m [35m\[m  
+[1;36m|[m [36m|[m * [35m|[m 4e09a62 = ksj , 5 months ago : ksj_채팅 구현 시작
+[1;36m|[m * [1;31m|[m [35m|[m daf22e6 = dw , 5 months ago : aprv writepage 작업중
+[1;36m|[m * [1;31m|[m [35m|[m a4d03bc = user01 , 5 months ago : sy commit
+[1;36m|[m * [1;31m|[m [35m|[m 956980d = dw , 5 months ago : aprv page 작업중
+[1;36m|[m [1;31m|[m[1;31m/[m [35m/[m  
+* [1;31m|[m [35m|[m 627bc75 = JangSeYoung-BackEnd , 5 months ago : sy: 1/4일 작업 커밋풀푸쉬
+* [1;31m|[m [35m|[m 2ac04d0 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;32m|[m[1;31m\[m[1;31m|[m [35m|[m 
+[1;32m|[m * [35m|[m e340e9d = ksj , 5 months ago : ksj_로그인 수정
+[1;32m|[m * [35m|[m a5ea97a = P-LEG\Administrator , 5 months ago : pom.xml
+* [1;33m|[m [35m|[m 145db38 = JangSeYoung-BackEnd , 5 months ago : jsy : 1/2일 커밋
+* [1;33m|[m [35m|[m 7f7990b = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;34m|[m[1;33m\[m[1;33m|[m [35m|[m 
+[1;34m|[m * [35m|[m   7ed7557 = P-LEG\Administrator , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;34m|[m [1;36m|[m[31m\[m [35m\[m  
+[1;34m|[m [1;36m|[m * [35m|[m c1036ec = dw , 5 months ago : sysout 제거
+[1;34m|[m [1;36m|[m * [35m|[m 5464efb = dw , 5 months ago : aprv list 끝!
+[1;34m|[m [1;36m|[m * [35m|[m 5cda4e6 = dw , 5 months ago : test dto -dw
+[1;34m|[m [1;36m|[m [35m|[m[35m/[m  
+[1;34m|[m * [35m/[m caf3001 = P-LEG\Administrator , 5 months ago : urd 완료(반대지점 관리는 아직)
+[1;34m|[m [35m|[m[35m/[m  
+* [35m/[m fce13a8 = JangSeYoung-BackEnd , 5 months ago : sy : 1/1일 커밋
+[35m|[m[35m/[m  
+*   74ff362 = kim , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[32m|[m[33m\[m  
+[32m|[m *   dbcd514 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m [34m|[m[35m\[m  
+[32m|[m * [35m|[m eb324a6 = JangSeYoung-BackEnd , 5 months ago : sy: 29일 작업 커밋
+* [35m|[m [35m|[m 0730a2c = ksj , 5 months ago : ksj_dto,mapper 기본형으로 수정
+[35m|[m [35m|[m[35m/[m  
+[35m|[m[35m/[m[35m|[m   
+* [35m|[m 7ed4af3 = ksj , 5 months ago : ksj_Gson 라이브러리 추가
+* [35m|[m   4589296 = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[36m|[m[1;31m\[m [35m\[m  
+[36m|[m * [35m\[m   80de489 = GOODE , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[36m|[m [1;32m|[m[1;33m\[m [35m\[m  
+[36m|[m * [1;33m\[m [35m\[m   56b6523 = psh , 5 months ago : psh_commit
+[36m|[m [1;34m|[m[35m\[m [1;33m\[m [35m\[m  
+[36m|[m [1;34m|[m [35m|[m [1;33m|[m[35m/[m  
+[36m|[m [1;34m|[m [35m|[m[35m/[m[1;33m|[m   
+[36m|[m * [35m|[m [1;33m|[m b8bdf38 = GOODE , 5 months ago : psh_풀 받았습니다
+* [1;35m|[m [35m|[m [1;33m|[m 0cee250 = ksj , 5 months ago : ksj_commit
+[1;33m|[m [1;35m|[m[1;33m_[m[35m|[m[1;33m/[m  
+[1;33m|[m[1;33m/[m[1;35m|[m [35m|[m   
+* [1;35m|[m [35m|[m 6996608 = ksj , 5 months ago : ksj_메인화면 수정중
+[35m|[m [1;35m|[m[35m/[m  
+[35m|[m[35m/[m[1;35m|[m   
+* [1;35m|[m 0e4976a = ksj , 5 months ago : ksj_websocket 주석처리
+* [1;35m|[m   6c82bc7 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;36m|[m[31m\[m [1;35m\[m  
+[1;36m|[m * [1;35m\[m   fce6647 = P-LEG\Administrator , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[1;36m|[m [32m|[m[33m\[m [1;35m\[m  
+[1;36m|[m [32m|[m * [1;35m|[m 7c0a975 = ksj , 5 months ago : ksj_메인화면 구현중
+[1;36m|[m * [33m|[m [1;35m|[m 4510429 = P-LEG\Administrator , 5 months ago : sj_수정
+[1;36m|[m [34m|[m[33m\[m[33m|[m [1;35m|[m 
+[1;36m|[m * [33m|[m [1;35m|[m 1973241 = P-LEG\Administrator , 5 months ago : 선진이 짱
+* [35m|[m [33m|[m [1;35m|[m 57ae3a6 = JangSeYoung-BackEnd , 5 months ago : SY: DTO 폭탄가유 jsp 데이터 select
+[33m|[m [35m|[m[33m/[m [1;35m/[m  
+[33m|[m[33m/[m[35m|[m [1;35m|[m   
+* [35m|[m [1;35m|[m   b0a634b = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[36m|[m[1;31m\[m [35m\[m [1;35m\[m  
+[36m|[m * [35m|[m [1;35m|[m 0bb30df = ksj , 5 months ago : ksj_임시비밀번호 메일 구현 완료
+[36m|[m [1;35m|[m [35m|[m[1;35m/[m  
+[36m|[m [1;35m|[m[1;35m/[m[35m|[m   
+[36m|[m * [35m|[m c9eadab = ksj , 5 months ago : ksj_메일만 보내지면 임시 메일 기능 구현 완료
+[36m|[m * [35m|[m   bb76721 = ksj , 5 months ago : ksj_임시 비밀번호 구현중
+[36m|[m [1;32m|[m[1;33m\[m [35m\[m  
+[36m|[m [1;32m|[m * [35m\[m   05e4225 = user01 , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[36m|[m [1;32m|[m [1;34m|[m[1;35m\[m [35m\[m  
+[36m|[m [1;32m|[m * [1;35m|[m [35m|[m 1d82f3d = 대웅 , 5 months ago : aprv 화면추가
+[36m|[m [1;32m|[m [35m|[m [1;35m|[m[35m/[m  
+[36m|[m [1;32m|[m [35m|[m[35m/[m[1;35m|[m   
+[36m|[m * [35m|[m [1;35m|[m 978b13f = ksj , 5 months ago : ksj_임시 비밀번호 구현중
+[36m|[m * [35m|[m [1;35m|[m 411f681 = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[36m|[m [1;36m|[m[35m\[m[35m|[m [1;35m|[m 
+[36m|[m * [35m|[m [1;35m|[m 530a77f = ksj , 5 months ago : ksj_commit
+* [31m|[m [35m|[m [1;35m|[m 9d6a161 = JangSeYoung-BackEnd , 5 months ago : sy : dto 수정 jsp 2개 추가
+[1;35m|[m [31m|[m[1;35m_[m[35m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[31m|[m [35m|[m   
+* [31m|[m [35m|[m 79f7dad = JangSeYoung-BackEnd , 5 months ago : sy: dto수정
+* [31m|[m [35m|[m   5347381 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[32m|[m[35m\[m [31m\[m [35m\[m  
+[32m|[m [35m|[m [31m|[m[35m/[m  
+[32m|[m [35m|[m[35m/[m[31m|[m   
+[32m|[m * [31m|[m 4f644fa = psh , 5 months ago : psh_깃 충돌 수정
+[32m|[m [34m|[m[31m\[m[31m|[m 
+[32m|[m * [31m|[m 2183329 = GOODE , 5 months ago : psh
+* [35m|[m [31m|[m   34d8d60 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[36m|[m[31m\[m [35m\[m [31m\[m  
+[36m|[m [31m|[m [35m|[m[31m/[m  
+[36m|[m [31m|[m[31m/[m[35m|[m   
+[36m|[m * [35m|[m 9e74ff2 = ksj , 5 months ago : ksj_오류 해결
+[36m|[m * [35m|[m d990516 = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[36m|[m [1;32m|[m[35m\[m[35m|[m 
+[36m|[m * [35m|[m 4b2aa05 = ksj , 5 months ago : ksj_jsp 수정
+* [1;33m|[m [35m|[m   956a6fa = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;34m|[m[35m\[m [1;33m\[m [35m\[m  
+[1;34m|[m [35m|[m [1;33m|[m[35m/[m  
+[1;34m|[m [35m|[m[35m/[m[1;33m|[m   
+[1;34m|[m * [1;33m|[m   7c96f6f = user01 , 5 months ago : pdw_45개 카밋함 망가지면 내 책임
+[1;34m|[m [1;36m|[m[31m\[m [1;33m\[m  
+[1;34m|[m [1;36m|[m * [1;33m|[m 8307265 = SeojDev , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding into dev
+[1;34m|[m [1;36m|[m [32m|[m[1;33m\[m[1;33m|[m 
+[1;34m|[m [1;36m|[m [32m|[m *   f1c4bc2 = ksj , 5 months ago : ksj_commit
+[1;34m|[m [1;36m|[m [32m|[m [34m|[m[35m\[m  
+[1;34m|[m [1;36m|[m [32m|[m * [35m|[m 7439865 = ksj , 5 months ago : ksj_commit
+[1;34m|[m [1;36m|[m * [35m|[m [35m|[m 8a45538 = SeojDev , 5 months ago : logistics dto추가
+[1;34m|[m [1;36m|[m [35m|[m [35m|[m[35m/[m  
+[1;34m|[m [1;36m|[m [35m|[m[35m/[m[35m|[m   
+[1;34m|[m * [35m|[m [35m|[m 9e224e0 = user01 , 5 months ago : mapper 하는중
+* [35m|[m [35m|[m [35m|[m de63606 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[35m|[m [35m|[m[35m/[m [35m/[m  
+[35m|[m[35m/[m[35m|[m [35m|[m   
+* [35m|[m [35m|[m   0e0398f = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[36m|[m[35m\[m [35m\[m [35m\[m  
+[36m|[m [35m|[m [35m|[m[35m/[m  
+[36m|[m [35m|[m[35m/[m[35m|[m   
+[36m|[m * [35m|[m   4b2791e = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[36m|[m [1;32m|[m[1;33m\[m [35m\[m  
+[36m|[m * [1;33m|[m [35m|[m 6aab3e7 = ksj , 5 months ago : ksj_dto,dao 수정
+* [1;33m|[m [1;33m|[m [35m|[m 5664883 = JangSeYoung-BackEnd , 5 months ago : sy : dto 수정
+[1;33m|[m [1;33m|[m[1;33m/[m [35m/[m  
+[1;33m|[m[1;33m/[m[1;33m|[m [35m|[m   
+* [1;33m|[m [35m|[m f988c23 = JangSeYoung-BackEnd , 5 months ago : sy:dao 수정
+* [1;33m|[m [35m|[m e069520 = JangSeYoung-BackEnd , 5 months ago : sy : dto 수정
+* [1;33m|[m [35m|[m cc28455 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[1;34m|[m[1;33m\[m[1;33m|[m [35m|[m 
+[1;34m|[m * [35m|[m 187fb05 = ksj , 5 months ago : psh_dto수정
+[1;34m|[m * [35m|[m   cb69970 = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;34m|[m [1;36m|[m[31m\[m [35m\[m  
+[1;34m|[m [1;36m|[m * [35m|[m c7c32e9 = psh , 5 months ago : psh_board,notice 생성
+[1;34m|[m [1;36m|[m [35m|[m[35m/[m  
+[1;34m|[m * [35m|[m 5032898 = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dev
+[1;34m|[m [32m|[m[35m\[m[35m|[m 
+[1;34m|[m [32m|[m *   a4ed93c = user01 , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into dw
+[1;34m|[m [32m|[m [34m|[m[35m\[m  
+[1;34m|[m [32m|[m * [35m|[m a717e1f = user01 , 5 months ago : dto 추가 -대웅
+[1;34m|[m * [35m|[m [35m|[m b6064f1 = ksj , 5 months ago : ksj_로그인 유지 기능 추가,dto 수정, resultMap 작업시작
+[1;34m|[m [35m|[m [35m|[m[35m/[m  
+[1;34m|[m [35m|[m[35m/[m[35m|[m   
+* [35m/[m [35m|[m 21c0b10 = JangSeYoung-BackEnd , 5 months ago : sy : dto 수정완료
+[35m|[m[35m/[m [35m/[m  
+* [35m|[m 548cec7 = SeojDev , 5 months ago : logistics dto추가
+* [35m|[m eba5d53 = ksj , 5 months ago : ksj_로그인 security 적용, 비밀번호 임시메일 구현 진행 시작
+[35m|[m[35m/[m  
+* 837b793 = JangSeYoung-BackEnd , 5 months ago : SY : DTO 수정
+*   ffc6e57 = JangSeYoung-BackEnd , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into SY
+[36m|[m[1;31m\[m  
+[36m|[m * ea7821a = kim , 5 months ago : ksj_dto 생성, security 보류
+[36m|[m * 406b190 = ksj , 5 months ago : ksj_security 적용중
+[36m|[m *   89f8012 = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[36m|[m [1;32m|[m[1;33m\[m  
+[36m|[m [1;32m|[m * ac2df17 = user01 , 5 months ago : controller
+[36m|[m * [1;33m|[m 7a5b6c0 = ksj , 5 months ago : ksj_로그인 화면 구현
+[36m|[m [1;33m|[m[1;33m/[m  
+* [1;33m/[m d04b11e = JangSeYoung-BackEnd , 5 months ago : sy : dto 작업
+[1;33m|[m[1;33m/[m  
+*   770c4be = ksj , 5 months ago : Merge branch 'dev' of https://github.com/devkingkong96/final_project_rocketcoding.git into ksj
+[1;34m|[m[1;35m\[m  
+[1;34m|[m *   e197379 = JangSeYoung-BackEnd , 5 months ago : Merge pull request #1 from devkingkong96/SY
+[1;34m|[m [1;36m|[m[31m\[m  
+[1;34m|[m [1;36m|[m * c81ab9a = JangSeYoung-BackEnd , 5 months ago : forcetest
+* [1;36m|[m [31m|[m 08eef79 = ksj , 5 months ago : ksj_채팅 컨트롤러 연결
+[31m|[m [1;36m|[m[31m/[m  
+[31m|[m[31m/[m[1;36m|[m   
+* [1;36m|[m cc263ef = JangSeYoung-BackEnd , 5 months ago : test
+* [1;36m|[m d9faf83 = JangSeYoung-BackEnd , 5 months ago : 세명테스트
+* [1;36m|[m 939f453 = ksj , 5 months ago : ksj_메인화면,헤더,푸터,채팅 작성
+[1;36m|[m[1;36m/[m  
+* cc7cc1a = ksj , 5 months ago : ksj_first commit

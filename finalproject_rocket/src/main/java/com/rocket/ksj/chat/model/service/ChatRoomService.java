@@ -7,11 +7,10 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rocket.ksj.chat.model.dao.ChatRoomDao;
-import com.rocket.ksj.chat.model.dto.ChatRoom;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +41,7 @@ public class ChatRoomService {
 		
 		if(req.get("roomName")!=null) {
 			String roomName=(String)req.get("roomName");
-			log.info("방 이름 {}",roomName);
+//			log.info("방 이름 {}",roomName);
 			//채팅방 생성(리스트에서 생성)
 			dao.createChatRoom(session,roomName);
 			
@@ -50,7 +49,7 @@ public class ChatRoomService {
 			String logempNoStr=(String)req.get("logempNo");
 			int logempNo=Integer.parseInt(logempNoStr);
 			emps.add(logempNo);
-			log.info("로그인한 회원 번호{}",logempNo);
+//			log.info("로그인한 회원 번호{}",logempNo);
 			dao.createEmpChat(session, logempNo);
 		}
 		//초대된 회원마다 채팅참여 중간 테이블 생성(리스트에서 생성)
@@ -82,7 +81,7 @@ public class ChatRoomService {
 				param.put("empNo", empNo);
 				param.put("roomId",roomId);
 				int result=dao.plusEmpChat(session,param);
-				log.info("채팅방에서 회원 초대 번호 : {}",result);
+//				log.info("채팅방에서 회원 초대 번호 : {}",result);
 			//여러명 초대
 			}else if(req.get("plustempCheck") instanceof String[]) {
 				String [] employees=(String[])req.get("plustempCheck");
@@ -93,7 +92,7 @@ public class ChatRoomService {
 					param.put("empNo", empNo);
 					param.put("roomId",roomId);
 					int result=dao.plusEmpChat(session,param);
-					log.info("채팅방에서 회원들 초대 번호 : {}",result);
+//					log.info("채팅방에서 회원들 초대 번호 : {}",result);
 				}
 			}
 //			emps.put("roomId", roomId);
@@ -132,8 +131,8 @@ public class ChatRoomService {
 			if(req.get("roomCheck") instanceof String) {
 				int roomId=Integer.parseInt((String)req.get("roomCheck"));
 				int empNo=Integer.parseInt((String)req.get("logempNo"));
-				log.info("String roomId:{}",roomId);
-				log.info("String empNo:{}",empNo);
+//				log.info("String roomId:{}",roomId);
+//				log.info("String empNo:{}",empNo);
 				param.put("roomId", roomId);
 				param.put("empNo", empNo);
 				dao.deleteEmpChatRoomById(session,param);
@@ -144,8 +143,8 @@ public class ChatRoomService {
 				for(String room:rooms) {
 					int roomId=Integer.parseInt(room);
 					int empNo=Integer.parseInt((String)req.get("logempNo"));
-					log.info("String[] roomId:{}",roomId);
-					log.info("String[] empNo:{}",empNo);
+//					log.info("String[] roomId:{}",roomId);
+//					log.info("String[] empNo:{}",empNo);
 					param.put("roomId", roomId);
 					param.put("empNo", empNo);
 					dao.deleteEmpChatRoomById(session,param);

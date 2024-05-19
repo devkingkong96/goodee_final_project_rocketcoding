@@ -51,7 +51,6 @@ public class ApprovalDaoImpl implements ApprovalDao{
 	@Transactional
 	public int insertAprvDocu(SqlSession session, Map<String, Object> reqAll) {
 	    
-		
 		try {
 		//임시저장된거 다시 저장하기	
 		if(reqAll.containsKey("DOC_NO")) {

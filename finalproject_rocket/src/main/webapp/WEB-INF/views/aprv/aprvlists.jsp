@@ -47,7 +47,7 @@
 				    	임시저장
 				    </c:if>
 				    </td>
-				    <td><fmt:formatDate value="${l.U_DATE }" pattern="yyyy-MM-DD"/></td>
+				    <td><fmt:formatDate value="${l.U_DATE }" pattern="yyyy-MM-dd"/></td>
 				    
 				    <td><c:out value="${l.EMP_NAME }"/></td>
 				    
@@ -56,7 +56,7 @@
 				    	휴가신청
 				    </c:if>
 				    <c:if test="${l.DOC_TAG eq 2}">
-				    	재고관리요청
+				    	입출고요청
 				    </c:if>
 				    </td>
 				</tr>

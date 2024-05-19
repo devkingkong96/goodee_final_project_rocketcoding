@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="product">
+    <resultMap id="productMap" type="product">
+        <id column="prd_id" property="prdId"/>
+        <result column="prd_title" property="prdTitle"/>
+        <result column="prd_author" property="prdAuthor"/>
+        <result column="prd_genre" property="prdGenre"/>
+        <result column="publish_Date" property="publishDate"/>
+        <result column="prd_isdel" property="prdIsdel"/>
+        <result column="prd_price" property="prdPrice"/>
+        <result column="price_in_stk" property="priceInStk"/>
+        <result column="price_out_stk" property="priceOutStk"/>
+        <result property="pubId" column="PUB_ID"/>
+    </resultMap>
+
+
+    <select id="selectAllProduct" resultType="hashMap">
+        SELECT *
+        FROM PRODUCT
+        WHERE prd_isdel = 'N'
+        ORDER BY PRD_TITLE DESC
+    </select>
+
+    <update id="updateColumn" parameterType="map">
+        UPDATE ${tableName}
+        SET ${parentColumnName} = '${value}'
+        WHERE ${columnId} = (SELECT ${columnName}
+                             FROM PRODUCT
+                             WHERE ${parentColumnId} = ${id})
+    </update>
+    <update id="updateColumn_sameTable" parameterType="map">
+        UPDATE
+            ${tableName}
+        SET ${parentColumnName} = '${value}'
+        WHERE ${parentColumnId} = ${id}
+    </update>
+
+
+    <insert id="insertProduct" parameterType="product">
+        INSERT INTO PRODUCT (prd_id, prd_title, prd_author, prd_genre, publish_Date, prd_isdel, prd_price, price_in_stk,
+        price_out_stk, pub_id)
+        VALUES (SEQ_PRODUCT_ID.nextval,
+        #{prdTitle}, #{prdAuthor}, #{prdGenre}, #{publishDate}, #{prdIsdel}, #{prdPrice}, #{priceInStk}, #{priceOutStk},
+        #{pubId})
+
+        <selectKey keyProperty="prdId" resultType="long" order="AFTER">
+            SELECT
+            SEQ_PRODUCT_ID.CURRVAL AS prdId FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="isdelUpdateProduct" parameterType="long">
+        UPDATE PRODUCT
+        SET prd_isdel = 'Y'
+        WHERE prd_id = #{prdId}
+    </update>
+
+    <select id="selectAllProductAndPublisherAndFiles" resultType="hashMap">
+        select *
+        from PRODUCT p
+                 left join PRD_ATTACH pa on p.prd_id = pa.prd_id
+                 left join PUBLISHER p2 on p.pub_id = p2.pub_id
+        WHERE prd_isdel = 'N'
+        order by p.prd_id desc
+    </select>
+
+
+    <select id="getProductInfo" resultType="hashMap" parameterType="long">
+        select *
+        from PRODUCT
+        where prd_id = #{id}
+          and prd_isdel = 'N'
+    </select>
+
+</mapper>

@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginEmp" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,11 @@
     <!-- Style-->
     <link rel="stylesheet" href="${path}/resources/css/style.css">
     <link rel="stylesheet" href="${path}/resources/css/skin_color.css">
-
+<style>
+	 .error-message {
+        color: red;
+    }
+</style>
 </head>
 
 <body class="hold-transition theme-primary bg-img"
@@ -36,7 +41,7 @@
                 <div class="col-lg-5 col-md-5 col-12">
                     <div class="bg-white rounded10 shadow-lg">
                         <div class="content-top-agile p-20 pb-0">
-                            <h2 class="text-primary">Rocket Coding ERP</h2>
+                            <h2 class="text-primary">PaperDia</h2>
                             <p class="mb-0">서점 ERP</p>
                         </div>
                         <div class="p-40">
@@ -65,6 +70,12 @@
                                                placeholder="비밀번호">
                                     </div>
                                 </div>
+                                <c:if test="${not empty errorMessage}">
+								    <div class="error-message">
+								        <p><strong>${errorMessage}</strong></p>
+								    </div>
+								</c:if>
+                                <%-- <div><p><c:if test="${not empty errormsg }"><c:out value="${errormsg }"></c:out></c:if></p></div> --%>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="checkbox">
@@ -129,13 +140,23 @@
 </div>
 <!-- </form> -->
 <!-- /.modal -->
-
+<%-- <c:if test="${not empty loginEmp}">
+	<script>
+		alert("다른 기기에서 로그인되어 현재 로그인이 종료되었습니다.");
+	</script>
+</c:if> --%>
 
 <!-- Vendor JS -->
 <script src="${path}/resources/js/vendors.min.js"></script>
 <script src="${path}/resources/js/pages/chat-popup.js"></script>
 <script src="${path}/resources/assets/icons/feather-icons/feather.min.js"></script>
 <script>
+	/* var alreadyLoggedIn = '${loginEmp}'; // 서버에서 전달한 로그인 여부 변수
+	
+	if (alreadyLoggedIn) {
+	  alert("다른 사용자가 해당 계정으로 로그인했습니다. 동시 접속은 허용되지 않습니다.");
+	} */
+
     document.getElementById('sendEmail').addEventListener('click', function () {
         const empNo = document.getElementById('empNo').value;
         const email = document.getElementById('email').value;
@@ -194,7 +215,6 @@
             alert("메일 보내기 실패");
         })
     }
-
 </script>
 </body>
 </html>

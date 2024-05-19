@@ -22,6 +22,9 @@ public interface FboardService {
    int updateFboard(Fboard fboard0);
 
    int deleteFboard(int fboardNo);
+
+   int deleteComment(int commentNo);
+
    
    
    

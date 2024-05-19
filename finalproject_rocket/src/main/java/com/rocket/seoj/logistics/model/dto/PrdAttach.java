@@ -7,13 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-/**
- * Brief description of functions
- *
- * @author J
- * @version 2023-12-23
- */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

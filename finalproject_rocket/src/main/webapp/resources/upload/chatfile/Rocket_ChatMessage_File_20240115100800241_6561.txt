@@ -1,0 +1,20 @@
+webApp->Server(tomcat)
+
+운영체제(리눅스)에 tomcat설치 실행
+
+
+
+JAVA > WAR > IDE
+
+Export > WAR > browger > 자바파일 안가져가고 war파일만(컴파일한 클래스파일만) Overwrite=덮어쓰기
+
+서버에 war파일 배포->톰캣이 설치된 webApps에 배포
+
+
+연결포트 10071
+
+14.36.141.71:10071
+
+
+Putty
+왼쪽 컴퓨터명,오른쪽 포트번호

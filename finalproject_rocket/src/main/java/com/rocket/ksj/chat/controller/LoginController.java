@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rocket.jsy.employee.model.dto.Employee;
+import com.rocket.jsy.employee.service.EmployeeService;
+import com.rocket.jsy.employee.service.MypageService;
 import com.rocket.ksj.chat.model.service.LoginService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +33,8 @@ public class LoginController {
 	
 	private final LoginService service;
 	private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+	private final EmployeeService empservice;
+	private final MypageService mypageservice;
 	
 	//사원번호, 이메일이 있는지 확인하는 메소드
 	@GetMapping("/member/emailCheck")
@@ -75,15 +82,22 @@ public class LoginController {
 	
 	
 	@RequestMapping("/")
-	public String index(Model m,HttpSession session) {
-		List<Map<String, String>> approvalList=service.selectAprvMainPage();
-		List<Map<String, String>> fboardList=service.selectFboardMainPage();
-		List<Map<String, String>> notices=service.selectNoticeMainPage();
-		
-		m.addAttribute("approvalList",approvalList);
-		m.addAttribute("fboardList",fboardList);
-		m.addAttribute("notices",notices);
-		return "index";
+	public String index(Model model) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        int empNo = Integer.parseInt(userDetails.getUsername());
+	        Map<String, Object> employee = empservice.selectEmployeeByNo(empNo);
+	        Map<String, Object> coomute = mypageservice.selectEmployeeByNo(empNo);
+//	        List<Map<String, Object>> mycalendar = mypageservice.selectEmployeeByCalendar(empNo);
+	        log.info("Employee: " + employee.toString());
+	        log.info("Coomute: " + coomute.toString());
+//	        log.info("mycalendar:" + mycalendar.toString());
+	        model.addAttribute("employee", employee);
+	        model.addAttribute("coomute", coomute);
+//	        model.addAttribute("mycalendar", mycalendar);	        
+	    }
+	    return "employee/mypage";
 	}
 	
 //	@RequestMapping("/")
@@ -111,7 +125,14 @@ public class LoginController {
 	
 	
 	@RequestMapping("/login")
-	public String login() {
+	public String login(@RequestParam(value="errorMessage",required = false)String error,Model model) {
+		model.addAttribute("errorMessage",error);
 		return "loginpage";
 	}
+	
+//	@PostMapping("/loginError")
+//	public String loginError(Model model) {
+//		model.addAttribute("errormsg","인증실패");
+//		return "loginpage";
+//	}
 }

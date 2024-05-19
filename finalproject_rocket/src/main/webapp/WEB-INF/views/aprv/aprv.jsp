@@ -27,23 +27,6 @@
 </style>
 <div class="content-wrapper">
     <div class="container-full">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="d-flex align-items-center">
-                <div class="me-auto">
-                    <h4 class="page-title">Editors</h4>
-                    <div class="d-inline-block align-items-center">
-                        <nav>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                                <li class="breadcrumb-item" aria-current="page">Forms</li>
-                                <li class="breadcrumb-item active" aria-current="page">Editors</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -73,7 +56,7 @@
 																	    <img src="https://approval.office.hiworks.com/gabia.biz/approval/sign/approval/A/2/87786" 
 																	        style="width: 70%; height: auto; max-width: none;" 
 																	        alt="아이콘">
-																	    <p style="color: gray; margin: 0;"><fmt:formatDate value="${doc.APRV_DATE }" pattern="yyyy-MM-DD"/></p>
+																	    <p style="color: gray; margin: 0;"><fmt:formatDate value="${doc.APRV_DATE }" pattern="yyyy-MM-dd"/></p>
 																	</td>
 																															        
 														        
@@ -93,6 +76,7 @@
 														                <img src="https://approval.office.hiworks.com/gabia.biz/approval/sign/approval/A/4/87789" 
 														                    style="width: 100%; height: 100%"
 														                    alt="아이콘">
+														                <p style="color: gray; margin: 0;"><fmt:formatDate value="${doc.APRV_DATE }" pattern="yyyy-MM-dd"/></p>
 														            </td>
 														        </c:if>
 														    </c:if>
@@ -175,10 +159,10 @@
                     <td>기간</td>
                     <td >
                     <p id="startDate"></p>
-                    	<fmt:formatDate value="${docu[0]['START_DATE']}" pattern="yyyy-MM-DD"/>
+                    	<fmt:formatDate value="${docu[0]['START_DATE']}" pattern="yyyy-MM-dd"/>
                     
                     <p id="endDate"></p>
-                    	<fmt:formatDate value="${docu[0]['END_DATE']}" pattern="yyyy-MM-DD"/>
+                    	<fmt:formatDate value="${docu[0]['END_DATE']}" pattern="yyyy-MM-dd"/>
                     </td>
                 </tr>
                 <tr>
@@ -192,7 +176,7 @@
                 </tr>
                 <tr style="height: 500px">
                     <td colspan="2" style="text-align: center;">상기와 같은 이유로 휴가를 신청합니다.<br><br><br><br><br><br>
-                   	<fmt:formatDate value="${docu[0]['U_DATE']}" pattern="yyyy-MM-DD"/>
+                   	<fmt:formatDate value="${docu[0]['U_DATE']}" pattern="yyyy-MM-dd"/>
                    	</td> 
                 </tr>
             </tbody>
@@ -228,12 +212,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="myBtn"></button>
                         </div>
                         <div class="modal-body">
-                                <h3>결재하면 수정하실수없습니다 정말 결재하시겠습니까?</h3>
+                                <h3>결재하면 수정하실수없습니다. 정말 결재하시겠습니까?</h3>
                             <div id="flex-cotainer" style="display: flex">
                                 
-                                <button type="button" class="btn btn-danger text-start"  onclick="aprv();"> 결재 </button>
+                                <button type="button" class="btn btn-info text-start"  onclick="aprv();"> 결재 </button>
                                 
-                                <button type="button" class="btn btn-danger text-start"  onclick="reject();"> 반려 </button>
+                                <button type="button" class="btn btn-warning text-start"  onclick="reject();"> 반려 </button>
                                 
                                 <button type="button" class="btn btn-danger text-start" data-bs-dismiss="modal"> 닫기 </button>
                                 
@@ -260,9 +244,6 @@
 <script>
 const docNo = "${docNo}";
 const empNo = "${user.empNo}";
-
-
-    
 
 
  function aprv() {
@@ -294,13 +275,13 @@ const empNo = "${user.empNo}";
 
 <script>
 function reject() {
-    $.ajax({
+	$.ajax({
         type: "POST",
-        url: `${path}/docu/rejectAprv`,
+        url: `${path}/docu/rejectaprv`,
         data: {
             DOC_NO: docNo,
             EMP_NO: empNo
-        },
+        }, 
         dataType: "text",
         success: function(response){
         	console.log(response);

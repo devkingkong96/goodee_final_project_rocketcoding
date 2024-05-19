@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="branch">
+    <resultMap id="branchMap" type="branch">
+        <id column="branch_id" property="branchId"/>
+        <result column="branch_name" property="branchName"/>
+        <result column="branch_type" property="branchType"/>
+        <result column="branch_isdel" property="branchIsdel"/>
+        <result column="branch_addr" property="branchAddr"/>
+
+    </resultMap>
+
+    <select id="branchempinfo" resultType="hashMap" parameterType="long">
+        select *
+        from EMPLOYEE E
+                 join department D on E.DEP_CODE = D.DEP_CODE
+        where branch_id = 1
+          and EMP_FICATION = '재직자'
+        ORDER BY dep_name,
+                 CASE emp_lv
+                     WHEN '사원' THEN 1
+                     WHEN '대리' THEN 2
+                     WHEN '과장' THEN 3
+                     WHEN '차장' THEN 4
+                     WHEN '부장' THEN 5
+                     WHEN '이사' THEN 6
+                     WHEN '사장' THEN 7
+                     ELSE 8
+                     END ASC
+
+    </select>
+
+    <select id="selectAllBranch" resultType="hashMap">
+        select *
+        from branch
+        where branch_isdel = 'N'
+    </select>
+</mapper>

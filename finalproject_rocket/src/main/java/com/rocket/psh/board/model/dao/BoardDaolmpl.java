@@ -7,11 +7,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.naming.factory.FactoryBase;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rocket.psh.board.model.dto.Fboard;
 import com.rocket.psh.board.model.dto.FboardFile;
 
-import jakarta.transaction.Transactional;
 
 @Repository
 
@@ -64,6 +64,7 @@ public class BoardDaolmpl implements BoardDao {
     }
 
     @Override
+    @Transactional
     public int deleteFboard(SqlSession session, int fboardNo) {
         return session.delete("fboard.deleteFboard", fboardNo);
     }
@@ -78,6 +79,12 @@ public class BoardDaolmpl implements BoardDao {
 	public int updateFile(SqlSession session, FboardFile ff) {
 		// TODO Auto-generated method stub
 		return session.insert("fboard.insertFboardFile2",ff);
+	}
+
+	@Override
+	public int deleteComment(SqlSession session, int commentNo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
     
 	

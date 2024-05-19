@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inventory">
+    <resultMap id="inventoryMap" type="inventory">
+        <id column="iv_id" property="ivId"/>
+        <result column="iv_type" property="ivType"/>
+        <result column="iv_date" property="ivDate"/>
+        <result column="iv_deadline" property="ivDeadline"/>
+        <result column="iv_isdel" property="ivIsdel"/>
+        <result column="iv_edit_date" property="ivEditDate"/>
+        <result column="iv_vat_type" property="ivVatType"/>
+        <result column="iv_memo" property="ivMemo"/>
+
+        <result property="sendBrcId" column="SEND_BRC_ID"/>
+        <result property="recieveBrcId" column="RECIEVE_BRC_ID"/>
+        <result property="sendEmpId" column="SEND_EMP_ID"/>
+        <result property="recieveEmpId" column="RECIEVE_EMP_ID"/>
+        <result property="docNo" column="DOC_NO"/>
+
+    </resultMap>
+
+    <select id="getInventoryInfoForCreateDocument" resultType="hashMap" parameterType="long">
+        SELECT i.*,
+               pi.*,
+               p.*,
+               CASE
+                   WHEN i.iv_type = '입고' THEN p.price_in_stk
+                   WHEN i.iv_type = '출고' THEN p.price_out_stk
+                   ELSE NULL
+                   END                                                           AS PRD_STKPRICE,      -- 도서_단가: 타입에 따른 단가 컬럼 지정
+               pi.prd_iv_quantity * CASE
+                                        WHEN i.iv_type = '입고' THEN p.price_in_stk
+                                        WHEN i.iv_type = '출고' THEN p.price_out_stk
+                                        ELSE NULL
+                   END                                                           AS PRICE_BY_PRD,      -- 도서별_입출고_금액 : 도서별 (수량 * 입/출고 단가)
+               SUM(pi.prd_iv_quantity * CASE
+                                            WHEN i.iv_type = '입고' THEN p.price_in_stk
+                                            WHEN i.iv_type = '출고' THEN p.price_out_stk
+                                            ELSE NULL
+                   END)
+                   OVER (PARTITION BY i.iv_id)                                   AS TOTAL_INV_ALLPRD,  -- 모든도서_입출고_총액 : 도서들의 입/출고 단가를 전부 합한 금액
+               SUM(p.prd_price * pi.prd_iv_quantity) OVER (PARTITION BY i.iv_id) AS TOTAL_STORE_PRICE, -- 매장판매액_총액 : 도서별 매장 판매금액 합계
+               NULL                                                              AS WHITESPACE         --정렬용 빈 열
+        FROM INVENTORY i
+                 LEFT JOIN PRDINVENTORY pi ON i.iv_id = pi.iv_id
+                 LEFT JOIN PRODUCT p ON pi.prd_id = p.prd_id
+        WHERE i.iv_id = #{ivId}
+    </select>
+
+    <select id="employeeListInBranch" parameterType="long" resultType="hashMap">
+        SELECT *
+        FROM employee
+                 JOIN department ON employee.DEP_CODE = department.DEP_CODE
+        WHERE BRANCH_ID = 1
+          and EMP_FICATION = '재직자'
+        ORDER BY dep_name,
+                 CASE emp_lv
+                     WHEN '사원' THEN 1
+                     WHEN '대리' THEN 2
+                     WHEN '과장' THEN 3
+                     WHEN '차장' THEN 4
+                     WHEN '부장' THEN 5
+                     WHEN '이사' THEN 6
+                     WHEN '사장' THEN 7
+                     ELSE 8
+                     END ASC
+    </select>
+
+    <insert id="insertInventory" parameterType="inventory">
+
+        INSERT INTO INVENTORY (iv_id, iv_type, iv_date, iv_deadline, iv_isdel,
+        iv_edit_date, iv_vat_type, iv_memo, send_brc_id, recieve_brc_id,
+        send_emp_id, recieve_emp_id, DOC_NO)
+        VALUES (SEQ_INVENTORY_ID.nextval,
+        #{ivType}, SYSDATE, #{ivDeadline}, #{ivIsdel},
+        #{ivEditDate}, #{ivVatType},
+        #{ivMemo}, #{sendBrcId},
+        #{recieveBrcId},
+        #{sendEmpId},
+        #{recieveEmpId}, #{docNo})
+
+        <selectKey keyProperty="ivId" resultType="long" order="AFTER">
+            SELECT
+            SEQ_INVENTORY_ID.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <select id="selectWriteInventory" resultType="hashMap">
+        SELECT e.EMP_NO           AS
+                                     emp_no,
+               e.EMP_NAME         AS emp_name,
+               p.prd_id           AS prd_id,
+               p.prd_title        AS prd_title,
+               b.branch_id        AS branch_id,
+               b.branch_name      AS branch_name,
+               i.iv_id            AS iv_id,
+               i.iv_type          AS iv_type,
+               pi.prd_iv_id       AS prd_iv_id,
+               pi.prd_iv_quantity AS prd_iv_quantity
+        FROM employee e
+                 left JOIN inventory i ON e.EMP_NO = i.send_emp_id
+                 left JOIN branch b ON i.send_brc_id = b.branch_id
+                 left JOIN PRDINVENTORY pi ON i.iv_id = pi.iv_id
+                 left JOIN product p ON pi.prd_id = p.prd_id
+    </select>
+
+
+    <select id="selectAllInventories" resultType="hashMap" parameterType="_int">
+        SELECT i.*,
+               d.*,
+               pi.*,
+               sendbrc.branch_id          AS send_branch_id,
+               sendbrc.branch_name        AS send_branch_name,
+               sendbrc.branch_type        AS send_branch_type,
+               sendbrc.branch_isdel       AS send_branch_isdel,
+               sendbrc.branch_addr        AS send_branch_addr,
+               recbrc.branch_id           AS rec_branch_id,
+               recbrc.branch_name         AS rec_branch_name,
+               recbrc.branch_type         AS rec_branch_type,
+               recbrc.branch_isdel        AS rec_branch_isdel,
+               recbrc.branch_addr         AS rec_branch_addr,
+               sendemp.EMP_NO             AS send_emp_no,
+               sendemp.EMP_PW             AS send_emp_pw,
+               sendemp.EMP_NAME           AS send_emp_name,
+               sendemp.EMP_LV             AS send_emp_lv,
+               sendemp.EMP_ENDATE         AS send_emp_endate,
+               sendemp.EMP_FICATION       AS send_emp_fication,
+               sendemp.EMP_EMAIL          AS send_emp_email,
+               sendemp.DEP_CODE           AS send_emp_dep_code,
+               recemp.EMP_NO              AS rec_emp_no,
+               recemp.EMP_PW              AS rec_emp_pw,
+               recemp.EMP_NAME            AS rec_emp_name,
+               recemp.EMP_LV              AS rec_emp_lv,
+               recemp.EMP_ENDATE          AS rec_emp_endate,
+               recemp.EMP_FICATION        AS rec_emp_fication,
+               recemp.EMP_EMAIL           AS rec_emp_email,
+               recemp.DEP_CODE            AS rec_emp_dep_code,
+               P2.prd_id                  AS product_id,
+               P2.prd_title               AS product_title,
+               CASE
+                   WHEN i.iv_type = '입고' THEN pi.prd_iv_quantity * P2.price_in_stk
+                   WHEN i.iv_type = '출고' THEN pi.prd_iv_quantity * P2.price_out_stk
+                   ELSE 0
+                   END                    AS calculated_price,
+               (SELECT SUM(P3.prd_iv_quantity)
+                FROM PRDINVENTORY P3
+                WHERE P3.iv_id = i.iv_id) AS total_prd_iv_quantity,
+               (SELECT SUM(CASE
+                               WHEN i2.iv_type = '입고' THEN pi2.prd_iv_quantity * P22.price_in_stk
+                               WHEN i2.iv_type = '출고' THEN pi2.prd_iv_quantity * P22.price_out_stk
+                               ELSE 0
+                   END)
+                FROM INVENTORY i2
+                         LEFT JOIN prdinventory pi2 ON i2.iv_id = pi2.iv_id
+                         LEFT JOIN product P22 ON pi2.prd_id = P22.prd_id
+                WHERE i2.iv_id = i.iv_id) AS calculated_price2
+        FROM INVENTORY i
+                 LEFT JOIN BRANCH sendbrc ON i.send_brc_id = sendbrc.branch_id
+                 LEFT JOIN BRANCH recbrc ON i.recieve_brc_id = recbrc.branch_id
+                 LEFT JOIN EMPLOYEE sendemp ON i.send_emp_id = sendemp.EMP_NO
+                 LEFT JOIN EMPLOYEE recemp ON i.recieve_emp_id = recemp.EMP_NO
+                 LEFT JOIN DOCUMENT d ON i.DOC_NO = d.DOC_NO
+                 LEFT JOIN prdinventory pi ON i.iv_id = pi.iv_id
+                 LEFT JOIN product P2 ON pi.prd_id = P2.prd_id
+        WHERE i.iv_isdel = 'N'
+          and sendbrc.BRANCH_ID = #{branchId}
+        ORDER BY iv_date DESC
+
+    </select>
+
+    <update id="updateColumn" parameterType="map">
+        UPDATE ${tableName}
+        SET ${parentColumnName} = '${value}'
+        WHERE ${columnId} = (SELECT ${columnName}
+                             FROM INVENTORY
+                             WHERE ${parentColumnId} = ${id})
+    </update>
+    <update id="updateColumn_sameTable" parameterType="map">
+        UPDATE
+            ${tableName}
+        SET ${parentColumnName} = '${value}'
+        WHERE ${parentColumnId} = ${id}
+    </update>
+    <update id="deleteInventoryColumn" parameterType="long">
+        update
+            INVENTORY
+        set iv_isdel = 'Y'
+        where iv_id = ${inventoryId}
+    </update>
+
+    <select id="countInventories" resultType="_int">
+        SELECT COUNT(*)
+        FROM INVENTORY
+        WHERE iv_isdel = 'N'
+    </select>
+
+    <select id="selectInventory" resultMap="inventoryMap">
+        SELECT *
+        FROM INVENTORY
+        WHERE iv_id = #{ivId.ivId}
+    </select>
+
+    <update id="updateInventory" parameterType="inventory">
+        UPDATE INVENTORY
+        SET iv_type        = #{ivType},
+            iv_date        = #{ivDate},
+            iv_isdel       = #{ivIsdel},
+            iv_edit_date   = #{ivEditDate},
+            iv_vat_type    = #{ivVatType},
+            iv_memo        =
+                #{ivMemo},
+            send_brc_id    = #{sendBrcId.sendBrcId},
+            recieve_brc_id =
+                #{recieveBrcId.recieveBrcId},
+            send_emp_id    = #{sendEmpId.sendEmpId},
+            recieve_emp_id = #{recieveEmpId.recieveEmpId},
+            DOC_NO         = #{docNo.docNo}
+        WHERE iv_id = #{ivId.ivId}
+    </update>
+
+    <delete id="deleteInventory" parameterType="string">
+        DELETE
+        FROM INVENTORY
+        WHERE iv_id = #{ivId.ivId}
+    </delete>
+
+</mapper>

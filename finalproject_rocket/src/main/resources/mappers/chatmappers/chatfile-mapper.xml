@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatfile">
+	<resultMap type="chatfile" id="chatfileMap">
+		<id column="FILE_NO" property="fileNo"/>
+		<result column="ORIGINFILENAME" property="originFileName"/>
+		<result column="RENAMEDFILENAME" property="renamedFileName"/>
+		<result column="UPLOAD_AT" property="uploadAt"/>
+		<result column="CHFI_ROOM_NO" property="chFiRoomNo"/>
+		<result column="CHFI_EMP_NO" property="chFiEmpNo"/>
+	</resultMap>
+</mapper>

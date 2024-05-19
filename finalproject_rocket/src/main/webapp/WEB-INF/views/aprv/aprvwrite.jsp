@@ -36,23 +36,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <div class="container-full">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="d-flex align-items-center">
-                <div class="me-auto">
-                    <h4 class="page-title">Editors</h4>
-                    <div class="d-inline-block align-items-center">
-                        <nav>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                                <li class="breadcrumb-item" aria-current="page">Forms</li>
-                                <li class="breadcrumb-item active" aria-current="page">Editors</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -246,51 +229,67 @@
                                                 <li class="treeview">
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="1" class="radio-col-danger" />
-                                                    <label for="1">일부</label>
+                                                    <label for="1">영업팀</label>
                                                 </li>
                                                 <li class="treeview">
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="2" class="radio-col-danger" />
-                                                    <label for="2">인사부</label>
+                                                    <label for="2">기획팀</label>
                                                 </li>
                                                 <li class="treeview">
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="3" class="radio-col-danger" />
-                                                    <label for="3">재고부</label>
+                                                    <label for="3">경영지원팀</label>
                                                 </li>
                                                 <li class="treeview">
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="4" class="radio-col-danger" />
-                                                    <label for="4">부부</label>
+                                                    <label for="4">서비스본부</label>
                                                 </li>
                                                 <li class="treeview">
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <input name="group4" type="radio" id="5" class="radio-col-danger" />
-                                                    <label for="5">아이부</label>
+                                                    <label for="5">개발팀</label>
                                                 </li>
+                                                <li class="treeview">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <input name="group4" type="radio" id="6" class="radio-col-danger" />
+                                                    <label for="6">인사팀</label>
+                                                </li>
+                                                <li class="treeview">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <input name="group4" type="radio" id="7" class="radio-col-danger" />
+                                                    <label for="7">회계팀</label>
+                                                </li>
+                                                <li class="treeview">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <input name="group4" type="radio" id="8" class="radio-col-danger" />
+                                                    <label for="8">고객지원팀</label>
+                                                </li>
+                                                
                                             </ul>
                                         </li>
                                 </div>
-                                <div id="btn-container" class="">
+                                <div id="btn-container">
                                     <div class="col-12">
-                                        <div class="">
-                                            <div class="box-header" style="margin-top: -11px">
-                                                <h1 class="box-title text-primary" id="peo-heder">People</h1>
-                                            </div>
-                                            <div class="column" id="dep-container" style="margin-top: -12px">
+                                        <div class="col-12">
+                                            
+                                                <h1 class="box-title text-primary" id="peo-heder" style="margin-right: 30px;">People</h1>
+                                            
+                                            <div class="column" id="dep-container" >
                                                 <!--인원들출력란  -->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <h1 style="position: static; margin-right: 40px">결재자</h1>
-                                    <div class="column" style="width: 100%; height: 100%" id="aprv">
+                                    <h1 style="position: static; margin-right: 40px; margin-left: 50px;">결재자</h1>
+                                    <div class="column" style="width: 100%; height: 100%; position: fixed;" id="aprv">
                                     </div>
                                 </div>
                                 <div>
                                     <h1 style="position: static;">참조자</h1>
-                                    <div class="column" style="width: 100%; height: 100%;border: 2px"  id="reader">
+                                    <div class="column" style="width: 100%; height: 100%;border: 2px; margin-right : 20px; position: fixed;"  id="reader">
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +425,7 @@
                     html += '<button class="draggable" draggable="true">'
                     html += '<div class="d-flex align-items-center mb-30">'
                     html += '<div class="me-15">'
-                    html += '<img src=${path}/resources/upload/profile/rocket20240122_15243028864_288.jpg class="avatar avatar-lg rounded10" alt="사진" />'
+                    html += '<img src=${path}/resources/upload/profile/'+ data[i].EMP_FILE +' class="avatar avatar-lg rounded10" alt="사진" />'
                     //data[i].EMP_FILE
                     html += '</div>'
                     html += '<div class="d-flex flex-column fw-500" style="width: 100px;height:50px">'

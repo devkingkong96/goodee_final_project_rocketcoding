@@ -67,8 +67,6 @@ public class CommuteController {
 	    for(Map<String, Object> event : mycalendar) {
 	        Object endDateObj = event.get("END_DAY");
 	        Object startDateObj = event.get("START_DAY");
-	     //it (endDateObj != null 이것보단) 
-	     //ObjectUtils.isEmpty(byname) 이걸로 값을 체크 map 도 되고 배열도 되고 
 	        if (!ObjectUtils.isEmpty(endDateObj)) {
 	            try {
 	                Date endDate = inputFormat.parse(endDateObj.toString());
